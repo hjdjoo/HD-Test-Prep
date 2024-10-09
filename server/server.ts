@@ -1,7 +1,7 @@
-import "dotenv/config.js"
+import "dotenv/config"
 import express, { Application, Request, Response } from "express";
 
-const PORT = process.env.VITE_PORT;
+const PORT = process.env.PORT;
 
 const app: Application = express();
 
