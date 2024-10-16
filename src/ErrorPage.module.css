@@ -1,0 +1,3 @@
+.container {
+  composes: flexColCenter from "App.module.css"
+}
