@@ -1,11 +1,11 @@
-// import { useState } from 'react'
-import './App.css'
+// import styles from "./App.module.css"
+import MainContainer from "./containers/MainContainer"
 
 function App() {
 
   return (
     <>
-      <h1>hello world</h1>
+      <MainContainer />
     </>
   )
 }
