@@ -1,3 +1,5 @@
 .container {
-  composes: flexColCenter from "App.module.css"
+  composes: flexColCenter from "App.module.css";
+  justify-content: center;
+  margin-top: 2rem;
 }

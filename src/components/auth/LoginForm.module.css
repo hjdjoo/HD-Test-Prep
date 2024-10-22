@@ -5,6 +5,28 @@
   justify-content: space-evenly;
 }
 
+.alignButtons {
+  composes: flexColCenter from "@/src/App.module.css";
+  
+}
+
+.alignButtonContent {
+  display: flex;
+
+  img {
+    height: 100%;
+  }
+  p {
+    flex-grow: 1;
+  }
+
+}
+
+.googleButton {
+  
+}
+
+
 .justifyInputs {
   display: flex;
   box-sizing: border-box;

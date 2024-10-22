@@ -14,7 +14,7 @@ export default defineConfig({
     alias: {
       "containers": path.resolve(__dirname, "src", "containers"),
       "components": path.resolve(__dirname, "src", "components"),
-      "@": path.resolve(__dirname)
+      "@": __dirname
     }
   }
 })

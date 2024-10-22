@@ -24,7 +24,8 @@
     "react-dom": "^18.3.1",
     "react-pdf": "^9.1.1",
     "react-router-dom": "^6.27.0",
-    "tsx": "^4.19.1"
+    "tsx": "^4.19.1",
+    "zustand": "^5.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.11.1",
