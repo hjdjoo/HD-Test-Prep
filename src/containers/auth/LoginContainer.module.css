@@ -1,7 +1,6 @@
 .container {
   composes: flexColCenter from "@/src/App.module.css";
-  border: 1px solid black;
   min-width: 300px;
   width: 30vw;
-  height: 30vh;
+  height: auto;
 }

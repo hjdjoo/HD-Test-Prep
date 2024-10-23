@@ -4,7 +4,7 @@ import App from './App.tsx';
 import PracticePage from './routes/practice.tsx';
 import ErrorPage from './ErrorPage.tsx';
 import {
-  createBrowserRouter, 
+  createBrowserRouter,
   RouterProvider,
   Route,
   createRoutesFromElements,
@@ -12,13 +12,13 @@ import {
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route errorElement={ <ErrorPage/> }>
-      <Route 
-        path="/" 
-        element={<App/>} />
+    <Route errorElement={<ErrorPage />}>
+      <Route
+        path="/"
+        element={<App />} />
       <Route
         path="/practice"
-        element={ <PracticePage/> } />
+        element={<PracticePage />} />
     </Route>
   )
 );
