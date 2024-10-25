@@ -1,21 +1,23 @@
-// import styles from "./App.module.css"
+import styles from "./App.module.css"
 import { useEffect, useState } from "react"
-import createClient from "@/supabase/client";
-import MainContainer from "./containers/MainContainer";
+import { Outlet } from "react-router-dom";
+import createClient from "@/utils/supabase/client";
+// import HomeContainer from "./containers/home/HomeContainer";
 import NavContainer from "containers/nav/NavContainer";
 import { User } from "@supabase/supabase-js";
+// import PracticeContainer from "containers/practice/PracticeContainer";
+// import AccountContainer from "containers/account/AccountContainer";
 
 function App() {
 
+  // TODO: move to global state
   const [user, setUser] = useState<User | null>(null);
-
 
   // get & set user upon render;
   useEffect(() => {
     (async () => {
 
       const supabase = createClient();
-
       // registering signout handler for app;
       supabase.auth.onAuthStateChange((event, session) => {
         if (event === 'SIGNED_OUT') {
@@ -55,7 +57,9 @@ function App() {
   return (
     <>
       <NavContainer />
-      <MainContainer user={user} />
+      <main className={[styles.flexColCenter].join(" ")}>
+        <Outlet />
+      </main>
     </>
   )
 }

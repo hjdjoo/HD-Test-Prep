@@ -6,6 +6,7 @@
     ],
     "module": "ESNext",
     "skipLibCheck": true,
+    // "composite": true,
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
@@ -16,9 +17,19 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    /* Absolute import paths */
+    "baseUrl": "./",
+    "paths": {
+      "@/*": [
+        "./*"
+      ]
+    }
   },
   "include": [
     "vite.config.ts",
-  ]
+    "./*.ts",
+    "server",
+    "utils"
+  ],
 }

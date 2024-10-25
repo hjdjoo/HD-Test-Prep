@@ -2,7 +2,7 @@ import { useState, MouseEvent, FormEvent } from "react";
 import style from "components/auth/LoginForm.module.css";
 import googleIcon from "@/src/assets/icons/googleIcon.svg"
 // import { createClient } from "@/supabase/createClient";
-import createSupabase from "@/supabase/client"
+import createSupabase from "@/utils/supabase/client"
 import { equals, isEmail } from "validator";
 
 
@@ -23,11 +23,9 @@ export default function LoginForm() {
     const supabase = createSupabase();
     const { data, error } = await supabase.auth
       .signInWithOAuth({ provider: "google" });
-
     if (error) {
       console.error(error);
     }
-
     console.table(data);
   }
 
@@ -88,7 +86,6 @@ export default function LoginForm() {
       }
     } catch (e) {
       console.error(e);
-
     }
   }
 
@@ -108,7 +105,6 @@ export default function LoginForm() {
       throw new Error(`expected string, got ${typeof check}`)
     }
     return equals(pass, check)
-
   }
 
 

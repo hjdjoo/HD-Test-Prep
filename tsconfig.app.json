@@ -8,6 +8,7 @@
       "DOM.Iterable"
     ],
     "module": "ESNext",
+    // "composite": true,
     "skipLibCheck": true,
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -21,7 +22,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    /* Absolut import paths */
+    /* Absolute import paths */
     "baseUrl": "./",
     "paths": {
       "containers/*": [
@@ -36,6 +37,7 @@
     }
   },
   "include": [
-    "src"
+    "src",
+    "./*",
   ]
 }

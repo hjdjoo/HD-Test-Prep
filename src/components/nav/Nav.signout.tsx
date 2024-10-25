@@ -1,5 +1,5 @@
 import { MouseEvent } from "react";
-import createClient from "@/supabase/client"
+import createClient from "@/utils/supabase/client"
 import { useNavigate } from "react-router-dom";
 
 
