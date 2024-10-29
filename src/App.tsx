@@ -1,7 +1,7 @@
 import styles from "./App.module.css"
 import { useEffect, useState } from "react"
 import { Outlet } from "react-router-dom";
-import createClient from "@/utils/supabase/client";
+import createSupabase from "@/utils/supabase/client";
 // import HomeContainer from "./containers/home/HomeContainer";
 import NavContainer from "containers/nav/NavContainer";
 import { User } from "@supabase/supabase-js";
@@ -17,7 +17,7 @@ function App() {
   useEffect(() => {
     (async () => {
 
-      const supabase = createClient();
+      const supabase = createSupabase();
       // registering signout handler for app;
       supabase.auth.onAuthStateChange((event, session) => {
         if (event === 'SIGNED_OUT') {

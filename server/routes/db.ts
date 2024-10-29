@@ -1,9 +1,19 @@
-import { Router } from "express";
+import { Request, Response, Router } from "express";
+import dbController from "../controllers/dbController";
 
-const router = Router();
+const dbRouter = Router();
 
-router.get("/questions")
+dbRouter.get("/questions/",
+  dbController.getQuestions,
+  dbController.snakeToCamel,
+  (_req: Request, res: Response) => {
 
-router.post("/")
+    const { clientData } = res.locals;
 
-export default router;
+    res.status(200).json(clientData);
+
+  })
+
+dbRouter.post("/")
+
+export default dbRouter;

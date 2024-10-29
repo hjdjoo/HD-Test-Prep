@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { camelCase } from "change-case/keys"
-import createSupabase from "@/utils/supabase/client"
+// import createSupabase from "@/utils/supabase/client.ts"
+import createSupabase from "#root/utils/supabase/server"
 import { Database } from "@/database.types";
 import { CamelCasedProperties } from "type-fest"
 
@@ -14,13 +15,12 @@ const dbController: DbController = {};
 
 // dbController.uploadFiles = async (req: Request, res: Response, next: NextFunction) => {
 
-
 // }
 
-dbController.getQuestions = async (_req: Request, res: Response, next: NextFunction) => {
+dbController.getQuestions = async (req: Request, res: Response, next: NextFunction) => {
 
   try {
-    const supabase = createSupabase();
+    const supabase = createSupabase(req, res);
 
     const { data, error } = await supabase
       .from("math_problems")
@@ -28,6 +28,9 @@ dbController.getQuestions = async (_req: Request, res: Response, next: NextFunct
 
     if (!data) {
       throw new Error(`Error while querying database from controller: ${error.message}`)
+    }
+    if (!data.length) {
+      throw new Error(`No data returned from Database. Have you checked RLS policies?`)
     }
 
     res.locals.dbData = data

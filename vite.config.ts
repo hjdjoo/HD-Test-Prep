@@ -6,6 +6,8 @@ import tsconfigPaths from "vite-tsconfig-paths"
 import path from "path";
 import 'dotenv/config';
 
+// console.log(__dirname)
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), tsconfigPaths()],
@@ -13,6 +15,9 @@ export default defineConfig({
     proxy: {
       "/api": process.env.SERVER_URL!
     }
+  },
+  define: {
+    "process.env": process.env
   },
   resolve: {
     alias: {

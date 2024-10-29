@@ -1,7 +1,6 @@
 import { useState, MouseEvent, FormEvent } from "react";
 import style from "components/auth/LoginForm.module.css";
 import googleIcon from "@/src/assets/icons/googleIcon.svg"
-// import { createClient } from "@/supabase/createClient";
 import createSupabase from "@/utils/supabase/client"
 import { equals, isEmail } from "validator";
 
@@ -38,11 +37,47 @@ export default function LoginForm() {
 
     if (!data) {
       return { data: null, error: error }
-    }
+    };
 
     console.log(data);
 
-  }
+  };
+
+  async function signupWithEmail(credentials: {
+    email: string,
+    password: string,
+    confirm: string
+  }) {
+
+    try {
+
+      const supabase = createSupabase();
+      const { email, password, confirm } = credentials;
+
+      if (!validateEmail(email)) {
+        throw new Error("Please enter a valid email");
+      }
+
+      if (!validatePass(password, confirm)) {
+        throw new Error("Passwords do not match");
+      }
+
+      const { data, error } = await supabase.auth.signUp({ email: email, password: password });
+
+      if (!data) {
+        console.log("No data returned from server. User may already exist.")
+        console.error(error);
+        return;
+      } else {
+        console.log("Account created!");
+        console.log(data);
+        return;
+      }
+    } catch (e) {
+
+    };
+
+  };
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
 
@@ -50,41 +85,25 @@ export default function LoginForm() {
     const currentTarget = e.currentTarget
     // e.currentTarget.reset();
     try {
-
-      const supabase = createSupabase();
+      // const supabase = createSupabase();
       const formData = new FormData(e.currentTarget);
       const form = Object.fromEntries(formData.entries());
       // console.table(form);
       const { email, password, confirm } = form;
 
       if (isSignup) {
-
-        if (!validateEmail(String(email))) {
-          throw new Error("Please enter a valid email");
-        }
-
-        if (!validatePass(String(password), String(confirm))) {
-          throw new Error("Passwords do not match");
-        }
-
-        const { data, error } = await supabase.auth.signUp({ email: String(email), password: String(password) });
-
-        if (!data) {
-          console.log("No data returned from server. User may already exist.")
-          console.error(error);
-          return;
-        } else {
-          console.log("Account created!");
-          console.log(data);
-          currentTarget.reset();
-          return;
-        }
-
+        await signupWithEmail({
+          email: String(email),
+          password: String(password),
+          confirm: String(confirm)
+        })
+        currentTarget.reset();
       }
       if (!isSignup) {
         await signinWithEmail(String(email), String(password));
       }
     } catch (e) {
+
       console.error(e);
     }
   }

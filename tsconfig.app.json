@@ -23,7 +23,7 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     /* Absolute import paths */
-    "baseUrl": "./",
+    "baseUrl": ".",
     "paths": {
       "containers/*": [
         "./src/containers/*"
@@ -38,6 +38,6 @@
   },
   "include": [
     "src",
-    "./*",
+    "./*"
   ]
 }

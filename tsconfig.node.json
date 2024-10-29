@@ -19,8 +19,11 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     /* Absolute import paths */
-    "baseUrl": "./",
+    "baseUrl": ".",
     "paths": {
+      "*": [
+        "*"
+      ],
       "@/*": [
         "./*"
       ]
@@ -28,7 +31,7 @@
   },
   "include": [
     "vite.config.ts",
-    "./*.ts",
+    "./*",
     "server",
     "utils"
   ],

@@ -10,8 +10,7 @@ import { useState } from "react";
 
 export default function HomeContainer() {
 
-  const [user, setUser] = useState("1")
-
+  const [user, setUser] = useState(0)
 
   return (
     <div className={style.container}>

@@ -1,5 +1,6 @@
 import styles from "./PracticeContainer.module.css";
 import { useEffect } from "react"
+import { useQuestionStore } from "@/src/stores/questions";
 // import createSupabase from "@/utils/supabase/client";
 
 /**
@@ -21,19 +22,40 @@ import { useEffect } from "react"
  */
 export default function PracticeContainer() {
 
+  const { questions, setQuestions } = useQuestionStore();
   // const [practiceSettings, setPracticeSettings] = useState()
   // const supabase = createSupabase();
 
   useEffect(() => {
 
     (async () => {
-      await fetch("/db/questions", {
+      const res = await fetch("/api/db/questions/", {
         method: "GET",
         headers: {
           "Content-Type": "application/json"
         }
-      })
-    })
+      });
+
+      const data = await res.json();
+
+      setQuestions(data);
+
+    })();
+
+    function getRandomQuestion() {
+
+      const count = questions.length;
+
+
+
+    }
+
+    function handleClick() {
+
+
+
+    }
+
     // async function getQuestions() {
 
     //   const { data, error } = await supabase
@@ -72,6 +94,14 @@ export default function PracticeContainer() {
     - Should contain within its state a set of problems.*/}
       {/* Answer Component
     - Should  */}
+      <div style={{ width: "30vw", height: "30vh", border: "1px solid black", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+        Test Space:
+        <div>
+          <button>
+            Get Random Question
+          </button>
+        </div>
+      </div>
     </div>
   )
 }
