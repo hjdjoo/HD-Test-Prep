@@ -8,6 +8,8 @@ import { User } from "@supabase/supabase-js";
 // import PracticeContainer from "containers/practice/PracticeContainer";
 // import AccountContainer from "containers/account/AccountContainer";
 
+const SERVER_URL = process.env.SERVER_URL
+
 function App() {
 
   // TODO: move to global state
@@ -18,8 +20,9 @@ function App() {
     (async () => {
 
       const supabase = createSupabase();
-      // registering signout handler for app;
-      supabase.auth.onAuthStateChange((event, session) => {
+      // registering signout handler for app;'=
+
+      supabase.auth.onAuthStateChange(async (event, session) => {
         if (event === 'SIGNED_OUT') {
           console.log('SIGNED_OUT', session);
           // clear local and session storage
@@ -36,6 +39,23 @@ function App() {
         };
         if (event === "SIGNED_IN") {
           console.log("SIGNED_IN", session);
+
+          const accessToken = session?.access_token;
+          const refreshToken = session?.refresh_token;
+
+          const res = await fetch(`api/auth`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            credentials: "include",
+            body: JSON.stringify({ accessToken, refreshToken })
+          })
+
+          const data = await res.json();
+
+          console.log(data);
+
         }
       })
 

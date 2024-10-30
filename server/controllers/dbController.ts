@@ -20,7 +20,7 @@ const dbController: DbController = {};
 dbController.getQuestions = async (req: Request, res: Response, next: NextFunction) => {
 
   try {
-    const supabase = createSupabase(req, res);
+    const supabase = createSupabase({ req, res });
 
     const { data, error } = await supabase
       .from("math_problems")

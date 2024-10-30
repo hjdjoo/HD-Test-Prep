@@ -4,7 +4,7 @@ import userController from "../controllers/userController";
 
 const userRouter = Router();
 
-userRouter.get("/", userController.syncProfile, (_req: Request, _res: Response, next: NextFunction) => {
+userRouter.post("/", userController.updateSession, userController.syncProfile, (_req: Request, _res: Response, next: NextFunction) => {
 
   return next();
 

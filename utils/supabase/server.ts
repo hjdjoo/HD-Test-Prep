@@ -7,16 +7,21 @@ const SUPABASE_PUBLIC_KEY = process.env.VITE_SUPABASE_PUBLIC_KEY!
 
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL!
 
-const createClient = (req: Request, res: Response) => {
+interface Context {
+  req: Request,
+  res: Response
+}
+
+const createClient = (context: Context) => {
 
   return createServerClient<Database>(SUPABASE_URL, SUPABASE_PUBLIC_KEY, {
     cookies: {
       getAll() {
-        return parseCookieHeader(req.headers.cookie ?? '')
+        return parseCookieHeader(context.req.headers.cookie ?? '')
       },
       setAll(cookiesToSet) {
         cookiesToSet.forEach(({ name, value, options }) =>
-          res.appendHeader('Set-Cookie', serializeCookieHeader(name, value, options))
+          context.res.appendHeader('Set-Cookie', serializeCookieHeader(name, value, options))
         )
       },
     },

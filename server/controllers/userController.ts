@@ -11,17 +11,75 @@ const userController: UserController = {};
 
 userController.syncProfile = async (req: Request, res: Response, next: NextFunction) => {
 
-  console.log(req.cookies);
-  const supabase = createClient(req, res);
+  try {
+    // console.log(req.cookies);
+    const { accessToken } = req.body;
 
-  const { data, error } = await supabase
-    .auth
-    .getUser();
+    const supabase = createClient({ req, res });
 
-  console.log(data, error);
+    const { data: authData, error: authError } = await supabase
+      .auth
+      .getUser();
+
+    if (authError) {
+      throw new Error(`Couldn't get user from DB. ${authError.message}`)
+    }
+    // console.log(authData, error);
+
+    const { data: profileData, error: profileError } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("uid", authData.user.id);
 
 
-  return next();
+
+    return next();
+  } catch (e) {
+    console.error(e);
+    res.status(500).json("couldn't sync profile data")
+
+  }
+
+}
+
+userController.updateSession = async (req: Request, res: Response, next: NextFunction) => {
+
+  try {
+    // console.log(req.body);
+    const supabase = createClient({ req, res });
+
+    const { accessToken, refreshToken } = req.body;
+
+    if (!accessToken || !refreshToken) {
+      res.status(401);
+      return next();
+    }
+    // console.log(accessToken, refreshToken);
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 60 * 60 * 1000,
+      sameSite: "strict"
+    })
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 60 * 60 * 1000,
+      sameSite: "strict"
+    })
+
+    const { error } = await supabase.auth.setSession({ access_token: accessToken, refresh_token: refreshToken })
+
+    if (error) {
+      throw new Error(`error setting server session: ${error.message}`)
+    }
+    console.log("Server Supabase session set")
+
+    return next();
+  } catch (e) {
+    console.error(e);
+    res.status(500).json("Something went wrong while updating session")
+  }
 
 }
 

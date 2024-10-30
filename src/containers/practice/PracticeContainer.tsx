@@ -29,23 +29,26 @@ export default function PracticeContainer() {
   useEffect(() => {
 
     (async () => {
-      const res = await fetch("/api/db/questions/", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
+      try {
+        const res = await fetch("/api/db/questions/", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
 
-      const data = await res.json();
+        const data = await res.json();
 
-      setQuestions(data);
+        setQuestions(data);
+      } catch (e) {
+        console.error(`PracticeContainer/useEffect`, e);
+      }
 
     })();
 
     function getRandomQuestion() {
 
       const count = questions.length;
-
 
 
     }

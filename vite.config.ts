@@ -13,7 +13,11 @@ export default defineConfig({
   plugins: [react(), tsconfigPaths()],
   server: {
     proxy: {
-      "/api": process.env.SERVER_URL!
+      "/api": {
+        target: process.env.SERVER_URL!,
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      }
     }
   },
   define: {
