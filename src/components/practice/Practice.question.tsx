@@ -14,8 +14,9 @@ export default function Question(props: QuestionProps) {
   const { questions } = useQuestionStore();
 
   const { question } = props;
+  // console.log(question);
 
-  const { id, question: questionIdx, testForm, category, problemType, answer, tags } = questions[question];
+  // const { id, question: questionIdx, testForm, category, problemType, answer, tags } = questions[question];
 
   const [questionUrl, setQuestionUrl] = useState<string>("")
 
@@ -26,7 +27,7 @@ export default function Question(props: QuestionProps) {
       const { data } = await supabase
         .storage
         .from("questions")
-        .createSignedUrl(`math/${String(questionIdx)}.png`, 3600)
+        .createSignedUrl(`math/${String(question)}.png`, 3600)
 
       if (!data) return;
 
@@ -34,7 +35,7 @@ export default function Question(props: QuestionProps) {
 
     })()
 
-  }, [])
+  }, [question])
 
 
   // const questionUrl = getStorageUrl("math", String(questionIdx), "png");
