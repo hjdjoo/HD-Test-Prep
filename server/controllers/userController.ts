@@ -73,13 +73,14 @@ userController.syncProfile = async (req: Request, res: Response, next: NextFunct
     const { data: profileData, error: profileError } = await supabase
       .from("profiles")
       .select("*")
-      .eq("uid", authData.user.id);
+      .eq("uid", authData.user.id)
+      .single();
 
     if (profileError) {
       throw new Error(`Error while querying database for authorization: ${profileError.message}`)
     }
 
-    if (!profileData.length) {
+    if (!profileData) {
       console.log(`No user found in profiles database. Initializing profile.`);
 
       res.locals.user = authData.user;

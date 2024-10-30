@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-interface Question {
+export interface Question {
   id: number,
   question: number,
   testForm: string,

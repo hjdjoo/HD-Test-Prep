@@ -72,24 +72,119 @@ export type Database = {
       profiles: {
         Row: {
           created_at: string
+          email: string | null
           id: number
+          instructor_id: number | null
+          name: string | null
           role: string | null
           uid: string | null
-          username: string | null
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          id?: number
+          instructor_id?: number | null
+          name?: string | null
+          role?: string | null
+          uid?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          id?: number
+          instructor_id?: number | null
+          name?: string | null
+          role?: string | null
+          uid?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_instructor_id_fkey"
+            columns: ["instructor_id"]
+            isOneToOne: false
+            referencedRelation: "tutors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      question_feedback: {
+        Row: {
+          comment: string | null
+          created_at: string
+          id: number
+          image_url: string | null
+          question_id: number | null
+          student_id: number | null
+          tutor_id: number | null
+        }
+        Insert: {
+          comment?: string | null
+          created_at?: string
+          id?: number
+          image_url?: string | null
+          question_id?: number | null
+          student_id?: number | null
+          tutor_id?: number | null
+        }
+        Update: {
+          comment?: string | null
+          created_at?: string
+          id?: number
+          image_url?: string | null
+          question_id?: number | null
+          student_id?: number | null
+          tutor_id?: number | null
+        }
+        Relationships: []
+      }
+      student_responses: {
+        Row: {
+          created_at: string
+          feedback_id: number | null
+          id: number
+          question_id: number | null
+          student_id: number | null
+          student_rating: number | null
+          tags: number | null
+          time_taken: number | null
+        }
+        Insert: {
+          created_at?: string
+          feedback_id?: number | null
+          id?: number
+          question_id?: number | null
+          student_id?: number | null
+          student_rating?: number | null
+          tags?: number | null
+          time_taken?: number | null
+        }
+        Update: {
+          created_at?: string
+          feedback_id?: number | null
+          id?: number
+          question_id?: number | null
+          student_id?: number | null
+          student_rating?: number | null
+          tags?: number | null
+          time_taken?: number | null
+        }
+        Relationships: []
+      }
+      tags: {
+        Row: {
+          created_at: string
+          id: number
+          tag_name: string | null
         }
         Insert: {
           created_at?: string
           id?: number
-          role?: string | null
-          uid?: string | null
-          username?: string | null
+          tag_name?: string | null
         }
         Update: {
           created_at?: string
           id?: number
-          role?: string | null
-          uid?: string | null
-          username?: string | null
+          tag_name?: string | null
         }
         Relationships: []
       }
@@ -98,16 +193,19 @@ export type Database = {
           created_at: string
           email: string | null
           id: number
+          name: string | null
         }
         Insert: {
           created_at?: string
           email?: string | null
           id?: number
+          name?: string | null
         }
         Update: {
           created_at?: string
           email?: string | null
           id?: number
+          name?: string | null
         }
         Relationships: []
       }

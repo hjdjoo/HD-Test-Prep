@@ -1,6 +1,8 @@
 import styles from "./PracticeContainer.module.css";
-import { useEffect } from "react"
-import { useQuestionStore } from "@/src/stores/questions";
+import { useEffect, useState } from "react"
+import { useQuestionStore } from "#root/src/stores/questionStore";
+import Question from "@/src/components/practice/Practice.question.js";
+import createSupabase from "#root/utils/supabase/client";
 // import createSupabase from "@/utils/supabase/client";
 
 /**
@@ -25,6 +27,7 @@ export default function PracticeContainer() {
   const { questions, setQuestions } = useQuestionStore();
   // const [practiceSettings, setPracticeSettings] = useState()
   // const supabase = createSupabase();
+  const [randomQuestion, setRandomQuestion] = useState<number>(NaN)
 
   useEffect(() => {
 
@@ -49,7 +52,6 @@ export default function PracticeContainer() {
 
   }, [])
 
-
   // async function getQuestions() {
 
   //   const { data, error } = await supabase
@@ -69,10 +71,13 @@ export default function PracticeContainer() {
   // }
 
 
-  function getRandomQuestion() {
+  async function getRandomQuestion() {
 
     const count = questions.length;
 
+    const randomIdx = Math.floor(Math.random() * count);
+
+    setRandomQuestion(randomIdx);
 
   }
 
@@ -102,10 +107,12 @@ export default function PracticeContainer() {
       <div style={{ width: "30vw", height: "30vh", border: "1px solid black", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
         Test Space:
         <div>
-          <button>
+          <button onClick={getRandomQuestion}>
             Get Random Question
           </button>
         </div>
+        {questions[randomQuestion] &&
+          <Question question={randomQuestion} />}
       </div>
     </div>
   )

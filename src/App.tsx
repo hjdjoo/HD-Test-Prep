@@ -1,38 +1,25 @@
 import styles from "./App.module.css"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { Outlet } from "react-router-dom";
 import createSupabase from "@/utils/supabase/client";
 // import HomeContainer from "./containers/home/HomeContainer";
 import NavContainer from "containers/nav/NavContainer";
-import { User } from "@supabase/supabase-js";
+// import { User } from "@supabase/supabase-js";
+import { User } from "./stores/userStore";
+
+import { useUserStore } from "./stores/userStore";
+import LoginContainer from "./containers/auth/LoginContainer";
 // import PracticeContainer from "containers/practice/PracticeContainer";
 // import AccountContainer from "containers/account/AccountContainer";
-
-const SERVER_URL = process.env.SERVER_URL
 
 function App() {
 
   // TODO: move to global state
-  const [user, setUser] = useState<User | null>(null);
+  const { user, setUser } = useUserStore();
 
   // get & set user upon render;
   useEffect(() => {
     const supabase = createSupabase();
-
-    async function getUser() {
-      const { data: userData, error: userError } = await supabase.auth.getUser();
-
-      if (userError) {
-        console.error(userError);
-        return;
-      }
-
-      const { user } = userData;
-      console.log(user);
-
-      setUser(user);
-    }
-
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (event === 'SIGNED_OUT') {
@@ -50,8 +37,7 @@ function App() {
         setUser(null);
       };
       if (event === "SIGNED_IN") {
-        // console.log("SIGNED_IN", session);
-
+        // get JWTs from session and get user information.
         const accessToken = session?.access_token;
         const refreshToken = session?.refresh_token;
 
@@ -64,10 +50,10 @@ function App() {
           body: JSON.stringify({ accessToken, refreshToken })
         })
 
-        const data = await res.json();
+        const user: User = await res.json();
 
-        console.log(data);
-
+        // console.log("App/useEffect/signed_in", user);
+        setUser(user);
       }
     })
 
@@ -81,7 +67,11 @@ function App() {
     <>
       <NavContainer />
       <main className={[styles.flexColCenter].join(" ")}>
-        <Outlet />
+        {
+          user ?
+            <Outlet /> :
+            <LoginContainer />
+        }
       </main>
     </>
   )
