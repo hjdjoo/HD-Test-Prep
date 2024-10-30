@@ -56,7 +56,7 @@ dbController.snakeToCamel = (_req: Request, res: Response, next: NextFunction) =
 
   res.locals.clientData = clientData;
 
-  console.log("dbController.snakeToCamel/res.locals: ", res.locals);
+  // console.log("dbController.snakeToCamel/res.locals: ", res.locals);
 
   return next();
 }

@@ -46,39 +46,41 @@ export default function PracticeContainer() {
 
     })();
 
-    function getRandomQuestion() {
-
-      const count = questions.length;
-
-
-    }
-
-    function handleClick() {
-
-
-
-    }
-
-    // async function getQuestions() {
-
-    //   const { data, error } = await supabase
-    //     .from("math_problems")
-    //     .select("*")
-
-    //   if (!data) {
-    //     console.log("Couldn't retrieve items from DB")
-    //     console.error(error);
-    //     return;
-    //   }
-    //   if (data.length === 0) {
-    //     console.log("No questions returned form Database. Did you check RLS settings?")
-    //     return;
-    //   }
-
-    // }
-
 
   }, [])
+
+
+  // async function getQuestions() {
+
+  //   const { data, error } = await supabase
+  //     .from("math_problems")
+  //     .select("*")
+
+  //   if (!data) {
+  //     console.log("Couldn't retrieve items from DB")
+  //     console.error(error);
+  //     return;
+  //   }
+  //   if (data.length === 0) {
+  //     console.log("No questions returned form Database. Did you check RLS settings?")
+  //     return;
+  //   }
+
+  // }
+
+
+  function getRandomQuestion() {
+
+    const count = questions.length;
+
+
+  }
+
+  function handleClick() {
+
+
+
+  }
 
 
   return (
