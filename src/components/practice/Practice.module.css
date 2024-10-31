@@ -1,0 +1,16 @@
+
+
+
+.checkboxesVertical {
+  display: flex;
+  flex-direction: column;
+
+  :nth-of-type(even) {
+    background-color: antiquewhite;
+  }
+}
+
+.justifyCheckboxes {
+  display: flex;
+  justify-content: space-between;
+}

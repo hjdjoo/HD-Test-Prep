@@ -12,13 +12,15 @@ const app: Application = express();
 console.log("entered express server")
 
 app.use(express.json());
-// app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/*", userRouter)
+app.use("/auth", userRouter)
 
+console.log('exited userRouter')
 app.use("/db", dbRouter);
 
+
+console.log('about to hit unknown route handler')
 app.use("/*", (_req: Request, res: Response) => {
 
   res.status(404).json("Page was not found")

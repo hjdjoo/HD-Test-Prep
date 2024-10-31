@@ -36,6 +36,7 @@ function App() {
         })
         setUser(null);
       };
+
       if (event === "SIGNED_IN") {
         // get JWTs from session and get user information.
         const accessToken = session?.access_token;

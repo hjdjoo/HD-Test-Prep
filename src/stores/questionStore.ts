@@ -11,10 +11,8 @@ export interface Question {
 }
 
 // "categories" and "problemTypes" are exclusive filters - including a category in this filter should exclude those problems.
-
 // testForm, difficulty, and tags are inclusive filters - specifying a testForm, some tags to look for, or a difficulty level should *include* those problems.
-
-interface Filter {
+export interface Filter {
   categories: number[],
   problemTypes: number[],
   testForm: string,
@@ -35,7 +33,7 @@ type Questions = {
   filterQuestions: () => void;
 }
 
-const defaultFilter = {
+export const defaultFilter = {
   categories: [],
   problemTypes: [],
   tags: [],
@@ -52,21 +50,34 @@ const useQuestionStore = create<Questions>()((set) => ({
   filteredQuestions: [],
   filter: defaultFilter,
   setFilter:
-    (filter) => set(() => ({ filter: filter })),
+    (filter) => {
+      // console.log("questionStore/setFilter/filter: ", filter);
+      return set(() => ({ filter: filter }))
+    },
   setQuestions:
     (questions) => set(() => ({ questions: questions })),
   filterQuestions:
     () => set((state) => {
 
       const { filter, questions } = state;
+      // console.log("questionStore/filterQuestions/filter: ", filter)
 
       const filteredQuestions = questions.filter((question) => {
 
         const { categories, problemTypes, tags, testForm, difficulty } = filter;
 
+        // console.log("filter categories: ", categories);
+        // console.log("question category type: ", typeof question.category)
+
+        // console.log("filter question?", categories.includes(question.category))
+
+        /* Something seems to be happening in the backend that coerces the values returned form the DB to a string. May want to adjust DB controller, particularly the snakeToCamel method. Issue possibly stems from the change-case library. */
+        const categoryId = Number(question.category)
+        const problemTypeId = Number(question.problemType)
+
         if (
-          categories.length > 0 && categories.includes(question.category) ||
-          problemTypes.length > 0 && problemTypes.includes(question.problemType) ||
+          categories.length > 0 && categories.includes(categoryId) ||
+          problemTypes.length > 0 && problemTypes.includes(problemTypeId) ||
           testForm.length > 0 && testForm !== question.testForm
         ) {
           return false

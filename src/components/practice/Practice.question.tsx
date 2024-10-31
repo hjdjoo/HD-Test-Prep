@@ -40,7 +40,7 @@ export default function Question(props: QuestionProps) {
 
   // const questionUrl = getStorageUrl("math", String(questionIdx), "png");
 
-  console.log("Practice.question/questionUrl", questionUrl);
+  // console.log("Practice.question/questionUrl", questionUrl);
 
 
   return (

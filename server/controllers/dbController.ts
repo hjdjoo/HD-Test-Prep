@@ -42,6 +42,56 @@ dbController.getQuestions = async (req: Request, res: Response, next: NextFuncti
 
 }
 
+dbController.getCategories = async (req: Request, res: Response, next: NextFunction) => {
+
+  try {
+    const supabase = createSupabase({ req, res });
+
+    const { data, error } = await supabase
+      .from("categories")
+      .select("*");
+
+    if (!data) {
+      throw new Error(`Error while querying database from controller: ${error.message}`)
+    }
+    if (!data.length) {
+      throw new Error(`No data returned from Database. Have you checked RLS policies?`)
+    }
+    // console.log("dbController.getCategories/data: ", data)
+
+    res.locals.dbData = data
+    return next();
+
+  } catch (e) {
+    res.status(500).json(`${e}`);
+  }
+}
+
+dbController.getProblemTypes = async (req: Request, res: Response, next: NextFunction) => {
+
+  try {
+    const supabase = createSupabase({ req, res });
+
+    const { data, error } = await supabase
+      .from("problem_types")
+      .select("*");
+
+    if (!data) {
+      throw new Error(`Error while querying database from controller: ${error.message}`)
+    }
+    if (!data.length) {
+      throw new Error(`No data returned from Database. Have you checked RLS policies?`)
+    }
+    // console.log("dbController.getProblemTypes/data: ", data)
+
+    res.locals.dbData = data
+    return next();
+
+  } catch (e) {
+    res.status(500).json(`${e}`);
+  }
+}
+
 dbController.snakeToCamel = (_req: Request, res: Response, next: NextFunction) => {
 
   const dbData = res.locals.dbData as DbQuestionData[]

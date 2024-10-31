@@ -1,9 +1,12 @@
 import styles from "./PracticeContainer.module.css";
 import { useEffect, useState } from "react"
 import { useQuestionStore } from "#root/src/stores/questionStore";
+import { useCategoryStore } from "#root/src/stores/categoryStore";
+
 import Question from "@/src/components/practice/Practice.question.js";
-import createSupabase from "#root/utils/supabase/client";
-// import createSupabase from "@/utils/supabase/client";
+
+
+import Filter from "@/src/components/practice/Practice.filter.js";
 
 /**
  * 
@@ -24,14 +27,16 @@ import createSupabase from "#root/utils/supabase/client";
  */
 export default function PracticeContainer() {
 
-  const { questions, setQuestions } = useQuestionStore();
+  const { setCategories, setProblemTypes } = useCategoryStore();
+  const { filter, filteredQuestions, setQuestions, filterQuestions } = useQuestionStore();
   // const [practiceSettings, setPracticeSettings] = useState()
   // const supabase = createSupabase();
   const [randomQuestion, setRandomQuestion] = useState<number>(NaN)
 
+  // get question data upon render and save to global state.
   useEffect(() => {
 
-    (async () => {
+    async function getQuestions() {
       try {
         const res = await fetch("/api/db/questions/", {
           method: "GET",
@@ -43,37 +48,63 @@ export default function PracticeContainer() {
         const data = await res.json();
 
         setQuestions(data);
+        filterQuestions();
       } catch (e) {
-        console.error(`PracticeContainer/useEffect`, e);
+        console.error(`PracticeContainer/useEffect/getQuestions`, e);
       }
+    };
 
-    })();
+    async function getCategories() {
 
+      try {
+        const res = await fetch("/api/db/categories/", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
+
+        const data = await res.json();
+        // console.log(data);
+        setCategories(data);
+
+      } catch (e) {
+        console.error(`PracticeContainer/useEffect/getCategories/`, e);
+      }
+    }
+
+    async function getProblemTypes() {
+      try {
+        const res = await fetch("/api/db/problemTypes/", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
+
+        const data = await res.json();
+        // console.log(data);
+        setProblemTypes(data);
+
+      } catch (e) {
+        console.error(`PracticeContainer/useEffect/getCategories/`, e);
+      }
+    }
+
+    getQuestions();
+    getCategories();
+    getProblemTypes();
 
   }, [])
 
-  // async function getQuestions() {
-
-  //   const { data, error } = await supabase
-  //     .from("math_problems")
-  //     .select("*")
-
-  //   if (!data) {
-  //     console.log("Couldn't retrieve items from DB")
-  //     console.error(error);
-  //     return;
-  //   }
-  //   if (data.length === 0) {
-  //     console.log("No questions returned form Database. Did you check RLS settings?")
-  //     return;
-  //   }
-
-  // }
+  useEffect(() => {
+    filterQuestions();
+  }, [filter])
 
 
   async function getRandomQuestion() {
 
-    const count = questions.length;
+    const count = filteredQuestions.length;
 
     const randomIdx = Math.floor(Math.random() * count);
 
@@ -81,12 +112,13 @@ export default function PracticeContainer() {
 
   }
 
-  function handleClick() {
+  // function handleClick() {
 
 
 
-  }
+  // }
 
+  console.log("PracticeContainer/filteredQuestions length: ", filteredQuestions.length);
 
   return (
     <div id="practice-container" className={[styles.container,].join(" ")}>
@@ -97,6 +129,7 @@ export default function PracticeContainer() {
       <p>Or</p>
       <button>{`Customize Session`}</button>
       {/* Settings Component */}
+      <Filter />
       {/* "Start" */}
       {/* Timer Component
     - Pressing "Go" renders the question and starts the timer. */}
@@ -104,14 +137,14 @@ export default function PracticeContainer() {
     - Should contain within its state a set of problems.*/}
       {/* Answer Component
     - Should  */}
-      <div style={{ width: "30vw", height: "30vh", border: "1px solid black", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+      <div style={{ width: "60vw", height: "50vh", border: "1px solid black", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
         Test Space:
         <div>
           <button onClick={getRandomQuestion}>
             Get Random Question
           </button>
         </div>
-        {questions[randomQuestion] &&
+        {filteredQuestions[randomQuestion] &&
           <Question question={randomQuestion} />}
       </div>
     </div>

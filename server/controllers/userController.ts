@@ -26,19 +26,21 @@ userController.updateSession = async (req: Request, res: Response, next: NextFun
       res.status(401);
       return next();
     }
-    // console.log(accessToken, refreshToken);
-    res.cookie("accessToken", accessToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 60 * 60 * 1000,
-      sameSite: "strict"
-    })
-    res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 60 * 60 * 1000,
-      sameSite: "strict"
-    })
+
+    /* Storing JWTs in cookies was exceeding express payload maximum. Currently don't see a need to access JWT from cookies since we can use Supabase methods to quickly get session info. Only needs to be passed per request, can do that in request body instead of saving to cookies. As long as nothing is breaking I don't see this being necessary. */
+
+    // res.cookie("accessToken", accessToken, {
+    //   httpOnly: true,
+    //   secure: process.env.NODE_ENV === "production",
+    //   maxAge: 60 * 60 * 1000,
+    //   sameSite: "strict"
+    // })
+    // res.cookie("refreshToken", refreshToken, {
+    //   httpOnly: true,
+    //   secure: process.env.NODE_ENV === "production",
+    //   maxAge: 60 * 60 * 1000,
+    //   sameSite: "strict"
+    // })
 
     const { error } = await supabase.auth.setSession({ access_token: accessToken, refresh_token: refreshToken })
 
@@ -55,7 +57,9 @@ userController.updateSession = async (req: Request, res: Response, next: NextFun
 
 }
 
-userController.syncProfile = async (req: Request, res: Response, next: NextFunction) => {
+userController.getUser = async (req: Request, res: Response, next: NextFunction) => {
+
+  console.log("getting user...")
 
   try {
     // console.log(req.cookies);
@@ -82,9 +86,8 @@ userController.syncProfile = async (req: Request, res: Response, next: NextFunct
 
     if (!profileData) {
       console.log(`No user found in profiles database. Initializing profile.`);
-
       res.locals.user = authData.user;
-
+      // should go to initProfile
       return next();
     }
 
@@ -92,7 +95,7 @@ userController.syncProfile = async (req: Request, res: Response, next: NextFunct
 
   } catch (e) {
     console.error(e);
-    res.status(500).json("couldn't sync profile data")
+    res.status(500).json("couldn't get profile data")
 
   }
 
@@ -100,6 +103,8 @@ userController.syncProfile = async (req: Request, res: Response, next: NextFunct
 
 
 userController.initProfile = async (req: Request, res: Response, _next: NextFunction) => {
+
+  console.log("initializing profile...")
 
   try {
 
@@ -125,7 +130,6 @@ userController.initProfile = async (req: Request, res: Response, _next: NextFunc
     }
 
     res.status(200).json("profile created");
-
 
   } catch (e) {
 
