@@ -21,18 +21,18 @@
     /* Absolute import paths */
     "baseUrl": ".",
     "paths": {
-      "*": [
-        "*"
-      ],
       "@/*": [
         "./*"
+      ],
+      "@/utils/*": [
+        "utils/*"
       ]
     }
   },
   "include": [
+    "*",
     "vite.config.ts",
-    "./*",
     "server",
-    "utils"
+    "utils",
   ],
 }

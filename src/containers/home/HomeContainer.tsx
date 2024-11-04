@@ -4,7 +4,7 @@ import style from "containers/home/HomeContainer.module.css"
 import LoginContainer from "containers/auth/LoginContainer"
 import AccountContainer from "../account/AccountContainer"
 
-import { useUserStore } from "#root/src/stores/userStore";
+import { useUserStore } from "@/src/stores/userStore";
 
 
 export default function HomeContainer() {

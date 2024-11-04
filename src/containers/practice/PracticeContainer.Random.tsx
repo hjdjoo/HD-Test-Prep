@@ -3,9 +3,9 @@ import { useState } from "react";
 import styles from "./PracticeContainer.module.css"
 import { Question as QuestionType, useQuestionStore } from "@/src/stores/questionStore";
 
-import Question from "@/src/components/practice/Practice.question.js";
-import Answers from "@/src/components/practice/Practice.answers.js";
-import Filter from "@/src/components/practice/Practice.filter.js";
+import Question from "@/src/components/practice/Practice.questionImage";
+import Answers from "@/src/components/practice/Practice.answers";
+import Filter from "@/src/components/practice/Practice.filter";
 
 
 export default function RandomPractice() {

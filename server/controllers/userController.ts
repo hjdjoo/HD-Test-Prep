@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 
-import createClient from "#root/utils/supabase/server";
-import createServiceClient from "#root/utils/supabase/service";
+import createClient from "@/utils/supabase/server";
+import createServiceClient from "@/utils/supabase/service";
 
 import { type User } from "@supabase/supabase-js";
 
@@ -90,6 +90,8 @@ userController.getUser = async (req: Request, res: Response, next: NextFunction)
       // should go to initProfile
       return next();
     }
+
+    console.log("user found!")
 
     res.status(200).json(profileData);
 

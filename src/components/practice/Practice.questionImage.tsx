@@ -1,12 +1,12 @@
-import createSupabase from "#root/utils/supabase/client";
-import { type Question } from "#root/src/stores/questionStore";
+import createSupabase from "@/utils/supabase/client";
+import { type Question } from "@/src/stores/questionStore";
 import { useEffect, useState, Suspense } from "react";
 
 interface QuestionProps {
   question: Question
 }
 
-export default function Question(props: QuestionProps) {
+export default function QuestionImage(props: QuestionProps) {
 
   const { question } = props;
   const { id } = question;

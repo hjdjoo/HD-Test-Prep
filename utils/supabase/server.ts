@@ -1,6 +1,7 @@
 import { createServerClient, parseCookieHeader, serializeCookieHeader } from "@supabase/ssr";
 import { Response, Request } from "express";
-import { Database } from "#root/database.types";
+import { Database } from "@/database.types";
+
 
 
 const SUPABASE_PUBLIC_KEY = process.env.VITE_SUPABASE_PUBLIC_KEY!

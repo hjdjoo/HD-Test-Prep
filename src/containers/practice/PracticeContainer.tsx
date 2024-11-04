@@ -1,9 +1,9 @@
 import styles from "./PracticeContainer.module.css";
 import { useEffect, useState } from "react"
-import { useQuestionStore } from "#root/src/stores/questionStore";
-import { useCategoryStore } from "#root/src/stores/categoryStore";
+import { useQuestionStore } from "@/src/stores/questionStore";
+import { useCategoryStore } from "@/src/stores/categoryStore";
 
-import Question from "@/src/components/practice/Practice.question.js";
+import Question from "@/src/components/practice/Practice.questionImage.js";
 
 import RandomPractice from "./PracticeContainer.Random";
 import StructuredPractice from "./PracticeContainer.Structured";

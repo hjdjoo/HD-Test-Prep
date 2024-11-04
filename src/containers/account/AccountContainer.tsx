@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 import AccountSummary from "components/account/Account.summary"
 import AccountSettings from "components/account/Account.settings"
 
-import { useUserStore } from "#root/src/stores/userStore"
+import { useUserStore } from "@/src/stores/userStore"
 
 
 export default function AccountContainer() {

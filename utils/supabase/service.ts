@@ -1,6 +1,6 @@
 import { createServerClient, parseCookieHeader, serializeCookieHeader } from "@supabase/ssr";
 import { Response, Request } from "express";
-import { Database } from "#root/database.types";
+import { Database } from "@/database.types";
 
 
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY!
