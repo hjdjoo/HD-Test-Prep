@@ -18,28 +18,27 @@ export default function Answers(props: AnswersProps) {
     const { value } = e.target as HTMLInputElement;
     // setResponse(e.target.value)
     console.log(value)
-
     setResponse(value);
 
   }
 
   const radios = answerChoices.map(choice => {
     return (
-      <div>
-        <label htmlFor={`answer-radio-${choice}`}
-          key={`answer-radio-${choice}`}
-          className={[
-            `${choice === response && styles.radioButtonSelected}`,
-            styles.radioButtonsWidth,
-            styles.radioButtonsAlign,
-            styles.radioButtonsMouse,
 
-          ].join(" ")}
+      <label htmlFor={`answer-radio-${choice}`}
+        key={`answer-radio-${choice}`}
+        className={[
+          `${choice === response && styles.radioButtonSelected}`,
+          styles.radioButtonsWidth,
+          styles.radioButtonsAlign,
+          styles.radioButtonsMouse,
 
-        >{choice}
-          <input type="radio" id={`answer-radio-${choice}`} hidden={true} value={choice} onClick={handleClick} />
-        </label>
-      </div>
+        ].join(" ")}
+
+      >{choice}
+        <input type="radio" id={`answer-radio-${choice}`} hidden={true} value={choice} onClick={handleClick} />
+      </label>
+
     )
   })
 

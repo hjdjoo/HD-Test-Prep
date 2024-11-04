@@ -1,46 +1,41 @@
-import createSupabase from "@/utils/supabase/client";
-import { type Question } from "@/src/stores/questionStore";
-import { useEffect, useState, Suspense } from "react";
+import { useEffect, Dispatch, SetStateAction } from "react";
 
-interface QuestionProps {
-  question: Question
+interface QuestionImageProps {
+  imageUrl: string
+  imageLoaded: boolean
+  setImageLoaded: Dispatch<SetStateAction<boolean>>
 }
 
-export default function QuestionImage(props: QuestionProps) {
+export default function QuestionImage(props: QuestionImageProps) {
 
-  const { question } = props;
-  const { id } = question;
-  // console.log(question);
-  const [questionUrl, setQuestionUrl] = useState<string>("")
+  const { imageUrl, imageLoaded, setImageLoaded } = props;
 
   useEffect(() => {
-    (async () => {
-      const supabase = createSupabase();
 
-      const { data } = await supabase
-        .storage
-        .from("questions")
-        .createSignedUrl(`math/${String(id)}.png`, 3600)
+    async function prefetch() {
 
-      if (!data) return;
+      if (imageUrl) {
+        const img = new Image();
+        img.src = imageUrl;
 
-      setQuestionUrl(data.signedUrl);
+        img.onload = () => setImageLoaded(true);
+        img.onerror = () => {
+          console.error("image loading failed");
+          setImageLoaded(false);
+        }
+      }
+    }
 
-    })()
+    prefetch();
 
-  }, [question])
-
-  // const questionUrl = getStorageUrl("math", String(questionIdx), "png");
-
-  // console.log("Practice.question/questionUrl", questionUrl);
-
+  }, [imageUrl])
 
   return (
 
     <div>
-      <Suspense fallback={<p>Loading...</p>}>
-        <img src={questionUrl} alt="sample question" />
-      </Suspense>
+      {imageLoaded &&
+        <img src={imageUrl} alt="" />
+      }
     </div>
 
   )

@@ -3,8 +3,9 @@ import { useState } from "react";
 import styles from "./PracticeContainer.module.css"
 import { Question as QuestionType, useQuestionStore } from "@/src/stores/questionStore";
 
-import Question from "@/src/components/practice/Practice.questionImage";
-import Answers from "@/src/components/practice/Practice.answers";
+// import Question from "@/src/components/practice/Practice.questionImage";
+import QuestionContainer from "containers/QuestionContainer.tsx/QuestionContainer";
+
 import Filter from "@/src/components/practice/Practice.filter";
 
 
@@ -14,7 +15,7 @@ export default function RandomPractice() {
 
   const [showSettings, setShowSettings] = useState<boolean>(false)
   const [currQuestion, setCurrQuestion] = useState<QuestionType>()
-  const [response, setResponse] = useState<string>()
+
 
 
   async function getRandomQuestion() {
@@ -27,10 +28,6 @@ export default function RandomPractice() {
 
   }
 
-  const ae = ["A", "B", "C", "D", "E"];
-  const fk = ["F", "G", "H", "J", "K"];
-
-  const answerChoices = currQuestion && ae.includes(currQuestion.answer) ? ae : fk
 
 
   return (
@@ -46,8 +43,7 @@ export default function RandomPractice() {
       <div className={[styles.questionSize, styles.questionAlign].join(" ")}>
         {currQuestion &&
           <>
-            <Question question={currQuestion} />
-            <Answers question={currQuestion} answerChoices={answerChoices} response={response} setResponse={setResponse} />
+            <QuestionContainer question={currQuestion} />
           </>
         }
       </div>
