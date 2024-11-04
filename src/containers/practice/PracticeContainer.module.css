@@ -1,3 +1,16 @@
 .container {
   composes: flexColCenter from "@/src/App.module.css";
+
+  button {
+    margin-top: 1rem;
+  }
+}
+
+.questionSize{
+  width: 60vw;
+  height: auto;
+}
+
+.questionAlign{
+  composes: flexColCenter from "@/src/App.module.css"
 }

@@ -27,27 +27,27 @@ export type Database = {
       math_problems: {
         Row: {
           answer: string | null
-          category: string | null
-          id: number | null
-          problem_type: string | null
+          category: number | null
+          id: number
+          problem_type: number | null
           question: number | null
           tags: number[]
           test_form: string | null
         }
         Insert: {
           answer?: string | null
-          category?: string | null
-          id?: number | null
-          problem_type?: string | null
+          category?: number | null
+          id: number
+          problem_type?: number | null
           question?: number | null
           tags?: number[]
           test_form?: string | null
         }
         Update: {
           answer?: string | null
-          category?: string | null
-          id?: number | null
-          problem_type?: string | null
+          category?: number | null
+          id?: number
+          problem_type?: number | null
           question?: number | null
           tags?: number[]
           test_form?: string | null

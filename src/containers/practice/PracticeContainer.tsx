@@ -5,6 +5,9 @@ import { useCategoryStore } from "#root/src/stores/categoryStore";
 
 import Question from "@/src/components/practice/Practice.question.js";
 
+import RandomPractice from "./PracticeContainer.Random";
+import StructuredPractice from "./PracticeContainer.Structured";
+
 
 import Filter from "@/src/components/practice/Practice.filter.js";
 
@@ -29,11 +32,13 @@ export default function PracticeContainer() {
 
   const { setCategories, setProblemTypes } = useCategoryStore();
   const { filter, filteredQuestions, setQuestions, filterQuestions } = useQuestionStore();
-  // const [practiceSettings, setPracticeSettings] = useState()
-  // const supabase = createSupabase();
-  const [randomQuestion, setRandomQuestion] = useState<number>(NaN)
 
-  // get question data upon render and save to global state.
+
+
+  const [practiceType, setPracticeType] = useState<"random" | "structured" | null>(null)
+
+
+  // get question data upon render and save to global state. Shame we need 3 different DB calls to do this - could do it in 1 call with PostgREST probably? Not enough of a performance hit to justify refactoring and figuring out PostgREST
   useEffect(() => {
 
     async function getQuestions() {
@@ -46,6 +51,8 @@ export default function PracticeContainer() {
         });
 
         const data = await res.json();
+
+        // console.log(typeof data[0].id)
 
         setQuestions(data);
         filterQuestions();
@@ -97,26 +104,11 @@ export default function PracticeContainer() {
 
   }, [])
 
+  // make sure to update the filtered question bank when the filter is changed.
   useEffect(() => {
     filterQuestions();
   }, [filter])
 
-
-  async function getRandomQuestion() {
-
-    const count = filteredQuestions.length;
-
-    const randomIdx = Math.floor(Math.random() * count);
-
-    setRandomQuestion(randomIdx);
-
-  }
-
-  // function handleClick() {
-
-
-
-  // }
 
   console.log("PracticeContainer/filteredQuestions length: ", filteredQuestions.length);
 
@@ -125,28 +117,13 @@ export default function PracticeContainer() {
       <h1>
         Practice
       </h1>
-      <button>{`Quick Start (Randomized Questions)`}</button>
+      <button onClick={() => { setPracticeType("random") }}>{`Random Questions`}</button>
       <p>Or</p>
-      <button>{`Customize Session`}</button>
+      <button onClick={() => { setPracticeType("structured") }}>{`Structured Practice`}</button>
+      <br />
       {/* Settings Component */}
-      <Filter />
-      {/* "Start" */}
-      {/* Timer Component
-    - Pressing "Go" renders the question and starts the timer. */}
-      {/* Question Component
-    - Should contain within its state a set of problems.*/}
-      {/* Answer Component
-    - Should  */}
-      <div style={{ width: "60vw", height: "50vh", border: "1px solid black", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-        Test Space:
-        <div>
-          <button onClick={getRandomQuestion}>
-            Get Random Question
-          </button>
-        </div>
-        {filteredQuestions[randomQuestion] &&
-          <Question question={randomQuestion} />}
-      </div>
+      {practiceType === "random" && <RandomPractice />}
+      {practiceType === "structured" && <StructuredPractice />}
     </div>
   )
 }

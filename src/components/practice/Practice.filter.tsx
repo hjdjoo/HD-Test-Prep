@@ -1,6 +1,6 @@
 import { ChangeEvent } from "react";
 import styles from "./Practice.module.css"
-import { Filter } from "@/src/stores/questionStore"
+// import { Filter } from "@/src/stores/questionStore"
 import { useQuestionStore } from "@/src/stores/questionStore"
 import { useCategoryStore } from "@/src/stores/categoryStore";
 import { Category, ProblemType } from "@/src/stores/categoryStore";
@@ -37,15 +37,20 @@ function CategoryToggles(props: CategoryToggleProps) {
     const { id, category: name } = category;
 
     return (
-      <div key={`category-toggle-${id}`} className={styles.justifyCheckboxes}>
+      <div key={`category-toggle-${id}`} className={[styles.justifyCheckboxes, styles.filterTextSize].join(" ")}>
         <label htmlFor={`category-${id}`}>{name}</label>
-        <input type="checkbox" id={`category-${id}`} name={"categories"} value={id} defaultChecked={checked} onChange={handleChange} />
+        <input type="checkbox" id={`category-${id}`}
+          className={[styles.checkboxMargins].join(" ")}
+          name={"categories"}
+          value={id}
+          defaultChecked={checked} onChange={handleChange} />
       </div>
     )
   })
 
   return (
-    <div>
+    <div className={[styles.checkboxesVertical].join(" ")} >
+      <h4>Categories: </h4>
       {toggles}
     </div>
   )
@@ -88,20 +93,73 @@ function ProblemTypeToggles(props: ProblemTypeToggleProps) {
     const { id, problemType: name } = type;
 
     return (
-      <div key={`problem-type-toggle-${id}`} className={styles.justifyCheckboxes}>
+      <div key={`problem-type-toggle-${id}`} className={[styles.justifyCheckboxes, styles.filterTextSize].join(" ")}>
         <label htmlFor={`problem-type-${id}`}>{name}</label>
-        <input type="checkbox" id={`problem-type-${id}`} name={"problemTypes"} value={id} defaultChecked={checked} onChange={handleChange} />
+        <input type="checkbox" id={`problem-type-${id}`}
+          className={[styles.checkboxMargins].join(" ")}
+          name={"problemTypes"}
+          value={id}
+          defaultChecked={checked}
+          onChange={handleChange} />
       </div>
     )
 
   })
 
   return (
-    <div>
+    <div className={styles.checkboxesVertical} >
+      <h4>Problem Types: </h4>
       {toggles}
     </div>
   )
 
+}
+
+function DifficultyToggles() {
+
+  const { filter, setFilter } = useQuestionStore();
+
+  const { difficulty } = filter;
+
+  // const { id, problemType: name } = problemType;
+
+  function handleChange(e: ChangeEvent<HTMLInputElement>) {
+
+    const { value } = e.target as HTMLInputElement;
+
+    const newFilter = structuredClone(filter);
+
+    // const difficulty = value;
+    newFilter.difficulty[value] = !filter.difficulty[value]
+
+    setFilter(newFilter);
+  }
+
+  const toggles = Object.keys(difficulty).map(level => {
+
+    const checked = filter.difficulty[level]
+    const label = level[0].toUpperCase().concat(level.slice(1))
+
+    return (
+      <div key={`${level}-difficulty-toggle`} className={[styles.justifyCheckboxes, styles.filterTextSize].join(" ")}>
+        <label htmlFor={`${level}-difficulty`}>{label}</label>
+        <input type="checkbox" id={`${level}-difficulty`}
+          className={[styles.checkboxMargins].join(" ")}
+          name={"problemTypes"}
+          value={level}
+          defaultChecked={checked}
+          onChange={handleChange} />
+      </div>
+    )
+
+  })
+
+  return (
+    <div className={styles.checkboxesVertical} >
+      <h4>Difficulties: </h4>
+      {toggles}
+    </div>
+  )
 }
 
 interface FilterFormProps {
@@ -114,9 +172,15 @@ function FilterForm(props: FilterFormProps) {
   const { categories, problemTypes } = props;
 
   return (
-    <form name="filter-form">
-      <CategoryToggles categories={categories} />
-      <ProblemTypeToggles problemTypes={problemTypes} />
+    <form name="filter-form" className={[styles.alignFilters].join(" ")}>
+      <div>
+        <DifficultyToggles />
+        <br />
+        <CategoryToggles categories={categories} />
+      </div>
+      <div>
+        <ProblemTypeToggles problemTypes={problemTypes} />
+      </div>
     </form>
   )
 }
@@ -126,8 +190,8 @@ export default function FilterSettings() {
   const { categories, problemTypes } = useCategoryStore();
 
   return (
-    <div>
+    <>
       <FilterForm categories={categories} problemTypes={problemTypes} />
-    </div>
+    </>
   )
 }

@@ -1,23 +1,16 @@
 import createSupabase from "#root/utils/supabase/client";
 import { type Question } from "#root/src/stores/questionStore";
-import { useEffect, useState } from "react";
-import { useQuestionStore } from "#root/src/stores/questionStore";
+import { useEffect, useState, Suspense } from "react";
 
 interface QuestionProps {
-  question: number
+  question: Question
 }
 
 export default function Question(props: QuestionProps) {
 
-  const supabase = createSupabase();
-
-  const { questions } = useQuestionStore();
-
   const { question } = props;
+  const { id } = question;
   // console.log(question);
-
-  // const { id, question: questionIdx, testForm, category, problemType, answer, tags } = questions[question];
-
   const [questionUrl, setQuestionUrl] = useState<string>("")
 
   useEffect(() => {
@@ -27,7 +20,7 @@ export default function Question(props: QuestionProps) {
       const { data } = await supabase
         .storage
         .from("questions")
-        .createSignedUrl(`math/${String(question)}.png`, 3600)
+        .createSignedUrl(`math/${String(id)}.png`, 3600)
 
       if (!data) return;
 
@@ -37,7 +30,6 @@ export default function Question(props: QuestionProps) {
 
   }, [question])
 
-
   // const questionUrl = getStorageUrl("math", String(questionIdx), "png");
 
   // console.log("Practice.question/questionUrl", questionUrl);
@@ -46,7 +38,9 @@ export default function Question(props: QuestionProps) {
   return (
 
     <div>
-      <img src={questionUrl} alt="sample question" />
+      <Suspense fallback={<p>Loading...</p>}>
+        <img src={questionUrl} alt="sample question" />
+      </Suspense>
     </div>
 
   )

@@ -1,9 +1,15 @@
+.alignFilters {
+  display: flex;
+}
 
-
+.filterTextSize {
+  font-size: 0.8rem;
+}
 
 .checkboxesVertical {
   display: flex;
   flex-direction: column;
+  margin-right: 1rem;
 
   :nth-of-type(even) {
     background-color: antiquewhite;
@@ -13,4 +19,41 @@
 .justifyCheckboxes {
   display: flex;
   justify-content: space-between;
+}
+
+.checkboxMargins {
+  margin-left: 2rem;
+}
+
+/* Answer components */
+.radioButtonsVertical {
+  display: flex;
+  flex-direction: column;
+}
+
+.radioButtonsMouse {
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.radioButtonsWidth {
+  width: 100%;
+  border: 1px solid black;
+  border-radius: 15px;
+}
+
+.radioButtonsAlign {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.radioButtonSelected {
+  background-color: lightblue;
+}
+
+.answersWidth {
+  width: 100%;
 }

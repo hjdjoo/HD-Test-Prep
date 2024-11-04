@@ -5,6 +5,10 @@ import express, { Application, Request, Response } from "express";
 import userRouter from "./routes/user";
 import dbRouter from "./routes/db";
 
+process.on('uncaughtException', function (err) {
+  console.log(err);
+});
+
 const PORT = process.env.PORT || 3000;
 
 const app: Application = express();
@@ -16,11 +20,8 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/auth", userRouter)
 
-console.log('exited userRouter')
 app.use("/db", dbRouter);
 
-
-console.log('about to hit unknown route handler')
 app.use("/*", (_req: Request, res: Response) => {
 
   res.status(404).json("Page was not found")

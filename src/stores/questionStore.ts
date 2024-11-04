@@ -19,7 +19,8 @@ export interface Filter {
   difficulty: {
     easy: boolean,
     medium: boolean,
-    hard: boolean
+    hard: boolean,
+    [level: string]: boolean,
   },
   tags: number[],
 }

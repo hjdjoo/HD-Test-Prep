@@ -96,6 +96,8 @@ dbController.snakeToCamel = (_req: Request, res: Response, next: NextFunction) =
 
   const dbData = res.locals.dbData as DbQuestionData[]
 
+  // console.log("before convert: ", typeof dbData[0].category)
+
   const clientData = dbData.map(row => {
 
     return camelCase(row) as CamelCasedProperties<typeof row>
@@ -103,6 +105,8 @@ dbController.snakeToCamel = (_req: Request, res: Response, next: NextFunction) =
   });
 
   delete res.locals.dbData;
+
+  // console.log("after convert: ", typeof clientData[0].category)
 
   res.locals.clientData = clientData;
 
