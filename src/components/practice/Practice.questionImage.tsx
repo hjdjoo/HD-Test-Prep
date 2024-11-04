@@ -34,7 +34,7 @@ export default function QuestionImage(props: QuestionImageProps) {
 
     <div>
       {imageLoaded &&
-        <img src={imageUrl} alt="" />
+        <img src={imageUrl} alt="question image" />
       }
     </div>
 

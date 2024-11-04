@@ -32,8 +32,8 @@ export default function RandomPractice() {
 
   return (
     <div id="random-practice-container"
-      className={[styles.questionSize, styles.questionAlign].join(" ")}>
-      <h4>Random Practice:</h4>
+      className={[styles.container].join(" ")}>
+      <h3>Random Practice:</h3>
       <button onClick={() => {
         setShowSettings(!showSettings);
       }}>{`Customize Session`}</button>

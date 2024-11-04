@@ -3,13 +3,11 @@ import { useEffect, useState } from "react"
 import { useQuestionStore } from "@/src/stores/questionStore";
 import { useCategoryStore } from "@/src/stores/categoryStore";
 
-import Question from "@/src/components/practice/Practice.questionImage.js";
+// import Question from "@/src/components/practice/Practice.questionImage.js";
 
 import RandomPractice from "./PracticeContainer.Random";
 import StructuredPractice from "./PracticeContainer.Structured";
 
-
-import Filter from "@/src/components/practice/Practice.filter.js";
 
 /**
  * 
