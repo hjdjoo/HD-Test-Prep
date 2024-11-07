@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import styles from "./PracticeContainer.module.css"
 import { Question as QuestionType, useQuestionStore } from "@/src/stores/questionStore";
@@ -17,7 +16,6 @@ export default function RandomPractice() {
   const [currQuestion, setCurrQuestion] = useState<QuestionType>()
 
 
-
   async function getRandomQuestion() {
 
     const count = filteredQuestions.length;
@@ -29,27 +27,42 @@ export default function RandomPractice() {
   }
 
 
-
   return (
     <div id="random-practice-container"
       className={[styles.container].join(" ")}>
       <h3>Random Practice:</h3>
-      <button onClick={() => {
+      <button id="show-settings-button" className={[styles.buttonMarginY].join(" ")} onClick={() => {
         setShowSettings(!showSettings);
       }}>{`Customize Session`}</button>
       <div id="practice-filter" hidden={showSettings ? false : true}>
         <Filter />
       </div>
-      <div className={[styles.questionSize, styles.questionAlign].join(" ")}>
+      <div className={[].join(" ")}>
         {currQuestion &&
-          <>
+          <div id="question-module" className={[
+            styles.nextButtonAlign,
+          ].join(" ")}>
             <QuestionContainer question={currQuestion} />
-          </>
+            <div>
+              <button id="next-question-button"
+                className={[
+                  styles.nextButtonBorder,
+                  styles.nextButtonMargin,
+                  styles.nextButtonRound,
+                  styles.buttonActive,
+                ].join(" ")}
+                onClick={getRandomQuestion}
+              >{">"}</button>
+              <p>Next</p>
+            </div>
+          </div>
         }
       </div>
-      <button onClick={getRandomQuestion}>
-        {currQuestion ? "Next" : "Go!"}
-      </button>
+      {!currQuestion &&
+        <button onClick={getRandomQuestion}>
+          Go!
+        </button>
+      }
     </div>
   )
 }

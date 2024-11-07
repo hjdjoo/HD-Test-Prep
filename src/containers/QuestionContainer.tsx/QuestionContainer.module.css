@@ -1,9 +1,11 @@
 
 .questionSize{
-  width: 60vw;
+  max-width: 70vw;
   height: auto;
 }
 
 .questionAlign{
-  composes: flexColCenter from "@/src/App.module.css"
+  composes: flexColCenter from "@/src/App.module.css";
+  margin-right: 2rem;
+  margin-left: 4rem;
 }

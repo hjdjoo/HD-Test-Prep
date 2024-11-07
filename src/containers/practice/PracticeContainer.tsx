@@ -32,9 +32,7 @@ export default function PracticeContainer() {
   const { filter, filteredQuestions, setQuestions, filterQuestions } = useQuestionStore();
 
 
-
   const [practiceType, setPracticeType] = useState<"random" | "structured" | null>(null)
-
 
   // get question data upon render and save to global state. Shame we need 3 different DB calls to do this - could do it in 1 call with PostgREST probably? Not enough of a performance hit to justify refactoring and figuring out PostgREST
   useEffect(() => {
@@ -49,8 +47,6 @@ export default function PracticeContainer() {
         });
 
         const data = await res.json();
-
-        // console.log(typeof data[0].id)
 
         setQuestions(data);
         filterQuestions();

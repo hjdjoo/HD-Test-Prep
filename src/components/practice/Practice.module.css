@@ -57,3 +57,85 @@
 .answersWidth {
   width: 100%;
 }
+
+/*Timer styles*/
+
+.alignTimer {
+  diplay: flex;
+  text-align: center;
+}
+
+/* Feedback Form */
+
+.backdropStyle {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(32, 32, 32, 0.6)
+}
+
+.centerForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.formDisplay {
+  background-color: white;
+  height: 60vh;
+  width: 60vw;
+  border: 5px solid black;
+}
+
+.formAlign {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.formSectionDetailText {
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.formSectionAlign {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.resultTextSize {
+  font-size: 1.2rem;
+}
+
+.formSectionHeading {
+  margin-top: 1rem;
+}
+
+.difficultyRadioAlign {
+  margin-top: 1rem;
+  display: flex;
+}
+
+.difficultyLabelAlign {
+  display: flex;
+  flex-direction: column;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.difficultyLabelText {
+  margin-top: 0.5rem;
+  font-size: 0.7rem;
+}
+
+.guessInputAlign {
+  display: flex;
+
+  input {
+    margin-left: 1rem;
+  }
+}
