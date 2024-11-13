@@ -2,6 +2,7 @@ import styles from "./App.module.css"
 import { useEffect } from "react"
 import { Outlet } from "react-router-dom";
 import createSupabase from "@/utils/supabase/client";
+// import Cookies from "js-cookie";
 // import HomeContainer from "./containers/home/HomeContainer";
 import NavContainer from "containers/nav/NavContainer";
 // import { User } from "@supabase/supabase-js";
@@ -24,7 +25,7 @@ function App() {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (event === 'SIGNED_OUT') {
         console.log('SIGNED_OUT', session);
-        // clear local and session storage
+        // clear local and session storage;
         [
           window.localStorage,
           window.sessionStorage,
@@ -33,15 +34,36 @@ function App() {
             .forEach(([key]) => {
               storage.removeItem(key)
             })
-        })
+        });
+
+        // console.log(typeof document.cookie);
+        console.log("App/signed_out/before delete: ", document.cookie);
+
+        // remove sb auth cookies
+        // const cookies = document.cookie.split(" ")
+
+        // // cookies.forEach(cookie => {
+        // //   Cookies.remove(cookie);
+        // // })
+        // document.cookie = document.cookie.replace(/(sb)\S*/g, "")
+
+        console.log("after delete: ", document.cookie)
+
         setUser(null);
       };
 
       if (event === "SIGNED_IN") {
-        // get JWTs from session and get user information.
+
+        // get JWTs from session.
         const accessToken = session?.access_token;
         const refreshToken = session?.refresh_token;
 
+        if (!accessToken || !refreshToken) {
+          console.log("Access token or refresh token missing")
+          return;
+        }
+
+        // use session data to fetch user info;
         const res = await fetch(`api/auth`, {
           method: "POST",
           headers: {
@@ -53,7 +75,6 @@ function App() {
 
         const user: User = await res.json();
 
-        // console.log("App/useEffect/signed_in", user);
         setUser(user);
       }
     })
@@ -63,6 +84,8 @@ function App() {
     }
 
   }, [])
+
+  console.log("App.tsx/user: ", user)
 
   return (
     <>

@@ -1,11 +1,15 @@
 import { Dispatch, SetStateAction, useState } from "react"
 import styles from "./Practice.module.css"
 
+import Autocomplete from "components/feedback/Feedback.Autocomplete"
+// import debounce from "@/utils/debounce"
+
+
 export type FeedbackForm = {
   questionId: number
   studentId: number
   correct: boolean
-  studentResponse: string
+  response: string
   difficultyRating: number | null
   tags: number[]
   guessed: boolean | null
@@ -18,25 +22,27 @@ interface FeedbackFormProps {
 
 /**
  * 
- * Student should be able to select:
- * - Difficulty rating
+ * Student should be able to:
+ * - Select difficulty rating
  * - Add tags (optional)
- * - Check if it was a guess
- * - Feedback Form also takes 
+ * - Say if it was a guess
+ * - Add a picture of their work
+ * - Add a note for the tutor.
+ * 
  */
 export default function FeedbackForm(props: FeedbackFormProps) {
 
-  const { feedbackForm, setFeedbackForm } = props
+  const { feedbackForm, setFeedbackForm } = props;
 
   const difficulties: { [level: string]: string } = {
-    1: "Very easy",
+    1: "Very Easy",
     2: "Easy",
     3: "Medium",
     4: "Hard",
     5: "Very Hard"
   }
 
-  const [difficulty, setDifficulty] = useState<number>(0)
+  const [difficulty, setDifficulty] = useState<number>(0);
 
   const difficultySelect = () => {
 
@@ -52,14 +58,11 @@ export default function FeedbackForm(props: FeedbackFormProps) {
           </label>
         </div>
       )
-    })
+    });
 
   }
 
   const difficultyRadios = difficultySelect();
-
-
-
 
 
   return (
@@ -131,9 +134,16 @@ export default function FeedbackForm(props: FeedbackFormProps) {
             styles.formSectionAlign
           ].join(" ")}>
           <div className={[styles.formSectionHeading].join(" ")}>
-            <p>Upload a picture of your work if you'd like:</p>
+            <p>Upload a picture of your work for more context if you'd like:</p>
           </div>
           <input type="file" />
+        </div>
+        <div id={"add-tags-section"}>
+          <div className={[styles.formSectionHeading].join(" ")}>
+            <p>{"Add any tags that fit this problem (e.g., quadratic equations, linear equations, sohcahtoa, etc)"}
+            </p>
+          </div>
+          <Autocomplete setFeedbackForm={setFeedbackForm}></Autocomplete>
         </div>
       </div>
     </div>

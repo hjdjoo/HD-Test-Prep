@@ -52,7 +52,22 @@ export type Database = {
           tags?: number[]
           test_form?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "math_problems_category_fkey"
+            columns: ["category"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "math_problems_problem_type_fkey"
+            columns: ["problem_type"]
+            isOneToOne: false
+            referencedRelation: "problem_types"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       problem_types: {
         Row: {
@@ -145,6 +160,7 @@ export type Database = {
           question_id: number | null
           student_id: number | null
           student_rating: number | null
+          student_response: string
           tags: number | null
           time_taken: number | null
         }
@@ -155,6 +171,7 @@ export type Database = {
           question_id?: number | null
           student_id?: number | null
           student_rating?: number | null
+          student_response: string
           tags?: number | null
           time_taken?: number | null
         }
@@ -165,6 +182,7 @@ export type Database = {
           question_id?: number | null
           student_id?: number | null
           student_rating?: number | null
+          student_response?: string
           tags?: number | null
           time_taken?: number | null
         }
@@ -174,17 +192,17 @@ export type Database = {
         Row: {
           created_at: string
           id: number
-          tag_name: string | null
+          tag_name: string
         }
         Insert: {
           created_at?: string
           id?: number
-          tag_name?: string | null
+          tag_name: string
         }
         Update: {
           created_at?: string
           id?: number
-          tag_name?: string | null
+          tag_name?: string
         }
         Relationships: []
       }

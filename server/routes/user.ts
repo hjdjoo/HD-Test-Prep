@@ -5,7 +5,7 @@ import userController from "../controllers/userController";
 const userRouter = Router();
 
 userRouter.post("/",
-  userController.updateSession,
+  userController.checkTokens,
   userController.getUser,
   userController.initProfile,
   (_req: Request, _res: Response, next: NextFunction) => {

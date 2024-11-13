@@ -1,9 +1,12 @@
 import "dotenv/config"
 import express, { Application, Request, Response } from "express";
-// import cookie
-// import * as path from "path";
 import userRouter from "./routes/user";
 import dbRouter from "./routes/db";
+import cookieParser from "cookie-parser"
+
+import userController from "./controllers/userController";
+
+const SUPABASE_JWT_SECRET = process.env.SUPABASE_JWT_SECRET!
 
 process.on('uncaughtException', function (err) {
   console.log(err);
@@ -17,10 +20,11 @@ console.log("entered express server")
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser(SUPABASE_JWT_SECRET))
 
-app.use("/auth", userRouter)
+app.use("/auth", userRouter);
 
-app.use("/db", dbRouter);
+app.use("/db", userController.checkTokens, dbRouter);
 
 app.use("/*", (_req: Request, res: Response) => {
 

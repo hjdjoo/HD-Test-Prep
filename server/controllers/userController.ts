@@ -1,9 +1,11 @@
 import { Request, Response, NextFunction } from "express";
-
 import createClient from "@/utils/supabase/server";
 import createServiceClient from "@/utils/supabase/service";
 
+// import HMACSH
+
 import { type User } from "@supabase/supabase-js";
+// import createSupabase from "@/utils/supabase/server";
 
 console.log("entered userController");
 
@@ -14,48 +16,64 @@ interface UserController {
 const userController: UserController = {};
 
 
-userController.updateSession = async (req: Request, res: Response, next: NextFunction) => {
+userController.checkTokens = async (req: Request, res: Response, next: NextFunction) => {
 
-  try {
-    // console.log(req.body);
-    const supabase = createClient({ req, res });
+  // first, check the body of the request (this means a "SIGNED_IN" event was triggered and this should be a new session.)
+  const { accessToken, refreshToken } = req.body;
 
-    const { accessToken, refreshToken } = req.body;
-
-    if (!accessToken || !refreshToken) {
-      res.status(401);
-      return next();
-    }
-
-    /* Storing JWTs in cookies was exceeding express payload maximum. Currently don't see a need to access JWT from cookies since we can use Supabase methods to quickly get session info. Only needs to be passed per request, can do that in request body instead of saving to cookies. As long as nothing is breaking I don't see this being necessary. */
-
-    // res.cookie("accessToken", accessToken, {
-    //   httpOnly: true,
-    //   secure: process.env.NODE_ENV === "production",
-    //   maxAge: 60 * 60 * 1000,
-    //   sameSite: "strict"
-    // })
-    // res.cookie("refreshToken", refreshToken, {
-    //   httpOnly: true,
-    //   secure: process.env.NODE_ENV === "production",
-    //   maxAge: 60 * 60 * 1000,
-    //   sameSite: "strict"
-    // })
-
-    const { error } = await supabase.auth.setSession({ access_token: accessToken, refresh_token: refreshToken })
-
-    if (error) {
-      throw new Error(`error setting server session: ${error.message}`)
-    }
-    console.log("Server Supabase session set")
-
+  if (accessToken && refreshToken) {
+    console.log("auth tokens found in request body. saving to cookies...")
+    // We set the request cookies for the supabase client to set session.
+    req.cookies.accessToken = accessToken;
+    req.cookies.refreshToken = refreshToken;
+    // And update the response cookies for storage.
+    res.cookie("accessToken", accessToken);
+    res.cookie("refreshToken", refreshToken);
     return next();
-  } catch (e) {
-    console.error(e);
-    res.status(500).json("Something went wrong while updating session")
   }
 
+  // If there's nothing in the body, then use tokens from the cookies.
+  const { cookies } = req;
+  if (cookies.accessToken && cookies.refreshToken) {
+    console.log("tokens detected in cookies. Continuing..")
+    return next();
+  }
+
+  return res.status(401).json("No auth tokens found.")
+
+  // Code below should no longer be needed since updating the cookie flow.
+  // let authToken = "";
+
+  // Object.keys(cookies).forEach((key) => {
+  //   if (key.startsWith("sb-") && key.includes("auth-token")) {
+  //     authToken = authToken.concat(cookies[key]);
+  //   }
+  // })
+
+  // // if we were able to get something from the auth token, check it for the access and refresh tokens and set it to the request cookies.
+  // if (authToken) {
+  //   authToken = authToken.replace("base64-", "");
+
+  //   const decoded = Buffer.from(authToken, "base64").toString("utf-8");
+
+  //   const tokenData = JSON.parse(decoded);
+
+  //   console.log(tokenData.access_token)
+
+  //   if (!tokenData.access_token || !tokenData.refresh_token) {
+  //     return res.status(401).json("no auth tokens detected");
+  //   }
+
+  //   req.cookies.accessToken = tokenData.access_token;
+  //   req.cookies.refreshToken = tokenData.refresh_token;
+
+  //   return next();
+  // } else {
+  //   return res.status(401).json("no auth tokens detected");
+  // }
+
 }
+
 
 userController.getUser = async (req: Request, res: Response, next: NextFunction) => {
 
@@ -93,11 +111,11 @@ userController.getUser = async (req: Request, res: Response, next: NextFunction)
 
     console.log("user found!")
 
-    res.status(200).json(profileData);
+    return res.status(200).json(profileData);
 
   } catch (e) {
     console.error(e);
-    res.status(500).json("couldn't get profile data")
+    return res.status(500).json("couldn't get profile data")
 
   }
 

@@ -1,32 +1,42 @@
-import { createServerClient, parseCookieHeader, serializeCookieHeader } from "@supabase/ssr";
+import { createClient } from "@supabase/supabase-js";
 import { Response, Request } from "express";
+// import { parse } from "cookie";
 import { Database } from "@/database.types";
 
-
-
-const SUPABASE_PUBLIC_KEY = process.env.VITE_SUPABASE_PUBLIC_KEY!
-
-const SUPABASE_URL = process.env.VITE_SUPABASE_URL!
+const SUPABASE_PUBLIC_KEY = process.env.VITE_SUPABASE_PUBLIC_KEY!;
+const SUPABASE_URL = process.env.VITE_SUPABASE_URL!;
 
 interface Context {
-  req: Request,
-  res: Response
+  req: Request;
+  res: Response;
 }
 
-const createClient = (context: Context) => {
+const createSupabase = (context: Context) => {
 
-  return createServerClient<Database>(SUPABASE_URL, SUPABASE_PUBLIC_KEY, {
-    cookies: {
-      getAll() {
-        return parseCookieHeader(context.req.headers.cookie ?? '')
-      },
-      setAll(cookiesToSet) {
-        cookiesToSet.forEach(({ name, value, options }) =>
-          context.res.appendHeader('Set-Cookie', serializeCookieHeader(name, value, options))
-        )
-      },
+  // const cookies = context.req.cookies;
+  // console.log("CreateSupabase/cookies: ", cookies);
+
+  const { accessToken, refreshToken } = context.req.cookies;
+
+  const client = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLIC_KEY, {
+    auth: {
+      persistSession: true,
     },
-  })
+  });
+
+  // Set the session if the accessToken is found.
+  if (accessToken && refreshToken) {
+    console.log("tokens found, setting supabase server client session");
+    client.auth.setSession({
+      access_token: accessToken,
+      refresh_token: refreshToken,
+    }).then(res => {
+      const { error } = res;
+      console.log("sessionError: ", error);
+    });
+
+  }
+  return client;
 };
 
-export default createClient;
+export default createSupabase;

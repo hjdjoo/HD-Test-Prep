@@ -17,7 +17,7 @@ interface Categories {
   setProblemTypes: (problemTypes: ProblemType[]) => void
 }
 
-export const useCategoryStore = create<Categories>((set) => ({
+export const useCategoryStore = create<Categories>()((set) => ({
   categories: [],
   problemTypes: [],
   setCategories: (categories) => {

@@ -2,6 +2,9 @@ import styles from "./PracticeContainer.module.css";
 import { useEffect, useState } from "react"
 import { useQuestionStore } from "@/src/stores/questionStore";
 import { useCategoryStore } from "@/src/stores/categoryStore";
+import { useTagStore } from "@/src/stores/tagStore"
+
+// import createSupabase from "@/utils/supabase/client";
 
 // import Question from "@/src/components/practice/Practice.questionImage.js";
 
@@ -30,6 +33,7 @@ export default function PracticeContainer() {
 
   const { setCategories, setProblemTypes } = useCategoryStore();
   const { filter, filteredQuestions, setQuestions, filterQuestions } = useQuestionStore();
+  const { getTags } = useTagStore();
 
 
   const [practiceType, setPracticeType] = useState<"random" | "structured" | null>(null)
@@ -75,6 +79,7 @@ export default function PracticeContainer() {
     }
 
     async function getProblemTypes() {
+      console.log("PracticeContainer/useEffect/getting problem types...")
       try {
         const res = await fetch("/api/db/problemTypes/", {
           method: "GET",
@@ -95,6 +100,7 @@ export default function PracticeContainer() {
     getQuestions();
     getCategories();
     getProblemTypes();
+    getTags();
 
   }, [])
 
@@ -103,7 +109,7 @@ export default function PracticeContainer() {
     filterQuestions();
   }, [filter])
 
-
+  // console.log(tags);
   console.log("PracticeContainer/filteredQuestions length: ", filteredQuestions.length);
 
   return (

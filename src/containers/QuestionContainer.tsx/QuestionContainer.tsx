@@ -20,7 +20,7 @@ interface StudentResponse {
   studentId: number,
   questionId: number,
   tags: number[],
-  studentResponse: string,
+  response: string,
   difficultyRating: number | null,
   feedbackId: number | null,
   timeTaken: number
@@ -87,7 +87,7 @@ export default function QuestionContainer(props: QuestionContainerProps) {
     return {
       studentId: user.id,
       questionId: question.id,
-      studentResponse: "",
+      response: "",
       correct: false,
       difficultyRating: null,
       guessed: null,
@@ -108,8 +108,12 @@ export default function QuestionContainer(props: QuestionContainerProps) {
 
   async function handleSubmit() {
 
-    console.log("QuestionContainer/handleSubmit/feedbackForm: ", feedbackForm)
-    console.log("QuestionContainer/handleSubmit/studentRes: ", studentRes)
+    // console.log("QuestionContainer/handleSubmit/feedbackForm: ", feedbackForm);
+    // console.log("QuestionContainer/handleSubmit/studentRes: ", studentRes);
+    if (!feedbackForm) {
+      console.log("no feedback form detected; check user")
+      return;
+    }
 
     if (!response) {
       setErrorMessage("Please select an answer");
@@ -119,17 +123,21 @@ export default function QuestionContainer(props: QuestionContainerProps) {
     setErrorMessage("");
 
     if (submitStatus === "not submitted") {
+
+      const updatedFeedbackForm = structuredClone(feedbackForm);
+
+      updatedFeedbackForm.response = response;
+      updatedFeedbackForm.correct = checkAnswer();
+
       setSubmitStatus("submitting");
+      setFeedbackForm(updatedFeedbackForm);
       setShowFeedback(true);
       return;
     }
 
     if (submitStatus === "submitting") {
       setSubmitStatus("submitted");
-
       // send call to DB to save student response;
-      // 
-
       return;
     }
   }

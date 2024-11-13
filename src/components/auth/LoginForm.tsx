@@ -74,7 +74,8 @@ export default function LoginForm() {
         return;
       }
     } catch (e) {
-
+      console.log("Error while signing up user with email")
+      console.error(e);
     };
 
   };
@@ -103,7 +104,7 @@ export default function LoginForm() {
         await signinWithEmail(String(email), String(password));
       }
     } catch (e) {
-
+      console.log("Error while authorizing user email")
       console.error(e);
     }
   }

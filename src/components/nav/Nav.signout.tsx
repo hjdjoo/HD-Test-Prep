@@ -9,6 +9,7 @@ export default function Signout() {
 
   async function signout(e: MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
+
     const supabase = createClient();
     const { error } = await supabase.auth.signOut();
 
