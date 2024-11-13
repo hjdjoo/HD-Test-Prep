@@ -1,7 +1,7 @@
-import { Dispatch, SetStateAction, useState } from "react"
+import { Dispatch, SetStateAction, MouseEvent } from "react"
 import styles from "./Practice.module.css"
 
-import Autocomplete from "components/feedback/Feedback.Autocomplete"
+import Autocomplete from "components/autocomplete/Autocomplete"
 // import debounce from "@/utils/debounce"
 
 
@@ -42,7 +42,7 @@ export default function FeedbackForm(props: FeedbackFormProps) {
     5: "Very Hard"
   }
 
-  const [difficulty, setDifficulty] = useState<number>(0);
+  // const [difficulty, setDifficulty] = useState<number>(0);
 
   const difficultySelect = () => {
 
@@ -52,7 +52,7 @@ export default function FeedbackForm(props: FeedbackFormProps) {
           styles.difficultyLabelAlign,
           styles.difficultyLabelText,
         ].join(" ")}>
-          <input type="radio" id={level} value={Number(level)} />
+          <input type="radio" id={level} name={`difficultyRating`} value={Number(level)} onClick={handleDifficultySelect} />
           <label htmlFor={level} className={styles.difficultyLabelText}>
             {difficulties[level]}
           </label>
@@ -63,6 +63,17 @@ export default function FeedbackForm(props: FeedbackFormProps) {
   }
 
   const difficultyRadios = difficultySelect();
+
+  function handleDifficultySelect(e: MouseEvent<HTMLInputElement>) {
+    e.preventDefault();
+
+    const { value } = e.target as HTMLInputElement;
+
+    const updatedFeedbackForm = structuredClone(feedbackForm);
+
+    updatedFeedbackForm.difficultyRating = Number(value);
+
+  }
 
 
   return (
@@ -76,7 +87,7 @@ export default function FeedbackForm(props: FeedbackFormProps) {
           styles.formDisplay,
           styles.formAlign,
         ].join(" ")}>
-        <h2>Feedback Form</h2>
+        <h2>Reflection Form</h2>
         <div className={[
           styles.formSectionDetailText
         ].join(" ")}>
@@ -131,19 +142,27 @@ export default function FeedbackForm(props: FeedbackFormProps) {
         </div>
         <div id="image-upload-section"
           className={[
-            styles.formSectionAlign
+            styles.formSectionAlign,
+            styles.formSectionWidth,
           ].join(" ")}>
           <div className={[styles.formSectionHeading].join(" ")}>
             <p>Upload a picture of your work for more context if you'd like:</p>
           </div>
           <input type="file" />
         </div>
-        <div id={"add-tags-section"}>
+        <div id={"add-tags-section"}
+          className={[
+            styles.formSectionWidth,
+          ].join(" ")}>
           <div className={[styles.formSectionHeading].join(" ")}>
             <p>{"Add any tags that fit this problem (e.g., quadratic equations, linear equations, sohcahtoa, etc)"}
             </p>
           </div>
-          <Autocomplete setFeedbackForm={setFeedbackForm}></Autocomplete>
+          <Autocomplete feedbackForm={feedbackForm} setFeedbackForm={setFeedbackForm}></Autocomplete>
+        </div>
+        <div id="submit-button-box"
+          className={[styles.formSectionHeading].join(" ")}>
+          <button>Submit</button>
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { MouseEvent, ReactElement, useEffect } from "react";
+import { MouseEvent } from "react";
 import styles from "./Practice.module.css"
 import type { Question } from "@/src/stores/questionStore";
 

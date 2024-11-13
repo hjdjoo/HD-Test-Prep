@@ -85,8 +85,10 @@
 
 .formDisplay {
   background-color: white;
-  height: 60vh;
-  width: 60vw;
+  min-height: 60vh;
+  max-width: 70vw;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
   border: 5px solid black;
 }
 
@@ -105,6 +107,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.formSectionWidth {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 1rem;
 }
 
 .resultTextSize {

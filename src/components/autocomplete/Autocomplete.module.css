@@ -1,0 +1,21 @@
+.inputSize {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.listContainer {
+  height: auto;
+  max-height: 4rem;
+  padding-left: 0.5rem;
+  background-color: lightyellow;
+  overflow-y: scroll;
+  scrollbar-color: lightgrey;
+}
+
+.activeSuggestion {
+  background-color: lightgray;
+}
+
+.itemText {
+  font-size: 0.8rem;
+}

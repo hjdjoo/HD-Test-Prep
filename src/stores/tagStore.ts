@@ -5,8 +5,8 @@ interface TagsState {
 }
 
 interface TagsActions {
-  getTags: () => void
-  addTag: (tag: string) => void
+  getTags: () => Promise<void>
+  addTag: (tag: string) => Promise<number>
 }
 
 export const useTagStore = create<TagsState & TagsActions>()((set) => ({
@@ -50,5 +50,7 @@ export const useTagStore = create<TagsState & TagsActions>()((set) => ({
         [tag]: data
       }
     }))
+
+    return data;
   }
 }))
