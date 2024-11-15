@@ -31,7 +31,7 @@ export type Database = {
           id: number
           problem_type: number | null
           question: number | null
-          tags: number[]
+          tags: Json
           test_form: string | null
         }
         Insert: {
@@ -40,7 +40,7 @@ export type Database = {
           id: number
           problem_type?: number | null
           question?: number | null
-          tags?: number[]
+          tags?: Json
           test_form?: string | null
         }
         Update: {
@@ -49,7 +49,7 @@ export type Database = {
           id?: number
           problem_type?: number | null
           question?: number | null
-          tags?: number[]
+          tags?: Json
           test_form?: string | null
         }
         Relationships: [
@@ -126,31 +126,59 @@ export type Database = {
         Row: {
           comment: string | null
           created_at: string
+          difficulty_rating: number | null
           id: number
           image_url: string | null
-          question_id: number | null
-          student_id: number | null
-          tutor_id: number | null
+          question_id: number
+          student_id: number
+          tags: number[]
+          tutor_id: number
         }
         Insert: {
           comment?: string | null
           created_at?: string
+          difficulty_rating?: number | null
           id?: number
           image_url?: string | null
-          question_id?: number | null
-          student_id?: number | null
-          tutor_id?: number | null
+          question_id: number
+          student_id: number
+          tags?: number[]
+          tutor_id: number
         }
         Update: {
           comment?: string | null
           created_at?: string
+          difficulty_rating?: number | null
           id?: number
           image_url?: string | null
-          question_id?: number | null
-          student_id?: number | null
-          tutor_id?: number | null
+          question_id?: number
+          student_id?: number
+          tags?: number[]
+          tutor_id?: number
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "question_feedback_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "math_problems"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "question_feedback_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "question_feedback_tutor_id_fkey"
+            columns: ["tutor_id"]
+            isOneToOne: false
+            referencedRelation: "tutors"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       student_responses: {
         Row: {
@@ -159,9 +187,7 @@ export type Database = {
           id: number
           question_id: number | null
           student_id: number | null
-          student_rating: number | null
           student_response: string
-          tags: number | null
           time_taken: number | null
         }
         Insert: {
@@ -170,9 +196,7 @@ export type Database = {
           id?: number
           question_id?: number | null
           student_id?: number | null
-          student_rating?: number | null
           student_response: string
-          tags?: number | null
           time_taken?: number | null
         }
         Update: {
@@ -181,9 +205,7 @@ export type Database = {
           id?: number
           question_id?: number | null
           student_id?: number | null
-          student_rating?: number | null
           student_response?: string
-          tags?: number | null
           time_taken?: number | null
         }
         Relationships: []

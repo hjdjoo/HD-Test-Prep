@@ -16,7 +16,7 @@ export default function RandomPractice() {
   const [currQuestion, setCurrQuestion] = useState<QuestionType>()
 
 
-  async function getRandomQuestion() {
+  function getRandomQuestion() {
 
     const count = filteredQuestions.length;
 
@@ -42,7 +42,7 @@ export default function RandomPractice() {
           <div id="question-module" className={[
             styles.nextButtonAlign,
           ].join(" ")}>
-            <QuestionContainer question={currQuestion} />
+            <QuestionContainer question={currQuestion} getNextQuestion={getRandomQuestion} />
             <div>
               <button id="next-question-button"
                 className={[

@@ -51,9 +51,20 @@ dbRouter.post("/tags",
   (_req: Request, res: Response) => {
 
     const { clientData } = res.locals;
-
     res.status(200).json(clientData);
 
   })
+
+dbRouter.post("/feedback",
+  dbController.addNewTags,
+  dbController.addFeedbackImage,
+  dbController.addFeedback,
+  (_req: Request, res: Response) => {
+
+    const { clientData } = res.locals;
+    res.status(200).json(clientData);
+
+  }
+);
 
 export default dbRouter;

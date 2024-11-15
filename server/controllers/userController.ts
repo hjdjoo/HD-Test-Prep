@@ -39,38 +39,7 @@ userController.checkTokens = async (req: Request, res: Response, next: NextFunct
     return next();
   }
 
-  return res.status(401).json("No auth tokens found.")
-
-  // Code below should no longer be needed since updating the cookie flow.
-  // let authToken = "";
-
-  // Object.keys(cookies).forEach((key) => {
-  //   if (key.startsWith("sb-") && key.includes("auth-token")) {
-  //     authToken = authToken.concat(cookies[key]);
-  //   }
-  // })
-
-  // // if we were able to get something from the auth token, check it for the access and refresh tokens and set it to the request cookies.
-  // if (authToken) {
-  //   authToken = authToken.replace("base64-", "");
-
-  //   const decoded = Buffer.from(authToken, "base64").toString("utf-8");
-
-  //   const tokenData = JSON.parse(decoded);
-
-  //   console.log(tokenData.access_token)
-
-  //   if (!tokenData.access_token || !tokenData.refresh_token) {
-  //     return res.status(401).json("no auth tokens detected");
-  //   }
-
-  //   req.cookies.accessToken = tokenData.access_token;
-  //   req.cookies.refreshToken = tokenData.refresh_token;
-
-  //   return next();
-  // } else {
-  //   return res.status(401).json("no auth tokens detected");
-  // }
+  return res.status(401).json("No auth tokens found.");
 
 }
 

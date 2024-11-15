@@ -14,9 +14,10 @@ import { type FeedbackForm } from "components/practice/Practice.feedback";
 
 interface QuestionContainerProps {
   question: Question
+  getNextQuestion: () => void;
 }
 
-interface StudentResponse {
+export interface StudentResponse {
   studentId: number,
   questionId: number,
   tags: number[],
@@ -30,11 +31,11 @@ interface StudentResponse {
 export default function QuestionContainer(props: QuestionContainerProps) {
 
   const { user } = useUserStore();
-  const { question } = props;
+  const { question, getNextQuestion } = props;
 
   const [submitStatus, setSubmitStatus] = useState<"not submitted" | "submitting" | "submitted">("not submitted")
   const [imageLoaded, setImageLoaded] = useState<boolean>(false);
-  const [showFeedback, setShowFeedback] = useState<boolean>(false);
+  // const [showFeedback, setShowFeedback] = useState<boolean>(false);
 
 
   const [questionUrl, setQuestionUrl] = useState<string>("")
@@ -45,6 +46,8 @@ export default function QuestionContainer(props: QuestionContainerProps) {
   const [studentRes, setStudentRes] = useState<StudentResponse | undefined>(initStudentResponse)
   const [errorMessage, setErrorMessage] = useState<string>("");
 
+
+  const showFeedback = (submitStatus === "submitting")
 
   useEffect(() => {
     setImageLoaded(false);
@@ -65,6 +68,19 @@ export default function QuestionContainer(props: QuestionContainerProps) {
     })()
 
   }, [question])
+
+  useEffect(() => {
+
+    if (submitStatus !== "submitted") return;
+
+    async function submitResponse() {
+
+      const finalStudentResponse = { ...studentRes };
+      // finalStudentResponse.feedbackId;
+
+    }
+
+  })
 
   // return blank student response form
   function initStudentResponse() {
@@ -89,10 +105,11 @@ export default function QuestionContainer(props: QuestionContainerProps) {
       questionId: question.id,
       response: "",
       correct: false,
+      comment: "",
       difficultyRating: null,
       guessed: null,
       tags: [],
-      instructorId: user.instructorId
+      instructorId: user.instructor_id
     }
   }
 
@@ -131,17 +148,16 @@ export default function QuestionContainer(props: QuestionContainerProps) {
 
       setSubmitStatus("submitting");
       setFeedbackForm(updatedFeedbackForm);
-      setShowFeedback(true);
+      // setShowFeedback(true);
       return;
     }
 
     if (submitStatus === "submitting") {
-      setSubmitStatus("submitted");
       // send call to DB to save student response;
+      setSubmitStatus("submitted");
       return;
     }
   }
-
 
   function checkAnswer() {
 
@@ -155,7 +171,7 @@ export default function QuestionContainer(props: QuestionContainerProps) {
       className={[styles.questionAlign].join(" ")}>
       <div>
         <h3>Question Number: {question.question}</h3>
-        <Timer start={imageLoaded} submitStatus={submitStatus} time={time} setTime={setTime} />
+        <Timer start={imageLoaded && !showFeedback} submitStatus={submitStatus} time={time} setTime={setTime} />
       </div>
 
       <QuestionImage imageUrl={questionUrl} imageLoaded={imageLoaded} setImageLoaded={setImageLoaded} />
@@ -175,7 +191,7 @@ export default function QuestionContainer(props: QuestionContainerProps) {
       }
       {
         (showFeedback && feedbackForm) &&
-        <Feedback feedbackForm={feedbackForm} setFeedbackForm={setFeedbackForm} />
+        <Feedback question={question} setStudentResponse={setStudentRes} feedbackForm={feedbackForm} setFeedbackForm={setFeedbackForm} setSubmitStatus={setSubmitStatus} />
       }
     </div>
   )

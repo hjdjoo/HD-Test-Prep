@@ -5,6 +5,10 @@ import createSupabase from "@/utils/supabase/server"
 import { Database } from "@/database.types";
 import { CamelCasedProperties } from "type-fest"
 
+import { decode } from "base64-arraybuffer";
+
+import FeedbackForm from "@/src/components/practice/Practice.feedback"
+
 console.log("entered DB controller")
 
 interface DbController {
@@ -156,6 +160,112 @@ dbController.getTags = async (req: Request, res: Response, next: NextFunction) =
   } catch (e) {
     console.error(e);
     res.status(500).json(`Error while getting tags from DB: ${e}`)
+  }
+
+}
+
+dbController.addNewTags = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { newTags, feedbackForm }: { newTags: string[], feedbackForm: FeedbackForm } = req.body;
+
+    console.log("dbController/addNewTags/newTags: ", newTags);
+
+    if (!newTags || !newTags.length) {
+      return next();
+    }
+
+    const supabase = createSupabase({ req, res });
+
+    const query = newTags.map(tag => {
+      return { tag_name: tag }
+    })
+
+    const { data, error } = await supabase
+      .from("tags")
+      .insert(query)
+      .select("id");
+
+    if (error) {
+      return res.status(500).json("Error while adding new tags to DB.")
+    }
+
+    if (!data.length) {
+      return res.status(500).json("No rows returned from DB. Check RLS Policies")
+    }
+
+    console.log("tag data: ", data);
+
+    const newTagIds = data.map(row => {
+      return row.id;
+    })
+
+    feedbackForm.tags = feedbackForm.tags.concat(newTagIds);
+
+    console.log(feedbackForm.tags);
+
+    res.locals.updatedFeedbackForm = feedbackForm;
+
+    return next();
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json(`${e}`);
+  }
+
+}
+
+dbController.addFeedbackImage = async (req: Request, res: Response, next: NextFunction) => {
+
+  try {
+    const imageData = req.body.imageData as {
+      fileData: string,
+      fileName: string,
+      fileType: string
+    };
+
+    if (!imageData) {
+      return next();
+    }
+
+    const { fileName, fileData, fileType } = imageData;
+
+    // console.log(decode(fileData));
+
+    const ext = fileType.replace("image/", "");
+
+    const fileNameFull = `${fileName}.${ext}`;
+
+    const rawFileData = fileData.replace(/^(data.*base64,)/g, "");
+
+    const supabase = createSupabase({ req, res });
+
+    const { data, error } = await supabase
+      .storage
+      .from("questions/math")
+      .upload(fileNameFull, decode(rawFileData));
+
+
+
+
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json("Something went wrong while adding image file to storage")
+  }
+
+}
+
+dbController.addFeedback = async (req: Request, res: Response, next: NextFunction) => {
+
+  try {
+    const { feedbackForm } = req.body;
+
+    if (!feedbackForm) {
+      return res.status(500).json("No feedback form to upload");
+    }
+
+    // const supabase = createSupabase({ req, res });
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json("Something went wrong while adding feedback to DB.")
   }
 
 }

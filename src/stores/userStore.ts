@@ -6,7 +6,7 @@ export interface User {
   role: "student" | "admin",
   name: string,
   email: string,
-  instructorId: number
+  instructor_id: number
 }
 
 interface UserState {

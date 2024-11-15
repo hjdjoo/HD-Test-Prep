@@ -90,6 +90,54 @@
   padding-top: 1rem;
   padding-bottom: 2rem;
   border: 5px solid black;
+  overflow-y: scroll;
+}
+
+.uploadIconDecoration {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.imagePreviewBox {
+  padding-top: 1rem;
+  position: relative;
+  /* color: white; */
+}
+
+.uploadIconSize {
+  width: fit-content;
+  height: auto;
+  padding: 5px 15px;
+  border-radius: 15%;
+}
+
+.uploadIconColor {
+  color: black;
+  background-color: rgba(173, 216, 230, 0.40);
+}
+
+.removeUploadColor{
+  background-color: rgba(128, 128, 128, 0.4);
+  color: white;
+}
+
+.removeUploadDecoration{
+  border-radius: 50%;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.removeUploadSize {
+  position: absolute;
+  width: 2rem;
+  height: 2rem;
+  margin: 4px;
+}
+
+.marginTopDefault {
+  margin-top: 1rem;
 }
 
 .formAlign {
@@ -112,7 +160,7 @@
 .formSectionWidth {
   box-sizing: border-box;
   width: 100%;
-  padding: 1rem;
+  padding: 0rem 1rem;
 }
 
 .resultTextSize {

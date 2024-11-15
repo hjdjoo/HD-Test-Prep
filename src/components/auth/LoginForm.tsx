@@ -1,6 +1,6 @@
 import { useState, MouseEvent, FormEvent } from "react";
 import style from "components/auth/LoginForm.module.css";
-import googleIcon from "@/src/assets/icons/googleIcon.svg"
+import GoogleIcon from "@/src/assets/icons/googleIcon.svg"
 import createSupabase from "@/utils/supabase/client"
 import { equals, isEmail } from "validator";
 
@@ -152,10 +152,16 @@ export default function LoginForm() {
           </button>
           <p>or</p>
           <button id="signin-with-google"
-            className={[style.alignButtonContent, style.googleButton].join(" ")}
+            className={[
+              style.alignButtonContent,
+              style.googleButton].join(" ")}
             onClick={signinWithGoogle}
           >
-            <img src={googleIcon} alt="google-icon" />
+            <div className={[
+              style.img
+            ].join(" ")}>
+              <GoogleIcon />
+            </div>
             <p>Sign in with Google</p>
           </button>
         </div>

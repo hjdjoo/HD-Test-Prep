@@ -1,7 +1,15 @@
-import { Dispatch, SetStateAction, MouseEvent } from "react"
+import { Dispatch, SetStateAction, useState, ChangeEvent } from "react"
 import styles from "./Practice.module.css"
 
 import Autocomplete from "components/autocomplete/Autocomplete"
+
+import DeleteIcon from "@/src/assets/icons/deleteIcon.svg"
+import UploadIcon from "@/src/assets/icons/uploadIcon.svg";
+
+import { useTagStore } from "@/src/stores/tagStore";
+import { Question, useQuestionStore } from "@/src/stores/questionStore";
+import { StudentResponse } from "containers/QuestionContainer.tsx/QuestionContainer";
+// import DeleteIcon from "@/src/assets/icons/deleteIcon.svg"
 // import debounce from "@/utils/debounce"
 
 
@@ -10,29 +18,69 @@ export type FeedbackForm = {
   studentId: number
   correct: boolean
   response: string
+  comment: string
   difficultyRating: number | null
   tags: number[]
   guessed: boolean | null
 }
 
-interface FeedbackFormProps {
-  feedbackForm: FeedbackForm
-  setFeedbackForm: Dispatch<SetStateAction<FeedbackForm | undefined>>
+type FileData = {
+  fileType: string,
+  fileData: string
 }
 
-/**
- * 
- * Student should be able to:
- * - Select difficulty rating
- * - Add tags (optional)
- * - Say if it was a guess
- * - Add a picture of their work
- * - Add a note for the tutor.
- * 
- */
+interface UploadPreviewProps {
+  uploadFileData: FileData
+  setUploadFileData: Dispatch<SetStateAction<FileData>>
+}
+
+function UploadPreview(props: UploadPreviewProps) {
+
+  const { uploadFileData, setUploadFileData } = props;
+
+  function handleDelete() {
+    setUploadFileData({ fileType: "", fileData: "" });
+  }
+
+  return (
+    <div id="image-upload-preview"
+      className={[
+        styles.imagePreviewBox
+      ].join(" ")}>
+      <div id="remove-upload-button"
+        className={[
+          styles.removeUploadSize,
+          styles.removeUploadColor,
+          styles.removeUploadDecoration,
+        ].join(" ")}
+        onClick={handleDelete}
+      >
+        <DeleteIcon />
+      </div>
+      <img src={uploadFileData.fileData} alt={"Upload preview:"} />
+    </div>
+  )
+}
+
+interface FeedbackFormProps {
+  question: Question
+  setStudentResponse: Dispatch<SetStateAction<StudentResponse | undefined>>
+  feedbackForm: FeedbackForm
+  setFeedbackForm: Dispatch<SetStateAction<FeedbackForm | undefined>>
+  setSubmitStatus: Dispatch<SetStateAction<"not submitted" | "submitting" | "submitted">>
+}
+
 export default function FeedbackForm(props: FeedbackFormProps) {
 
-  const { feedbackForm, setFeedbackForm } = props;
+  const { tags } = useTagStore();
+
+  const { question, setStudentResponse, feedbackForm, setFeedbackForm } = props;
+
+  const [activeTags, setActiveTags] = useState<string[]>([]);
+  const [uploadFileData, setUploadFileData] = useState<FileData>({
+    fileType: "",
+    fileData: ""
+  });
 
   const difficulties: { [level: string]: string } = {
     1: "Very Easy",
@@ -42,17 +90,16 @@ export default function FeedbackForm(props: FeedbackFormProps) {
     5: "Very Hard"
   }
 
-  // const [difficulty, setDifficulty] = useState<number>(0);
-
   const difficultySelect = () => {
 
     return Object.keys(difficulties).map(level => {
+
       return (
         <div key={`difficulty-select-${level}`} className={[
           styles.difficultyLabelAlign,
           styles.difficultyLabelText,
         ].join(" ")}>
-          <input type="radio" id={level} name={`difficultyRating`} value={Number(level)} onClick={handleDifficultySelect} />
+          <input id={`difficulty-select-input-${level}`} type="radio" name={`difficultyRating`} value={Number(level)} onChange={handleForm} checked={feedbackForm.difficultyRating === Number(level)} />
           <label htmlFor={level} className={styles.difficultyLabelText}>
             {difficulties[level]}
           </label>
@@ -64,16 +111,113 @@ export default function FeedbackForm(props: FeedbackFormProps) {
 
   const difficultyRadios = difficultySelect();
 
-  function handleDifficultySelect(e: MouseEvent<HTMLInputElement>) {
-    e.preventDefault();
 
-    const { value } = e.target as HTMLInputElement;
+  function handleForm(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+
+    const { name, value } = e.target;
 
     const updatedFeedbackForm = structuredClone(feedbackForm);
 
-    updatedFeedbackForm.difficultyRating = Number(value);
+    switch (name) {
+      case "comment":
+        updatedFeedbackForm[name] = value;
+        break;
+      case "difficultyRating":
+        updatedFeedbackForm[name] = Number(value);
+        break;
+      case "guessed":
+        updatedFeedbackForm[name] = (value === "on");
+        break;
+    }
+
+    setFeedbackForm(updatedFeedbackForm);
 
   }
+
+
+  function handleFileUpload(e: ChangeEvent<HTMLInputElement>) {
+
+    const { files } = e.target;
+
+    if (!files || !files.length) return;
+
+    console.log(files);
+
+    const fileType = files[0].type;
+
+    const fileReader = new FileReader();
+
+    fileReader.readAsDataURL(files[0])
+
+    function fileDataSetter(e: ProgressEvent<FileReader>) {
+
+      if (e.target) {
+
+        const result = e.target.result as string
+
+        setUploadFileData({ fileType: fileType, fileData: result });
+
+      }
+    }
+
+    fileReader.addEventListener("load", fileDataSetter);
+
+  }
+
+
+
+  async function handleSubmit() {
+
+    // compile feedback form.
+    console.log("before update/feedbackForm: ", feedbackForm);
+    const updatedFeedbackForm = structuredClone(feedbackForm);
+
+    const newTags: string[] = [];
+
+    activeTags.forEach(tag => {
+      if (tags[tag]) {
+        updatedFeedbackForm.tags.push(tags[tag]);
+      } else {
+        newTags.push(tag);
+      }
+    })
+
+    const body = {
+      feedbackForm: updatedFeedbackForm,
+      newTags: newTags,
+      imageData: {
+        name: `s${feedbackForm.studentId}q${feedbackForm.questionId}`,
+        ...uploadFileData
+      },
+      question: question,
+    }
+
+    console.log("request body: ", body);
+
+    //submit feedback form and get id;
+    // await fetch("/db/feedback", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json"
+    //   },
+    //   // body: {
+
+    //   // }
+    // })
+
+
+    // then update the feedback form with the id
+
+
+    // and update the submitState to trigger student response submission.
+
+  }
+
+  // function handleSkip () {
+
+  // }
+
+
 
 
   return (
@@ -91,7 +235,7 @@ export default function FeedbackForm(props: FeedbackFormProps) {
         <div className={[
           styles.formSectionDetailText
         ].join(" ")}>
-          <p>Responses help your instructor AND other students!</p>
+          <p>Responses help your instructor AND other students</p>
         </div>
         <div id="response-confirm"
           className={[
@@ -102,7 +246,7 @@ export default function FeedbackForm(props: FeedbackFormProps) {
             {feedbackForm.correct ? "You got it!" : "You missed this one :("}
           </p>
         </div>
-        <div id="difficulty-feedback"
+        <div id="difficulty-feedback-section"
           className={[
             styles.formSectionAlign,
           ].join(" ")}>
@@ -116,7 +260,7 @@ export default function FeedbackForm(props: FeedbackFormProps) {
             {difficultyRadios}
           </div>
         </div>
-        <div id="guess-feedback"
+        <div id="guess-feedback-section"
           className={[
             styles.formSectionAlign,
           ].join(" ")}>
@@ -127,7 +271,7 @@ export default function FeedbackForm(props: FeedbackFormProps) {
               styles.guessInputAlign
             ].join(" ")}>
               <label htmlFor="guess">Check this if you took a guess:</label>
-              <input type="checkbox" id="guess" />
+              <input type="checkbox" id="guess" name="guessed" onChange={handleForm} />
             </div>
           </div>
         </div>
@@ -138,31 +282,66 @@ export default function FeedbackForm(props: FeedbackFormProps) {
           <div className={[styles.formSectionHeading].join(" ")}>
             <p>Add a note or question for your instructor:</p>
           </div>
-          <textarea id="instructor-feedback" />
+          <textarea id="instructor-feedback"
+            name="comment"
+            onChange={handleForm}
+            value={feedbackForm.comment}
+            className={[
+              styles.marginTopDefault,
+            ].join(" ")} />
         </div>
         <div id="image-upload-section"
           className={[
             styles.formSectionAlign,
             styles.formSectionWidth,
           ].join(" ")}>
-          <div className={[styles.formSectionHeading].join(" ")}>
-            <p>Upload a picture of your work for more context if you'd like:</p>
+          <div className={[
+            styles.formSectionHeading,
+            styles.formAlign,
+          ].join(" ")}>
+            <p>{"Upload a picture of your work for more context (optional):"}</p>
+            <div id="upload-icon-wrapper"
+              className={[
+                styles.uploadIconSize,
+                styles.marginTopDefault,
+                styles.uploadIconColor,
+              ].join(" ")}>
+              <label htmlFor="student-file-upload"
+                className={styles.uploadIconDecoration}>
+                <UploadIcon />
+                Upload
+              </label>
+              <input id="student-file-upload"
+                type="file"
+                hidden={true}
+                name={"imageUrl"}
+                accept="image/*"
+                capture="environment"
+                onChange={handleFileUpload} />
+            </div>
+            {uploadFileData.fileData && <UploadPreview uploadFileData={uploadFileData} setUploadFileData={setUploadFileData} />}
           </div>
-          <input type="file" />
         </div>
         <div id={"add-tags-section"}
           className={[
             styles.formSectionWidth,
           ].join(" ")}>
-          <div className={[styles.formSectionHeading].join(" ")}>
+          <div className={[
+            styles.formSectionHeading
+          ].join(" ")}>
             <p>{"Add any tags that fit this problem (e.g., quadratic equations, linear equations, sohcahtoa, etc)"}
             </p>
           </div>
-          <Autocomplete feedbackForm={feedbackForm} setFeedbackForm={setFeedbackForm}></Autocomplete>
+          <Autocomplete
+            feedbackForm={feedbackForm}
+            setFeedbackForm={setFeedbackForm}
+            activeTags={activeTags}
+            setActiveTags={setActiveTags}
+          />
         </div>
         <div id="submit-button-box"
           className={[styles.formSectionHeading].join(" ")}>
-          <button>Submit</button>
+          <button onClick={handleSubmit}>Submit</button>
         </div>
       </div>
     </div>

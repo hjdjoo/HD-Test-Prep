@@ -1,8 +1,10 @@
-import { ChangeEvent, KeyboardEvent, Dispatch, SetStateAction, useState, act } from "react";
+import { ChangeEvent, MouseEvent, KeyboardEvent, Dispatch, SetStateAction, useState, } from "react";
 import styles from "./Autocomplete.module.css"
 import debounce from "@/utils/debounce";
 import { useTagStore } from "@/src/stores/tagStore";
 import { FeedbackForm } from "components/practice/Practice.feedback";
+
+import DeleteIcon from "@/src/assets/icons/deleteIcon.svg"
 
 /** 
  * Should take in a list of suggestions
@@ -10,35 +12,60 @@ import { FeedbackForm } from "components/practice/Practice.feedback";
 
 
 interface SuggestionsListProps {
+  resetSearch: () => void;
   filteredSuggestions: string[]
   activeIdx: number
   setActiveIdx: Dispatch<SetStateAction<number>>
+  activeTags: string[]
+  setActiveTags: Dispatch<SetStateAction<string[]>>
 }
 
 function SuggestionsList(props: SuggestionsListProps) {
 
-  const { filteredSuggestions, activeIdx, setActiveIdx } = props;
+  const { resetSearch, filteredSuggestions, activeIdx, setActiveIdx, activeTags, setActiveTags } = props;
+
+  // const delete = () => {
+  //   deleteIcon();
+  // }
+
+  function handleClick(e: MouseEvent<HTMLDivElement>) {
+
+    const { innerText } = e.target as HTMLDivElement;
+    // console.log(innerText);
+    if (activeTags.includes(innerText)) {
+      return;
+    }
+    const updatedTags = [...activeTags];
+
+    updatedTags.push(innerText)
+
+    setActiveTags(updatedTags);
+    resetSearch();
+
+  }
+
 
   const suggestionsList = filteredSuggestions.map((suggestion, idx) => {
-
     const activeItem = activeIdx === idx ? styles.activeSuggestion : ""
 
     return (
-      <p key={`suggestion-${idx + 1}`}
-        id={`suggestion-${idx + 1}`}
-        onClick={() => {
-          setActiveIdx(idx)
-        }}
-        className={[
-          activeItem,
-          styles.itemDecoration,
-          styles.itemText,
+      <div key={`suggestion-${idx + 1}`}
+        id={`suggestion-${idx + 1}`}>
+        <p
+          onClick={(e) => {
+            setActiveIdx(idx);
+            handleClick(e);
+          }}
+          className={[
+            activeItem,
+            styles.itemDecoration,
+            styles.itemText,
 
-        ].join(" ")}>
-        {suggestion}
-      </p>
+          ].join(" ")}>
+          {suggestion}
+        </p>
+      </div>
     )
-
   })
 
 
@@ -52,24 +79,78 @@ function SuggestionsList(props: SuggestionsListProps) {
       </div>
     </div>
   )
+}
 
+interface TagChipProps {
+  tag: string
+  activeTags: string[]
+  setActiveTags: Dispatch<SetStateAction<string[]>>
+  type: "add" | "remove"
+  idx: number
+}
+
+function TagChip(props: TagChipProps) {
+
+  const { tag, activeTags, setActiveTags, idx, type } = props;
+
+  function handleClick() {
+    // const updatedTags = [...activeTags];
+    let updatedTags: string[];
+    switch (type) {
+      case "remove":
+        updatedTags = activeTags.filter(item => item !== tag);
+
+        setActiveTags(updatedTags);
+        break;
+      case "add":
+        updatedTags = [...activeTags];
+        updatedTags.push(tag);
+
+        setActiveTags(updatedTags);
+        break;
+    }
+  }
+
+  return (
+    <div key={`tag-chip-${idx + 1}`}
+      id={`tag-chip-${idx + 1}`}
+      onClick={handleClick}
+      className={[
+        styles.tagChipSize,
+        styles.tagChipDecorate,
+        styles.tagChipColor,
+        styles.tagChipAlign,
+      ].join(" ")}>
+      <p>{tag}</p>
+      <div className={[
+        styles.deleteTag
+      ].join(" ")}>
+        <DeleteIcon />
+      </div>
+    </div>
+  )
 }
 
 interface AutocompleteProps {
   feedbackForm: FeedbackForm
   setFeedbackForm: Dispatch<SetStateAction<FeedbackForm | undefined>>
+  activeTags: string[]
+  setActiveTags: Dispatch<SetStateAction<string[]>>
 }
 
 export default function Autocomplete(props: AutocompleteProps) {
 
-  const { feedbackForm, setFeedbackForm } = props;
+  const { activeTags, setActiveTags } = props;
 
-  const { tags, addTag } = useTagStore();
+  const { tags } = useTagStore();
 
   const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);
   const [activeSuggestionIdx, setActiveSuggestionIdx] = useState<number>(NaN);
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
+  const [selectSuggestion, setSelectSuggestion] = useState<boolean>(false);
+
   const [tagInput, setTagInput] = useState<string>("");
+
 
   function searchTags(input: string) {
 
@@ -81,10 +162,7 @@ export default function Autocomplete(props: AutocompleteProps) {
       }
     };
 
-    console.log("searchTags/suggestions: ", suggestions);
-
     setFilteredSuggestions(suggestions);
-
   }
 
   const searchTagsDebounced = debounce(searchTags, 300)
@@ -107,70 +185,67 @@ export default function Autocomplete(props: AutocompleteProps) {
   function handleSuggestionSelect(e: KeyboardEvent<HTMLInputElement>) {
 
     const { code } = e;
-    const updatedFeedbackForm = structuredClone(feedbackForm);
-    console.log("suggestionsSelect/code: ", code);
+
     switch (code) {
       // case
       case "ArrowDown":
         e.preventDefault();
+        setSelectSuggestion(true);
+        // console.log(activeSuggestionIdx, filteredSuggestions.length - 1);
         if (activeSuggestionIdx === filteredSuggestions.length - 1) return;
         if (Number.isNaN(activeSuggestionIdx)) {
+          // console.log("setting active suggestion idx to 0")
           setActiveSuggestionIdx(0);
+          return;
         }
         setActiveSuggestionIdx(activeSuggestionIdx + 1);
         break;
       case "ArrowUp":
         e.preventDefault();
+        setSelectSuggestion(true);
         if (activeSuggestionIdx === 0) return;
         setActiveSuggestionIdx(activeSuggestionIdx - 1)
         break;
       case "Enter":
         e.preventDefault();
-        if (filteredSuggestions[activeSuggestionIdx]) {
+        const updatedTags = [...activeTags];
 
-          updatedFeedbackForm.tags.push(tags[filteredSuggestions[activeSuggestionIdx]]);
+        if (activeTags.includes(tagInput)) return;
 
-          setFeedbackForm(updatedFeedbackForm);
-
-        } else {
-          handleAddNewTag();
+        if (selectSuggestion && activeSuggestionIdx >= 0) {
+          updatedTags.push(filteredSuggestions[activeSuggestionIdx]);
+        } else if (!selectSuggestion || !activeSuggestionIdx) {
+          updatedTags.push(tagInput);
         }
-        break;
-      case "Delete":
-        if (!tagInput.length) {
-
-          updatedFeedbackForm.tags.pop();
-          setFeedbackForm(updatedFeedbackForm);
-
-        }
+        setActiveTags(updatedTags)
+        // setSelectSuggestion(false);
+        // setTagInput("");
+        resetSearch();
         break;
       case "Escape":
+        setSelectSuggestion(false);
         setActiveSuggestionIdx(NaN);
+        break;
+      default:
+        setSelectSuggestion(false);
+        setActiveSuggestionIdx(NaN)
     }
 
   }
 
-  async function handleAddNewTag() {
-
-    const data = await addTag(tagInput);
-
-    const updatedFeedbackForm = structuredClone(feedbackForm);
-
-    updatedFeedbackForm.tags.push(data);
-
-    setFeedbackForm(updatedFeedbackForm);
-
+  function resetSearch() {
+    // setActiveTags([]);
+    setShowSuggestions(false);
+    setSelectSuggestion(false);
+    setTagInput("");
+    setActiveSuggestionIdx(NaN);
   }
 
   // sub-components:
-  const tagChips = feedbackForm.tags.map((id, idx) => {
-
-    console.log("tagChips: id", id)
+  const tagChips = activeTags.map((tag, idx) => {
 
     return (
-      <div key={`tag-chip-${idx + 1}`}>
-        <p>{tags[id]}</p>
-      </div>
+      <TagChip key={`active-tag-chip-${idx + 1}`} tag={tag} activeTags={activeTags} setActiveTags={setActiveTags} idx={idx} type="remove" />
     )
 
   })
@@ -179,7 +254,11 @@ export default function Autocomplete(props: AutocompleteProps) {
   return (
     <div id="autocomplete-wrapper">
       <div id="autocomplete-inner-box">
-        <div id="selected-tag-chips" hidden={tagChips.length > 0 ? false : true}>
+        <div id="selected-tag-chips"
+          hidden={tagChips.length > 0 ? false : true}
+          className={[
+            styles.tagsContainer,
+          ].join(" ")}>
           {tagChips}
         </div>
         <input id="autocomplete-input"
@@ -187,14 +266,20 @@ export default function Autocomplete(props: AutocompleteProps) {
           onChange={handleAutocompleteChange}
           onKeyDown={handleSuggestionSelect}
           value={tagInput}
+          placeholder="Press Enter or Select from Suggestions"
           className={[
             styles.inputSize,
           ].join(" ")} />
       </div>
       <div id="autocomplete-suggestions" hidden={!showSuggestions}>
         <SuggestionsList
-          setActiveIdx={setActiveSuggestionIdx} filteredSuggestions={filteredSuggestions}
-          activeIdx={activeSuggestionIdx} />
+          resetSearch={resetSearch}
+          setActiveIdx={setActiveSuggestionIdx}
+          filteredSuggestions={filteredSuggestions}
+          activeIdx={activeSuggestionIdx}
+          activeTags={activeTags}
+          setActiveTags={setActiveTags}
+        />
       </div>
     </div>
   )
