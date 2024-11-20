@@ -55,16 +55,28 @@ dbRouter.post("/tags",
 
   })
 
-dbRouter.post("/feedback",
+dbRouter.post("/feedback/new",
   dbController.addNewTags,
   dbController.addFeedbackImage,
   dbController.addFeedback,
+  dbController.updateQuestion,
+  (_req: Request, res: Response) => {
+
+    const { clientData } = res.locals;
+
+    res.status(200).json(clientData);
+
+  }
+);
+
+dbRouter.post("/student_response",
+  dbController.addStudentResponse,
   (_req: Request, res: Response) => {
 
     const { clientData } = res.locals;
     res.status(200).json(clientData);
 
   }
-);
+)
 
 export default dbRouter;

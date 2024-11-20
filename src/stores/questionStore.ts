@@ -1,3 +1,4 @@
+import { Json } from "@/database.types";
 import { create } from "zustand";
 
 export interface Question {
@@ -7,7 +8,7 @@ export interface Question {
   category: number,
   problemType: number,
   answer: string,
-  tags: number[]
+  tags: Json
 }
 
 // "categories" and "problemTypes" are exclusive filters - including a category in this filter should exclude those problems.
@@ -26,12 +27,13 @@ export interface Filter {
 }
 
 type Questions = {
-  questions: Question[],
-  filteredQuestions: Question[],
-  filter: Filter,
-  setFilter: (filter: Filter) => void;
-  setQuestions: (questions: Question[]) => void;
-  filterQuestions: () => void;
+  questions: Question[]
+  filteredQuestions: Question[]
+  filter: Filter
+  setFilter: (filter: Filter) => void
+  setQuestions: (questions: Question[]) => void
+  filterQuestions: () => void
+
 }
 
 export const defaultFilter = {
@@ -67,11 +69,6 @@ const useQuestionStore = create<Questions>()((set) => ({
 
         const { categories, problemTypes, tags, testForm, difficulty } = filter;
 
-        // console.log("filter categories: ", categories);
-        // console.log("question category type: ", typeof question.category)
-
-        // console.log("filter question?", categories.includes(question.category))
-
         /* Something seems to be happening in the backend that coerces the values returned form the DB to a string. May want to adjust DB controller, particularly the snakeToCamel method. Issue possibly stems from the change-case library. */
         const categoryId = Number(question.category)
         const problemTypeId = Number(question.problemType)
@@ -97,8 +94,13 @@ const useQuestionStore = create<Questions>()((set) => ({
 
         // filter by tags:
         if (tags.length > 0) {
-          const tagMatches = tags.some(tag => question.tags.includes(tag));
+
+          const questionTags = question.tags as { [key: string]: number };
+
+          const tagMatches = tags.some(tag => questionTags[String(tag)]);
+
           if (!tagMatches) return false;
+
         }
 
         return true;

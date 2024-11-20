@@ -3,7 +3,7 @@ import styles from "./Practice.module.css"
 
 interface TimerProps {
   start: boolean
-  submitStatus: "not submitted" | "submitting" | "submitted"
+  submitStatus: "waiting" | "submitting" | "submitted"
   time: number,
   setTime: Dispatch<SetStateAction<number>>
 }
@@ -27,7 +27,7 @@ export default function Timer(props: TimerProps) {
 
   useEffect(() => {
 
-    if (submitStatus !== "not submitted") {
+    if (submitStatus !== "waiting") {
       stopTimer();
     }
 

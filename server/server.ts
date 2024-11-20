@@ -18,7 +18,7 @@ const app: Application = express();
 
 console.log("entered express server")
 
-app.use(express.json());
+app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(SUPABASE_JWT_SECRET))
 

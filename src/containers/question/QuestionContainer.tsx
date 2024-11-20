@@ -20,37 +20,46 @@ interface QuestionContainerProps {
 export interface StudentResponse {
   studentId: number,
   questionId: number,
-  tags: number[],
   response: string,
-  difficultyRating: number | null,
   feedbackId: number | null,
   timeTaken: number
-  guessed: boolean
 }
+
+// type StudentResponseQuery = {
+//   studentId: number
+//   questionId: number
+//   feedbackId: number | null
+//   timeTaken: number
+//   studentResponse: string
+// }
 
 export default function QuestionContainer(props: QuestionContainerProps) {
 
   const { user } = useUserStore();
   const { question, getNextQuestion } = props;
 
-  const [submitStatus, setSubmitStatus] = useState<"not submitted" | "submitting" | "submitted">("not submitted")
+  const [submitStatus, setSubmitStatus] = useState<"waiting" | "submitting" | "submitted">("waiting");
+
   const [imageLoaded, setImageLoaded] = useState<boolean>(false);
   // const [showFeedback, setShowFeedback] = useState<boolean>(false);
-
 
   const [questionUrl, setQuestionUrl] = useState<string>("")
   const [time, setTime] = useState(0);
 
-  const [response, setResponse] = useState<string>()
+  const [response, setResponse] = useState<string>("")
   const [feedbackForm, setFeedbackForm] = useState<FeedbackForm | undefined>(initFeedbackForm)
   const [studentRes, setStudentRes] = useState<StudentResponse | undefined>(initStudentResponse)
   const [errorMessage, setErrorMessage] = useState<string>("");
+
+  const [loadingNext, setLoadingNext] = useState<boolean>(false);
 
 
   const showFeedback = (submitStatus === "submitting")
 
   useEffect(() => {
+
     setImageLoaded(false);
+
     (async () => {
       const supabase = createSupabase();
 
@@ -78,9 +87,35 @@ export default function QuestionContainer(props: QuestionContainerProps) {
       const finalStudentResponse = { ...studentRes };
       // finalStudentResponse.feedbackId;
 
+      finalStudentResponse.timeTaken = time;
+
+      console.log("final student response: ", finalStudentResponse);
+
+      const res = await fetch("api/db/student_response", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(finalStudentResponse)
+      })
+
+      if (!res.ok) {
+        console.error(res.status, res.statusText);
+        throw new Error(`Error while submitting student response!`)
+      }
+
+      const data = await res.json();
+
+      console.log(data);
+
+      setSubmitStatus("waiting");
+      getNextQuestion();
+
     }
 
-  })
+    submitResponse();
+
+  }, [submitStatus])
 
   // return blank student response form
   function initStudentResponse() {
@@ -88,10 +123,11 @@ export default function QuestionContainer(props: QuestionContainerProps) {
     if (!user || !feedbackForm) return;
 
     return {
-      ...feedbackForm,
+      studentId: user.id,
+      questionId: question.id,
+      response: response,
       feedbackId: null,
       timeTaken: 0,
-      guessed: false
     }
 
   }
@@ -103,13 +139,12 @@ export default function QuestionContainer(props: QuestionContainerProps) {
     return {
       studentId: user.id,
       questionId: question.id,
-      response: "",
-      correct: false,
       comment: "",
       difficultyRating: null,
       guessed: null,
       tags: [],
-      instructorId: user.instructor_id
+      instructorId: user.instructor_id,
+      imageUrl: ""
     }
   }
 
@@ -127,8 +162,8 @@ export default function QuestionContainer(props: QuestionContainerProps) {
 
     // console.log("QuestionContainer/handleSubmit/feedbackForm: ", feedbackForm);
     // console.log("QuestionContainer/handleSubmit/studentRes: ", studentRes);
-    if (!feedbackForm) {
-      console.log("no feedback form detected; check user")
+    if (!feedbackForm || !studentRes) {
+      console.log("no feedback form or student response form detected; check user")
       return;
     }
 
@@ -139,15 +174,14 @@ export default function QuestionContainer(props: QuestionContainerProps) {
 
     setErrorMessage("");
 
-    if (submitStatus === "not submitted") {
+    if (submitStatus === "waiting") {
 
-      const updatedFeedbackForm = structuredClone(feedbackForm);
+      const updatedStudentRes = structuredClone(studentRes);
 
-      updatedFeedbackForm.response = response;
-      updatedFeedbackForm.correct = checkAnswer();
+      updatedStudentRes.response = response;
 
+      setStudentRes(updatedStudentRes);
       setSubmitStatus("submitting");
-      setFeedbackForm(updatedFeedbackForm);
       // setShowFeedback(true);
       return;
     }
@@ -159,11 +193,6 @@ export default function QuestionContainer(props: QuestionContainerProps) {
     }
   }
 
-  function checkAnswer() {
-
-    return response === question.answer;
-
-  }
 
 
   return (
@@ -190,8 +219,8 @@ export default function QuestionContainer(props: QuestionContainerProps) {
         <p>{errorMessage}</p>
       }
       {
-        (showFeedback && feedbackForm) &&
-        <Feedback question={question} setStudentResponse={setStudentRes} feedbackForm={feedbackForm} setFeedbackForm={setFeedbackForm} setSubmitStatus={setSubmitStatus} />
+        (showFeedback && feedbackForm && studentRes) &&
+        <Feedback question={question} studentResponse={studentRes} setStudentResponse={setStudentRes} feedbackForm={feedbackForm} setFeedbackForm={setFeedbackForm} setSubmitStatus={setSubmitStatus} />
       }
     </div>
   )

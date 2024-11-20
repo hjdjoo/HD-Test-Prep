@@ -3,7 +3,7 @@ import styles from "./PracticeContainer.module.css"
 import { Question as QuestionType, useQuestionStore } from "@/src/stores/questionStore";
 
 // import Question from "@/src/components/practice/Practice.questionImage";
-import QuestionContainer from "containers/QuestionContainer.tsx/QuestionContainer";
+import QuestionContainer from "containers/question/QuestionContainer";
 
 import Filter from "@/src/components/practice/Practice.filter";
 

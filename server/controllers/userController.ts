@@ -91,13 +91,13 @@ userController.getUser = async (req: Request, res: Response, next: NextFunction)
 }
 
 
-userController.initProfile = async (req: Request, res: Response, _next: NextFunction) => {
+userController.initProfile = async (_req: Request, res: Response, _next: NextFunction) => {
 
   console.log("initializing profile...")
 
   try {
 
-    const supabase = createServiceClient({ req, res });
+    const supabase = createServiceClient();
 
     // console.log(res.locals.user);
     const user = res.locals.user as User;

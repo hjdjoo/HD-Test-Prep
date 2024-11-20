@@ -127,36 +127,46 @@ export type Database = {
           comment: string | null
           created_at: string
           difficulty_rating: number | null
+          guessed: boolean | null
           id: number
           image_url: string | null
+          instructor_id: number
           question_id: number
           student_id: number
           tags: number[]
-          tutor_id: number
         }
         Insert: {
           comment?: string | null
           created_at?: string
           difficulty_rating?: number | null
+          guessed?: boolean | null
           id?: number
           image_url?: string | null
+          instructor_id: number
           question_id: number
           student_id: number
           tags?: number[]
-          tutor_id: number
         }
         Update: {
           comment?: string | null
           created_at?: string
           difficulty_rating?: number | null
+          guessed?: boolean | null
           id?: number
           image_url?: string | null
+          instructor_id?: number
           question_id?: number
           student_id?: number
           tags?: number[]
-          tutor_id?: number
         }
         Relationships: [
+          {
+            foreignKeyName: "question_feedback_instructor_id_fkey"
+            columns: ["instructor_id"]
+            isOneToOne: false
+            referencedRelation: "tutors"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "question_feedback_question_id_fkey"
             columns: ["question_id"]
@@ -171,13 +181,6 @@ export type Database = {
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "question_feedback_tutor_id_fkey"
-            columns: ["tutor_id"]
-            isOneToOne: false
-            referencedRelation: "tutors"
-            referencedColumns: ["id"]
-          },
         ]
       }
       student_responses: {
@@ -185,30 +188,52 @@ export type Database = {
           created_at: string
           feedback_id: number | null
           id: number
-          question_id: number | null
-          student_id: number | null
-          student_response: string
+          question_id: number
+          response: string
+          student_id: number
           time_taken: number | null
         }
         Insert: {
           created_at?: string
           feedback_id?: number | null
           id?: number
-          question_id?: number | null
-          student_id?: number | null
-          student_response: string
+          question_id: number
+          response: string
+          student_id: number
           time_taken?: number | null
         }
         Update: {
           created_at?: string
           feedback_id?: number | null
           id?: number
-          question_id?: number | null
-          student_id?: number | null
-          student_response?: string
+          question_id?: number
+          response?: string
+          student_id?: number
           time_taken?: number | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "student_responses_feedback_id_fkey"
+            columns: ["feedback_id"]
+            isOneToOne: false
+            referencedRelation: "question_feedback"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "student_responses_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "math_problems"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "student_responses_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       tags: {
         Row: {

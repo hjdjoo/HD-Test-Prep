@@ -10,7 +10,7 @@ const SUPABASE_URL = process.env.VITE_SUPABASE_URL
  */
 export default function getStorageUrl(category: string, fileName: string, fileType: string) {
 
-  return `${SUPABASE_URL}/storage/v1/object/sign/questions/${category}/${fileName}.${fileType}`
+  return `${SUPABASE_URL}/storage/v1/object/public/questions/${category}/${fileName}.${fileType}`
 
   // https://ulkvsrwaqlwowvjsnjwu.supabase.co/storage/v1/object/sign/questions/math/1000.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJxdWVzdGlvbnMvbWF0aC8xMDAwLnBuZyIsImlhdCI6MTczMDMxNzU3NywiZXhwIjoxNzMwOTIyMzc3fQ.lgdhQVsDnFtMacYO0hF13qdEjIU-IpQWLH6kVm1b0aY&t=2024-10-30T19%3A46%3A17.936Z
 
