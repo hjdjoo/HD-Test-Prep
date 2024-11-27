@@ -1,9 +1,16 @@
-import styles from "./App.module.css"
+
+import {
+  // useQuery,
+  QueryClient,
+  QueryClientProvider,
+  // QueryClientProviderProps
+} from "@tanstack/react-query"
 import { useEffect } from "react"
 import { Outlet } from "react-router-dom";
-import createSupabase from "@/utils/supabase/client";
+import styles from "./App.module.css"
 // import Cookies from "js-cookie";
 // import HomeContainer from "./containers/home/HomeContainer";
+import createSupabase from "@/utils/supabase/client";
 import NavContainer from "containers/nav/NavContainer";
 // import { User } from "@supabase/supabase-js";
 import { User } from "./stores/userStore";
@@ -12,6 +19,8 @@ import { useUserStore } from "./stores/userStore";
 import LoginContainer from "./containers/auth/LoginContainer";
 // import PracticeContainer from "containers/practice/PracticeContainer";
 // import AccountContainer from "containers/account/AccountContainer";
+
+const queryClient = new QueryClient();
 
 function App() {
 
@@ -89,14 +98,16 @@ function App() {
 
   return (
     <>
-      <NavContainer />
-      <main className={[styles.flexColCenter].join(" ")}>
-        {
-          user ?
-            <Outlet /> :
-            <LoginContainer />
-        }
-      </main>
+      <QueryClientProvider client={queryClient}>
+        <NavContainer />
+        <main className={[styles.flexColCenter].join(" ")}>
+          {
+            user ?
+              <Outlet /> :
+              <LoginContainer />
+          }
+        </main>
+      </QueryClientProvider>
     </>
   )
 }

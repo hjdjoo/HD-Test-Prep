@@ -1,15 +1,22 @@
 import styles from "./PracticeContainer.module.css";
+import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react"
 import { useQuestionStore } from "@/src/stores/questionStore";
 import { useCategoryStore } from "@/src/stores/categoryStore";
 import { useTagStore } from "@/src/stores/tagStore"
+import ErrorPage from "@/src/ErrorPage";
+// import usePracticeSession from "@/src/hooks/usePracticeSession";
 
+import fetchQuestions from "@/src/queries/GET/getQuestions";
+import fetchCategories from "@/src/queries/GET/getCategories";
+import fetchProblemTypes from "@/src/queries/GET/getProblemTypes";
 // import createSupabase from "@/utils/supabase/client";
 
 // import Question from "@/src/components/practice/Practice.questionImage.js";
 
 import RandomPractice from "./PracticeContainer.Random";
 import StructuredPractice from "./PracticeContainer.Structured";
+import fetchTags from "@/src/queries/GET/getTags";
 
 
 /**
@@ -33,81 +40,71 @@ export default function PracticeContainer() {
 
   const { setCategories, setProblemTypes } = useCategoryStore();
   const { filter, filteredQuestions, setQuestions, filterQuestions } = useQuestionStore();
-  const { getTags } = useTagStore();
-
+  const { setTags } = useTagStore();
 
   const [practiceType, setPracticeType] = useState<"random" | "structured" | null>(null)
 
-  // get question data upon render and save to global state. Shame we need 3 different DB calls to do this - could do it in 1 call with PostgREST probably? Not enough of a performance hit to justify refactoring and figuring out PostgREST
-  useEffect(() => {
 
-    async function getQuestions() {
-      try {
-        const res = await fetch("/api/db/questions/", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json"
-          }
-        });
+  const { status: questionStatus, data: questionData, error: questionError } = useQuery({
+    queryKey: ["questions"],
+    queryFn: fetchQuestions,
+  });
 
-        const data = await res.json();
+  const { status: categoryStatus, data: categoryData, error: categoryError } = useQuery({
+    queryKey: ["categories"],
+    queryFn: fetchCategories
+  });
 
-        setQuestions(data);
-        filterQuestions();
-      } catch (e) {
-        console.error(`PracticeContainer/useEffect/getQuestions`, e);
-      }
-    };
+  const { status: problemTypeStatus, data: problemTypeData, error: problemTypeError } = useQuery({
+    queryKey: ["problemTypes"],
+    queryFn: fetchProblemTypes,
+  });
 
-    async function getCategories() {
-
-      try {
-        const res = await fetch("/api/db/categories/", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json"
-          }
-        });
-
-        const data = await res.json();
-        // console.log(data);
-        setCategories(data);
-
-      } catch (e) {
-        console.error(`PracticeContainer/useEffect/getCategories/`, e);
-      }
-    }
-
-    async function getProblemTypes() {
-      console.log("PracticeContainer/useEffect/getting problem types...")
-      try {
-        const res = await fetch("/api/db/problemTypes/", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json"
-          }
-        });
-
-        const data = await res.json();
-        // console.log(data);
-        setProblemTypes(data);
-
-      } catch (e) {
-        console.error(`PracticeContainer/useEffect/getCategories/`, e);
-      }
-    }
-
-    getQuestions();
-    getCategories();
-    getProblemTypes();
-    getTags();
-
-  }, [])
+  const { status: tagsStatus, data: tagsData, error: tagsError } = useQuery({
+    queryKey: ["tags"],
+    queryFn: fetchTags
+  })
 
   // make sure to update the filtered question bank when the filter is changed.
   useEffect(() => {
     filterQuestions();
   }, [filter])
+
+  useEffect(() => {
+
+    if (questionData) {
+      setQuestions(questionData);
+      filterQuestions();
+    }
+    if (problemTypeData) {
+      setProblemTypes(problemTypeData)
+    }
+    if (categoryData) {
+      setCategories(categoryData)
+    }
+    if (tagsData) {
+      setTags(tagsData);
+    }
+
+  }, [questionData, problemTypeData, categoryData])
+
+
+
+
+  if (questionStatus === "pending" || categoryStatus === "pending" || problemTypeStatus === "pending" || tagsStatus === "pending") {
+    return (
+      <>
+        <p>Loading...</p>
+      </>
+    )
+  }
+
+  if (questionError || problemTypeError || categoryError || tagsError) {
+
+    return (
+      <ErrorPage />
+    )
+  }
 
   // console.log(tags);
   console.log("PracticeContainer/filteredQuestions length: ", filteredQuestions.length);

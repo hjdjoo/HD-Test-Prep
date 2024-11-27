@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import styles from "./QuestionContainer.module.css"
+import { useQuery } from "@tanstack/react-query";
 
 import createSupabase from "@/utils/supabase/client";
 
 import { Question } from "@/src/stores/questionStore";
 import { useUserStore } from "@/src/stores/userStore";
+import { usePracticeSessionStore } from "@/src/stores/practiceSessionStore";
+// import usePracticeSession from "@/src/hooks/usePracticeSession";
 
 import Answers from "@/src/components/practice/Practice.answers.js";
 import Timer from "components/practice/Practice.timer";
@@ -12,17 +15,19 @@ import QuestionImage from "@/src/components/practice/Practice.questionImage.js";
 import Feedback from "components/practice/Practice.feedback";
 import { type FeedbackForm } from "components/practice/Practice.feedback";
 
+
 interface QuestionContainerProps {
   question: Question
   getNextQuestion: () => void;
 }
 
 export interface StudentResponse {
+  sessionId: number
   studentId: number,
   questionId: number,
   response: string,
   feedbackId: number | null,
-  timeTaken: number
+  timeTaken: number,
 }
 
 // type StudentResponseQuery = {
@@ -35,6 +40,8 @@ export interface StudentResponse {
 
 export default function QuestionContainer(props: QuestionContainerProps) {
 
+  // const sessionId = usePracticeSession();
+  const { sessionId, addResponse } = usePracticeSessionStore();
   const { user } = useUserStore();
   const { question, getNextQuestion } = props;
 
@@ -48,7 +55,7 @@ export default function QuestionContainer(props: QuestionContainerProps) {
 
   const [response, setResponse] = useState<string>("")
   const [feedbackForm, setFeedbackForm] = useState<FeedbackForm | undefined>(initFeedbackForm)
-  const [studentRes, setStudentRes] = useState<StudentResponse | undefined>(initStudentResponse)
+  const [studentRes, setStudentRes] = useState<StudentResponse | undefined>()
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const [loadingNext, setLoadingNext] = useState<boolean>(false);
@@ -56,10 +63,10 @@ export default function QuestionContainer(props: QuestionContainerProps) {
 
   const showFeedback = (submitStatus === "submitting")
 
+  // fetch and set question image url
   useEffect(() => {
 
     setImageLoaded(false);
-
     (async () => {
       const supabase = createSupabase();
 
@@ -78,57 +85,92 @@ export default function QuestionContainer(props: QuestionContainerProps) {
 
   }, [question])
 
+
+  // useEffect(() => {
+
+  // }, [])
+
+  useEffect(() => {
+
+    if (!sessionId) return;
+    console.log("QuestionContainer/useEffect/sessionId found: ", sessionId)
+    initStudentResponse(sessionId);
+
+  }, [sessionId])
+
+  // submit student response once feedback is submitted.
   useEffect(() => {
 
     if (submitStatus !== "submitted") return;
-
-    async function submitResponse() {
-
-      const finalStudentResponse = { ...studentRes };
-      // finalStudentResponse.feedbackId;
-
-      finalStudentResponse.timeTaken = time;
-
-      console.log("final student response: ", finalStudentResponse);
-
-      const res = await fetch("api/db/student_response", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(finalStudentResponse)
-      })
-
-      if (!res.ok) {
-        console.error(res.status, res.statusText);
-        throw new Error(`Error while submitting student response!`)
-      }
-
-      const data = await res.json();
-
-      console.log(data);
-
-      setSubmitStatus("waiting");
-      getNextQuestion();
-
-    }
-
     submitResponse();
 
   }, [submitStatus])
 
+  async function submitResponse() {
+
+    const finalStudentResponse = { ...studentRes };
+    // finalStudentResponse.feedbackId;
+
+    finalStudentResponse.timeTaken = time;
+
+    console.log("final student response: ", finalStudentResponse);
+
+    const res = await fetch("api/db/student_response", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(finalStudentResponse)
+    })
+
+    if (!res.ok) {
+      console.error(res.status, res.statusText);
+      throw new Error(`Error while submitting student response!`)
+    }
+
+    const data = await res.json();
+
+    console.log(data);
+
+    addResponse(data.id);
+    setSubmitStatus("waiting");
+    getNextQuestion();
+
+  }
+
   // return blank student response form
-  function initStudentResponse() {
+  function initStudentResponse(sessionId: number) {
 
-    if (!user || !feedbackForm) return;
+    if (!sessionId) {
+      console.log(`No sessionId detected. No response initiated.`)
+      return
+    };
+    if (!user) {
+      console.log(`No user detected. No response initiated.`)
+      return
+    };
+    if (!feedbackForm) {
+      console.log(`No feedback form detected. No response initiated.`)
+      return
+    };
 
-    return {
+    setStudentRes({
+      sessionId: sessionId,
       studentId: user.id,
       questionId: question.id,
       response: response,
       feedbackId: null,
       timeTaken: 0,
-    }
+    })
+
+    // return {
+    //   sessionId: sessionId,
+    //   studentId: user.id,
+    //   questionId: question.id,
+    //   response: response,
+    //   feedbackId: null,
+    //   timeTaken: 0,
+    // }
 
   }
 
@@ -157,11 +199,8 @@ export default function QuestionContainer(props: QuestionContainerProps) {
   // submit button -> should load feedback form
   // feedback form -> submitting feedback should also submit response
   // exiting feedback form should submit the response without feedback.
-
   async function handleSubmit() {
 
-    // console.log("QuestionContainer/handleSubmit/feedbackForm: ", feedbackForm);
-    // console.log("QuestionContainer/handleSubmit/studentRes: ", studentRes);
     if (!feedbackForm || !studentRes) {
       console.log("no feedback form or student response form detected; check user")
       return;
@@ -192,6 +231,8 @@ export default function QuestionContainer(props: QuestionContainerProps) {
       return;
     }
   }
+
+  console.log("student response: ", studentRes);
 
 
 

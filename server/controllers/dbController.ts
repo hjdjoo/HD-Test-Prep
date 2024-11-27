@@ -376,16 +376,18 @@ dbController.addStudentResponse = async (req: Request, res: Response, _next: Nex
 
     const query = snakeCase(studentResponse) as SnakeCasedProperties<typeof studentResponse>;
 
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from("student_responses")
       .insert(query)
+      .select("id")
+      .single();
 
     if (error) {
       console.error(error);
       throw new Error(`${error.message}`)
     }
 
-    return res.status(200).json("Successfully added student response to DB.")
+    res.locals.clientData = data;
 
 
   } catch (e) {
@@ -394,6 +396,81 @@ dbController.addStudentResponse = async (req: Request, res: Response, _next: Nex
 
   }
 
+}
+
+dbController.initPracticeSession = async (req: Request, res: Response, next: NextFunction) => {
+
+  try {
+
+    const supabase = createSupabase({ req, res });
+
+    const body = req.body as { id: number, type: "random" | "structured" };
+
+    const { data: activeSessionData, error: activeSessionError } = await supabase
+      .from("practice_sessions")
+      .select("id")
+      .eq("student_id", body.id)
+      .eq("status", "active");
+
+    if (activeSessionError) {
+      console.error(activeSessionError.details);
+      throw new Error(`Error while fetching active session data: ${activeSessionError.message}`)
+    } else if (activeSessionData.length) {
+      res.locals.clientData = activeSessionData[0];
+      return next();
+    }
+
+    const query = {
+      student_id: body.id,
+      type: body.type
+    }
+
+    const { data: sessionInitData, error: sessionInitError } = await supabase
+      .from("practice_sessions")
+      .insert(query)
+      .select("id")
+      .single();
+
+    if (sessionInitError) {
+      console.error(sessionInitError.details);
+      throw new Error(`Error while intializing session in DB: ${sessionInitError.message}`)
+    }
+
+    res.locals.clientData = sessionInitData;
+
+    return next();
+
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json(`Something went wrong while initializing session in DB: ${e}`)
+  }
+
+}
+
+dbController.endPracticeSession = async (req: Request, res: Response, _next: NextFunction) => {
+
+  try {
+
+    const { id } = req.params;
+    const { body }: { body: { status: "inactive" | "abandoned" } } = req
+
+    const supabase = createSupabase({ req, res });
+    const { error } = await supabase
+      .from("practice_sessions")
+      .update({ ...body })
+      .eq("id", id)
+
+
+    if (error) {
+      throw new Error(`Error while ending practice session: ${error.message}`)
+    }
+
+    return res.status(200).json(`Successfully updated ${id} in db`)
+
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json(`${e}`)
+  }
 }
 
 dbController.snakeToCamel = (_req: Request, res: Response, next: NextFunction) => {
@@ -436,6 +513,7 @@ dbController.createTagsObj = (_req: Request, res: Response, next: NextFunction) 
   return next();
 
 }
+
 
 
 export default dbController;

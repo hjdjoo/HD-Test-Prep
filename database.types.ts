@@ -69,6 +69,38 @@ export type Database = {
           },
         ]
       }
+      practice_sessions: {
+        Row: {
+          created_at: string
+          id: number
+          status: string
+          student_id: number
+          type: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          status?: string
+          student_id: number
+          type?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          status?: string
+          student_id?: number
+          type?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "practice_sessions_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       problem_types: {
         Row: {
           id: number
@@ -190,6 +222,7 @@ export type Database = {
           id: number
           question_id: number
           response: string
+          session_id: number
           student_id: number
           time_taken: number | null
         }
@@ -199,6 +232,7 @@ export type Database = {
           id?: number
           question_id: number
           response: string
+          session_id: number
           student_id: number
           time_taken?: number | null
         }
@@ -208,6 +242,7 @@ export type Database = {
           id?: number
           question_id?: number
           response?: string
+          session_id?: number
           student_id?: number
           time_taken?: number | null
         }
@@ -224,6 +259,13 @@ export type Database = {
             columns: ["question_id"]
             isOneToOne: false
             referencedRelation: "math_problems"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "student_responses_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "practice_sessions"
             referencedColumns: ["id"]
           },
           {

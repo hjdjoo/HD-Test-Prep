@@ -79,4 +79,20 @@ dbRouter.post("/student_response",
   }
 )
 
+dbRouter.post("/practice_session",
+
+  dbController.initPracticeSession,
+
+  (_req: Request, res: Response) => {
+
+    const { clientData } = res.locals;
+
+    res.status(200).json(clientData);
+
+  })
+
+dbRouter.patch("/practice_session/:id",
+  dbController.endPracticeSession
+)
+
 export default dbRouter;
