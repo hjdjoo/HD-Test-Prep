@@ -5,7 +5,7 @@ export default async function startPracticeSession(userId: number, type: "random
     type: type
   }
 
-  const res = await fetch("/api/db/practice_session", {
+  const res = await fetch("/api/db/practice_session/new", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"

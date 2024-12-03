@@ -1,4 +1,4 @@
-import { useState, useEffect, Dispatch, SetStateAction } from "react"
+import { useState, useRef, useEffect, Dispatch, SetStateAction } from "react"
 import styles from "./Practice.module.css"
 
 interface TimerProps {
@@ -13,13 +13,19 @@ export default function Timer(props: TimerProps) {
   const { start, submitStatus, time, setTime } = props;
 
   const [timerOn, setTimerOn] = useState<boolean>(false);
-  const [timerInterval, setTimerInterval] = useState<NodeJS.Timeout>()
+  const timerInterval = useRef<NodeJS.Timeout>()
 
   const [timerMessage, setTimerMessage] = useState<string>("")
 
   useEffect(() => {
 
-    if (!start) return;
+    console.log("Timer.tsx/useEffect")
+    console.log("start: ", start)
+
+    if (!start || timerInterval.current) {
+      return;
+    };
+
     setTime(0);
     startTimer();
 
@@ -36,21 +42,29 @@ export default function Timer(props: TimerProps) {
 
   function startTimer() {
 
-    if (timerOn) return;
+    console.log("starting timer...")
+
+    if (timerOn) {
+      console.log("timer is on, returning")
+      return
+    };
 
     const newInterval = setInterval(() => {
       setTime((prev) => prev + 1);
     }, 1000);
 
     setTimerOn(true);
-    setTimerInterval(newInterval);
+    // setTimerInterval(newInterval);
+    timerInterval.current = newInterval;
 
   }
 
   function stopTimer() {
 
+    console.log("stopping timer - setting timerOn false and clearing interval...")
+
     setTimerOn(false)
-    clearInterval(timerInterval)
+    clearInterval(timerInterval.current)
 
   }
 

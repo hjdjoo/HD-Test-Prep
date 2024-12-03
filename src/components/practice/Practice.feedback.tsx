@@ -80,7 +80,7 @@ function UploadPreview(props: UploadPreviewProps) {
 
 export default function FeedbackForm(props: FeedbackFormProps) {
 
-  const { tags } = useTagStore();
+  const tags = useTagStore((state) => state.tags);
   const { questions, setQuestions } = useQuestionStore();
   const { question, studentResponse, setSubmitStatus, setStudentResponse, feedbackForm, setFeedbackForm } = props;
 
@@ -90,7 +90,7 @@ export default function FeedbackForm(props: FeedbackFormProps) {
     fileData: ""
   });
 
-  const [feedbackStatus, setFeedbackStatus] = useState<"waiting" | "submitting" | "submitted">("waiting")
+  // const [feedbackStatus, setFeedbackStatus] = useState<"waiting" | "submitting" | "submitted">("waiting")
 
   const difficulties: { [level: string]: string } = {
     1: "Very Easy",
@@ -100,24 +100,24 @@ export default function FeedbackForm(props: FeedbackFormProps) {
     5: "Very Hard"
   }
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    console.log("feedback.tsx/useEffect/feedbackStatus: ", feedbackStatus)
+  //   console.log("feedback.tsx/useEffect/feedbackStatus: ", feedbackStatus)
 
-    switch (feedbackStatus) {
-      case "waiting":
-        break;
-      case "submitting":
-        console.log("submitting feedback form...")
-        submitForm();
-        break;
-      case "submitted":
-        console.log("initializing student response submission...")
-        setSubmitStatus("submitted");
-        break;
-    }
+  //   switch (feedbackStatus) {
+  //     case "waiting":
+  //       break;
+  //     case "submitting":
+  //       console.log("submitting feedback form...")
+  //       submitForm();
+  //       break;
+  //     case "submitted":
+  //       console.log("initializing student response submission...")
+  //       setSubmitStatus("submitted");
+  //       break;
+  //   }
 
-  }, [feedbackStatus])
+  // }, [feedbackStatus])
 
 
   async function submitForm() {
@@ -131,6 +131,11 @@ export default function FeedbackForm(props: FeedbackFormProps) {
       const newTags: string[] = [];
 
       activeTags.forEach(tag => {
+
+        console.log("tags: ", tags);
+        console.log("tag: ", tag);
+        console.log("tags[tag]: ", tags[tag]);
+
         if (tags[tag]) {
           updatedFeedbackForm.tags.push(tags[tag]);
         } else {
@@ -172,7 +177,7 @@ export default function FeedbackForm(props: FeedbackFormProps) {
 
       updatedStudentRes.feedbackId = data.id;
 
-      console.log(data);
+      console.log("FeedbackForm/submitForm/data", data);
 
       const updatedQuestion = data.updatedQuestion as Question;
       const updatedQuestions = [...questions];
@@ -183,11 +188,12 @@ export default function FeedbackForm(props: FeedbackFormProps) {
         }
       })
 
+      console.log("updating questions...")
       setQuestions(updatedQuestions);
+      console.log("updating student response...")
       setStudentResponse(updatedStudentRes);
-      // and update the submitState to trigger student response submission.
-      // setSubmitStatus("submitted");
-      setFeedbackStatus("submitted");
+      console.log("updating feedback status...")
+      setSubmitStatus("submitted")
     } catch (e) {
       console.error(e);
     }
@@ -260,9 +266,10 @@ export default function FeedbackForm(props: FeedbackFormProps) {
 
   async function handleSubmit() {
 
-    if (feedbackStatus === "waiting") {
-      setFeedbackStatus("submitting");
-    }
+    // if (feedbackStatus === "waiting") {
+    //   setFeedbackStatus("submitting");
+    // }
+    submitForm();
 
   }
 

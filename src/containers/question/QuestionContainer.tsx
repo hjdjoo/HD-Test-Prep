@@ -14,6 +14,7 @@ import Timer from "components/practice/Practice.timer";
 import QuestionImage from "@/src/components/practice/Practice.questionImage.js";
 import Feedback from "components/practice/Practice.feedback";
 import { type FeedbackForm } from "components/practice/Practice.feedback";
+import ErrorPage from "@/src/ErrorPage";
 
 
 interface QuestionContainerProps {
@@ -58,37 +59,50 @@ export default function QuestionContainer(props: QuestionContainerProps) {
   const [studentRes, setStudentRes] = useState<StudentResponse | undefined>()
   const [errorMessage, setErrorMessage] = useState<string>("");
 
-  const [loadingNext, setLoadingNext] = useState<boolean>(false);
+  const [timerStart, setTimerStart] = useState<boolean>(false);
 
+  const [loadingNext, setLoadingNext] = useState<boolean>(false);
 
   const showFeedback = (submitStatus === "submitting")
 
-  // fetch and set question image url
-  useEffect(() => {
+  const { data: imageUrlData, status: imageUrlStatus, error: imageUrlError } = useQuery({
+    queryKey: ["imageUrl", question],
+    queryFn: async () => {
 
-    setImageLoaded(false);
-    (async () => {
       const supabase = createSupabase();
 
-      const { data } = await supabase
+      const { data, error } = await supabase
         .storage
         .from("questions")
         .createSignedUrl(`math/${String(question.id)}.png`, 3600)
 
-      if (!data) {
-        return;
+      if (error) {
+        throw new Error(`Error while getting signed Url: ${error.message}`)
       }
 
-      setQuestionUrl(data.signedUrl);
-
-    })()
-
-  }, [question])
+      return data.signedUrl
+    }
+  })
 
 
-  // useEffect(() => {
 
-  // }, [])
+  // fetch and set question image url
+  useEffect(() => {
+
+    if (imageUrlData) {
+      setQuestionUrl(imageUrlData);
+    }
+
+  }, [imageUrlData]);
+
+  useEffect(() => {
+
+    if (imageLoaded) {
+      setTimerStart(true);
+    } else {
+      setTimerStart(false);
+    }
+  }, [imageLoaded])
 
   useEffect(() => {
 
@@ -101,40 +115,55 @@ export default function QuestionContainer(props: QuestionContainerProps) {
   // submit student response once feedback is submitted.
   useEffect(() => {
 
+    console.log("QuestionContainer/useEffect/submitStatus: ", submitStatus)
+
     if (submitStatus !== "submitted") return;
+
+    console.log("submitting student response...")
     submitResponse();
 
   }, [submitStatus])
 
   async function submitResponse() {
 
-    const finalStudentResponse = { ...studentRes };
-    // finalStudentResponse.feedbackId;
+    try {
 
-    finalStudentResponse.timeTaken = time;
+      console.log("submitResponse: starting...")
 
-    console.log("final student response: ", finalStudentResponse);
+      const finalStudentResponse = { ...studentRes };
+      // finalStudentResponse.feedbackId;
 
-    const res = await fetch("api/db/student_response", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(finalStudentResponse)
-    })
+      finalStudentResponse.timeTaken = time;
 
-    if (!res.ok) {
-      console.error(res.status, res.statusText);
-      throw new Error(`Error while submitting student response!`)
+      // console.log("final student response: ", finalStudentResponse);
+
+      const res = await fetch("api/db/student_responses/new", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(finalStudentResponse)
+      })
+
+      // console.log("submitResponse/res: ", res);
+
+      if (!res.ok) {
+        console.error(res.status, res.statusText);
+        throw new Error(`Error while submitting student response!`)
+      }
+
+      const data = await res.json();
+
+      // console.log("submitResponse/data: ", data);
+      console.log("adding response...")
+      addResponse(data.id);
+      console.log("getting next question...")
+      getNextQuestion();
+      console.log("setting submit status to 'waiting...'")
+      setSubmitStatus("waiting");
+    } catch (e) {
+      console.error(e);
     }
-
-    const data = await res.json();
-
-    console.log(data);
-
-    addResponse(data.id);
-    setSubmitStatus("waiting");
-    getNextQuestion();
 
   }
 
@@ -163,17 +192,8 @@ export default function QuestionContainer(props: QuestionContainerProps) {
       timeTaken: 0,
     })
 
-    // return {
-    //   sessionId: sessionId,
-    //   studentId: user.id,
-    //   questionId: question.id,
-    //   response: response,
-    //   feedbackId: null,
-    //   timeTaken: 0,
-    // }
-
   }
-
+  // return blank feedback form
   function initFeedbackForm() {
 
     if (!user) return;
@@ -190,10 +210,10 @@ export default function QuestionContainer(props: QuestionContainerProps) {
     }
   }
 
+
   // set up answer choices for question;
   const ae = ["A", "B", "C", "D", "E"];
   const fk = ["F", "G", "H", "J", "K"];
-
   const answerChoices = ae.includes(question.answer) ? ae : fk
 
   // submit button -> should load feedback form
@@ -232,16 +252,30 @@ export default function QuestionContainer(props: QuestionContainerProps) {
     }
   }
 
-  console.log("student response: ", studentRes);
 
+  if (imageUrlStatus === "pending") {
+    return (
+      <div>
+        Loading...
+      </div>
+    )
+  }
 
+  if (imageUrlStatus === "error") {
+
+    console.error("QuesetionContainer/imageUrlError: ", imageUrlError.message)
+
+    return (
+      <ErrorPage />
+    )
+  }
 
   return (
     <div id="question-container"
       className={[styles.questionAlign].join(" ")}>
       <div>
         <h3>Question Number: {question.question}</h3>
-        <Timer start={imageLoaded && !showFeedback} submitStatus={submitStatus} time={time} setTime={setTime} />
+        <Timer start={timerStart} submitStatus={submitStatus} time={time} setTime={setTime} />
       </div>
 
       <QuestionImage imageUrl={questionUrl} imageLoaded={imageLoaded} setImageLoaded={setImageLoaded} />

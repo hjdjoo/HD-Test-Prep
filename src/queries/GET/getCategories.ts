@@ -2,7 +2,7 @@ import { Category } from "../../stores/categoryStore";
 
 export default async function getCategories() {
 
-  const res = await fetch("/api/db/categories/", {
+  const res = await fetch("/api/db/categories", {
     method: "GET",
     headers: {
       "Content-Type": "application/json"

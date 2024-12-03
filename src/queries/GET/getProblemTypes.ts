@@ -2,7 +2,7 @@ import { ProblemType } from "../../stores/categoryStore";
 
 export default async function getProblemTypes() {
 
-  const res = await fetch("/api/db/problemTypes/", {
+  const res = await fetch("/api/db/problem_types", {
     method: "GET",
     headers: {
       "Content-Type": "application/json"

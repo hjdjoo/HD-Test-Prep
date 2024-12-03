@@ -18,17 +18,9 @@ export const usePracticeSessionStore = create<PracticeSessionState>()((set) => (
     }))
   },
   addResponse: (responseId: number) => {
-
-    set((state) => {
-
-      const updatedResponses = [...state.sessionResponses];
-      updatedResponses.push(responseId);
-
-      return {
-        sessionResponses: updatedResponses
-      }
-
-    })
+    set((state) => ({
+      sessionResponses: [...state.sessionResponses, responseId]
+    }))
   }
 }))
 

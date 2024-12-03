@@ -3,7 +3,7 @@ import { Question } from "../../stores/questionStore";
 
 export default async function getQuestions() {
 
-  const res = await fetch("/api/db/questions/", {
+  const res = await fetch("/api/db/questions", {
     method: "GET",
     headers: {
       "Content-Type": "application/json"

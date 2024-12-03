@@ -12,7 +12,7 @@ export default async function getTags() {
   }
 
   const data: { [tag: string]: number } = await res.json(); // should return transformed data: {[tag]: number}
-  // console.log("tagStore/getTags/data: ", data);
+  console.log("tagStore/getTags/data: ", data);
 
   return data;
 

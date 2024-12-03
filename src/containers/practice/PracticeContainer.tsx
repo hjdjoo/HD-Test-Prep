@@ -44,7 +44,7 @@ export default function PracticeContainer() {
 
   const [practiceType, setPracticeType] = useState<"random" | "structured" | null>(null)
 
-
+  // React query states:
   const { status: questionStatus, data: questionData, error: questionError } = useQuery({
     queryKey: ["questions"],
     queryFn: fetchQuestions,
@@ -86,7 +86,7 @@ export default function PracticeContainer() {
       setTags(tagsData);
     }
 
-  }, [questionData, problemTypeData, categoryData])
+  }, [questionData, problemTypeData, categoryData, tagsData])
 
 
 
