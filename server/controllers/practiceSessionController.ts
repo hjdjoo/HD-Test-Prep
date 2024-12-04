@@ -10,6 +10,37 @@ interface PracticeSessionController {
 
 const practiceSessionController: PracticeSessionController = {};
 
+practiceSessionController.getActiveSession = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+
+    const { id } = req.params;
+
+    const supabase = createSupabase({ req, res });
+
+    const { data, error } = await supabase
+      .from("practice_sessions")
+      .select("id")
+      .eq("status", "active")
+      .eq("student_id", Number(id));
+
+    if (error) {
+      throw new Error(`Error while getting practice session: ${error.message}`)
+    }
+
+    if (!data.length) {
+      return res.status(204).json("")
+    }
+
+    res.locals.clientData = data[0];
+
+    return next();
+
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json(e);
+  }
+}
+
 practiceSessionController.initPracticeSession = async (req: Request, res: Response, next: NextFunction) => {
 
   try {

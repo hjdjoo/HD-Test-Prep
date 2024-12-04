@@ -14,6 +14,7 @@ import { StudentResponse } from "containers/question/QuestionContainer";
 
 
 export type FeedbackForm = {
+  sessionId: number
   questionId: number
   studentId: number
   comment: string

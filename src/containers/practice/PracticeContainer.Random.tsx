@@ -17,6 +17,7 @@ import getResponses from "@/src/queries/GET/getResponses";
 import startPracticeSession from "@/src/queries/POST/startPracticeSession";
 import ErrorPage from "@/src/ErrorPage";
 import SessionContainer from "containers/session/SessionContainer";
+import getPracticeSession from "@/src/queries/GET/getPracticeSession";
 
 
 export default function RandomPractice() {
@@ -24,21 +25,38 @@ export default function RandomPractice() {
   const { filteredQuestions } = useQuestionStore();
   const sessionId = usePracticeSessionStore((state) => state.sessionId);
   const sessionResponses = usePracticeSessionStore((state) => state.sessionResponses);
-  const { setSessionId } = usePracticeSessionStore()
+  const setSessionId = usePracticeSessionStore((state) => state.setSessionId)
   const { user } = useUserStore();
 
   const [showSettings, setShowSettings] = useState<boolean>(false);
   const [currQuestion, setCurrQuestion] = useState<QuestionType>();
 
+  const [isPrevSession, setIsPrevSession] = useState<boolean>(false);
+
   const { data: practiceSessionData, error: practiceSessionError } = useQuery({
     queryKey: ["practice_session", user],
-    queryFn: () => {
+    queryFn: async () => {
+
       if (!user) {
         throw new Error(`No user detected; no practice session started`);
       };
       if (sessionId) return Promise.resolve({ id: sessionId });
-      const data = startPracticeSession(user?.id, "random");
-      return data;
+
+      const activeSessionData = await getPracticeSession(user.id);
+
+      if (!activeSessionData) {
+        console.log("no active session detected; starting new session");
+        const data = await startPracticeSession(user?.id, "random");
+
+        console.log(data);
+        setIsPrevSession(false);
+        return data;
+      }
+
+      console.log("active session detected.")
+      console.log(activeSessionData);
+      setIsPrevSession(true);
+      return activeSessionData;
     }
   })
 
@@ -46,34 +64,45 @@ export default function RandomPractice() {
   const { data: studentResponseData, error: studentResponseError } = useQuery({
     queryKey: ["studentResponses", sessionResponses],
     queryFn: async () => {
+      console.log("useQuery/practice_session/sessionResponses: ", sessionResponses)
       const data = await getResponses(sessionResponses);
       return data;
     }
   })
 
 
+
+
   // Session management effect - mark empty sessions as abandoned, set practice sessionId for user.
+
+  console.log("PracContainer.Random.tsx/outside of useEffect/sessionResponses: ", sessionResponses)
+
   useEffect(() => {
 
+    console.log("QuestionContainer/useEffect: ")
+    console.log("sessionId, sessionResponses: ", sessionId, sessionResponses)
+
     function handleBeforeUnload() {
+      console.log("useEffect/handleBeforeUnload/sessionResponses: ", sessionResponses)
       if (sessionId && !sessionResponses.length) {
+
         endSession(sessionId, "abandoned");
       }
     }
 
     window.addEventListener("beforeunload", handleBeforeUnload)
 
-
     if (practiceSessionData) {
       setSessionId(practiceSessionData.id)
     }
 
     return () => {
-
+      console.log("running useEffect cleanup...")
       window.removeEventListener("beforeunload", handleBeforeUnload)
 
+      console.log("useEffect/cleanup/sessionResponses: ", sessionResponses)
+
       if (sessionId && !sessionResponses.length) {
-        console.log("PracticeContainer.Random/useEffect cleanup: ")
         console.log("ending session...")
         setSessionId(null);
         endSession(sessionId, "abandoned");

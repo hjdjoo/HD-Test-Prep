@@ -7,7 +7,6 @@ import createSupabase from "@/utils/supabase/client";
 import { Question } from "@/src/stores/questionStore";
 import { useUserStore } from "@/src/stores/userStore";
 import { usePracticeSessionStore } from "@/src/stores/practiceSessionStore";
-// import usePracticeSession from "@/src/hooks/usePracticeSession";
 
 import Answers from "@/src/components/practice/Practice.answers.js";
 import Timer from "components/practice/Practice.timer";
@@ -55,7 +54,7 @@ export default function QuestionContainer(props: QuestionContainerProps) {
   const [time, setTime] = useState(0);
 
   const [response, setResponse] = useState<string>("")
-  const [feedbackForm, setFeedbackForm] = useState<FeedbackForm | undefined>(initFeedbackForm)
+  const [feedbackForm, setFeedbackForm] = useState<FeedbackForm | undefined>()
   const [studentRes, setStudentRes] = useState<StudentResponse | undefined>()
   const [errorMessage, setErrorMessage] = useState<string>("");
 
@@ -63,7 +62,7 @@ export default function QuestionContainer(props: QuestionContainerProps) {
 
   const [loadingNext, setLoadingNext] = useState<boolean>(false);
 
-  const showFeedback = (submitStatus === "submitting")
+  const showFeedback = (submitStatus === "submitting");
 
   const { data: imageUrlData, status: imageUrlStatus, error: imageUrlError } = useQuery({
     queryKey: ["imageUrl", question],
@@ -83,8 +82,6 @@ export default function QuestionContainer(props: QuestionContainerProps) {
       return data.signedUrl
     }
   })
-
-
 
   // fetch and set question image url
   useEffect(() => {
@@ -106,11 +103,20 @@ export default function QuestionContainer(props: QuestionContainerProps) {
 
   useEffect(() => {
 
-    if (!sessionId) return;
-    console.log("QuestionContainer/useEffect/sessionId found: ", sessionId)
-    initStudentResponse(sessionId);
+    console.log("QuestionContainer/useEffect/question: ", question);
 
-  }, [sessionId])
+    setFeedbackForm(initFeedbackForm(sessionId));
+    setStudentRes(initStudentResponse(sessionId));
+
+  }, [question]);
+
+  // useEffect(() => {
+
+  //   if (!sessionId) return;
+  //   console.log("QuestionContainer/useEffect/sessionId found: ", sessionId)
+  //   initStudentResponse(sessionId);
+
+  // }, [sessionId])
 
   // submit student response once feedback is submitted.
   useEffect(() => {
@@ -168,37 +174,50 @@ export default function QuestionContainer(props: QuestionContainerProps) {
   }
 
   // return blank student response form
-  function initStudentResponse(sessionId: number) {
+  function initStudentResponse(sessionId: number | null) {
 
     if (!sessionId) {
       console.log(`No sessionId detected. No response initiated.`)
-      return
+      return;
     };
     if (!user) {
       console.log(`No user detected. No response initiated.`)
-      return
-    };
-    if (!feedbackForm) {
-      console.log(`No feedback form detected. No response initiated.`)
-      return
+      return;
     };
 
-    setStudentRes({
+    // setStudentRes({
+    //   sessionId: sessionId,
+    //   studentId: user.id,
+    //   questionId: question.id,
+    //   response: response,
+    //   feedbackId: null,
+    //   timeTaken: 0,
+    // })
+
+    return {
       sessionId: sessionId,
       studentId: user.id,
       questionId: question.id,
       response: response,
       feedbackId: null,
       timeTaken: 0,
-    })
+    }
 
   }
   // return blank feedback form
-  function initFeedbackForm() {
+  function initFeedbackForm(sessionId: number | null) {
 
-    if (!user) return;
+    if (!sessionId) {
+      console.log(`No sessionId detected. No feedback form initiated.`)
+      return;
+    };
+    if (!user) {
+      console.log(`No user detected. No feedback form initiated.`)
+      return;
+    };
 
     return {
+      sessionId: sessionId,
       studentId: user.id,
       questionId: question.id,
       comment: "",
@@ -240,6 +259,7 @@ export default function QuestionContainer(props: QuestionContainerProps) {
       updatedStudentRes.response = response;
 
       setStudentRes(updatedStudentRes);
+      // show feedback form.
       setSubmitStatus("submitting");
       // setShowFeedback(true);
       return;
@@ -247,6 +267,7 @@ export default function QuestionContainer(props: QuestionContainerProps) {
 
     if (submitStatus === "submitting") {
       // send call to DB to save student response;
+      console.log("QuestionContainer/handleSubmit/submitStatus: ", submitStatus)
       setSubmitStatus("submitted");
       return;
     }

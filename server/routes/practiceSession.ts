@@ -7,6 +7,16 @@ import practiceSessionController from "../controllers/practiceSessionController"
 const practiceSessionRouter = Router();
 
 
+practiceSessionRouter.get("/:id",
+  practiceSessionController.getActiveSession,
+  (_req: Request, res: Response) => {
+
+    const { clientData } = res.locals;
+
+    res.status(200).json(clientData);
+
+  })
+
 practiceSessionRouter.post("/new",
   practiceSessionController.initPracticeSession,
   (_req: Request, res: Response) => {
