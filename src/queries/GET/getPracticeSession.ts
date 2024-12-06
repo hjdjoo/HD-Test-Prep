@@ -10,6 +10,6 @@ export default async function getPracticeSession(userId: number) {
 
   const sessionData = JSON.parse(data);
 
-  return sessionData;
+  return sessionData as { id: number };
 
 }

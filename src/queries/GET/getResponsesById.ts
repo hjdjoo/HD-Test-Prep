@@ -1,6 +1,11 @@
 import { StudentResponse } from "containers/question/QuestionContainer";
 
-export default async function getResponses(responseIds: number[]) {
+/**
+ * 
+ * @param responseIds : number[] - An array of response Ids to query.
+ * @returns : StudentResponse[] - An array of StudentResponse objects.
+ */
+export default async function getResponsesById(responseIds: number[]) {
 
   console.log(responseIds);
 
@@ -23,7 +28,8 @@ export default async function getResponses(responseIds: number[]) {
 
   const data: StudentResponse[] = await res.json();
 
-  console.log("getResponses/data: ", data)
+  console.log("getResponses/data: ", data);
+
   return data;
 
 }

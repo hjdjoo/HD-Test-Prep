@@ -1,14 +1,14 @@
 import { usePracticeSessionStore } from "@/src/stores/practiceSessionStore"
 import { useQuestionStore } from "@/src/stores/questionStore";
-import { StudentResponse } from "containers/question/QuestionContainer";
+import { ClientStudentResponse } from "@/src/queries/GET/getResponsesBySession";
 import { useEffect, useState } from "react";
 
 
 interface SessionSummaryProps {
-  studentResponses: StudentResponse[]
+  studentResponses: ClientStudentResponse[]
 }
 
-function SessionItem(response: StudentResponse) {
+function SessionItem(response: ClientStudentResponse) {
 
 
 

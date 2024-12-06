@@ -10,15 +10,16 @@ import { Question as QuestionType, useQuestionStore } from "@/src/stores/questio
 import { usePracticeSessionStore } from "@/src/stores/practiceSessionStore";
 import { useUserStore } from "@/src/stores/userStore";
 
+
 // import removeSession from "@/src/queries/DELETE/removeSession";
 import endSession from "@/src/queries/PATCH/endPracticeSession";
-import getResponses from "@/src/queries/GET/getResponses";
+import getResponsesById from "@/src/queries/GET/getResponsesById";
 
 import startPracticeSession from "@/src/queries/POST/startPracticeSession";
 import ErrorPage from "@/src/ErrorPage";
 import SessionContainer from "containers/session/SessionContainer";
 import getPracticeSession from "@/src/queries/GET/getPracticeSession";
-
+import getResponsesBySession from "@/src/queries/GET/getResponsesBySession";
 
 export default function RandomPractice() {
 
@@ -26,6 +27,7 @@ export default function RandomPractice() {
   const sessionId = usePracticeSessionStore((state) => state.sessionId);
   const sessionResponses = usePracticeSessionStore((state) => state.sessionResponses);
   const setSessionId = usePracticeSessionStore((state) => state.setSessionId)
+  const setSessionResponses = usePracticeSessionStore((state) => state.setSessionResponses)
   const { user } = useUserStore();
 
   const [showSettings, setShowSettings] = useState<boolean>(false);
@@ -33,6 +35,7 @@ export default function RandomPractice() {
 
   const [isPrevSession, setIsPrevSession] = useState<boolean>(false);
 
+  // retrieve practice session id from Db or init/return new one.
   const { data: practiceSessionData, error: practiceSessionError } = useQuery({
     queryKey: ["practice_session", user],
     queryFn: async () => {
@@ -60,18 +63,24 @@ export default function RandomPractice() {
     }
   })
 
-
+  // StudentResponse query, updated as students answer questions
   const { data: studentResponseData, error: studentResponseError } = useQuery({
-    queryKey: ["studentResponses", sessionResponses],
+    queryKey: ["studentResponses", sessionResponses, sessionId],
     queryFn: async () => {
-      console.log("useQuery/practice_session/sessionResponses: ", sessionResponses)
-      const data = await getResponses(sessionResponses);
+      console.log("PracticeContainer.Random/useQuery/studentResponses: ")
+      if (!sessionId) {
+        console.log("no session id detected. returning empty array.")
+        return [];
+      }
+      if (!sessionResponses.length) {
+        console.log("no session responses detected. returning empty array.")
+        return [];
+      }
+      console.log("useQuery/studentResponses/sessionResponses: ", sessionResponses, sessionId);
+      const data = await getResponsesBySession(sessionId);
       return data;
-    }
+    },
   })
-
-
-
 
   // Session management effect - mark empty sessions as abandoned, set practice sessionId for user.
 
@@ -87,6 +96,7 @@ export default function RandomPractice() {
       if (sessionId && !sessionResponses.length) {
 
         endSession(sessionId, "abandoned");
+
       }
     }
 
@@ -96,20 +106,32 @@ export default function RandomPractice() {
       setSessionId(practiceSessionData.id)
     }
 
-    return () => {
-      console.log("running useEffect cleanup...")
-      window.removeEventListener("beforeunload", handleBeforeUnload)
+    // return () => {
+    //   console.log("running useEffect cleanup...")f
+    //   window.removeEventListener("beforeunload", handleBeforeUnload)
 
-      console.log("useEffect/cleanup/sessionResponses: ", sessionResponses)
+    //   console.log("useEffect/cleanup/sessionResponses: ", sessionResponses)
 
-      if (sessionId && !sessionResponses.length) {
-        console.log("ending session...")
-        setSessionId(null);
-        endSession(sessionId, "abandoned");
-      }
+    //   if (sessionId && !sessionResponses.length) {
+    //     console.log("ending session...")
+    //     setSessionId(null);
+    //     endSession(sessionId, "abandoned");
+    //   }
 
-    }
+    // }
   }, [sessionId, practiceSessionData])
+
+  useEffect(() => {
+
+    if (!isPrevSession) return;
+    if (!studentResponseData) return;
+    if (!studentResponseData.length) return;
+
+    const responseIds = studentResponseData.map(entry => entry.id);
+
+    setSessionResponses(responseIds);
+
+  }, [isPrevSession])
 
   if (practiceSessionError || studentResponseError) {
     console.error("practiceSessionError: ", practiceSessionError);

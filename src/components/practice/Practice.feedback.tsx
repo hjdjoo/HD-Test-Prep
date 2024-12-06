@@ -9,6 +9,8 @@ import UploadIcon from "@/src/assets/icons/uploadIcon.svg";
 import { useTagStore } from "@/src/stores/tagStore";
 import { Question, useQuestionStore } from "@/src/stores/questionStore";
 import { StudentResponse } from "containers/question/QuestionContainer";
+
+import ModalContainer from "containers/modal/ModalContainer";
 // import DeleteIcon from "@/src/assets/icons/deleteIcon.svg"
 // import debounce from "@/utils/debounce"
 
@@ -305,11 +307,7 @@ export default function FeedbackForm(props: FeedbackFormProps) {
 
 
   return (
-    <div id="modal-backdrop"
-      className={[
-        styles.backdropStyle,
-        styles.centerForm,
-      ].join(" ")}>
+    <ModalContainer>
       <div id="feedback-modal"
         className={[
           styles.formDisplay,
@@ -449,7 +447,7 @@ export default function FeedbackForm(props: FeedbackFormProps) {
           <button onClick={handleSubmit}>Submit</button>
         </section>
       </div>
-    </div>
+    </ModalContainer>
   )
 
 }

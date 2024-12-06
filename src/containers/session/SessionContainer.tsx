@@ -1,14 +1,9 @@
-import { useEffect, useState } from "react";
 import SessionSummary from "components/session/Session.Summary"
-import { usePracticeSessionStore } from "@/src/stores/practiceSessionStore";
-import { useQuery } from "@tanstack/react-query"
-import { StudentResponse } from "containers/question/QuestionContainer"
-
-import getResponses from "@/src/queries/GET/getResponses";
+import { ClientStudentResponse } from "@/src/queries/GET/getResponsesBySession";
 
 
 interface SessionContainerProps {
-  studentResponses: StudentResponse[]
+  studentResponses: ClientStudentResponse[]
 }
 
 
@@ -19,6 +14,7 @@ export default function SessionContainer(props: SessionContainerProps) {
   // const sessionResponses = usePracticeSessionStore((state) => state.sessionResponses)
 
   const { studentResponses } = props;
+  console.log("SessionContainer/studentResponses: ", studentResponses)
   // const [studentResponses, setStudentResponses] = useState<StudentResponse[]>([]);
 
   // const { data: responseData } = useQuery({

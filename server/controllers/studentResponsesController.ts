@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { snakeCase, camelCase } from "change-case/keys"
+import { Tables } from "@/database.types";
 // import createSupabase from "@/utils/supabase/client.ts"
 import createSupabase from "@/utils/supabase/server"
 import { SnakeCasedProperties, CamelCasedProperties } from "type-fest"
@@ -7,13 +8,15 @@ import type { StudentResponse } from "@/src/containers/question/QuestionContaine
 
 console.log("entering Student Response Controller")
 
+export type DbStudentResponse = Tables<"student_responses">
+
 interface StudentResponsesController {
   [middleware: string]: (req: Request, res: Response, next: NextFunction) => void
 }
 
 const studentResponsesController: StudentResponsesController = {};
 
-studentResponsesController.getResponses = async (req: Request, res: Response, next: NextFunction) => {
+studentResponsesController.getResponsesById = async (req: Request, res: Response, next: NextFunction) => {
   try {
 
     const { query } = req;
@@ -57,6 +60,43 @@ studentResponsesController.getResponses = async (req: Request, res: Response, ne
   } catch (e) {
     console.error(e);
     return res.status(500).json(`Something went wrong while getting responses: ${e}`)
+  }
+}
+
+studentResponsesController.getResponsesBySession = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+
+    const { params } = req;
+
+    const sessionId: string = params.sessionId
+
+    console.log("studentResponsesCtrler/getResponsesBySession/sessionId: ", sessionId)
+
+    const supabase = createSupabase({ req, res });
+
+    const { data, error } = await supabase
+      .from("student_responses")
+      .select("*")
+      .eq("session_id", Number(sessionId));
+
+    if (error) {
+      console.error("studentResponsescontroller/getResponsesBySession/error: ", error.message);
+      console.error(error.details);
+      throw new Error(`Error while querying DB for responses by session ID: ${error.message}`)
+    }
+    const clientData = data.map(row => {
+
+      return camelCase(row) as CamelCasedProperties<typeof row>
+
+    })
+
+    res.locals.clientData = clientData;
+
+    return next();
+
+  } catch (e) {
+    console.error("studentResponseController/getResponsesbySession/e: ", e);
+    return res.status(500).json(`Error while getting responses by session id: ${e}`)
   }
 }
 

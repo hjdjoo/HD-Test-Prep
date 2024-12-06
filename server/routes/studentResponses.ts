@@ -6,16 +6,25 @@ const studentResponsesRouter = Router();
 
 console.log("entering student responses router")
 
-studentResponsesRouter.get("/?",
-  studentResponsesController.getResponses,
+// studentResponsesRouter.get("/?ids=*",
+//   studentResponsesController.getResponsesById,
+//   (_req: Request, res: Response) => {
+
+//     const { clientData } = res.locals;
+
+//     res.status(200).json(clientData);
+
+//   });
+
+studentResponsesRouter.get("/:sessionId",
+  studentResponsesController.getResponsesBySession,
   (_req: Request, res: Response) => {
 
     const { clientData } = res.locals;
 
     res.status(200).json(clientData);
 
-  }
-)
+  });
 
 studentResponsesRouter.post("/new",
   studentResponsesController.addStudentResponse,

@@ -22,6 +22,7 @@ interface QuestionContainerProps {
 }
 
 export interface StudentResponse {
+  id?: number
   sessionId: number
   studentId: number,
   questionId: number,
