@@ -7,6 +7,17 @@ import questionController from "../controllers/questionController";
 const feedbackRouter = Router();
 
 
+feedbackRouter.get("/:id",
+  feedbackController.getFeedbackById,
+  (_req: Request, res: Response) => {
+
+    const { clientData } = res.locals;
+
+    res.status(200).json(clientData);
+
+  }
+)
+
 feedbackRouter.post("/new",
   tagsController.addNewTags,
   feedbackController.addFeedbackImage,

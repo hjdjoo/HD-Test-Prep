@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState, useEffect, ChangeEvent } from "react"
+import { Dispatch, SetStateAction, useState, ChangeEvent } from "react"
 import styles from "./Practice.module.css"
 
 import Autocomplete from "components/autocomplete/Autocomplete"
@@ -303,9 +303,6 @@ export default function FeedbackForm(props: FeedbackFormProps) {
   const difficultyRadios = difficultySelect();
 
 
-
-
-
   return (
     <ModalContainer>
       <div id="feedback-modal"
@@ -449,5 +446,4 @@ export default function FeedbackForm(props: FeedbackFormProps) {
       </div>
     </ModalContainer>
   )
-
 }

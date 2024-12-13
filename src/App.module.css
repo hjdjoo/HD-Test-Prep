@@ -4,3 +4,9 @@
   align-items: center;
 }
 
+.buttonHover {
+  &:hover {
+    cursor: pointer;
+  }
+}
+

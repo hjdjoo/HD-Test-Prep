@@ -1,6 +1,6 @@
 export default async function getTags() {
 
-  const res = await fetch("/api/db/tags", {
+  const res = await fetch("/api/db/tags/all", {
     method: "GET",
     headers: {
       "Content-Type": "application/json"

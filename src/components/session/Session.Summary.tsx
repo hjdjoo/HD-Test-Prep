@@ -1,83 +1,43 @@
-import { usePracticeSessionStore } from "@/src/stores/practiceSessionStore"
-import { useQuestionStore } from "@/src/stores/questionStore";
-import { ClientStudentResponse } from "@/src/queries/GET/getResponsesBySession";
-import { useEffect, useState } from "react";
-
+import styles from "./Session.module.css"
 
 interface SessionSummaryProps {
-  studentResponses: ClientStudentResponse[]
+  questionsAnswered: number
+  questionsCorrect: number
 }
-
-function SessionItem(response: ClientStudentResponse) {
-
-
-
-}
-
 
 export default function SessionSummary(props: SessionSummaryProps) {
 
-  const { filteredQuestions } = useQuestionStore();
-  const [questionsCorrect, setQuestionsCorrect] = useState<number>(0);
-
-  const { studentResponses } = props;
-
-  // const responses = studentResponses.map((response, idx) => {
-  //   return (
-  //     <div>
-
-  //     </div>
-  //   )
-  // })
-
-  useEffect(() => {
-
-    calculateQuestionsCorrect();
-
-  }, [studentResponses])
-
-  const questionIds = studentResponses.map(response => response.questionId);
-
-  console.log("questionIds: ", questionIds)
-
-  const questionsAnswered = filteredQuestions.filter(item => {
-    return questionIds.includes(item.id);
-  })
-
-  console.log("SessionSummary/questionsAnswered: ", questionsAnswered);
-
-
-  function calculateQuestionsCorrect() {
-
-    let correct = 0;
-
-    studentResponses.forEach(entry => {
-
-      questionsAnswered.forEach(question => {
-
-        if ((entry.questionId === question.id) && (entry.response === question.answer)) {
-          correct += 1;
-        }
-
-      })
-
-    });
-
-    setQuestionsCorrect(correct);
-
-  }
+  const { questionsAnswered, questionsCorrect } = props;
 
 
   return (
-    <div>
-      Session Summary
-      <div>
-        <p>Questions Answered: </p>
-        <p>{studentResponses.length}</p>
-        <p>Questions Correct: </p>
-        <p>{questionsCorrect}</p>
+    <section id="session-summary"
+      className={[
+        styles.sectionAlign,
+        styles.sectionSize,
+      ].join(" ")}>
+      <h3>Session Summary:</h3>
+      <div id="summary-data"
+        className={[
+          styles.summaryAlign,
+          styles.summarySize,
+        ].join(" ")}>
+        <div id="questions-answered"
+          className={[
+            styles.summaryItem,
+          ].join(" ")}>
+          <p>Questions Answered: </p>
+          <p>{questionsAnswered}</p>
+        </div>
+        <div id="questions-correct"
+          className={[
+            styles.summaryItem,
+          ].join(" ")}>
+          <p>Questions Correct: </p>
+          <p>{questionsCorrect}</p>
+        </div>
       </div>
-    </div>
+    </section>
   )
 
 }

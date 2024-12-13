@@ -1,14 +1,16 @@
 import { Request, Response, NextFunction } from "express";
-import { snakeCase } from "change-case/keys"
+import { snakeCase, camelCase } from "change-case/keys"
 // import createSupabase from "@/utils/supabase/client.ts"
 import createSupabase from "@/utils/supabase/server"
 
-import { SnakeCasedProperties } from "type-fest"
+import { SnakeCasedProperties, CamelCasedProperties } from "type-fest"
 import { decode } from "base64-arraybuffer";
 
 // types from client
 import type { FeedbackForm, ImageData } from "@/src/components/practice/Practice.feedback";
+import { Tables } from "@/database.types";
 
+export type DbFeedbackFormData = Tables<"question_feedback">
 
 interface FeedbackController {
   [middleware: string]: (req: Request, res: Response, next: NextFunction) => void
@@ -16,6 +18,35 @@ interface FeedbackController {
 
 const feedbackController: FeedbackController = {};
 
+feedbackController.getFeedbackById = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+
+    const { id } = req.params;
+
+    const supabase = createSupabase({ req, res });
+
+    const { data, error } = await supabase
+      .from("question_feedback")
+      .select("*")
+      .eq("id", Number(id))
+      .single();
+
+    if (error) {
+      console.error(`Nothing found for this feedback id. ${error.details}`)
+      throw new Error(error.message)
+    };
+
+    const clientData = camelCase(data) as CamelCasedProperties<typeof data>;
+
+    res.locals.clientData = clientData;
+
+    return next();
+
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json(`Something went wrong while getting feedback data.`)
+  }
+}
 
 feedbackController.addFeedbackImage = async (req: Request, res: Response, next: NextFunction) => {
 

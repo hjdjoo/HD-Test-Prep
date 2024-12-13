@@ -5,7 +5,7 @@ import tagsController from "../controllers/tagsController";
 const tagsRouter = Router();
 
 
-tagsRouter.get("/",
+tagsRouter.get("/all",
   tagsController.getTags,
   tagsController.createTagsObj,
   (_req: Request, res: Response) => {
@@ -15,6 +15,17 @@ tagsRouter.get("/",
     res.status(200).json(clientData);
 
   })
+
+tagsRouter.get("/tags",
+
+  (_req: Request, res: Response) => {
+
+    const { clientData } = res.locals;
+
+    res.status(200).json(clientData);
+
+  }
+)
 
 tagsRouter.post("/tags",
   tagsController.addTag,

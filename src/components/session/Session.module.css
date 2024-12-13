@@ -1,0 +1,22 @@
+
+
+.sectionAlign {
+  display: flex;
+  flex-direction: column;
+}
+
+.sectionSize {
+  width: 80vw;
+}
+
+.summarySize {
+  width: 100%;
+}
+
+.summaryAlign {
+  display: flex;
+}
+
+.summaryItem {
+  flex-grow: 1;
+}

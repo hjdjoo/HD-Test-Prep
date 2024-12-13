@@ -166,8 +166,10 @@ export default function QuestionContainer(props: QuestionContainerProps) {
       addResponse(data.id);
       console.log("getting next question...")
       getNextQuestion();
-      console.log("setting submit status to 'waiting...'")
+      console.log("resetting submit status and response...")
       setSubmitStatus("waiting");
+      // console.log("")
+      setResponse("");
     } catch (e) {
       console.error(e);
     }
@@ -299,7 +301,6 @@ export default function QuestionContainer(props: QuestionContainerProps) {
         <h3>Question Number: {question.question}</h3>
         <Timer start={timerStart} submitStatus={submitStatus} time={time} setTime={setTime} />
       </div>
-
       <QuestionImage imageUrl={questionUrl} imageLoaded={imageLoaded} setImageLoaded={setImageLoaded} />
       {
         imageLoaded ?
@@ -317,7 +318,10 @@ export default function QuestionContainer(props: QuestionContainerProps) {
       }
       {
         (showFeedback && feedbackForm && studentRes) &&
-        <Feedback question={question} studentResponse={studentRes} setStudentResponse={setStudentRes} feedbackForm={feedbackForm} setFeedbackForm={setFeedbackForm} setSubmitStatus={setSubmitStatus} />
+        <Feedback
+          question={question}
+          studentResponse={studentRes} setStudentResponse={setStudentRes} feedbackForm={feedbackForm} setFeedbackForm={setFeedbackForm} setSubmitStatus={setSubmitStatus}
+        />
       }
     </div>
   )

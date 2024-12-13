@@ -108,7 +108,7 @@ practiceSessionController.endPracticeSession = async (req: Request, res: Respons
       throw new Error(`Error while ending practice session: ${error.message}`)
     }
 
-    return res.status(200).json(`Successfully updated ${id} in db`)
+    return res.status(200).json(`Successfully updated ${id} in db to ${body.status}`)
 
   } catch (e) {
     console.error(e);

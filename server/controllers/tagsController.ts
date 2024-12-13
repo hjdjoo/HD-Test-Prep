@@ -6,7 +6,10 @@ import type { FeedbackForm } from "@/src/components/practice/Practice.feedback";
 // import StudentResponse
 
 import { Tables } from "@/database.types";
+import { camelCase } from "change-case/keys";
+import { CamelCasedProperties } from "type-fest";
 
+export type DbTagsData = Tables<"tags">
 
 interface TagsController {
   [middleware: string]: (req: Request, res: Response, next: NextFunction) => void
@@ -47,6 +50,51 @@ tagsController.getTags = async (req: Request, res: Response, next: NextFunction)
 
 }
 
+tagsController.getTagsById = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+
+    const query = req.query;
+
+    const ids = query.ids as string
+
+    if (!ids) {
+      console.log("No ids to query. returning...");
+      return res.status(400).json("No query detected");
+    }
+    console.log(ids);
+
+    const queryIds = ids.split(",");
+
+    const queryIdsParsed = queryIds.map(id => Number(id))
+
+    const supabase = createSupabase({ req, res });
+
+    const { data, error } = await supabase
+      .from("tags")
+      .select("*")
+      .in("id", queryIdsParsed)
+
+    if (error) {
+      console.error("tagsController/getTagsById/error details: ", error.details);
+      throw new Error(error.message)
+    }
+
+    const clientData: { [id: string]: string } = {};
+
+    data.forEach(row => {
+      clientData[row.id] = row.tag_name
+    })
+
+    // res.locals.clientData = clientData;
+
+    return next();
+
+  } catch (e) {
+    console.error(e);
+    res.status(500).json(`Error while getting tags by ID from DB: ${e}`)
+  }
+
+}
 
 
 tagsController.addNewTags = async (req: Request, res: Response, next: NextFunction) => {
