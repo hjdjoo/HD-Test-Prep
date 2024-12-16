@@ -2,17 +2,16 @@ import { ClientFeedbackFormData } from "@/src/queries/GET/getFeedbackById";
 import { ClientStudentResponse } from "@/src/queries/GET/getResponsesBySession";
 import { Question } from "@/src/stores/questionStore";
 
-import { useTagStore } from "@/src/stores/tagStore";
-
 interface SummaryItemProps {
   question: Question
   studentResponse: ClientStudentResponse
   feedbackData?: ClientFeedbackFormData
+  tagsData?: { [tag: string]: string }
 }
 
 export default function SummaryItem(props: SummaryItemProps) {
 
-  const { question, studentResponse, feedbackData } = props;
+  const { question, studentResponse, feedbackData, tagsData } = props;
 
   const difficulties: { [level: string]: string } = {
     1: "Very Easy",
@@ -24,6 +23,32 @@ export default function SummaryItem(props: SummaryItemProps) {
 
   const isCorrect = studentResponse.response === question.answer;
 
+  let tags = [] as string[];
+  let tagsDisplay = [] as React.ReactNode[];
+
+  if (feedbackData && feedbackData.tags.length && tagsData) {
+    feedbackData.tags.forEach(id => {
+      if (tagsData[String(id)]) {
+        tags.push(tagsData[String(id)]);
+      }
+    })
+    console.log("SummaryItem/tags: ", tags);
+  }
+
+  if (tags.length) {
+
+    tagsDisplay = tags.map(((tag, idx) => {
+
+      return (
+        <div key={`feedback-tag-${idx + 1}`}>
+          <p>{tag}</p>
+        </div>
+      )
+
+    }))
+
+  }
+
   return (
     <>
       <div id={`summary-item-question-${question.id}-student-response-info`}>
@@ -31,7 +56,7 @@ export default function SummaryItem(props: SummaryItemProps) {
           {`Student Response: ${studentResponse.response}`}
         </div>
         <div>
-          {isCorrect ? "Got it!" : "Missed >_<"}
+          {isCorrect ? "Correct" : "Miss"}
         </div>
       </div>
       {
@@ -58,8 +83,11 @@ export default function SummaryItem(props: SummaryItemProps) {
             </div>
           }
           {
-            feedbackData.tags.length &&
-            <div id={`feedback-${feedbackData.id}-tags`}></div>
+            !!tags.length &&
+            <div id={`feedback-${feedbackData.id}-tags`}>
+              <p>Tags added: </p>
+              {tagsDisplay}
+            </div>
           }
         </div>
       }

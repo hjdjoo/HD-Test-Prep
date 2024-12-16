@@ -85,7 +85,7 @@ tagsController.getTagsById = async (req: Request, res: Response, next: NextFunct
       clientData[row.id] = row.tag_name
     })
 
-    // res.locals.clientData = clientData;
+    res.locals.clientData = clientData;
 
     return next();
 

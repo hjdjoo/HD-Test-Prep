@@ -16,8 +16,8 @@ tagsRouter.get("/all",
 
   })
 
-tagsRouter.get("/tags",
-
+tagsRouter.get("/*",
+  tagsController.getTagsById,
   (_req: Request, res: Response) => {
 
     const { clientData } = res.locals;

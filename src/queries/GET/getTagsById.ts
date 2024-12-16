@@ -1,8 +1,13 @@
-import { CamelCasedProperties } from "type-fest";
-import { DbTagsData } from "@/server/controllers/tagsController"
+// import { CamelCasedProperties } from "type-fest";
+// import { DbTagsData } from "@/server/controllers/tagsController"
 
-export type ClientTagsData = CamelCasedProperties<DbTagsData>
+// export type ClientTagsData = CamelCasedProperties<DbTagsData>
 
+/**
+ * 
+ * @param ids :number[] - list of tag ids
+ * @returns Object: {[tag: string]: string} - tagId as string, tag_name as
+ */
 export default async function getTagsById(ids: number[]) {
 
   const query = ids.join(",");
@@ -15,8 +20,8 @@ export default async function getTagsById(ids: number[]) {
 
   const data = await res.json();
 
-  console.log("getTagsById/data: ", data)
+  console.log("getTagsById/data: ", data);
 
-  return data as ClientTagsData;
+  return data as { [tag: string]: string };
 
 }

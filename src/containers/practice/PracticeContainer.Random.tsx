@@ -203,16 +203,15 @@ export default function RandomPractice() {
       }
       <br />
       {
-        (currQuestion && sessionId) &&
-        <SessionContainer studentResponses={studentResponseData || []} />
-      }
-      {
         !currQuestion &&
         <button onClick={getRandomQuestion}>
           Go!
         </button>
       }
-
+      {
+        (!isPrevSession && sessionId) &&
+        <SessionContainer studentResponses={studentResponseData || []} />
+      }
     </div>
   )
 }

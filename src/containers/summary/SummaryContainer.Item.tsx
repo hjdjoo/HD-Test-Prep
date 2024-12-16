@@ -11,6 +11,7 @@ import QuestionImage from "components/practice/Practice.questionImage";
 import SummaryItem from "components/summary/Summary.Item";
 
 import getFeedbackById from "@/src/queries/GET/getFeedbackById";
+import getTagsById from "@/src/queries/GET/getTagsById";
 
 
 interface SummaryItemContainerProps {
@@ -43,7 +44,7 @@ export default function SummaryItemContainer(props: SummaryItemContainerProps) {
   })
 
   const { data: feedbackData, error: feedbackError } = useQuery({
-    queryKey: [`summaryQuestion${question.id}Feedback`],
+    queryKey: [`feedback${studentResponse.feedbackId}`],
     queryFn: async () => {
 
       if (!studentResponse.feedbackId) {
@@ -51,6 +52,23 @@ export default function SummaryItemContainer(props: SummaryItemContainerProps) {
       }
 
       const data = await getFeedbackById(studentResponse.feedbackId);
+
+      return data;
+
+    }
+  })
+
+  const { data: tagsData, error: tagsError } = useQuery({
+    queryKey: [`feedback${studentResponse.feedbackId}Tags`, feedbackData],
+    queryFn: async () => {
+
+      if (!studentResponse.feedbackId || !feedbackData || !feedbackData.tags.length) {
+        return {} as { [tag: string]: string };
+      }
+
+      const data = await getTagsById(feedbackData.tags)
+
+      console.log("SummaryContainer.Item/useQuery/tagsData: ", data)
 
       return data;
 
@@ -66,14 +84,27 @@ export default function SummaryItemContainer(props: SummaryItemContainerProps) {
   }, [imageUrlData])
 
 
-  if (imageUrlError || feedbackError) {
-
+  if (imageUrlError) {
     console.error(imageUrlError);
-    console.error(feedbackError);
-
     return (
       <div>
         Something went wrong while getting images
+      </div>
+    )
+  }
+  if (feedbackError) {
+    console.error(feedbackError);
+    return (
+      <div>
+        Something went wrong while getting feedback data
+      </div>
+    )
+  }
+  if (tagsError) {
+    console.error(tagsError);
+    return (
+      <div>
+        Something went wrong while getting tags data
       </div>
     )
   }
@@ -83,9 +114,11 @@ export default function SummaryItemContainer(props: SummaryItemContainerProps) {
       <div id={`summary-item-question-${question.id}-image`}>
         <QuestionImage imageUrl={questionUrl} imageLoaded={imageLoaded} setImageLoaded={setImageLoaded} />
       </div>
-      <SummaryItem question={question} studentResponse={studentResponse} feedbackData={feedbackData} />
+      {
+        imageLoaded &&
+        <SummaryItem question={question} studentResponse={studentResponse} feedbackData={feedbackData} tagsData={tagsData} />
+      }
     </div>
   )
-
 
 }
