@@ -12,6 +12,7 @@ import {
 import HomeContainer from "./containers/home/HomeContainer";
 import PracticeContainer from "containers/practice/PracticeContainer";
 import AccountContainer from "containers/account/AccountContainer";
+import ReportContainer from 'containers/report/ReportContainer.tsx';
 
 
 const router = createBrowserRouter(
@@ -23,6 +24,7 @@ const router = createBrowserRouter(
         <Route path="/" element={<HomeContainer />} />
         <Route path="/practice" element={<PracticeContainer />} />
         <Route path="/account" element={<AccountContainer />} />
+        <Route path="/report/:id" element={<ReportContainer />} />
       </Route>
     </Route>
   )

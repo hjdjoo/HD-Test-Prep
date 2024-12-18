@@ -1,12 +1,16 @@
 import styles from "./SessionContainer.module.css"
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
-import { ClientStudentResponse } from "@/src/queries/GET/getResponsesBySession";
-import { useQuestionStore } from "@/src/stores/questionStore";
+import { usePracticeSessionStore } from "@/src/stores/practiceSessionStore";
+import useQuestionsCorrect from "@/src/hooks/useQuestionsCorrect";
+import useQuestionsAnswered from "@/src/hooks/useQuestionsAnswered";
 
 import SummaryContainer from "containers/summary/SummaryContainer";
-
 import DetailsContainer from "./SessionContainer.Details";
+
+import { ClientStudentResponse } from "@/src/queries/GET/getResponsesBySession";
+import ErrorPage from "@/src/ErrorPage";
 
 interface SessionContainerProps {
   studentResponses: ClientStudentResponse[]
@@ -15,7 +19,7 @@ interface SessionContainerProps {
 
 export default function SessionContainer(props: SessionContainerProps) {
 
-  // const { sessionId, sessionResponses } = usePracticeSessionStore();
+  const sessionId = usePracticeSessionStore((state) => state.sessionId);
   // const sessionId = usePracticeSessionStore((state) => state.sessionId);
   // const sessionResponses = usePracticeSessionStore((state) => state.sessionResponses)
 
@@ -23,43 +27,21 @@ export default function SessionContainer(props: SessionContainerProps) {
 
   const { studentResponses } = props;
 
-  const { filteredQuestions } = useQuestionStore();
-  const [questionsCorrect, setQuestionsCorrect] = useState<number>(0);
-  console.log("SessionContainer/studentResponses: ", studentResponses)
+  const questionsAnswered = useQuestionsAnswered({ studentResponses })
+  const questionsCorrect = useQuestionsCorrect({ studentResponses, questionsAnswered })
 
-  useEffect(() => {
-
-    calculateQuestionsCorrect();
-
-  }, [studentResponses])
-
-  const questionIds = studentResponses.map(response => response.questionId);
-
-  const questionsAnswered = filteredQuestions.filter(item => {
-    return questionIds.includes(item.id);
-  })
-
-  console.log("SessionContainer/questionIds: ", questionIds)
-  console.log("SessionContainer/questionsAnswered: ", questionsAnswered);
-
-
-  function calculateQuestionsCorrect() {
-
-    let correct = 0;
-
-    studentResponses.forEach(entry => {
-      questionsAnswered.forEach(question => {
-        if ((entry.questionId === question.id) && (entry.response === question.answer)) {
-          correct += 1;
-        }
-      })
-    });
-
-    setQuestionsCorrect(correct);
-  }
+  console.log("SessionContainer/questionsAnswered: ", questionsAnswered)
+  console.log("SessionContainer/questionsCorrect: ", questionsCorrect)
 
   function handleShowDetails() {
     setShowDetails(!showDetails);
+  }
+
+  if (!sessionId) {
+    console.error("No session ID detected!")
+    return (
+      <ErrorPage />
+    )
   }
 
   return (
@@ -84,6 +66,9 @@ export default function SessionContainer(props: SessionContainerProps) {
           <DetailsContainer questionsAnswered={questionsAnswered} studentResponses={studentResponses} />
         </div>
       }
+      <Link to={`/report/${sessionId}`}>
+        View Session Report
+      </Link>
     </div>
   )
 
