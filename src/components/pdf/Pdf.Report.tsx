@@ -1,19 +1,21 @@
 import { ClientStudentResponse } from "@/src/queries/GET/getResponsesBySession";
 import { PDFViewer } from "@react-pdf/renderer";
 import { Page, View, Document, Text, StyleSheet } from "@react-pdf/renderer";
-import SummaryContainer from "containers/summary/SummaryContainer";
 
-import SessionSummaryPdf from "components/session/Session.Summary.Pdf";
-import SummaryItemContainer from "containers/summary/SummaryContainer.Item";
-
+import PdfSessionSummary from "./Pdf.Summary";
+import PdfSessionItem from "./Pdf.Item";
 import useQuestionsAnswered from "@/src/hooks/useQuestionsAnswered";
 import useQuestionsCorrect from "@/src/hooks/useQuestionsCorrect";
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { FeedbackData, QuestionImageData } from "containers/pdf/PdfContainer";
+
+import { useQuery } from "@tanstack/react-query";
 
 
-interface PdfSummaryProps {
+interface PdfReportProps {
   studentResponses: ClientStudentResponse[]
+  questionImageData: QuestionImageData[]
+  feedbackData: FeedbackData[]
 }
 
 const styles = StyleSheet.create({
@@ -32,14 +34,13 @@ const styles = StyleSheet.create({
 })
 
 
-export default function PdfSummary(props: PdfSummaryProps) {
+export default function PdfReport(props: PdfReportProps) {
 
-  const { studentResponses } = props;
-
-  const client = new QueryClient();
+  const { studentResponses, questionImageData, feedbackData } = props;
 
   const questionsAnswered = useQuestionsAnswered({ studentResponses });
   const questionsCorrect = useQuestionsCorrect({ studentResponses, questionsAnswered });
+
 
   if (!questionsAnswered.length || !!!questionsCorrect) {
     return (
@@ -54,7 +55,7 @@ export default function PdfSummary(props: PdfSummaryProps) {
     if (questionsAnswered.length && !!questionsCorrect) {
       return (
         <View>
-          <SessionSummaryPdf questionsAnswered={questionsAnswered.length} questionsCorrect={questionsCorrect}></SessionSummaryPdf>
+          <PdfSessionSummary questionsAnswered={questionsAnswered.length} questionsCorrect={questionsCorrect} />
         </View>
       )
     } else {
@@ -76,14 +77,17 @@ export default function PdfSummary(props: PdfSummaryProps) {
 
       })[0]
 
+      const feedbackItem = feedbackData.filter(item => {
+        return item.responseId === response.id
+      })[0]
+
+
       if (question.id) {
 
         return (
           <View key={`response-item-${idx + 1}`}>
             <Text>{`Question ${idx + 1}`}</Text>
-            <QueryClientProvider client={client}>
-              <SummaryItemContainer question={question} studentResponse={response} />
-            </QueryClientProvider>
+            <PdfSessionItem question={question} feedbackForm={feedbackItem.data} studentResponse={response} />
           </View>
         )
 

@@ -1,4 +1,8 @@
 
+.itemWidth {
+  width: 100%;
+}
+
 .sectionMargins {
   margin-bottom: 1rem;
 }
@@ -9,4 +13,26 @@
 
 .buttonWidth {
   width: 90%;
+}
+
+.textSm {
+  font-size: 0.8rem;
+}
+
+.textMd {
+  font-size: 1rem;
+}
+
+.textMb {
+  margin-bottom: 1rem;
+}
+
+.itemBg {
+  &:nth-of-type(even) {
+    background-color: rgba(211, 211, 211, 0.5);
+  }
+}
+
+.itemPadding {
+  padding: 1.5rem 1.5rem 2rem;
 }

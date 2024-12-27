@@ -1,27 +1,22 @@
 import Report from "components/summary/Summary.Report";
-import { useUserStore } from "@/src/stores/userStore";
-import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
 import getResponsesBySession from "@/src/queries/GET/getResponsesBySession";
 import ErrorPage from "@/src/ErrorPage";
-import useQuestionsAnswered from "@/src/hooks/useQuestionsAnswered";
-import useQuestionsCorrect from "@/src/hooks/useQuestionsCorrect";
 
+interface ReportContainerProps {
+  sessionId: string
+}
 // get practice session ID from params;
 
-export default function ReportContainer() {
+export default function ReportContainer(props: ReportContainerProps) {
 
-  // check user;
-  const user = useUserStore((state) => state.user)
-
-  // get practice session ID from params;
-  const { id: sessionId } = useParams();
+  const { sessionId } = props;
 
   // get practice session responses based on ID;
   const { data: sessionResponseData, error: sessionResponseError } = useQuery({
     queryKey: ["studentResponses", sessionId],
     queryFn: async () => {
-
       if (!sessionId) {
         throw new Error("No session ID detected, no report generated");
       }
@@ -30,12 +25,16 @@ export default function ReportContainer() {
       }
       const data = await getResponsesBySession(Number(sessionId));
 
+      console.log("ReportContainer/useQuery/data: ", data);
+
       return data;
     }
   })
 
-  const questionsAnswered = useQuestionsAnswered({ studentResponses: sessionResponseData });
-  const questionsCorrect = useQuestionsCorrect({ studentResponses: sessionResponseData, questionsAnswered })
+  // const questionsAnswered = useQuestionsAnswered({ studentResponses: sessionResponseData });
+  // const questionsCorrect = useQuestionsCorrect({ studentResponses: sessionResponseData, questionsAnswered })
+
+  // console.log("questionsAnswered, correct: ", questionsAnswered, questionsCorrect)
 
   if (sessionResponseError) {
     console.error(sessionResponseError)
@@ -43,10 +42,13 @@ export default function ReportContainer() {
       <ErrorPage />
     )
   }
-  if (!user) {
-    console.error("No user detected - not authorized");
+
+
+  if (!sessionResponseData) {
     return (
-      <ErrorPage />
+      <div>
+        Loading...
+      </div>
     )
   }
 
@@ -55,11 +57,19 @@ export default function ReportContainer() {
     <>
       {
         (sessionResponseData) &&
-        <Report
-          studentResponses={sessionResponseData}
-          questionsAnswered={questionsAnswered}
-          questionsCorrect={questionsCorrect}
-        />
+        <>
+          <Report
+            studentResponses={sessionResponseData}
+          />
+          <button>
+            Send Report
+          </button>
+          <Link to={`/report/pdf/${sessionId}`}>
+            <button>
+              View PDF Report
+            </button>
+          </Link>
+        </>
       }
     </>
   )

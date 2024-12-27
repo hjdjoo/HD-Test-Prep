@@ -1,3 +1,5 @@
+import styles from "./Summary.module.css"
+
 import { ClientFeedbackFormData } from "@/src/queries/GET/getFeedbackById";
 import { ClientStudentResponse } from "@/src/queries/GET/getResponsesBySession";
 import { Question } from "@/src/stores/questionStore";
@@ -20,8 +22,6 @@ export default function SummaryItem(props: SummaryItemProps) {
     4: "Hard",
     5: "Very Hard"
   }
-
-  const isCorrect = studentResponse.response === question.answer;
 
   let tags = [] as string[];
   let tagsDisplay = [] as React.ReactNode[];
@@ -51,46 +51,119 @@ export default function SummaryItem(props: SummaryItemProps) {
 
   return (
     <>
-      <div id={`summary-item-question-${question.id}-student-response-info`}>
-        <div>
-          {`Student Response: ${studentResponse.response}`}
+      <div id={`summary-item-question-${question.id}-student-response-info`}
+        className={[
+          styles.responseWidth,
+        ].join(" ")}>
+        <div id={`summary-item-question-${question.id}-student-answer`}
+          className={[
+            styles.detailsAlign,
+          ].join(" ")}>
+          <p className={[
+            styles.dataHeaderAlign
+          ].join(" ")}>
+            {`Student Response:`}
+          </p>
+          <p className={[
+            styles.dataMargin,
+            styles.dataAlign,
+          ].join(" ")}>{`${studentResponse.response}`}</p>
         </div>
-        <div>
-          {isCorrect ? "Correct" : "Miss"}
+        <div id={`summary-item-question-${question.id}-answer`}
+          className={[
+            styles.detailsAlign,
+          ].join(" ")}>
+          <p className={[
+            styles.dataHeaderAlign
+          ].join(" ")}>Answer: </p>
+          <p className={[
+            styles.dataMargin,
+            styles.dataAlign,
+          ].join(" ")}>{question.answer}</p>
         </div>
+        {
+          feedbackData &&
+          <div id={`summary-item-question-${question.id}-feedback-info`}
+            className={[
+
+            ].join(" ")}>
+            {
+              feedbackData.difficultyRating &&
+              <div id={`feedback-${feedbackData.id}-difficulty-rating`}
+                className={[
+                  styles.detailsAlign,
+                ].join(" ")}>
+                <p className={[
+                  styles.dataHeaderAlign
+                ].join(" ")}>Student Rating: </p>
+                <p className={[
+                  styles.dataMargin,
+                  styles.dataAlign,
+                ].join(" ")}>{difficulties[feedbackData.difficultyRating]}</p>
+              </div>
+            }
+            {
+              feedbackData.guessed &&
+              <div id={`feedback-${feedbackData.id}-guessed`}
+                className={[
+                  styles.detailsAlign,
+                ].join(" ")}>
+                This was a guess.
+              </div>
+            }
+            {
+              (feedbackData.comment && feedbackData.comment.length) &&
+              <div id={`feedback-${feedbackData.id}-comment`}
+                className={[
+                  styles.detailsAlign,
+                ].join(" ")}>
+                <p className={[
+                  styles.dataHeaderAlign
+                ].join(" ")}>Message to instructor: </p>
+                <p className={[
+                  styles.dataMargin,
+                  styles.dataAlign,
+                ].join(" ")}>{feedbackData.comment}</p>
+              </div>
+            }
+            {
+              !!tags.length &&
+              <div id={`feedback-${feedbackData.id}-tags`}
+                className={[
+                  styles.detailsAlign,
+                ].join(" ")}>
+                <p className={[
+                  styles.dataHeaderAlign
+                ].join(" ")}>Tags added: </p>
+                <div id={`feedback-${feedbackData.id}-tags-display`}
+                  className={[
+                    styles.dataMargin,
+                    styles.dataAlign,
+                  ].join(" ")}>
+                  {tagsDisplay}
+                </div>
+              </div>
+            }
+            {
+              studentResponse.timeTaken &&
+              <div id={`student-response-time`}
+                className={[
+                  styles.detailsAlign,
+                ].join(" ")}>
+                <p className={[
+                  styles.dataHeaderAlign
+                ].join(" ")}>Time taken: </p>
+                <p className={[
+                  styles.dataMargin,
+                  styles.dataAlign,
+                ].join(" ")}>
+                  {`${studentResponse.timeTaken}s`}
+                </p>
+              </div>
+            }
+          </div>
+        }
       </div>
-      {
-        feedbackData &&
-        <div id={`summary-item-question-${question.id}-feedback-info`}>
-          {
-            feedbackData.difficultyRating &&
-            <div id={`feedback-${feedbackData.id}-difficulty-rating`}>
-              <p>Your Rating: </p>
-              <p>{difficulties[feedbackData.difficultyRating]}</p>
-            </div>
-          }
-          {
-            feedbackData.guessed &&
-            <div id={`feedback-${feedbackData.id}-guessed`}>
-              You guessed on this one.
-            </div>
-          }
-          {
-            (feedbackData.comment && feedbackData.comment.length) &&
-            <div id={`feedback-${feedbackData.id}-comment`}>
-              <p>Message to instructor: </p>
-              <p>{feedbackData.comment}</p>
-            </div>
-          }
-          {
-            !!tags.length &&
-            <div id={`feedback-${feedbackData.id}-tags`}>
-              <p>Tags added: </p>
-              {tagsDisplay}
-            </div>
-          }
-        </div>
-      }
     </>
   )
 

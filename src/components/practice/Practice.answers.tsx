@@ -34,7 +34,6 @@ export default function Answers(props: AnswersProps) {
           styles.radioButtonsMouse,
 
         ].join(" ")}
-
       >{choice}
         <input type="radio" id={`answer-radio-${choice}`} hidden={true} value={choice} onClick={handleClick} />
       </label>

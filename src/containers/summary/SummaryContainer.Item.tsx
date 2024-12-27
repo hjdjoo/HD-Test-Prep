@@ -1,3 +1,5 @@
+import styles from "./SummaryContainer.module.css"
+
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
@@ -24,7 +26,9 @@ export default function SummaryItemContainer(props: SummaryItemContainerProps) {
   const { question, studentResponse } = props;
 
   const [imageLoaded, setImageLoaded] = useState<boolean>(false);
-  const [questionUrl, setQuestionUrl] = useState<string>("")
+  const [questionUrl, setQuestionUrl] = useState<string>("");
+
+  // console.log("SummaryItemContainer/question: ", question)
 
   const { data: imageUrlData, error: imageUrlError } = useQuery({
     queryKey: [`summaryQuestion${question.id}`],
@@ -68,7 +72,7 @@ export default function SummaryItemContainer(props: SummaryItemContainerProps) {
 
       const data = await getTagsById(feedbackData.tags)
 
-      console.log("SummaryContainer.Item/useQuery/tagsData: ", data)
+      // console.log("SummaryContainer.Item/useQuery/tagsData: ", data)
 
       return data;
 
@@ -110,8 +114,14 @@ export default function SummaryItemContainer(props: SummaryItemContainerProps) {
   }
 
   return (
-    <div id={`summary-item-question-${question.id}-container`}>
-      <div id={`summary-item-question-${question.id}-image`}>
+    <div id={`summary-item-question-${question.id}-container`}
+      className={[
+        styles.itemAlign,
+      ].join(" ")}>
+      <div id={`summary-item-question-${question.id}-image`}
+        className={[
+          styles.imageSize,
+        ].join(" ")}>
         <QuestionImage imageUrl={questionUrl} imageLoaded={imageLoaded} setImageLoaded={setImageLoaded} />
       </div>
       {
@@ -120,5 +130,4 @@ export default function SummaryItemContainer(props: SummaryItemContainerProps) {
       }
     </div>
   )
-
 }

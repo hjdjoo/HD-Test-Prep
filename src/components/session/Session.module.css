@@ -1,4 +1,7 @@
 
+.sectionHeaderText {
+  text-decoration: underline;
+}
 
 .sectionAlign {
   display: flex;
@@ -6,7 +9,7 @@
 }
 
 .sectionSize {
-  width: 80vw;
+  width: 90vw;
 }
 
 .summarySize {
@@ -19,4 +22,16 @@
 
 .summaryItem {
   flex-grow: 1;
+}
+
+.detailMargin {
+  margin-left: 1rem;
+}
+
+.textBold {
+  font-weight: 600;
+}
+
+.summaryBg {
+
 }

@@ -291,7 +291,7 @@ export default function FeedbackForm(props: FeedbackFormProps) {
           styles.radioLabelText,
         ].join(" ")}>
           <input id={`difficulty-select-input-${level}`} type="radio" name={`difficultyRating`} value={Number(level)} onChange={handleForm} checked={feedbackForm.difficultyRating === Number(level)} />
-          <label htmlFor={level} className={styles.difficultyLabelText}>
+          <label htmlFor={`difficulty-select-input-${level}`} className={styles.difficultyLabelText}>
             {difficulties[level]}
           </label>
         </div>
