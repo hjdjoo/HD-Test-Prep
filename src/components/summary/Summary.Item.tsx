@@ -8,7 +8,7 @@ interface SummaryItemProps {
   question: Question
   studentResponse: ClientStudentResponse
   feedbackData?: ClientFeedbackFormData
-  tagsData?: { [tag: string]: string }
+  tagsData?: { [tagId: string]: string }
 }
 
 export default function SummaryItem(props: SummaryItemProps) {

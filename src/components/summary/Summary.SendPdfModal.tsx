@@ -1,43 +1,34 @@
-import styles from "./PdfContainer.module.css"
+import { Dispatch, SetStateAction } from "react"
 import { useQuery } from "@tanstack/react-query";
-import { PDFViewer, renderToStream } from "@react-pdf/renderer";
 
-import ErrorPage from "@/src/ErrorPage";
-
-import PdfReport from "components/pdf/Pdf.Report";
-
-import getResponsesBySession from "@/src/queries/GET/getResponsesBySession";
-import getFeedbackById, { ClientFeedbackFormData } from "@/src/queries/GET/getFeedbackById";
-import getTagsById from "@/src/queries/GET/getTagsById";
+import { pdf, renderToStream } from "@react-pdf/renderer";
 
 import useQuestionsAnswered from "@/src/hooks/useQuestionsAnswered";
 import useQuestionsCorrect from "@/src/hooks/useQuestionsCorrect";
 
+import { QuestionImageData, FeedbackData, TagsData } from "containers/pdf/PdfContainer"
+import { ClientFeedbackFormData } from "@/src/queries/GET/getFeedbackById";
+
 import createSupabase from "@/utils/supabase/client";
 
-interface PdfContainerProps {
+import getResponsesBySession from "@/src/queries/GET/getResponsesBySession";
+import getFeedbackById from "@/src/queries/GET/getFeedbackById";
+import getTagsById from "@/src/queries/GET/getTagsById";
+import sendSessionSummary from "@/src/queries/POST/sendSessionSummary";
+
+import ErrorPage from "@/src/ErrorPage";
+import PdfReport from "components/pdf/Pdf.Report";
+
+interface SendPdfModalProps {
   sessionId: string
+  setSendStatus: Dispatch<SetStateAction<"waiting" | "sending" | "sent">>
 }
 
-export type QuestionImageData = {
-  responseId: number
-  imageUrl: string
-}
+export default function SendPdfModal(props: SendPdfModalProps) {
 
-export type FeedbackData = {
-  responseId: number
-  data: ClientFeedbackFormData
-}
-
-export type TagsData = {
-  responseId: number
-  data: { [tagId: string]: string }
-}
-
-export default function PdfContainer(props: PdfContainerProps) {
+  const { sessionId, setSendStatus } = props;
 
   const supabase = createSupabase();
-  const { sessionId } = props;
   // get practice session responses based on ID;
   const { data: sessionResponseData, error: sessionResponseError } = useQuery({
     queryKey: ["studentResponses", sessionId],
@@ -150,7 +141,35 @@ export default function PdfContainer(props: PdfContainerProps) {
   const questionsAnswered = useQuestionsAnswered({ studentResponses: sessionResponseData });
   const questionsCorrect = useQuestionsCorrect({ studentResponses: sessionResponseData, questionsAnswered });
 
+  async function handleSend() {
 
+    if (!sessionResponseData || !feedbackData || !questionImageData || !tagsData) {
+      console.log("incomplete data; returning...");
+      return;
+    }
+
+    if (!questionsAnswered.length || !!questionsCorrect) {
+      console.log("No data returned from hooks");
+      return;
+    }
+
+    const Report = <PdfReport
+      studentResponses={sessionResponseData}
+      questionImageData={questionImageData}
+      feedbackData={feedbackData}
+      tagsData={tagsData}
+      questionsAnswered={questionsAnswered}
+      questionsCorrect={questionsCorrect}
+    />
+
+    const pdfBlob = await pdf(Report).toBlob();
+
+    const data = await sendSessionSummary(pdfBlob, sessionId);
+
+  }
+
+
+  /* Renders: */
   if (sessionResponseError) {
     console.error(sessionResponseError)
     return (
@@ -176,7 +195,7 @@ export default function PdfContainer(props: PdfContainerProps) {
     )
   }
 
-  if (!sessionResponseData || !questionImageData || !feedbackData || !tagsData) {
+  if (!sessionResponseData || !feedbackData || !questionImageData || !tagsData) {
     return (
       <div>
         Loading...
@@ -185,22 +204,11 @@ export default function PdfContainer(props: PdfContainerProps) {
   }
 
   return (
-    <div id="pdf-summary-container" className={[
-      styles.centerReport
-    ].join(" ")}>
-      <PDFViewer>
-        <PdfReport
-          studentResponses={sessionResponseData}
-          questionImageData={questionImageData}
-          feedbackData={feedbackData}
-          tagsData={tagsData}
-          questionsAnswered={questionsAnswered}
-          questionsCorrect={questionsCorrect}
-        />
-      </PDFViewer>
-      <button>
-        Send Report
-      </button>
-    </div>
+    <>
+      <div>
+        Sending report...
+      </div>
+    </>
   )
+
 }

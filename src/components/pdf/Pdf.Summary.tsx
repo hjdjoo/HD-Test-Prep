@@ -1,4 +1,4 @@
-import { Page, View, Document, Text, StyleSheet } from "@react-pdf/renderer";
+import { View, Text, StyleSheet } from "@react-pdf/renderer";
 
 interface PdfSessionSummaryProps {
   questionsAnswered: number

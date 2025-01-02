@@ -6,7 +6,7 @@
 /**
  * 
  * @param ids :number[] - list of tag ids
- * @returns Object: {[tag: string]: string} - tagId as string, tag_name as
+ * @returns Object: {[tagId: string]: string} - tagId coerced into string, with the name of the tag as the value.
  */
 export default async function getTagsById(ids: number[]) {
 
@@ -22,6 +22,6 @@ export default async function getTagsById(ids: number[]) {
 
   console.log("getTagsById/data: ", data);
 
-  return data as { [tag: string]: string };
+  return data as { [tagId: string]: string };
 
 }

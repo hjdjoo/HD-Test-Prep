@@ -31,7 +31,7 @@ export default function PdfReport() {
 
 
   return (
-    <PdfContainer sessionId={sessionId}></PdfContainer>
+    <PdfContainer sessionId={sessionId} />
   )
 
 }

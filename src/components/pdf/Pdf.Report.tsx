@@ -1,21 +1,22 @@
 import { ClientStudentResponse } from "@/src/queries/GET/getResponsesBySession";
 import { PDFViewer } from "@react-pdf/renderer";
-import { Page, View, Document, Text, StyleSheet } from "@react-pdf/renderer";
+import { Page, View, Document, Image, Text, StyleSheet } from "@react-pdf/renderer";
 
 import PdfSessionSummary from "./Pdf.Summary";
 import PdfSessionItem from "./Pdf.Item";
 import useQuestionsAnswered from "@/src/hooks/useQuestionsAnswered";
 import useQuestionsCorrect from "@/src/hooks/useQuestionsCorrect";
 
-import { FeedbackData, QuestionImageData } from "containers/pdf/PdfContainer";
-
-import { useQuery } from "@tanstack/react-query";
-
+import { FeedbackData, QuestionImageData, TagsData } from "containers/pdf/PdfContainer";
+import { Question } from "@/src/stores/questionStore";
 
 interface PdfReportProps {
   studentResponses: ClientStudentResponse[]
   questionImageData: QuestionImageData[]
   feedbackData: FeedbackData[]
+  tagsData: TagsData[]
+  questionsAnswered: Question[]
+  questionsCorrect: number
 }
 
 const styles = StyleSheet.create({
@@ -36,10 +37,8 @@ const styles = StyleSheet.create({
 
 export default function PdfReport(props: PdfReportProps) {
 
-  const { studentResponses, questionImageData, feedbackData } = props;
+  const { studentResponses, questionImageData, feedbackData, tagsData, questionsAnswered, questionsCorrect } = props;
 
-  const questionsAnswered = useQuestionsAnswered({ studentResponses });
-  const questionsCorrect = useQuestionsCorrect({ studentResponses, questionsAnswered });
 
 
   if (!questionsAnswered.length || !!!questionsCorrect) {
@@ -54,9 +53,7 @@ export default function PdfReport(props: PdfReportProps) {
 
     if (questionsAnswered.length && !!questionsCorrect) {
       return (
-        <View>
-          <PdfSessionSummary questionsAnswered={questionsAnswered.length} questionsCorrect={questionsCorrect} />
-        </View>
+        <PdfSessionSummary questionsAnswered={questionsAnswered.length} questionsCorrect={questionsCorrect} />
       )
     } else {
       return (
@@ -77,8 +74,16 @@ export default function PdfReport(props: PdfReportProps) {
 
       })[0]
 
+      const imageItem = questionImageData.filter(item => {
+        return item.responseId === response.id
+      })[0]
+
       const feedbackItem = feedbackData.filter(item => {
         return item.responseId === response.id
+      })[0]
+
+      const feedbackTags = tagsData.filter(item => {
+        return item.responseId = response.id
       })[0]
 
 
@@ -87,24 +92,26 @@ export default function PdfReport(props: PdfReportProps) {
         return (
           <View key={`response-item-${idx + 1}`}>
             <Text>{`Question ${idx + 1}`}</Text>
-            <PdfSessionItem question={question} feedbackForm={feedbackItem.data} studentResponse={response} />
+            <View>
+              <Image src={imageItem.imageUrl} />
+              <PdfSessionItem question={question} feedbackForm={feedbackItem.data} studentResponse={response} tagsData={feedbackTags.data} />
+            </View>
           </View>
         )
-
       }
     }
   }))
 
 
   return (
-    <PDFViewer>
-      <Document>
-        <Page size="LETTER">
-          {summary()}
-          {details}
-        </Page>
-      </Document>
-    </PDFViewer>
+
+    <Document>
+      <Page size="LETTER">
+        {summary()}
+        {details}
+      </Page>
+    </Document>
+
   )
 
 }

@@ -31,7 +31,7 @@ export default function SummaryItemContainer(props: SummaryItemContainerProps) {
   // console.log("SummaryItemContainer/question: ", question)
 
   const { data: imageUrlData, error: imageUrlError } = useQuery({
-    queryKey: [`summaryQuestion${question.id}`],
+    queryKey: [`summaryQuestion${question.id}`, question],
     queryFn: async () => {
       const supabase = createSupabase();
 
@@ -70,14 +70,14 @@ export default function SummaryItemContainer(props: SummaryItemContainerProps) {
         return {} as { [tag: string]: string };
       }
 
-      const data = await getTagsById(feedbackData.tags)
-
+      const data = await getTagsById(feedbackData.tags);
       // console.log("SummaryContainer.Item/useQuery/tagsData: ", data)
 
       return data;
-
     }
   })
+
+
 
   useEffect(() => {
 

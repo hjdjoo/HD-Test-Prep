@@ -1,8 +1,13 @@
-import Report from "components/summary/Summary.Report";
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
+
 import getResponsesBySession from "@/src/queries/GET/getResponsesBySession";
+
+import Report from "components/summary/Summary.Report";
 import ErrorPage from "@/src/ErrorPage";
+import ModalContainer from "containers/modal/ModalContainer";
+import SendPdfModal from "components/summary/Summary.SendPdfModal";
 
 interface ReportContainerProps {
   sessionId: string
@@ -31,6 +36,7 @@ export default function ReportContainer(props: ReportContainerProps) {
     }
   })
 
+  const [sendStatus, setSendStatus] = useState<"waiting" | "sending" | "sent">("waiting")
   // const questionsAnswered = useQuestionsAnswered({ studentResponses: sessionResponseData });
   // const questionsCorrect = useQuestionsCorrect({ studentResponses: sessionResponseData, questionsAnswered })
 
@@ -61,7 +67,9 @@ export default function ReportContainer(props: ReportContainerProps) {
           <Report
             studentResponses={sessionResponseData}
           />
-          <button>
+          <button onClick={() => {
+            setSendStatus("sending");
+          }}>
             Send Report
           </button>
           <Link to={`/report/pdf/${sessionId}`}>
@@ -69,6 +77,15 @@ export default function ReportContainer(props: ReportContainerProps) {
               View PDF Report
             </button>
           </Link>
+          {
+            sendStatus !== "waiting" &&
+            <ModalContainer>
+              <SendPdfModal
+                sessionId={sessionId}
+                setSendStatus={setSendStatus}
+              />
+            </ModalContainer>
+          }
         </>
       }
     </>
