@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react"
+import { Dispatch, SetStateAction, useEffect, useRef } from "react"
 import { useQuery } from "@tanstack/react-query";
 
 import { pdf, renderToStream } from "@react-pdf/renderer";
@@ -27,6 +27,8 @@ interface SendPdfModalProps {
 export default function SendPdfModal(props: SendPdfModalProps) {
 
   const { sessionId, setSendStatus } = props;
+
+  const sentRef = useRef<boolean>(false)
 
   const supabase = createSupabase();
   // get practice session responses based on ID;
@@ -138,8 +140,28 @@ export default function SendPdfModal(props: SendPdfModalProps) {
     }
   })
 
+
   const questionsAnswered = useQuestionsAnswered({ studentResponses: sessionResponseData });
   const questionsCorrect = useQuestionsCorrect({ studentResponses: sessionResponseData, questionsAnswered });
+
+
+  useEffect(() => {
+
+    if (sentRef.current === true) {
+      console.log("already sent");
+      return;
+    }
+
+    if (!sessionResponseData || !questionImageData || !feedbackData || !tagsData || !questionsAnswered.length || !!!questionsCorrect) {
+      console.log("missing data, not sending yet");
+      return;
+    } else {
+      sentRef.current = true;
+      handleSend();
+    }
+
+  }, [sessionResponseData, questionImageData, feedbackData, tagsData, questionsAnswered, questionsCorrect])
+
 
   async function handleSend() {
 
@@ -148,11 +170,12 @@ export default function SendPdfModal(props: SendPdfModalProps) {
       return;
     }
 
-    if (!questionsAnswered.length || !!questionsCorrect) {
+    if (!questionsAnswered.length || !!!questionsCorrect) {
       console.log("No data returned from hooks");
       return;
     }
 
+    console.log("sending report...")
     const Report = <PdfReport
       studentResponses={sessionResponseData}
       questionImageData={questionImageData}
@@ -164,7 +187,10 @@ export default function SendPdfModal(props: SendPdfModalProps) {
 
     const pdfBlob = await pdf(Report).toBlob();
 
-    const data = await sendSessionSummary(pdfBlob, sessionId);
+    await sendSessionSummary(pdfBlob, sessionId);
+
+    sentRef.current = false;
+    setSendStatus("sent");
 
   }
 

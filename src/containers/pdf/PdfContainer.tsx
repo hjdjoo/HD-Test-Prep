@@ -14,6 +14,7 @@ import useQuestionsAnswered from "@/src/hooks/useQuestionsAnswered";
 import useQuestionsCorrect from "@/src/hooks/useQuestionsCorrect";
 
 import createSupabase from "@/utils/supabase/client";
+import { useEffect } from "react";
 
 interface PdfContainerProps {
   sessionId: string
@@ -149,7 +150,6 @@ export default function PdfContainer(props: PdfContainerProps) {
 
   const questionsAnswered = useQuestionsAnswered({ studentResponses: sessionResponseData });
   const questionsCorrect = useQuestionsCorrect({ studentResponses: sessionResponseData, questionsAnswered });
-
 
   if (sessionResponseError) {
     console.error(sessionResponseError)

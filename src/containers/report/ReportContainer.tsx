@@ -78,7 +78,7 @@ export default function ReportContainer(props: ReportContainerProps) {
             </button>
           </Link>
           {
-            sendStatus !== "waiting" &&
+            sendStatus === "sending" &&
             <ModalContainer>
               <SendPdfModal
                 sessionId={sessionId}

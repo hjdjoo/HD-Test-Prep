@@ -1,16 +1,19 @@
-import { Router, Request, Response, NextFunction } from "express";
+import { Router, Request, Response } from "express";
 
 import mailController from "../controllers/mailController";
 
 const mailRouter = Router();
 
 mailRouter.post("/send/:id",
-  mailController.savePdf,
+  mailController.extractPdf,
+  mailController.uploadPdf,
   mailController.sendEmail,
-  (req: Request, res: Response, next: NextFunction) => {
+  (_req: Request, res: Response) => {
 
+    const clientData = res.locals;
 
+    res.status(200).json(clientData);
 
-  })
+  });
 
 export default mailRouter;

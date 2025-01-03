@@ -15,4 +15,12 @@ export default async function sendSessionSummary(pdf: Blob, sessionId: string) {
   })
 
 
+  if (!res.ok) {
+    throw new Error(`Something went wrong while sending session sumary. ${res.status}`)
+  }
+
+  const data = await res.json();
+
+  console.log(data);
+
 };
