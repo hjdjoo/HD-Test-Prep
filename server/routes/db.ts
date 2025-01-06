@@ -1,9 +1,35 @@
 import { Router } from "express";
+import questionRouter from "./questions";
+import categoriesRouter from "./categories";
+import problemTypesRouter from "./problemTypes";
+import tagsRouter from "./tags";
+import feedbackRouter from "./feedback";
+import studentResponsesRouter from "./studentResponses";
+import practiceSessionRouter from "./practiceSession";
+// import categoriesR
+// import userController from "../controllers/userController";
+const dbRouter = Router();
 
-const router = Router();
+dbRouter.use("/questions",
+  questionRouter);
 
-router.get("/")
+dbRouter.use("/categories",
+  categoriesRouter);
 
-router.post("/")
+dbRouter.use("/problem_types",
+  problemTypesRouter);
 
-export default router;
+dbRouter.use("/tags",
+  tagsRouter);
+
+dbRouter.use("/feedback",
+  feedbackRouter);
+
+dbRouter.use("/student_responses",
+  studentResponsesRouter);
+
+dbRouter.use("/practice_session",
+  practiceSessionRouter);
+
+
+export default dbRouter;

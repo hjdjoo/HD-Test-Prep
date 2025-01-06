@@ -1,0 +1,35 @@
+.container {
+  composes: flexColCenter from "@/src/App.module.css";
+}
+
+.buttonMarginY {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.nextButtonBorder {
+  border: 1px solid gray;
+}
+
+.nextButtonAlign {
+  display: flex;
+  align-items: center;
+}
+
+.nextButtonMargin {
+  margin-right: 1rem;
+}
+
+.nextButtonRound {
+  flex-shrink: 1;
+  height: 2rem;
+  width: 2rem;
+  border-radius: 50%;
+}
+
+.buttonActive {
+  &:hover {
+    cursor: pointer;
+    background-color: lightblue;
+  }
+}

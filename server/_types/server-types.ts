@@ -5,3 +5,7 @@ export interface ServerError {
     error: string
   }
 }
+
+export interface ClientData {
+  [field: string]: any
+}
