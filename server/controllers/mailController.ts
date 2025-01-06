@@ -221,7 +221,7 @@ mailController.sendEmail = async (req: Request, res: Response, next: NextFunctio
       from: "no-reply@hdprep.me",
       to: `${tutorEmail}`,
       cc: `${studentEmail}`,
-      subject: `Your session summary`,
+      subject: `${studentName}'s session summary`,
       text: `${studentName}'s session summary is attached.`,
       attachments: [
         {
