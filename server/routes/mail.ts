@@ -7,6 +7,7 @@ const mailRouter = Router();
 mailRouter.post("/send/:id",
   mailController.extractPdf,
   mailController.uploadPdf,
+  mailController.getInstructorEmail,
   mailController.sendEmail,
   (_req: Request, res: Response) => {
 

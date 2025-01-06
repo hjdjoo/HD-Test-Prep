@@ -1,12 +1,12 @@
 
-export default async function sendSessionSummary(pdf: Blob, sessionId: string) {
+export default async function sendSessionSummary(pdf: Blob, sessionId: string, studentId: string) {
 
   const formData = new FormData();
 
   formData.append("pdf", pdf);
-  formData.append("sessionId", sessionId)
+
   // make fetch request to: api/mail/send
-  const res = await fetch(`/api/mail/send/${sessionId}`, {
+  const res = await fetch(`/api/mail/send/${sessionId}?userId=${studentId}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/pdf"

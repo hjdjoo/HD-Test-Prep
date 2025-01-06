@@ -3,6 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 
 import { pdf, renderToStream } from "@react-pdf/renderer";
 
+import { useUserStore } from "@/src/stores/userStore";
+
 import useQuestionsAnswered from "@/src/hooks/useQuestionsAnswered";
 import useQuestionsCorrect from "@/src/hooks/useQuestionsCorrect";
 
@@ -28,7 +30,9 @@ export default function SendPdfModal(props: SendPdfModalProps) {
 
   const { sessionId, setSendStatus } = props;
 
-  const sentRef = useRef<boolean>(false)
+  const sentRef = useRef<boolean>(false);
+
+  const user = useUserStore((state) => state.user);
 
   const supabase = createSupabase();
   // get practice session responses based on ID;
@@ -165,6 +169,11 @@ export default function SendPdfModal(props: SendPdfModalProps) {
 
   async function handleSend() {
 
+    if (!user) {
+      console.log("No user detected");
+      return;
+    }
+
     if (!sessionResponseData || !feedbackData || !questionImageData || !tagsData) {
       console.log("incomplete data; returning...");
       return;
@@ -187,7 +196,7 @@ export default function SendPdfModal(props: SendPdfModalProps) {
 
     const pdfBlob = await pdf(Report).toBlob();
 
-    await sendSessionSummary(pdfBlob, sessionId);
+    await sendSessionSummary(pdfBlob, sessionId, String(user.id));
 
     sentRef.current = false;
     setSendStatus("sent");
