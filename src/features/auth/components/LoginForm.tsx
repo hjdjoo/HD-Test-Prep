@@ -1,5 +1,5 @@
 import { useState, MouseEvent, FormEvent } from "react";
-import style from "components/auth/LoginForm.module.css";
+import style from "./LoginForm.module.css";
 import GoogleIcon from "@/src/assets/icons/googleIcon.svg"
 import createSupabase from "@/utils/supabase/client"
 import { equals, isEmail } from "validator";

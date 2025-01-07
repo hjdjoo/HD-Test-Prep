@@ -1,6 +1,7 @@
 import style from "containers/home/HomeContainer.module.css"
-import LoginContainer from "containers/auth/LoginContainer"
-import AccountContainer from "../account/AccountContainer"
+import Auth from "@/src/features/auth/Auth";
+// import AccountContainer from "../account/AccountContainer"
+import Account from "@/src/pages/account";
 
 import { useUserStore } from "@/src/stores/userStore";
 
@@ -12,7 +13,7 @@ export default function HomeContainer() {
 
   return (
     <div className={style.container}>
-      {user ? <AccountContainer /> : <LoginContainer />}
+      {user ? <Account /> : <Auth />}
     </div>
   )
 }
