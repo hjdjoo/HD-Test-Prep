@@ -6,7 +6,7 @@ import createSupabase from "@/utils/supabase/client";
 import { Question } from "@/src/stores/questionStore";
 import { ClientStudentResponse } from "@/src/queries/GET/getResponsesBySession"
 
-import QuestionImage from "components/practice/Practice.questionImage";
+import QuestionImage from "@/src/features/practice/components/Practice.questionImage";
 
 interface ResponseSummaryProps {
   studentResponse: ClientStudentResponse

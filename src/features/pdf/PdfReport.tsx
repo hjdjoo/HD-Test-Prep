@@ -1,10 +1,10 @@
-import { useUserStore } from "../stores/userStore";
+import { useUserStore } from "@/src/stores/userStore";
 import { useParams } from "react-router-dom";
-import ErrorPage from "../ErrorPage";
+import ErrorPage from "@/src/ErrorPage";
 
 // import PdfSummary from "components/summary/Summary.Pdf";
 // import PdfReportContainer from "containers/report/ReportContainer.Pdf";
-import PdfContainer from "containers/pdf/PdfContainer";
+import PdfContainer from "@/src/features/pdf/containers/PdfContainer";
 
 export default function PdfReport() {
 

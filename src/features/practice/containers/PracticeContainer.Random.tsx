@@ -3,15 +3,13 @@ import styles from "./PracticeContainer.module.css"
 import { useQuery } from "@tanstack/react-query";
 
 
-import QuestionContainer from "containers/question/QuestionContainer";
-import Filter from "@/src/components/practice/Practice.filter";
+import QuestionContainer from "@/src/features/practice/containers/PracticeContainer.Question";
+import Filter from "@/src/features/practice/components/Practice.filter";
 
 import { Question as QuestionType, useQuestionStore } from "@/src/stores/questionStore";
 import { usePracticeSessionStore } from "@/src/stores/practiceSessionStore";
 import { useUserStore } from "@/src/stores/userStore";
 
-
-// import removeSession from "@/src/queries/DELETE/removeSession";
 import endSession from "@/src/queries/PATCH/endPracticeSession";
 
 import startPracticeSession from "@/src/queries/POST/startPracticeSession";
@@ -20,7 +18,7 @@ import SessionContainer from "containers/session/SessionContainer";
 import getPracticeSession from "@/src/queries/GET/getPracticeSession";
 import getResponsesBySession from "@/src/queries/GET/getResponsesBySession";
 
-import ContinuePracticeModal from "components/practice/Practice.continue";
+import ContinuePracticeModal from "@/src/features/practice/components/Practice.continue";
 
 export default function RandomPractice() {
 
@@ -158,9 +156,6 @@ export default function RandomPractice() {
     setCurrQuestion(filteredQuestions[randomIdx]);
 
   }
-
-  console.log("PracticeContainer.Random.tsx/sessionId: ", sessionId);
-  console.log("PracContainer.Random.tsx/sessionResponses: ", sessionResponses);
 
 
   return (

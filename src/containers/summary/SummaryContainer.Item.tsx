@@ -9,7 +9,7 @@ import { Question } from "@/src/stores/questionStore";
 import { ClientStudentResponse } from "@/src/queries/GET/getResponsesBySession"
 import { ClientFeedbackFormData } from "@/src/queries/GET/getFeedbackById";
 
-import QuestionImage from "components/practice/Practice.questionImage";
+import QuestionImage from "@/src/features/practice/components/Practice.questionImage";
 import SummaryItem from "components/summary/Summary.Item";
 
 import getFeedbackById from "@/src/queries/GET/getFeedbackById";

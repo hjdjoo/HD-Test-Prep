@@ -4,7 +4,7 @@ import { Tables } from "@/database.types";
 // import createSupabase from "@/utils/supabase/client.ts"
 import createSupabase from "@/utils/supabase/server"
 import { SnakeCasedProperties, CamelCasedProperties } from "type-fest"
-import type { StudentResponse } from "@/src/containers/question/QuestionContainer.tsx"
+import type { StudentResponse } from "@/src/features/practice/containers/PracticeContainer.Question"
 
 console.log("entering Student Response Controller")
 

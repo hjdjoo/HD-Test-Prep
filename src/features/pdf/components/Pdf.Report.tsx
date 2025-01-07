@@ -1,13 +1,11 @@
 import { ClientStudentResponse } from "@/src/queries/GET/getResponsesBySession";
-import { PDFViewer } from "@react-pdf/renderer";
 import { Page, View, Document, Image, Text, StyleSheet } from "@react-pdf/renderer";
 
-import PdfSessionSummary from "./Pdf.Summary";
+import PdfSessionSummary from "../components/Pdf.Summary";
 import PdfSessionItem from "./Pdf.Item";
-import useQuestionsAnswered from "@/src/hooks/useQuestionsAnswered";
-import useQuestionsCorrect from "@/src/hooks/useQuestionsCorrect";
 
-import { FeedbackData, QuestionImageData, TagsData } from "containers/pdf/PdfContainer";
+
+import { FeedbackData, QuestionImageData, TagsData } from "@/src/features/pdf/containers/PdfContainer";
 import { Question } from "@/src/stores/questionStore";
 
 interface PdfReportProps {

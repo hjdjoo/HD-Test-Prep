@@ -1,4 +1,4 @@
-import styles from "./PracticeContainer.module.css";
+import styles from "./Practice.module.css";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react"
 import { useQuestionStore } from "@/src/stores/questionStore";
@@ -14,29 +14,12 @@ import fetchProblemTypes from "@/src/queries/GET/getProblemTypes";
 
 // import Question from "@/src/components/practice/Practice.questionImage.js";
 
-import RandomPractice from "./PracticeContainer.Random";
-import StructuredPractice from "./PracticeContainer.Structured";
+import RandomPractice from "./containers/PracticeContainer.Random";
+import StructuredPractice from "./containers/PracticeContainer.Structured";
 import fetchTags from "@/src/queries/GET/getTags";
 
 
-/**
- * 
- * @returns Practice module:
- * 
- * The practice module should consist of the following components:
- * - Timer
- * - Question
- * - Answer choices
- * - Response
- * - Student feedback form
- * 
- * Upon selecting a response for the question, student submits
- * Answer is checked and a correct/incorrect response is given.
- * 
- * After each question, student can rate the question from 1-5 (easy-hard)
- * Student can submit a picture of their work or questions they have for their instructor.
- */
-export default function PracticeContainer() {
+export default function Practice() {
 
   const { setCategories, setProblemTypes } = useCategoryStore();
   const { filter, filteredQuestions, setQuestions, filterQuestions } = useQuestionStore();
@@ -87,8 +70,6 @@ export default function PracticeContainer() {
     }
 
   }, [questionData, problemTypeData, categoryData, tagsData])
-
-
 
 
   if (questionStatus === "pending" || categoryStatus === "pending" || problemTypeStatus === "pending" || tagsStatus === "pending") {

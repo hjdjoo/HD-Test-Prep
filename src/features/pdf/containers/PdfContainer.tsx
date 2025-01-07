@@ -4,7 +4,7 @@ import { PDFViewer, renderToStream } from "@react-pdf/renderer";
 
 import ErrorPage from "@/src/ErrorPage";
 
-import PdfReport from "components/pdf/Pdf.Report";
+import PdfReport from "@/src/features/pdf/components/Pdf.Report";
 
 import getResponsesBySession from "@/src/queries/GET/getResponsesBySession";
 import getFeedbackById, { ClientFeedbackFormData } from "@/src/queries/GET/getFeedbackById";

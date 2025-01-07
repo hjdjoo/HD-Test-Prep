@@ -7,7 +7,7 @@ import { SnakeCasedProperties, CamelCasedProperties } from "type-fest"
 import { decode } from "base64-arraybuffer";
 
 // types from client
-import type { FeedbackForm, ImageData } from "@/src/components/practice/Practice.feedback";
+import type { FeedbackForm, ImageData } from "@/src/features/practice/components/Practice.feedback";
 import { Tables } from "@/database.types";
 
 export type DbFeedbackFormData = Tables<"question_feedback">

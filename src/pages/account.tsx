@@ -1,7 +1,7 @@
 import AccountContainer from "containers/account/AccountContainer";
 
 
-export default function Account() {
+export default function AccountPage() {
 
   return (
     <>

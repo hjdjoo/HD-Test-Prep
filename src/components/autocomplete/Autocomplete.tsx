@@ -2,13 +2,9 @@ import { ChangeEvent, MouseEvent, KeyboardEvent, Dispatch, SetStateAction, useSt
 import styles from "./Autocomplete.module.css"
 import debounce from "@/utils/debounce";
 import { useTagStore } from "@/src/stores/tagStore";
-import { FeedbackForm } from "components/practice/Practice.feedback";
+import { FeedbackForm } from "@/src/features/practice/components/Practice.feedback";
 
 import DeleteIcon from "@/src/assets/icons/deleteIcon.svg"
-
-/** 
- * Should take in a list of suggestions
- */
 
 
 interface SuggestionsListProps {

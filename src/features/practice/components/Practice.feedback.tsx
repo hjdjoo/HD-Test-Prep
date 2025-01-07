@@ -8,7 +8,7 @@ import UploadIcon from "@/src/assets/icons/uploadIcon.svg";
 
 import { useTagStore } from "@/src/stores/tagStore";
 import { Question, useQuestionStore } from "@/src/stores/questionStore";
-import { StudentResponse } from "containers/question/QuestionContainer";
+import { StudentResponse } from "@/src/features/practice/containers/PracticeContainer.Question";
 
 import ModalContainer from "containers/modal/ModalContainer";
 // import DeleteIcon from "@/src/assets/icons/deleteIcon.svg"

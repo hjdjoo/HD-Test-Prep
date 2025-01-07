@@ -9,12 +9,11 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 
-import Home from './pages/home.tsx';
-// import PracticeContainer from "containers/practice/PracticeContainer";
-import Practice from './pages/practice.tsx';
+import HomePage from './pages/home.tsx';
+import PracticePage from './pages/practice.tsx';
+import AccountPage from './pages/account.tsx';
+import PdfReport from './features/pdf/PdfReport.tsx';
 import Report from './pages/report.tsx';
-import PdfReport from './pages/pdfReport.tsx';
-import Account from './pages/account.tsx';
 
 
 const router = createBrowserRouter(
@@ -23,9 +22,9 @@ const router = createBrowserRouter(
       <Route
         path="/"
         element={<App />} >
-        <Route path="/" element={<Home />} />
-        <Route path="/practice" element={<Practice />} />
-        <Route path="/account" element={<Account />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/practice" element={<PracticePage />} />
+        <Route path="/account" element={<AccountPage />} />
         <Route path="/report/:id" element={<Report />} />
         <Route path="/report/pdf/:id" element={<PdfReport />} />
       </Route>

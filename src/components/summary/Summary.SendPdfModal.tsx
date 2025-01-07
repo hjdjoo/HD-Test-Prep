@@ -8,7 +8,7 @@ import { useUserStore } from "@/src/stores/userStore";
 import useQuestionsAnswered from "@/src/hooks/useQuestionsAnswered";
 import useQuestionsCorrect from "@/src/hooks/useQuestionsCorrect";
 
-import { QuestionImageData, FeedbackData, TagsData } from "containers/pdf/PdfContainer"
+import { QuestionImageData, FeedbackData, TagsData } from "@/src/features/pdf/containers/PdfContainer"
 import { ClientFeedbackFormData } from "@/src/queries/GET/getFeedbackById";
 
 import createSupabase from "@/utils/supabase/client";
@@ -19,7 +19,7 @@ import getTagsById from "@/src/queries/GET/getTagsById";
 import sendSessionSummary from "@/src/queries/POST/sendSessionSummary";
 
 import ErrorPage from "@/src/ErrorPage";
-import PdfReport from "components/pdf/Pdf.Report";
+import PdfReport from "@/src/features/pdf/components/Pdf.Report";
 
 interface SendPdfModalProps {
   sessionId: string

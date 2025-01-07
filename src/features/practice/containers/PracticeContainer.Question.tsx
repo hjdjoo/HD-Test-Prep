@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import styles from "./QuestionContainer.module.css"
+import styles from "./PracticeContainer.module.css"
 import { useQuery } from "@tanstack/react-query";
 
 import createSupabase from "@/utils/supabase/client";
@@ -8,11 +8,11 @@ import { Question } from "@/src/stores/questionStore";
 import { useUserStore } from "@/src/stores/userStore";
 import { usePracticeSessionStore } from "@/src/stores/practiceSessionStore";
 
-import Answers from "@/src/components/practice/Practice.answers.js";
-import Timer from "components/practice/Practice.timer";
-import QuestionImage from "@/src/components/practice/Practice.questionImage.js";
-import Feedback from "components/practice/Practice.feedback";
-import { type FeedbackForm } from "components/practice/Practice.feedback";
+import Answers from "@/src/features/practice/components/Practice.answers.js";
+import Timer from "@/src/features/practice/components/Practice.timer";
+import QuestionImage from "@/src/features/practice/components/Practice.questionImage.js";
+import Feedback from "@/src/features/practice/components/Practice.feedback";
+import { type FeedbackForm } from "@/src/features/practice/components/Practice.feedback";
 import ErrorPage from "@/src/ErrorPage";
 
 
@@ -187,15 +187,6 @@ export default function QuestionContainer(props: QuestionContainerProps) {
       console.log(`No user detected. No response initiated.`)
       return;
     };
-
-    // setStudentRes({
-    //   sessionId: sessionId,
-    //   studentId: user.id,
-    //   questionId: question.id,
-    //   response: response,
-    //   feedbackId: null,
-    //   timeTaken: 0,
-    // })
 
     return {
       sessionId: sessionId,
