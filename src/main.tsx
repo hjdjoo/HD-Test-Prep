@@ -13,7 +13,7 @@ import HomePage from './pages/home.tsx';
 import PracticePage from './pages/practice.tsx';
 import AccountPage from './pages/account.tsx';
 import PdfReport from './features/pdf/PdfReport.tsx';
-import Report from './pages/report.tsx';
+import SessionReport from './features/sessionReport/SessionReport.tsx';
 
 
 const router = createBrowserRouter(
@@ -25,7 +25,7 @@ const router = createBrowserRouter(
         <Route path="/" element={<HomePage />} />
         <Route path="/practice" element={<PracticePage />} />
         <Route path="/account" element={<AccountPage />} />
-        <Route path="/report/:id" element={<Report />} />
+        <Route path="/report/:id" element={<SessionReport />} />
         <Route path="/report/pdf/:id" element={<PdfReport />} />
       </Route>
     </Route>

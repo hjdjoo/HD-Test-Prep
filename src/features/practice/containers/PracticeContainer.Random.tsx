@@ -14,7 +14,7 @@ import endSession from "@/src/queries/PATCH/endPracticeSession";
 
 import startPracticeSession from "@/src/queries/POST/startPracticeSession";
 import ErrorPage from "@/src/ErrorPage";
-import SessionContainer from "containers/session/SessionContainer";
+import SessionContainer from "@/src/features/practice/containers/PracticeContainer.Report";
 import getPracticeSession from "@/src/queries/GET/getPracticeSession";
 import getResponsesBySession from "@/src/queries/GET/getResponsesBySession";
 

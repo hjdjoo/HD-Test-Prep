@@ -1,10 +1,10 @@
-import styles from "./SessionContainer.module.css"
+import styles from "./DetailContainer.module.css"
 
 import { Question } from "@/src/stores/questionStore";
 import { ClientStudentResponse } from "@/src/queries/GET/getResponsesBySession";
 
 
-import SummaryItemContainer from "containers/summary/SummaryContainer.Item";
+import SummaryItemContainer from "@/src/features/sessionReport/detail/containers/DetailContainer.Item";
 // import ResponseSummary from "components/summary/Summary.Response";
 
 interface DetailsContainerProps {

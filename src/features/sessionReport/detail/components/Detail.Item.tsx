@@ -1,17 +1,17 @@
-import styles from "./Summary.module.css"
+import styles from "./Detail.module.css"
 
 import { ClientFeedbackFormData } from "@/src/queries/GET/getFeedbackById";
 import { ClientStudentResponse } from "@/src/queries/GET/getResponsesBySession";
 import { Question } from "@/src/stores/questionStore";
 
-interface SummaryItemProps {
+interface DetailItemProps {
   question: Question
   studentResponse: ClientStudentResponse
   feedbackData?: ClientFeedbackFormData
   tagsData?: { [tagId: string]: string }
 }
 
-export default function SummaryItem(props: SummaryItemProps) {
+export default function DetailItem(props: DetailItemProps) {
 
   const { question, studentResponse, feedbackData, tagsData } = props;
 

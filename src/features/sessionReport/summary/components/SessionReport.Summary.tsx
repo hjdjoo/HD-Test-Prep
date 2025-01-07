@@ -1,4 +1,4 @@
-import styles from "./Session.module.css"
+import styles from "./Summary.module.css"
 
 interface SessionSummaryProps {
   questionsAnswered: number

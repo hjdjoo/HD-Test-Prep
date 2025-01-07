@@ -34,6 +34,8 @@
   }
 }
 
+/* Question */
+
 .questionSize{
   max-width: 70vw;
   height: auto;
@@ -43,4 +45,43 @@
   composes: flexColCenter from "@/src/App.module.css";
   margin-right: 2rem;
   margin-left: 4rem;
+}
+
+/* Practice Summary */
+
+.sectionHeaderText {
+  text-decoration: underline;
+}
+
+.sectionAlign {
+  display: flex;
+  flex-direction: column;
+}
+
+.sectionSize {
+  width: 90vw;
+}
+
+.summarySize {
+  width: 100%;
+}
+
+.summaryAlign {
+  display: flex;
+}
+
+.summaryItem {
+  flex-grow: 1;
+}
+
+.detailMargin {
+  margin-left: 1rem;
+}
+
+.textBold {
+  font-weight: 600;
+}
+
+.summaryBg {
+
 }

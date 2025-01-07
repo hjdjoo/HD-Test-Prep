@@ -2,7 +2,7 @@ import styles from "./SummaryContainer.module.css"
 // import { StudentResponse } from "containers/question/QuestionContainer"
 import { Question } from "@/src/stores/questionStore";
 
-import SessionSummary from "components/session/Session.Summary"
+import SessionSummary from "@/src/features/sessionReport/summary/components/SessionReport.Summary"
 
 
 interface SummaryContainerProps {

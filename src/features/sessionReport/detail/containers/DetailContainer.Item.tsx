@@ -1,4 +1,4 @@
-import styles from "./SummaryContainer.module.css"
+import styles from "./DetailContainer.module.css"
 
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -10,18 +10,18 @@ import { ClientStudentResponse } from "@/src/queries/GET/getResponsesBySession"
 import { ClientFeedbackFormData } from "@/src/queries/GET/getFeedbackById";
 
 import QuestionImage from "@/src/features/practice/components/Practice.questionImage";
-import SummaryItem from "components/summary/Summary.Item";
+import SummaryItem from "@/src/features/sessionReport/detail/components/Detail.Item";
 
 import getFeedbackById from "@/src/queries/GET/getFeedbackById";
 import getTagsById from "@/src/queries/GET/getTagsById";
 
 
-interface SummaryItemContainerProps {
+interface DetailItemContainerProps {
   question: Question
   studentResponse: ClientStudentResponse
 }
 
-export default function SummaryItemContainer(props: SummaryItemContainerProps) {
+export default function DetailItemContainer(props: DetailItemContainerProps) {
 
   const { question, studentResponse } = props;
 

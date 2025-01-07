@@ -1,7 +1,7 @@
-import styles from "./Summary.module.css"
+import styles from "./Report.module.css"
 
-import SummaryContainer from "containers/summary/SummaryContainer"
-import DetailsContainer from "containers/session/SessionContainer.Details"
+import SummaryContainer from "@/src/features/sessionReport/summary/containers/SummaryContainer"
+import DetailsContainer from "@/src/features/sessionReport/detail/containers/DetailContainer"
 
 import useQuestionsAnswered from "@/src/hooks/useQuestionsAnswered";
 import useQuestionsCorrect from "@/src/hooks/useQuestionsCorrect";

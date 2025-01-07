@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import ErrorPage from "@/src/ErrorPage";
 
 
-export default function Report() {
+export default function SessionReport() {
 
   // check user;
   const user = useUserStore((state) => state.user)

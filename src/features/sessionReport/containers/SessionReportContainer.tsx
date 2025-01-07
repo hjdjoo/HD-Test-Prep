@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 
 import getResponsesBySession from "@/src/queries/GET/getResponsesBySession";
 
-import Report from "components/summary/Summary.Report";
+import Report from "@/src/features/sessionReport/components/SessionReport.Report";
 import ErrorPage from "@/src/ErrorPage";
 import ModalContainer from "containers/modal/ModalContainer";
-import SendPdfModal from "components/summary/Summary.SendPdfModal";
+import SendPdfModal from "@/src/features/sessionReport/components/SessionReport.SendPdfModal";
 
 interface ReportContainerProps {
   sessionId: string
