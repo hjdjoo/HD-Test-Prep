@@ -1,0 +1,87 @@
+.container {
+  composes: flexColCenter from "@/src/App.module.css";
+}
+
+.buttonMarginY {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.nextButtonBorder {
+  border: 1px solid gray;
+}
+
+.nextButtonAlign {
+  display: flex;
+  align-items: center;
+}
+
+.nextButtonMargin {
+  margin-right: 1rem;
+}
+
+.nextButtonRound {
+  flex-shrink: 1;
+  height: 2rem;
+  width: 2rem;
+  border-radius: 50%;
+}
+
+.buttonActive {
+  &:hover {
+    cursor: pointer;
+    background-color: lightblue;
+  }
+}
+
+/* Question */
+
+.questionSize{
+  max-width: 70vw;
+  height: auto;
+}
+
+.questionAlign{
+  composes: flexColCenter from "@/src/App.module.css";
+  margin-right: 2rem;
+  margin-left: 4rem;
+}
+
+/* Practice Summary */
+
+.sectionHeaderText {
+  text-decoration: underline;
+}
+
+.sectionAlign {
+  display: flex;
+  flex-direction: column;
+}
+
+.sectionSize {
+  width: 90vw;
+}
+
+.summarySize {
+  width: 100%;
+}
+
+.summaryAlign {
+  display: flex;
+}
+
+.summaryItem {
+  flex-grow: 1;
+}
+
+.detailMargin {
+  margin-left: 1rem;
+}
+
+.textBold {
+  font-weight: 600;
+}
+
+.summaryBg {
+
+}

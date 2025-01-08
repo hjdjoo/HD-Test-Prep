@@ -1,0 +1,31 @@
+.pageBorder {
+  border: 2px solid black;
+  padding: 1rem;
+}
+
+.responseWidth {
+  width: 50%;
+}
+
+.sectionAlign {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.detailsAlign {
+  display: flex;
+  justify-content: flex-start
+}
+
+.dataMargin {
+  margin-left: 1rem;
+}
+
+.dataHeaderAlign {
+  width: 40%;
+}
+
+.dataAlign {
+  flex-grow: 1;
+}

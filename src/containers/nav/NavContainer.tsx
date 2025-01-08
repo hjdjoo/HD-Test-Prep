@@ -6,13 +6,18 @@ import style from "./NavContainer.module.css"
 export default function NavContainer() {
 
   return (
-    <nav id="navbar" className={[style.navSpacing, style.alignNav].join(" ")}>
+    <nav id="navbar" className={[
+      style.navSpacing,
+      style.alignNav
+    ].join(" ")}>
       <div id="menu">
         <button>
           <u>==</u>
         </button>
       </div>
-      <div id="account-buttons" className={[style.alignButtons].join(" ")}>
+      <div id="account-buttons" className={[
+        style.alignButtons
+      ].join(" ")}>
         <AccountButton />
         <Signout />
       </div>

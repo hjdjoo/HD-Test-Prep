@@ -1,8 +1,7 @@
-
 import {
   QueryClient,
   QueryClientProvider,
-} from "@tanstack/react-query"
+} from "@tanstack/react-query";
 import { useEffect } from "react"
 import { Outlet } from "react-router-dom";
 import styles from "./App.module.css"
@@ -13,7 +12,8 @@ import NavContainer from "containers/nav/NavContainer";
 import { User } from "./stores/userStore";
 
 import { useUserStore } from "./stores/userStore";
-import LoginContainer from "./containers/auth/LoginContainer";
+
+import Auth from "./features/auth/Auth";
 
 const queryClient = new QueryClient();
 
@@ -86,7 +86,7 @@ function App() {
           {
             user ?
               <Outlet /> :
-              <LoginContainer />
+              <Auth />
           }
         </main>
       </QueryClientProvider>
