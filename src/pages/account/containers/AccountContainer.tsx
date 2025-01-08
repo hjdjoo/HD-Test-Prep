@@ -1,8 +1,8 @@
 
 import { Link } from "react-router-dom"
 
-import AccountSummary from "components/account/Account.summary"
-import AccountSettings from "components/account/Account.settings"
+import AccountSummary from "@/src/pages/account/components/Account.summary"
+import AccountSettings from "@/src/pages/account/components/Account.settings"
 
 import { useUserStore } from "@/src/stores/userStore"
 

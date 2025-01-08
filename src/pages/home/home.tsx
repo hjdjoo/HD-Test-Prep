@@ -1,4 +1,4 @@
-import HomeContainer from "containers/home/HomeContainer";
+import HomeContainer from "@/src/pages/home/containers/HomeContainer";
 
 export default function HomePage() {
   return (

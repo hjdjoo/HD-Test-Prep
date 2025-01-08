@@ -1,7 +1,7 @@
-import style from "containers/home/HomeContainer.module.css"
+import style from "./HomeContainer.module.css"
 import Auth from "@/src/features/auth/Auth";
 // import AccountContainer from "../account/AccountContainer"
-import Account from "@/src/pages/account";
+import Account from "@/src/pages/account/account";
 
 import { useUserStore } from "@/src/stores/userStore";
 

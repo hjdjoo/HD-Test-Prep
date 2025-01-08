@@ -9,9 +9,9 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 
-import HomePage from './pages/home.tsx';
-import PracticePage from './pages/practice.tsx';
-import AccountPage from './pages/account.tsx';
+import HomePage from './pages/home/home.tsx';
+import PracticePage from './pages/practice/practice.tsx';
+import AccountPage from './pages/account/account.tsx';
 import PdfReport from './features/pdf/PdfReport.tsx';
 import SessionReport from './features/sessionReport/SessionReport.tsx';
 
