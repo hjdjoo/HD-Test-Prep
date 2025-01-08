@@ -1,0 +1,16 @@
+@import "@/src/vars.module.css";
+
+@keyframes highlight { 
+  from {
+    background-color: white;
+  }
+  to {
+    background-color: var(--primary-light);
+  }
+}
+
+.highlight {
+  &:hover {
+    animation: highlight 0.3s ease-in-out forwards;
+  }
+}

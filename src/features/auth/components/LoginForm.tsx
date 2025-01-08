@@ -1,5 +1,7 @@
 import { useState, MouseEvent, FormEvent } from "react";
-import style from "./LoginForm.module.css";
+import styles from "./LoginForm.module.css";
+import animations from "@/src/animations.module.css";
+
 import GoogleIcon from "@/src/assets/icons/googleIcon.svg"
 import createSupabase from "@/utils/supabase/client"
 import { equals, isEmail } from "validator";
@@ -130,35 +132,84 @@ export default function LoginForm() {
 
   return (
     <>
-      <form id="auth-form" action="submit" onSubmit={handleSubmit} className={style.container}>
-        <h2>Login or Sign Up</h2>
-        <div id="email-input" className={style.justifyInputs}>
-          <label htmlFor="email">{`Email: `}</label>
-          <input type="text" name="email" autoComplete="email" />
+      <form id="auth-form" action="submit" onSubmit={handleSubmit} className={[
+        styles.container
+      ].join(" ")}>
+        <div id="form-heading"
+          className={[
+            styles.alignHeading,
+            styles.sectionMargin,
+          ].join(" ")}>
+          <img src="/HD-Tutors-Icon-512.png" alt="Logo"
+            className={[
+              styles.sectionMargin,
+              styles.logoSize,
+            ].join(" ")} />
+          <h3>Login or Sign Up</h3>
         </div>
-        <div id="password-input" className={style.justifyInputs}>
-          <label htmlFor="password">{`Password: `}</label>
-          <input type="password" name="password" autoComplete="off" />
+        <div id="auth-inputs"
+          className={[
+            styles.sectionFullWidth,
+            styles.sectionMargin
+          ].join(" ")}>
+          <div id="email-input" className={[
+            styles.justifyInputs
+          ].join(" ")}>
+            <label htmlFor="email">{`Email: `}</label>
+            <input type="text" name="email" autoComplete="email"
+              className={[
+                styles.inputStyle,
+                styles.rounded
+              ].join(" ")} />
+          </div>
+          <div id="password-input" className={[
+            styles.justifyInputs
+          ].join(" ")}>
+            <label htmlFor="password">{`Password: `}</label>
+            <input type="password" name="password" autoComplete="off"
+              className={[
+                styles.inputStyle,
+                styles.rounded
+              ].join(" ")} />
+          </div>
         </div>
         {isSignup &&
-          <div id="pass-confirm-input" className={style.justifyInputs}>
+          <div id="pass-confirm-input"
+            className={[
+              styles.justifyInputs
+            ].join(" ")}>
             <label htmlFor="confirm">{`Verify Password: `}</label>
-            <input type="password" name="confirm" autoComplete="off" />
+            <input type="password" name="confirm" autoComplete="off"
+              className={[
+                styles.inputStyle,
+                styles.rounded,
+              ].join(" ")} />
           </div>
         }
-        <div className={style.alignButtons}>
-          <button id="signin-with-email-button">
+        <div className={[
+          styles.alignButtons
+        ].join(" ")}>
+          <button id="signin-with-email-button"
+            className={[
+              styles.rounded,
+              styles.buttonStyle,
+              animations["highlight"]
+            ].join(" ")}
+          >
             {isSignup ? "Sign Up" : "Login"}
           </button>
-          <p>or</p>
+          <p className={styles.spaceButtons}>or</p>
           <button id="signin-with-google"
             className={[
-              style.alignButtonContent,
-              style.googleButton].join(" ")}
+              styles.rounded,
+              styles.buttonStyle,
+              styles.alignButtonContent,
+              styles.googleButton
+            ].join(" ")}
             onClick={signinWithGoogle}
           >
             <div className={[
-              style.img
+              styles.googleIcon
             ].join(" ")}>
               <GoogleIcon />
             </div>
@@ -166,7 +217,7 @@ export default function LoginForm() {
           </button>
         </div>
       </form >
-      <div id="toggle-signup" className={style.signupToggle}>
+      <div id="toggle-signup" className={styles.signupToggle}>
         No Account?
         <button onClick={() => {
           setIsSignup(!isSignup)

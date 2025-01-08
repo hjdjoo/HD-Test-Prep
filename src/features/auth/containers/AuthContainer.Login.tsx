@@ -11,7 +11,8 @@ export default function LoginContainer(props: LoginContainerProps) {
   const { children } = props;
 
   return (
-    <div className={style.container}>
+    <div id="login-container"
+      className={style.container}>
       {children}
     </div>
   )
