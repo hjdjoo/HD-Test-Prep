@@ -1,4 +1,5 @@
 import styles from "./Practice.module.css";
+import animations from "@/src/animations.module.css"
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react"
 import { useQuestionStore } from "@/src/stores/questionStore";
@@ -91,13 +92,31 @@ export default function Practice() {
   console.log("PracticeContainer/filteredQuestions length: ", filteredQuestions.length);
 
   return (
-    <div id="practice-container" className={[styles.container,].join(" ")}>
-      <h1>
-        Practice
-      </h1>
-      <button onClick={() => { setPracticeType("random") }}>{`Random Questions`}</button>
-      <p>Or</p>
-      <button onClick={() => { setPracticeType("structured") }}>{`Structured Practice`}</button>
+    <div id="practice-container"
+      className={[
+        styles.container,
+      ].join(" ")}>
+      <div id="practice-heading"
+        className={[
+          styles.sectionSpacing,
+        ].join(" ")}>
+        <h1>
+          Practice
+        </h1>
+      </div>
+      <button id="start-practice-button"
+        className={[
+          styles.buttonStyle,
+          styles.buttonSize,
+          animations.highlightPrimary,
+        ].join(" ")}
+        onClick={() => { setPracticeType("random") }}>
+        {`Start Practice`}
+      </button>
+      {/* <p>Or</p>
+      <button
+        onClick={() => { setPracticeType("structured") }}>{`Structured Practice`}
+      </button> */}
       <br />
       {/* Settings Component */}
       {practiceType === "random" && <RandomPractice />}

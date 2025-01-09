@@ -2,18 +2,18 @@ import { Link } from "react-router-dom"
 import styles from "./Nav.module.css"
 import animations from "@/src/animations.module.css"
 
-import AccountIcon from "@/src/assets/icons/accountIcon.svg"
+import HomeIcon from "@/src/assets/icons/homeIcon.svg"
 
-export default function NavAccount() {
+export default function NavHome() {
 
   return (
-    <div id="nav-to-account-button">
+    <div id="nav-to-home-button">
       <button className={[
         styles.buttonStyle,
         animations.grow,
       ].join(" ")}>
-        <Link to="/account">
-          <AccountIcon />
+        <Link to="/">
+          <HomeIcon />
         </Link>
       </button>
     </div>

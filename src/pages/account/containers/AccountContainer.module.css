@@ -1,0 +1,27 @@
+@import "@/src/vars.module.css";
+
+.sectionSpacing {
+  margin-bottom: 1rem;
+}
+
+.alignHeading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.buttonStyle {
+  composes: buttonReset from "@/src/App.module.css";
+  background-color: var(--primary-extralight);
+  border-radius: 0.4rem;
+}
+
+.buttonSize {
+  height: 2rem;
+  width: 100%;
+}
+
+.linkStyle {
+  composes: linkReset from "@/src/App.module.css";
+  color: #000;
+}

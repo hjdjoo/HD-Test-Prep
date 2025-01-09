@@ -1,3 +1,21 @@
+@import "@/src/vars.module.css";
+
 .container {
+  padding-top: 15%;
   composes: flexColCenter from "@/src/App.module.css";
+}
+
+.sectionSpacing {
+  margin-bottom: 2rem;
+}
+
+.buttonStyle {
+  composes: buttonReset from "@/src/App.module.css";
+  background-color: var(--primary-extralight);
+  border-radius: 0.4rem;
+}
+
+.buttonSize {
+  width: 100%;
+  height: 2rem;
 }

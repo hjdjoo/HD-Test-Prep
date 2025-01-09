@@ -4,9 +4,15 @@
   align-items: center;
 }
 
-.buttonHover {
+.buttonReset {
+  /* background-color: transparent; */
+  border: none;
   &:hover {
     cursor: pointer;
   }
 }
 
+
+.linkReset {
+  text-decoration: none;
+}

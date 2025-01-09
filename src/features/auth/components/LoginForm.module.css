@@ -18,6 +18,10 @@
   composes: flexColCenter from "@/src/App.module.css";
 }
 
+.fontLarge {
+  font-size: 1.2rem;
+}
+
 .sectionFullWidth {
   width: 100%;
 }

@@ -1,5 +1,6 @@
 import AccountButton from "components/nav/Nav.account"
 import Signout from "components/nav/Nav.signout"
+import HomeButton from "components/nav/Nav.home"
 
 import style from "./NavContainer.module.css"
 
@@ -7,13 +8,12 @@ export default function NavContainer() {
 
   return (
     <nav id="navbar" className={[
+      style.navPosition,
       style.navSpacing,
       style.alignNav
     ].join(" ")}>
       <div id="menu">
-        <button>
-          <u>==</u>
-        </button>
+        <HomeButton />
       </div>
       <div id="account-buttons" className={[
         style.alignButtons

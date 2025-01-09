@@ -145,7 +145,11 @@ export default function LoginForm() {
               styles.sectionMargin,
               styles.logoSize,
             ].join(" ")} />
-          <h3>Login or Sign Up</h3>
+          <p className={[
+            styles.fontLarge
+          ].join(" ")}>
+            Login or Sign Up
+          </p>
         </div>
         <div id="auth-inputs"
           className={[
@@ -204,7 +208,8 @@ export default function LoginForm() {
               styles.rounded,
               styles.buttonStyle,
               styles.alignButtonContent,
-              styles.googleButton
+              styles.googleButton,
+              animations.highlight
             ].join(" ")}
             onClick={signinWithGoogle}
           >

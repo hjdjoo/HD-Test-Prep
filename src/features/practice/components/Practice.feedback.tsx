@@ -103,26 +103,6 @@ export default function FeedbackForm(props: FeedbackFormProps) {
     5: "Very Hard"
   }
 
-  // useEffect(() => {
-
-  //   console.log("feedback.tsx/useEffect/feedbackStatus: ", feedbackStatus)
-
-  //   switch (feedbackStatus) {
-  //     case "waiting":
-  //       break;
-  //     case "submitting":
-  //       console.log("submitting feedback form...")
-  //       submitForm();
-  //       break;
-  //     case "submitted":
-  //       console.log("initializing student response submission...")
-  //       setSubmitStatus("submitted");
-  //       break;
-  //   }
-
-  // }, [feedbackStatus])
-
-
   async function submitForm() {
     try {
 

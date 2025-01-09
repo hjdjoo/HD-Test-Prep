@@ -1,5 +1,10 @@
+.navPosition {
+  position: fixed;
+}
+
 .navSpacing {
- margin: 0.5rem;
+  width: 100%;
+  padding: 0.5rem;
 }
 
 .alignNav {
@@ -14,4 +19,5 @@
     margin-left: 0.25rem;
     margin-right: 0.25rem;
   }
+
 }

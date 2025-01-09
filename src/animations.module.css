@@ -9,8 +9,55 @@
   }
 }
 
+@keyframes highlightPrimary {
+  from {
+    background-color: var(--primary-extralight);
+  }
+  to {
+    background-color: var(--primary-light);
+  }
+}
+
+@keyframes grow {
+  from {
+    scale: 1;
+  }
+  to {
+    scale: 1.2;
+  }
+}
+
+@keyframes shiftUp {
+  from {
+    transform: translateY(0px);
+  }
+  to {
+    transform: translateY(-3px);
+  }
+}
+
+
 .highlight {
   &:hover {
-    animation: highlight 0.3s ease-in-out forwards;
+    animation: highlight 0.2s ease-in-out forwards;
+  }
+}
+
+
+.highlightPrimary {
+  &:hover {
+    animation: highlightPrimary 0.2s ease-in-out forwards;
+  }
+}
+
+.grow {
+  &:hover {
+    animation: grow 0.2s ease-in-out forwards;
+  }
+}
+
+.shiftUp {
+  &:hover {
+    animation: shiftUp 0.2s ease-in-out forwards;
   }
 }
