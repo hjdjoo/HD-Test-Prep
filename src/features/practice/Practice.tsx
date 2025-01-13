@@ -6,6 +6,7 @@ import { useQuestionStore } from "@/src/stores/questionStore";
 import { useCategoryStore } from "@/src/stores/categoryStore";
 import { useTagStore } from "@/src/stores/tagStore"
 import ErrorPage from "@/src/ErrorPage";
+import Loading from "components/loading/Loading";
 // import usePracticeSession from "@/src/hooks/usePracticeSession";
 
 import fetchQuestions from "@/src/queries/GET/getQuestions";
@@ -75,9 +76,7 @@ export default function Practice() {
 
   if (questionStatus === "pending" || categoryStatus === "pending" || problemTypeStatus === "pending" || tagsStatus === "pending") {
     return (
-      <>
-        <p>Loading...</p>
-      </>
+      <Loading />
     )
   }
 

@@ -4,8 +4,8 @@ import animations from "@/src/animations.module.css"
 
 import { useUserStore } from "@/src/stores/userStore";
 
-import AccountSummary from "@/src/pages/account/components/Account.summary";
-import AccountSettings from "@/src/pages/account/components/Account.settings";
+// import AccountSummary from "@/src/pages/account/components/Account.summary";
+// import AccountSettings from "@/src/pages/account/components/Account.settings";
 
 export default function AccountContainer() {
 
@@ -29,19 +29,19 @@ export default function AccountContainer() {
         ].join(" ")}>
         <AccountSummary />
       </div> */}
-      <button id="go-to-practice-button"
+      <Link to="/practice"
         className={[
-          styles.buttonStyle,
-          styles.buttonSize,
-          animations.highlightPrimary,
+          styles.linkStyle,
         ].join(" ")}>
-        <Link to="/practice"
+        <button id="go-to-practice-button"
           className={[
-            styles.linkStyle,
+            styles.buttonStyle,
+            styles.buttonSize,
+            animations.highlightPrimary,
           ].join(" ")}>
           Go!
-        </Link>
-      </button>
+        </button>
+      </Link>
     </div>
   )
 }
