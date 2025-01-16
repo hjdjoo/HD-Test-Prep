@@ -4,10 +4,10 @@ import * as fs from "fs";
 import path from "path";
 import createSupabase from "@/utils/supabase/server";
 import { decode } from "base64-arraybuffer";
-import { ServerError, ClientData } from "../_types/server-types";
+import { ServerError } from "../_types/server-types";
 
-const MG_DOMAIN = process.env.MG_DOMAIN!;
-const MG_SENDING_API_KEY = process.env.MG_SENDING_API_KEY!;
+// const MG_DOMAIN = process.env.MG_DOMAIN!;
+// const MG_SENDING_API_KEY = process.env.MG_SENDING_API_KEY!;
 const MG_SMTP_USER = process.env.MG_SMTP_USER!;
 const MG_SMTP_PASSWORD = process.env.MG_SMTP_PASSWORD!;
 
@@ -19,10 +19,8 @@ const transport = nodemailer.createTransport({
     pass: MG_SMTP_PASSWORD
   },
   logger: true,
-  debug: true
 })
 
-interface SendPDFRequest extends Request { pdf: Blob }
 
 interface MailController {
   [middleware: string]: (req: Request, res: Response, next: NextFunction) => void

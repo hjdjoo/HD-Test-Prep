@@ -1,3 +1,4 @@
+import Spinner from "components/loading/Loading.Spinner";
 import { useEffect, Dispatch, SetStateAction } from "react";
 
 interface QuestionImageProps {
@@ -30,13 +31,19 @@ export default function QuestionImage(props: QuestionImageProps) {
 
   }, [imageUrl])
 
+  if (!imageLoaded) {
+    return (
+      <Spinner />
+    )
+  }
+
   return (
 
-    <div>
+    <>
       {imageLoaded &&
         <img src={imageUrl} alt="question image" />
       }
-    </div>
+    </>
 
   )
 }

@@ -15,9 +15,9 @@ export default function SessionSummary(props: SessionSummaryProps) {
         styles.sectionAlign,
         styles.sectionSize,
       ].join(" ")}>
-      <h2 id="section-header" className={[
+      <h3 id="section-header" className={[
         styles.sectionHeaderText
-      ].join(" ")}>Session Summary:</h2>
+      ].join(" ")}>Session Summary:</h3>
       <div id="summary-data"
         className={[
           styles.summaryAlign,

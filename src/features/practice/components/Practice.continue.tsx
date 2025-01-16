@@ -1,4 +1,5 @@
-import styles from "./Practice.module.css"
+import styles from "./Practice.Components.module.css"
+import animations from "@/src/animations.module.css";
 import { Dispatch, SetStateAction } from "react";
 
 
@@ -56,12 +57,35 @@ export default function ContinuePracticeModal(props: ContinuePracticeModalProps)
       <div id="continue-practice-session-form"
         className={[
           styles.centerForm,
+          styles.modalStyle,
         ].join(" ")}>
-        Continue Practice?
-        <button onClick={handleContinue}>
+        <div className={[
+          styles.sectionMargin,
+          styles.centerForm,
+        ].join(" ")}>
+          <p>
+            Previous session detected.
+          </p>
+          <p>
+            Continue session?
+          </p>
+        </div>
+        <button onClick={handleContinue}
+          className={[
+            styles.sectionMargin,
+            styles.modalButtonStyle,
+            styles.modalButtonSize,
+            animations.highlightPrimary,
+          ].join(" ")}>
           Continue Previous Session
         </button>
-        <button onClick={handleNewSession}>
+        <button onClick={handleNewSession}
+          className={[
+            styles.sectionMargin,
+            styles.modalButtonStyle,
+            styles.modalButtonSize,
+            animations.highlightPrimary,
+          ].join(" ")}>
           Start New Session
         </button>
       </div>

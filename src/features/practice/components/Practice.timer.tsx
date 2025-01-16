@@ -1,5 +1,9 @@
-import { useState, useRef, useEffect, Dispatch, SetStateAction } from "react"
-import styles from "./Practice.module.css"
+import { useState, useRef, useEffect, Dispatch, SetStateAction } from "react";
+import styles from "./Practice.Components.module.css";
+import animations from "@/src/animations.module.css";
+
+import PlayIcon from "@/src/assets/icons/playIcon.svg";
+import PauseIcon from "@/src/assets/icons/pauseIcon.svg";
 
 interface TimerProps {
   start: boolean
@@ -15,7 +19,7 @@ export default function Timer(props: TimerProps) {
   const [timerOn, setTimerOn] = useState<boolean>(false);
   const timerInterval = useRef<NodeJS.Timeout>()
 
-  const [timerMessage, setTimerMessage] = useState<string>("")
+  // const [timerMessage, setTimerMessage] = useState<string>("")
 
   useEffect(() => {
 
@@ -54,7 +58,6 @@ export default function Timer(props: TimerProps) {
     }, 1000);
 
     setTimerOn(true);
-    // setTimerInterval(newInterval);
     timerInterval.current = newInterval;
 
   }
@@ -93,14 +96,47 @@ export default function Timer(props: TimerProps) {
 
 
   return (
-    <div id="timer">
+    <div id="timer"
+      className={[
+        styles.timerSize,
+      ].join(" ")}>
       <div id="time-display" className={[
-        styles.alignTimer
+        styles.alignTimeDisplay,
       ].join(" ")}>
         <p>{`${displayTime()}`}</p>
       </div>
-      <button onClick={startTimer}>start</button>
-      <button onClick={stopTimer}>pause</button>
+      <div id="timer-control-container"
+        className={[
+          styles.timerSize,
+          styles.alignTimerButtons,
+        ].join(" ")}>
+        <button id="start-timer-button"
+          className={[
+            styles.buttonStyle,
+            styles.timerButtonMargins,
+            animations.highlightPrimary,
+          ].join(" ")}
+          onClick={startTimer}>
+          <div className={[
+            styles.timerIconSize,
+          ].join(" ")}>
+            <PlayIcon />
+          </div>
+        </button>
+        <button id="stop-timer-button"
+          className={[
+            styles.buttonStyle,
+            styles.timerButtonMargins,
+            animations.highlightPrimary,
+          ].join(" ")}
+          onClick={stopTimer}>
+          <div className={[
+            styles.timerIconSize,
+          ].join(" ")}>
+            <PauseIcon />
+          </div>
+        </button>
+      </div>
     </div>
   )
 }

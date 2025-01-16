@@ -203,6 +203,7 @@ export default function Autocomplete(props: AutocompleteProps) {
         setActiveSuggestionIdx(activeSuggestionIdx - 1)
         break;
       case "Enter":
+        e.stopPropagation();
         e.preventDefault();
         const updatedTags = [...activeTags];
 

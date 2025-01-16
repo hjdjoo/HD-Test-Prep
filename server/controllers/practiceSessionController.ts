@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 // import { camelCase, snakeCase } from "change-case/keys"
 // import createSupabase from "@/utils/supabase/client.ts"
 import createSupabase from "@/utils/supabase/server"
+import { ServerError } from "../_types/server-types";
 
 
 interface PracticeSessionController {
@@ -37,7 +38,16 @@ practiceSessionController.getActiveSession = async (req: Request, res: Response,
 
   } catch (e) {
     console.error(e);
-    return res.status(500).json(e);
+
+    const error: ServerError = {
+      log: "Error in getActiveSession middleware.",
+      status: 500,
+      message: {
+        error: `${e}`
+      }
+    }
+
+    return next(error)
   }
 }
 
@@ -85,12 +95,21 @@ practiceSessionController.initPracticeSession = async (req: Request, res: Respon
 
   } catch (e) {
     console.error(e);
-    return res.status(500).json(`Something went wrong while initializing session in DB: ${e}`)
+
+    const error: ServerError = {
+      log: "Error in initPracticeSession middleware.",
+      status: 500,
+      message: {
+        error: `${e}`
+      }
+    }
+
+    return next(error)
   }
 
 }
 
-practiceSessionController.endPracticeSession = async (req: Request, res: Response, _next: NextFunction) => {
+practiceSessionController.endPracticeSession = async (req: Request, res: Response, next: NextFunction) => {
 
   try {
 
@@ -112,7 +131,16 @@ practiceSessionController.endPracticeSession = async (req: Request, res: Respons
 
   } catch (e) {
     console.error(e);
-    return res.status(500).json(`${e}`)
+
+    const error: ServerError = {
+      log: "Error in endPracticeSession middleware.",
+      status: 500,
+      message: {
+        error: `${e}`
+      }
+    }
+
+    return next(error)
   }
 }
 

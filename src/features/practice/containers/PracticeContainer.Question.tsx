@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
-import styles from "./PracticeContainer.module.css"
 import { useQuery } from "@tanstack/react-query";
+
+import styles from "./PracticeContainer.module.css";
+import animations from "@/src/animations.module.css";
 
 import createSupabase from "@/utils/supabase/client";
 
@@ -14,6 +16,7 @@ import QuestionImage from "@/src/features/practice/components/Practice.questionI
 import Feedback from "@/src/features/practice/components/Practice.feedback";
 import { type FeedbackForm } from "@/src/features/practice/components/Practice.feedback";
 import ErrorPage from "@/src/ErrorPage";
+import Spinner from "components/loading/Loading.Spinner";
 
 
 interface QuestionContainerProps {
@@ -287,20 +290,40 @@ export default function QuestionContainer(props: QuestionContainerProps) {
 
   return (
     <div id="question-container"
-      className={[styles.questionAlign].join(" ")}>
-      <div>
+      className={[
+        styles.questionAlign
+      ].join(" ")}>
+      <div id="timer-container"
+        className={[
+          styles.container,
+          styles.sectionMarginSm,
+        ].join(" ")}>
         <h3>Question Number: {question.question}</h3>
         <Timer start={timerStart} submitStatus={submitStatus} time={time} setTime={setTime} />
       </div>
       <QuestionImage imageUrl={questionUrl} imageLoaded={imageLoaded} setImageLoaded={setImageLoaded} />
       {
         imageLoaded ?
-          <Answers answerChoices={answerChoices} question={question} response={response} setResponse={setResponse} /> :
-          <p>Loading...</p>
+          <div id="answer-choices-container"
+            className={[
+              styles.container,
+              styles.sectionMarginSm,
+            ].join(" ")}>
+            <Answers answerChoices={answerChoices} question={question} response={response} setResponse={setResponse} />
+          </div> :
+          <Spinner />
       }
       {imageLoaded &&
-        <div>
-          <button onClick={handleSubmit}>Submit</button>
+        <div id="submit-answer-button"
+          className={[
+            styles.sectionMargin,
+          ].join(" ")}>
+          <button
+            className={[
+              styles.buttonStyleSecondary,
+              animations.highlightPrimaryDark,
+            ].join(" ")}
+            onClick={handleSubmit}>Submit</button>
         </div>
       }
       {

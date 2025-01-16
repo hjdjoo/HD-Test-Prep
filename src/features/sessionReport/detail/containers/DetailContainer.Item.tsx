@@ -15,7 +15,6 @@ import SummaryItem from "@/src/features/sessionReport/detail/components/Detail.I
 import getFeedbackById from "@/src/queries/GET/getFeedbackById";
 import getTagsById from "@/src/queries/GET/getTagsById";
 
-
 interface DetailItemContainerProps {
   question: Question
   studentResponse: ClientStudentResponse
@@ -116,11 +115,11 @@ export default function DetailItemContainer(props: DetailItemContainerProps) {
   return (
     <div id={`summary-item-question-${question.id}-container`}
       className={[
-        styles.itemAlign,
+        styles.detailAlign,
       ].join(" ")}>
       <div id={`summary-item-question-${question.id}-image`}
         className={[
-          styles.imageSize,
+          styles.itemImageSize,
         ].join(" ")}>
         <QuestionImage imageUrl={questionUrl} imageLoaded={imageLoaded} setImageLoaded={setImageLoaded} />
       </div>

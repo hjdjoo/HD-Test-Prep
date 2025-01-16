@@ -1,10 +1,32 @@
+@import "@/src/vars.module.css";
+
+.sectionMargin {
+  margin-bottom: 2rem;
+}
+
+.sectionMarginSm {
+  margin-bottom: 1rem;
+}
+
+.buttonStyleSecondary {
+  composes: buttonReset from "@/src/App.module.css";
+  background-color: var(--primary-dark);
+  padding: 0rem 1rem;
+}
+
 .container {
   composes: flexColCenter from "@/src/App.module.css";
+  width: 100%;
 }
 
 .buttonMarginY {
   margin-top: 1rem;
   margin-bottom: 1rem;
+}
+
+.nextButtonStyle {
+  composes: buttonReset from "@/src/App.module.css";
+  background-color: var(--primary-extralight);
 }
 
 .nextButtonBorder {
@@ -27,12 +49,31 @@
   border-radius: 50%;
 }
 
-.buttonActive {
+.buttonStyle {
+  composes: buttonReset from "@/src/App.module.css";
+  height: 2rem;
+  background-color: var(--primary-extralight);
+  border-radius: 5px;
+}
+
+.buttonStyleSecondary {
+  composes: buttonReset from "@/src/App.module.css";
+  height: 2.5rem;
+  background-color: var(--primary);
+  color: var(--off-white);
+  border-radius: 5px;
+}
+
+.buttonSize {
+  width: 50%;
+}
+
+/* .buttonActive {
   &:hover {
     cursor: pointer;
     background-color: lightblue;
   }
-}
+} */
 
 /* Question */
 
@@ -68,6 +109,10 @@
 
 .summaryAlign {
   display: flex;
+}
+
+.linkAlign {
+  align-self: center;
 }
 
 .summaryItem {

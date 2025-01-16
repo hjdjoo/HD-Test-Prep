@@ -2,12 +2,16 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 
+import styles from "./SessionReportContainer.module.css"
+
 import getResponsesBySession from "@/src/queries/GET/getResponsesBySession";
 
 import Report from "@/src/features/sessionReport/components/SessionReport.Report";
 import ErrorPage from "@/src/ErrorPage";
 import ModalContainer from "containers/modal/ModalContainer";
 import SendPdfModal from "@/src/features/sessionReport/components/SessionReport.SendPdfModal";
+
+import Loading from "components/loading/Loading";
 
 interface ReportContainerProps {
   sessionId: string
@@ -36,11 +40,8 @@ export default function ReportContainer(props: ReportContainerProps) {
     }
   })
 
-  const [sendStatus, setSendStatus] = useState<"waiting" | "sending" | "sent">("waiting")
-  // const questionsAnswered = useQuestionsAnswered({ studentResponses: sessionResponseData });
-  // const questionsCorrect = useQuestionsCorrect({ studentResponses: sessionResponseData, questionsAnswered })
+  const [sendStatus, setSendStatus] = useState<"waiting" | "sending" | "sent">("waiting");
 
-  // console.log("questionsAnswered, correct: ", questionsAnswered, questionsCorrect)
 
   if (sessionResponseError) {
     console.error(sessionResponseError)
@@ -52,15 +53,17 @@ export default function ReportContainer(props: ReportContainerProps) {
 
   if (!sessionResponseData) {
     return (
-      <div>
-        Loading...
-      </div>
+      <Loading />
     )
   }
 
 
   return (
-    <>
+    <div id={`session-${sessionId}-report`}
+      className={[
+        styles.pageMargin,
+        styles.pagePadding,
+      ].join(" ")}>
       {
         (sessionResponseData) &&
         <>
@@ -88,6 +91,6 @@ export default function ReportContainer(props: ReportContainerProps) {
           }
         </>
       }
-    </>
+    </div>
   )
 }
