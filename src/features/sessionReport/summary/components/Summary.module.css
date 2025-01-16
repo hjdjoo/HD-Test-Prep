@@ -1,4 +1,8 @@
 
+.sectionMargin {
+  margin-bottom: 2rem;
+}
+
 .sectionHeaderText {
   text-decoration: underline;
 }

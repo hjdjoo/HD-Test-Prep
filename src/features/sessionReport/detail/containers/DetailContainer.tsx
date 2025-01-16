@@ -33,12 +33,10 @@ export default function DetailsContainer(props: DetailsContainerProps) {
       <div key={`student-response-summary-item-${idx + 1}`}
         id={`student-response-summary-item-${idx + 1}`}
         className={[
-          styles.itemBg,
-          styles.itemPadding,
+          styles.sectionMargin,
         ].join(" ")}>
         <div className={[
-          styles.textMd,
-          styles.textMb,
+          styles.textBold,
         ].join(" ")}>
           <p>{`Question ${idx + 1}:`}</p>
         </div>
@@ -53,7 +51,8 @@ export default function DetailsContainer(props: DetailsContainerProps) {
   return (
     <div id="session-details-container"
       className={[
-        styles.itemWidth,
+        styles.sectionSize,
+        styles.sectionAlign,
       ].join(" ")}>
       {!children && responseItems}
       {children}

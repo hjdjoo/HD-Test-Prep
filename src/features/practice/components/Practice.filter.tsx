@@ -1,5 +1,5 @@
 import { ChangeEvent } from "react";
-import styles from "./Practice.module.css"
+import styles from "./Practice.Components.module.css"
 // import { Filter } from "@/src/stores/questionStore"
 import { useQuestionStore } from "@/src/stores/questionStore"
 import { useCategoryStore } from "@/src/stores/categoryStore";

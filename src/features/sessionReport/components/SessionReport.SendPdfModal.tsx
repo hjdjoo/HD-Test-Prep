@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useEffect, useRef } from "react"
 import { useQuery } from "@tanstack/react-query";
 
-import { pdf, renderToStream } from "@react-pdf/renderer";
+import { pdf } from "@react-pdf/renderer";
 
 import { useUserStore } from "@/src/stores/userStore";
 
@@ -20,6 +20,8 @@ import sendSessionSummary from "@/src/queries/POST/sendSessionSummary";
 
 import ErrorPage from "@/src/ErrorPage";
 import PdfReport from "@/src/features/pdf/components/Pdf.Report";
+import Spinner from "components/loading/Loading.Spinner";
+import endSession from "@/src/queries/PATCH/endPracticeSession";
 
 interface SendPdfModalProps {
   sessionId: string
@@ -168,38 +170,45 @@ export default function SendPdfModal(props: SendPdfModalProps) {
 
 
   async function handleSend() {
+    try {
+      if (!user) {
+        console.log("No user detected");
+        return;
+      }
 
-    if (!user) {
-      console.log("No user detected");
-      return;
+      if (!sessionResponseData || !feedbackData || !questionImageData || !tagsData) {
+        console.log("incomplete data; returning...");
+        return;
+      }
+
+      if (!questionsAnswered.length || !!!questionsCorrect) {
+        console.log("No data returned from hooks");
+        return;
+      }
+
+      console.log("sending report...")
+      const Report = <PdfReport
+        studentResponses={sessionResponseData}
+        questionImageData={questionImageData}
+        feedbackData={feedbackData}
+        tagsData={tagsData}
+        questionsAnswered={questionsAnswered}
+        questionsCorrect={questionsCorrect}
+      />
+
+      const pdfBlob = await pdf(Report).toBlob();
+
+      await sendSessionSummary(pdfBlob, sessionId, String(user.id));
+
+      await endSession(Number(sessionId), "inactive");
+
+      sentRef.current = false;
+      setSendStatus("sent");
+
+    } catch (e) {
+      console.error(e);
+      setSendStatus("waiting");
     }
-
-    if (!sessionResponseData || !feedbackData || !questionImageData || !tagsData) {
-      console.log("incomplete data; returning...");
-      return;
-    }
-
-    if (!questionsAnswered.length || !!!questionsCorrect) {
-      console.log("No data returned from hooks");
-      return;
-    }
-
-    console.log("sending report...")
-    const Report = <PdfReport
-      studentResponses={sessionResponseData}
-      questionImageData={questionImageData}
-      feedbackData={feedbackData}
-      tagsData={tagsData}
-      questionsAnswered={questionsAnswered}
-      questionsCorrect={questionsCorrect}
-    />
-
-    const pdfBlob = await pdf(Report).toBlob();
-
-    await sendSessionSummary(pdfBlob, sessionId, String(user.id));
-
-    sentRef.current = false;
-    setSendStatus("sent");
 
   }
 
@@ -232,9 +241,14 @@ export default function SendPdfModal(props: SendPdfModalProps) {
 
   if (!sessionResponseData || !feedbackData || !questionImageData || !tagsData) {
     return (
-      <div>
-        Loading...
-      </div>
+      <>
+        <div>
+          Loading Data...
+        </div>
+        <div>
+          <Spinner />
+        </div>
+      </>
     )
   }
 
@@ -242,6 +256,9 @@ export default function SendPdfModal(props: SendPdfModalProps) {
     <>
       <div>
         Sending report...
+      </div>
+      <div>
+        <Spinner />
       </div>
     </>
   )

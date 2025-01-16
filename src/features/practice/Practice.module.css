@@ -3,6 +3,7 @@
 .container {
   padding-top: 15%;
   composes: flexColCenter from "@/src/App.module.css";
+  width: 100%;
 }
 
 .sectionSpacing {
@@ -16,6 +17,6 @@
 }
 
 .buttonSize {
-  width: 100%;
+  width: 30%;
   height: 2rem;
 }

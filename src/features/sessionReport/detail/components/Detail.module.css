@@ -1,6 +1,22 @@
-.pageBorder {
-  border: 2px solid black;
-  padding: 1rem;
+@import "@/src/vars.module.css";
+
+
+.detailsBg {
+  
+  &>div:nth-of-type(odd) {
+    background-color: var(--primary-extralight);
+  }
+}
+
+.feedbackBg {
+  
+  &>div:nth-of-type(even) {
+    background-color: white;
+  }
+}
+
+.detailsTextSm {
+  font-size: 0.8rem;
 }
 
 .responseWidth {
@@ -27,5 +43,7 @@
 }
 
 .dataAlign {
-  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }

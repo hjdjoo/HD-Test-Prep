@@ -1,5 +1,5 @@
 import { MouseEvent } from "react";
-import styles from "./Practice.module.css"
+import styles from "./Practice.Components.module.css"
 import type { Question } from "@/src/stores/questionStore";
 
 interface AnswersProps {
@@ -43,7 +43,8 @@ export default function Answers(props: AnswersProps) {
 
 
   return (
-    <div className={[styles.radioButtonsVertical, styles.answersWidth].join(" ")}>
+    <div className={[
+      styles.radioButtonsVertical, styles.answersWidth].join(" ")}>
       {/* {answersAE.includes(answer) && radiosAE}
       {answersFK.includes(answer) && radiosFK} */}
       {radios}

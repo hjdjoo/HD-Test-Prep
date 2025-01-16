@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useState, ChangeEvent } from "react"
-import styles from "./Practice.module.css"
+import styles from "./Practice.Components.module.css"
 
 import Autocomplete from "components/autocomplete/Autocomplete"
 
@@ -224,8 +224,8 @@ export default function FeedbackForm(props: FeedbackFormProps) {
 
     fileReader.readAsDataURL(files[0])
 
+    /* TO DO */
     // add a conditional block to compress images to a max size.
-
     if (files[0].size > 5000000) {
 
       //.......
@@ -249,9 +249,6 @@ export default function FeedbackForm(props: FeedbackFormProps) {
 
   async function handleSubmit() {
 
-    // if (feedbackStatus === "waiting") {
-    //   setFeedbackStatus("submitting");
-    // }
     submitForm();
 
   }

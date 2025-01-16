@@ -1,5 +1,6 @@
 import styles from "./PracticeContainer.module.css"
-import { useState, useEffect } from "react";
+import animations from "@/src/animations.module.css";
+import { useState, Suspense } from "react";
 import { Link } from "react-router-dom";
 
 import { usePracticeSessionStore } from "@/src/stores/practiceSessionStore";
@@ -8,21 +9,29 @@ import useQuestionsAnswered from "@/src/hooks/useQuestionsAnswered";
 
 import SummaryContainer from "@/src/features/sessionReport/summary/containers/SummaryContainer";
 import DetailsContainer from "../../sessionReport/detail/containers/DetailContainer";
+import ModalContainer from "containers/modal/ModalContainer";
+import SendPdfModal from "../../sessionReport/components/SessionReport.SendPdfModal";
 
 import { ClientStudentResponse } from "@/src/queries/GET/getResponsesBySession";
 import ErrorPage from "@/src/ErrorPage";
+// import Loading from "components/loading/Loading";
+import Spinner from "components/loading/Loading.Spinner"
 
-interface SessionContainerProps {
+interface SessionReportContainerProps {
   studentResponses: ClientStudentResponse[]
 }
 
-export default function PracticeReportContainer(props: SessionContainerProps) {
+export default function SessionReportContainer(props: SessionReportContainerProps) {
 
   const sessionId = usePracticeSessionStore((state) => state.sessionId);
   // const sessionId = usePracticeSessionStore((state) => state.sessionId);
   // const sessionResponses = usePracticeSessionStore((state) => state.sessionResponses)
 
   const [showDetails, setShowDetails] = useState<boolean>(false)
+
+
+  const [sendStatus, setSendStatus] = useState<"waiting" | "sending" | "sent">("waiting");
+
 
   const { studentResponses } = props;
 
@@ -46,7 +55,9 @@ export default function PracticeReportContainer(props: SessionContainerProps) {
   return (
     <div id="session-container"
       className={[
+        styles.sectionAlign,
         styles.containerMargins,
+        styles.sectionMargins,
       ].join(" ")}
     >
       <SummaryContainer
@@ -54,8 +65,11 @@ export default function PracticeReportContainer(props: SessionContainerProps) {
         questionsCorrect={questionsCorrect} />
       <button id="show-session-details-button"
         className={[
+          styles.sectionMargin,
+          styles.buttonStyle,
           styles.buttonWidth,
           styles.sectionMargins,
+          animations.highlightPrimary,
         ].join(" ")}
         onClick={handleShowDetails}
       >
@@ -68,12 +82,40 @@ export default function PracticeReportContainer(props: SessionContainerProps) {
       {
         showDetails &&
         <div>
-          <DetailsContainer questionsAnswered={questionsAnswered} studentResponses={studentResponses} />
+          <Suspense fallback={<Spinner />}>
+            <DetailsContainer questionsAnswered={questionsAnswered} studentResponses={studentResponses} />
+          </Suspense>
         </div>
       }
-      <Link to={`/report/${sessionId}`}>
-        View Session Report
-      </Link>
+      <div id="link-to-report"
+        className={[
+          styles.sectionMargin,
+          styles.sectionAlign,
+          styles.linkAlign,
+        ].join(" ")}>
+        <Link to={`/report/${sessionId}`}>
+          View Session Report
+        </Link>
+      </div>
+      <button id="send-report-button"
+        className={[
+          styles.buttonStyleSecondary,
+          animations.highlightPrimaryDark,
+        ].join(" ")}
+        onClick={() => {
+          setSendStatus("sending");
+        }}>
+        End Session & Send Report
+      </button>
+      {
+        sendStatus === "sending" &&
+        <ModalContainer>
+          <SendPdfModal
+            sessionId={String(sessionId)}
+            setSendStatus={setSendStatus}
+          />
+        </ModalContainer>
+      }
     </div>
   )
 

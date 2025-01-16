@@ -41,7 +41,7 @@ export default function DetailItem(props: DetailItemProps) {
 
       return (
         <div key={`feedback-tag-${idx + 1}`}>
-          <p>{tag}</p>
+          <i>{tag}</i>
         </div>
       )
 
@@ -53,7 +53,9 @@ export default function DetailItem(props: DetailItemProps) {
     <>
       <div id={`summary-item-question-${question.id}-student-response-info`}
         className={[
+          styles.detailsBg,
           styles.responseWidth,
+          styles.detailsTextSm,
         ].join(" ")}>
         <div id={`summary-item-question-${question.id}-student-answer`}
           className={[
@@ -85,7 +87,7 @@ export default function DetailItem(props: DetailItemProps) {
           feedbackData &&
           <div id={`summary-item-question-${question.id}-feedback-info`}
             className={[
-
+              styles.feedbackBg,
             ].join(" ")}>
             {
               feedbackData.difficultyRating &&

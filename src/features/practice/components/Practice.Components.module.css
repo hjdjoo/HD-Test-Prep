@@ -1,9 +1,22 @@
+@import "@/src/vars.module.css";
+
+.sectionMargin {
+  margin-bottom: 1rem;
+}
+
 .alignFilters {
   display: flex;
 }
 
 .filterTextSize {
   font-size: 0.8rem;
+}
+
+.buttonStyle {
+  composes: buttonReset from "@/src/App.module.css";
+  background-color: var(--primary-extralight);
+  border-radius: 0.4rem;
+  height: 2rem;
 }
 
 .checkboxesVertical {
@@ -26,6 +39,7 @@
 }
 
 /* Answer components */
+
 .radioButtonsVertical {
   display: flex;
   flex-direction: column;
@@ -60,9 +74,28 @@
 
 /*Timer styles*/
 
-.alignTimer {
-  diplay: flex;
-  text-align: center;
+.timerSize {
+  width: 100%;
+}
+
+.alignTimerButtons {
+  display: flex;
+  justify-content: center;
+}
+
+.alignTimeDisplay {
+  display: flex;
+  justify-content: center;
+}
+
+.timerIconSize {
+  height: 1.5rem;
+  width: 1.5rem;
+}
+
+.timerButtonMargins {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
 }
 
 /* Feedback Form */
@@ -192,4 +225,22 @@
 .guessInputAlign {
   display: flex;
   justify-content: center;
+}
+
+.modalStyle {
+  background-color: var(--off-white);
+  padding: 1rem 2rem;
+  max-width: 350px;
+  min-width: 90%;
+}
+
+.modalButtonStyle {
+  composes: buttonReset from "@/src/App.module.css";
+  background-color: var(--primary-extralight);
+  border-radius: 5px;
+}
+
+.modalButtonSize {
+  height: 2rem;
+  width: 70%
 }

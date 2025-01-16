@@ -18,6 +18,16 @@
   }
 }
 
+@keyframes highlightPrimaryDark {
+  
+  from {
+    background-color: var(--primary);
+  }
+  to {
+    background-color: var(--primary-dark);
+  }
+}
+
 @keyframes grow {
   from {
     scale: 1;
@@ -56,10 +66,15 @@
   }
 }
 
-
 .highlightPrimary {
   &:hover {
     animation: highlightPrimary 0.2s ease-in-out forwards;
+  }
+}
+
+.highlightPrimaryDark {
+  &:hover {
+    animation: highlightPrimaryDark 0.2s ease-in-out forwards;
   }
 }
 

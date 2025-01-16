@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import styles from "./PracticeContainer.module.css"
+import animations from "@/src/animations.module.css";
 import { useQuery } from "@tanstack/react-query";
 
 
@@ -14,7 +15,7 @@ import endSession from "@/src/queries/PATCH/endPracticeSession";
 
 import startPracticeSession from "@/src/queries/POST/startPracticeSession";
 import ErrorPage from "@/src/ErrorPage";
-import SessionContainer from "@/src/features/practice/containers/PracticeContainer.Report";
+import SessionReportContainer from "@/src/features/practice/containers/PracticeContainer.Report";
 import getPracticeSession from "@/src/queries/GET/getPracticeSession";
 import getResponsesBySession from "@/src/queries/GET/getResponsesBySession";
 
@@ -160,10 +161,18 @@ export default function RandomPractice() {
 
   return (
     <div id="random-practice-container"
-      className={[styles.container].join(" ")}>
-      <h3>Random Practice:</h3>
+      className={[
+        styles.container,
+        styles.sectionMargin,
+      ].join(" ")}>
+      <h3>Randomized Practice:</h3>
       <button id="show-settings-button"
-        className={[styles.buttonMarginY].join(" ")}
+        className={[
+          styles.buttonMarginY,
+          styles.buttonStyle,
+          styles.buttonSize,
+          animations.highlightPrimary,
+        ].join(" ")}
         onClick={() => {
           setShowSettings(!showSettings);
         }}>{`Customize Session`}</button>
@@ -185,10 +194,11 @@ export default function RandomPractice() {
           <div>
             <button id="next-question-button"
               className={[
+                styles.nextButtonStyle,
                 styles.nextButtonBorder,
                 styles.nextButtonMargin,
                 styles.nextButtonRound,
-                styles.buttonActive,
+                animations.highlightPrimary,
               ].join(" ")}
               onClick={getRandomQuestion}
             >{">"}</button>
@@ -196,16 +206,21 @@ export default function RandomPractice() {
           </div>
         </div>
       }
-      <br />
       {
         !currQuestion &&
-        <button onClick={getRandomQuestion}>
+        <button onClick={getRandomQuestion}
+          className={[
+            styles.sectionMargin,
+            styles.buttonStyle,
+            styles.buttonSize,
+            animations.highlightPrimary,
+          ].join(" ")}>
           Go!
         </button>
       }
       {
         (!isPrevSession && sessionId) &&
-        <SessionContainer studentResponses={studentResponseData || []} />
+        <SessionReportContainer studentResponses={studentResponseData || []} />
       }
     </div>
   )
