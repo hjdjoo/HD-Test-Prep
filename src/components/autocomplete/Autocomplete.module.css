@@ -6,13 +6,19 @@
 }
 
 /* Suggestions list*/ 
-.listContainer {
+.listContainerStyle {
   height: auto;
   max-height: 10rem;
-  padding-left: 0.5rem;
-  background-color: lightyellow;
+  max-width: 100%;
+  padding: 0.5rem;
+  background-color: var(--off-white);
   overflow-y: scroll;
   scrollbar-color: lightgrey;
+}
+
+.listAlign {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .activeSuggestion {
@@ -47,7 +53,7 @@
 }
 
 .tagChipColor {
-  background-color: rgba(211, 211, 211, 0.643);
+  background-color: var(--primary-extralight);
 }
 
 .tagChipAlign {
@@ -55,7 +61,7 @@
   align-items: center;
 }
 
-.deleteTag {  
+.tagButton {  
   border-radius: 50%;
   text-align: center;
   margin-left: 5px;

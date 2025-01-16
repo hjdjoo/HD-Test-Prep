@@ -1,10 +1,15 @@
 import { ChangeEvent, MouseEvent, KeyboardEvent, Dispatch, SetStateAction, useState, } from "react";
-import styles from "./Autocomplete.module.css"
-import debounce from "@/utils/debounce";
+
+import styles from "./Autocomplete.module.css";
+import animations from "@/src/animations.module.css";
+
 import { useTagStore } from "@/src/stores/tagStore";
 import { FeedbackForm } from "@/src/features/practice/components/Practice.feedback";
 
-import DeleteIcon from "@/src/assets/icons/deleteIcon.svg"
+import debounce from "@/utils/debounce";
+
+import DeleteIcon from "@/src/assets/icons/deleteIcon.svg";
+import AddIcon from "@/src/assets/icons/addIcon.svg";
 
 
 interface SuggestionsListProps {
@@ -26,8 +31,12 @@ function SuggestionsList(props: SuggestionsListProps) {
 
   function handleClick(e: MouseEvent<HTMLDivElement>) {
 
-    const { innerText } = e.target as HTMLDivElement;
-    // console.log(innerText);
+    console.log("target: ", e.target);
+    console.log("currentTarget: ", e.currentTarget);
+
+    const { innerText } = e.currentTarget as HTMLDivElement;
+
+    console.log(innerText);
     if (activeTags.includes(innerText)) {
       return;
     }
@@ -42,13 +51,14 @@ function SuggestionsList(props: SuggestionsListProps) {
 
 
   const suggestionsList = filteredSuggestions.map((suggestion, idx) => {
+
     const activeItem = activeIdx === idx ? styles.activeSuggestion : ""
 
     return (
       <div key={`suggestion-${idx + 1}`}
         id={`suggestion-${idx + 1}`}>
-        <p
-          onClick={(e) => {
+        <p onClick={
+          (e) => {
             setActiveIdx(idx);
             handleClick(e);
           }}
@@ -56,9 +66,8 @@ function SuggestionsList(props: SuggestionsListProps) {
             activeItem,
             styles.itemDecoration,
             styles.itemText,
-
           ].join(" ")}>
-          {suggestion}
+          <TagChip tag={suggestion} activeTags={filteredSuggestions} setActiveTags={setActiveTags} type="add" idx={idx}></TagChip>
         </p>
       </div>
     )
@@ -66,11 +75,14 @@ function SuggestionsList(props: SuggestionsListProps) {
 
 
   return (
-    <div id="suggestions-list-box"
+    <div id="suggestions-list-container"
       className={[
-        styles.listContainer,
+        styles.listContainerStyle,
       ].join(" ")}>
-      <div id="suggestions-list">
+      <div id="suggestions-list"
+        className={[
+          styles.listAlign,
+        ].join(" ")}>
         {suggestionsList}
       </div>
     </div>
@@ -116,12 +128,13 @@ function TagChip(props: TagChipProps) {
         styles.tagChipDecorate,
         styles.tagChipColor,
         styles.tagChipAlign,
+        animations.highlightPrimary,
       ].join(" ")}>
       <p>{tag}</p>
       <div className={[
-        styles.deleteTag
+        styles.tagButton
       ].join(" ")}>
-        <DeleteIcon />
+        {type === "remove" ? <DeleteIcon /> : <AddIcon />}
       </div>
     </div>
   )
@@ -184,6 +197,7 @@ export default function Autocomplete(props: AutocompleteProps) {
 
     switch (code) {
       // case
+      case "ArrowRight":
       case "ArrowDown":
         e.preventDefault();
         setSelectSuggestion(true);
@@ -196,6 +210,7 @@ export default function Autocomplete(props: AutocompleteProps) {
         }
         setActiveSuggestionIdx(activeSuggestionIdx + 1);
         break;
+      case "ArrowLeft":
       case "ArrowUp":
         e.preventDefault();
         setSelectSuggestion(true);
@@ -260,6 +275,7 @@ export default function Autocomplete(props: AutocompleteProps) {
         </div>
         <input id="autocomplete-input"
           type="text"
+          autoComplete="off"
           onChange={handleAutocompleteChange}
           onKeyDown={handleSuggestionSelect}
           value={tagInput}

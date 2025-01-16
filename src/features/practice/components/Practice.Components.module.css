@@ -1,8 +1,30 @@
 @import "@/src/vars.module.css";
 
+/* Locals */
 .sectionMargin {
   margin-bottom: 1rem;
 }
+
+.sectionWidthFull {
+  width: 100%;
+}
+
+.buttonStyle {
+  composes: buttonReset from "@/src/App.module.css";
+  background-color: var(--primary-extralight);
+  border-radius: 0.4rem;
+  height: 2rem;
+}
+
+.buttonStyleSecondary {
+  composes: buttonReset from "@/src/App.module.css";
+  background-color: var(--primary);
+  color: var(--off-white);
+  border-radius: 0.4rem;
+  height: 2rem;
+}
+
+/* Settings/Filter component */
 
 .alignFilters {
   display: flex;
@@ -12,12 +34,6 @@
   font-size: 0.8rem;
 }
 
-.buttonStyle {
-  composes: buttonReset from "@/src/App.module.css";
-  background-color: var(--primary-extralight);
-  border-radius: 0.4rem;
-  height: 2rem;
-}
 
 .checkboxesVertical {
   display: flex;
@@ -46,7 +62,6 @@
 }
 
 .radioButtonsMouse {
-
   &:hover {
     cursor: pointer;
   }
@@ -119,12 +134,30 @@
 .formDisplay {
   background-color: white;
   min-height: 60vh;
+  max-height: 90vh;
   max-width: 70vw;
   padding-top: 1rem;
   padding-bottom: 2rem;
   border: 5px solid black;
   overflow-y: scroll;
 }
+
+
+.closeFormButtonStyle {
+  composes: buttonReset from "@/src/App.module.css";
+  background-color: transparent;
+  height: 1.5rem;
+  width: 1.5rem;
+  padding: 0rem;
+  border-radius: 50%;
+}
+
+.closeFormButtonPosition {
+  position: absolute;
+  left: 90%;
+}
+
+/* Upload file component in feedback form */
 
 .uploadIconDecoration {
   &:hover {
@@ -147,11 +180,11 @@
 
 .uploadIconColor {
   color: black;
-  background-color: rgba(173, 216, 230, 0.40);
+  background-color: var(--primary-extralight);
 }
 
 .removeUploadColor{
-  background-color: rgba(128, 128, 128, 0.4);
+  background-color: var(--primary);
   color: white;
 }
 
@@ -162,11 +195,16 @@
   }
 }
 
-.removeUploadSize {
+.removeUploadPosition {
   position: absolute;
+  left: 90%;
+  margin: 0.5rem;
+}
+
+.removeUploadSize {
   width: 2rem;
   height: 2rem;
-  margin: 4px;
+  padding: 0.4rem;
 }
 
 .marginTopDefault {
@@ -235,7 +273,7 @@
 }
 
 .modalButtonStyle {
-  composes: buttonReset from "@/src/App.module.css";
+  composes: buttonReset from "@/src/App.module.css";;
   background-color: var(--primary-extralight);
   border-radius: 5px;
 }
@@ -243,4 +281,8 @@
 .modalButtonSize {
   height: 2rem;
   width: 70%
+}
+
+.submitButtonSize {
+  width: 70%;
 }

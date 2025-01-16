@@ -1,10 +1,13 @@
-import { Dispatch, SetStateAction, useState, ChangeEvent } from "react"
-import styles from "./Practice.Components.module.css"
+import { Dispatch, SetStateAction, useState, ChangeEvent, MouseEvent } from "react";
+
+import styles from "./Practice.Components.module.css";
+import animations from "@/src/animations.module.css";
 
 import Autocomplete from "components/autocomplete/Autocomplete"
 
 import DeleteIcon from "@/src/assets/icons/deleteIcon.svg"
 import UploadIcon from "@/src/assets/icons/uploadIcon.svg";
+import TrashIcon from "@/src/assets/icons/trashIcon.svg"
 
 import { useTagStore } from "@/src/stores/tagStore";
 import { Question, useQuestionStore } from "@/src/stores/questionStore";
@@ -68,12 +71,14 @@ function UploadPreview(props: UploadPreviewProps) {
       <div id="remove-upload-button"
         className={[
           styles.removeUploadSize,
+          styles.removeUploadPosition,
           styles.removeUploadColor,
           styles.removeUploadDecoration,
+          animations.highlightPrimaryDark,
         ].join(" ")}
         onClick={handleDelete}
       >
-        <DeleteIcon />
+        <TrashIcon />
       </div>
       <img src={uploadFileData.fileData} alt={"Upload preview:"} />
     </div>
@@ -101,6 +106,10 @@ export default function FeedbackForm(props: FeedbackFormProps) {
     3: "Medium",
     4: "Hard",
     5: "Very Hard"
+  }
+
+  function handleClose() {
+    setSubmitStatus("waiting");
   }
 
   async function submitForm() {
@@ -287,6 +296,16 @@ export default function FeedbackForm(props: FeedbackFormProps) {
           styles.formDisplay,
           styles.formAlign,
         ].join(" ")}>
+        <div id="close-modal-button">
+          <button
+            onClick={handleClose}
+            className={[
+              styles.closeFormButtonStyle,
+              styles.closeFormButtonPosition,
+            ].join(" ")}>
+            <DeleteIcon />
+          </button>
+        </div>
         <h2>Reflection Form</h2>
         <div className={[
           styles.formSectionDetailText
@@ -360,6 +379,8 @@ export default function FeedbackForm(props: FeedbackFormProps) {
             <p>Add a note or question for your instructor:</p>
           </div>
           <textarea id="instructor-feedback"
+            autoComplete="off"
+            cols={30}
             name="comment"
             onChange={handleForm}
             value={feedbackForm.comment}
@@ -382,6 +403,7 @@ export default function FeedbackForm(props: FeedbackFormProps) {
                 styles.uploadIconSize,
                 styles.marginTopDefault,
                 styles.uploadIconColor,
+                animations.highlightPrimary,
               ].join(" ")}>
               <label htmlFor="student-file-upload"
                 className={styles.uploadIconDecoration}>
@@ -404,7 +426,8 @@ export default function FeedbackForm(props: FeedbackFormProps) {
             styles.formSectionWidth,
           ].join(" ")}>
           <div className={[
-            styles.formSectionHeading
+            styles.formSectionHeading,
+            styles.sectionMargin,
           ].join(" ")}>
             <p>{"Add any tags that fit this problem (e.g., quadratic equations, linear equations, sohcahtoa, etc)"}
             </p>
@@ -417,8 +440,18 @@ export default function FeedbackForm(props: FeedbackFormProps) {
           />
         </section>
         <section id="submit-button-box"
-          className={[styles.formSectionHeading].join(" ")}>
-          <button onClick={handleSubmit}>Submit</button>
+          className={[
+            styles.formSectionHeading,
+            styles.sectionWidthFull,
+            styles.formAlign,
+          ].join(" ")}>
+          <button
+            className={[
+              styles.buttonStyleSecondary,
+              styles.submitButtonSize,
+              animations.highlightPrimaryDark,
+            ].join(" ")}
+            onClick={handleSubmit}>Submit</button>
         </section>
       </div>
     </ModalContainer>

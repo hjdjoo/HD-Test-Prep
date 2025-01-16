@@ -64,7 +64,7 @@ export default function QuestionContainer(props: QuestionContainerProps) {
 
   const [timerStart, setTimerStart] = useState<boolean>(false);
 
-  const [loadingNext, setLoadingNext] = useState<boolean>(false);
+  // const [loadingNext, setLoadingNext] = useState<boolean>(false);
 
   const showFeedback = (submitStatus === "submitting");
 
