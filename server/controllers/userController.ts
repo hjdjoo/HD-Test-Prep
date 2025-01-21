@@ -5,6 +5,7 @@ import createServiceClient from "@/utils/supabase/service";
 // import HMACSH
 
 import { type User } from "@supabase/supabase-js";
+import { ServerError } from "../_types/server-types";
 // import createSupabase from "@/utils/supabase/server";
 
 console.log("entered userController");
@@ -16,30 +17,54 @@ interface UserController {
 const userController: UserController = {};
 
 
-userController.checkTokens = async (req: Request, res: Response, next: NextFunction) => {
+userController.checkTokens = async (req: Request, _res: Response, next: NextFunction) => {
+  try {
 
-  // first, check the body of the request (this means a "SIGNED_IN" event was triggered and this should be a new session.)
-  const { accessToken, refreshToken } = req.body;
+    // check if there are tokens in cookies. If not, check the body.
+    const { cookies } = req;
+    console.log("cookies", cookies);
+    if (cookies.accessToken && cookies.refreshToken) {
+      console.log("tokens detected in cookies. Continuing..")
+      return next();
+    }
 
-  if (accessToken && refreshToken) {
-    console.log("auth tokens found in request body. saving to cookies...")
-    // We set the request cookies for the supabase client to set session.
-    req.cookies.accessToken = accessToken;
-    req.cookies.refreshToken = refreshToken;
-    // And update the response cookies for storage.
-    res.cookie("accessToken", accessToken);
-    res.cookie("refreshToken", refreshToken);
-    return next();
+
+    // if (!req.body.accessToken) {
+    //   throw new Error("No access token found in request body")
+    // }
+    // if (!req.body.refreshToken) {
+    //   throw new Error("No refresh token found in request body")
+    // }
+
+    // const { accessToken, refreshToken } = req.body;
+
+    // if (accessToken && refreshToken) {
+    //   console.log("auth tokens found in request body. saving to cookies...")
+    //   // We set the request cookies for the supabase client to set session.
+    //   req.cookies.accessToken = accessToken;
+    //   req.cookies.refreshToken = refreshToken;
+    //   // And update the response cookies for storage.
+    //   res.cookie("accessToken", accessToken);
+    //   res.cookie("refreshToken", refreshToken);
+    //   return next();
+    // }
+
   }
+  catch (e) {
 
-  // If there's nothing in the body, then use tokens from the cookies.
-  const { cookies } = req;
-  if (cookies.accessToken && cookies.refreshToken) {
-    console.log("tokens detected in cookies. Continuing..")
-    return next();
+    console.error(e);
+
+    const error: ServerError = {
+      log: "userController: Error while checking tokens",
+      status: 401,
+      message: {
+        error: `${e}`
+      }
+    }
+
+    return next(error);
+
   }
-
-  return res.status(401).json("No auth tokens found.");
 
 }
 
@@ -84,14 +109,26 @@ userController.getUser = async (req: Request, res: Response, next: NextFunction)
 
   } catch (e) {
     console.error(e);
-    return res.status(500).json("couldn't get profile data")
+
+
+    const error: ServerError = {
+      log: "userController: Error while getting profile data",
+      status: 500,
+      message: {
+        error: `${e}`
+      }
+    }
+
+    return next(error);
+
+    // return res.status(500).json("couldn't get profile data")
 
   }
 
 }
 
 
-userController.initProfile = async (_req: Request, res: Response, _next: NextFunction) => {
+userController.initProfile = async (_req: Request, res: Response, next: NextFunction) => {
 
   console.log("initializing profile...")
 
@@ -122,7 +159,17 @@ userController.initProfile = async (_req: Request, res: Response, _next: NextFun
 
   } catch (e) {
 
-    res.status(500).json(`Server error while initializing profile. ${e}`)
+    const error: ServerError = {
+      log: "userController: Error while initializing profile",
+      status: 401,
+      message: {
+        error: `${e}`
+      }
+    }
+
+    return next(error);
+
+    // res.status(500).json(`Server error while initializing profile. ${e}`)
 
   }
 

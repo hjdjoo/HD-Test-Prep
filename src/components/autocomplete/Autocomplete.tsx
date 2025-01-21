@@ -57,7 +57,7 @@ function SuggestionsList(props: SuggestionsListProps) {
     return (
       <div key={`suggestion-${idx + 1}`}
         id={`suggestion-${idx + 1}`}>
-        <p onClick={
+        <div onClick={
           (e) => {
             setActiveIdx(idx);
             handleClick(e);
@@ -67,8 +67,8 @@ function SuggestionsList(props: SuggestionsListProps) {
             styles.itemDecoration,
             styles.itemText,
           ].join(" ")}>
-          <TagChip tag={suggestion} activeTags={filteredSuggestions} setActiveTags={setActiveTags} type="add" idx={idx}></TagChip>
-        </p>
+          <TagChip tag={suggestion} activeTags={filteredSuggestions} setActiveTags={setActiveTags} type="add" idx={idx} />
+        </div>
       </div>
     )
   })

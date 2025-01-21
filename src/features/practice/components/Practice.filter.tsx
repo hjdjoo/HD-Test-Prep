@@ -1,7 +1,7 @@
 import { ChangeEvent } from "react";
 import styles from "./Practice.Components.module.css"
 // import { Filter } from "@/src/stores/questionStore"
-import { useQuestionStore } from "@/src/stores/questionStore"
+import { questionStore } from "@/src/stores/questionStore"
 import { useCategoryStore } from "@/src/stores/categoryStore";
 import { Category, ProblemType } from "@/src/stores/categoryStore";
 
@@ -11,7 +11,7 @@ interface CategoryToggleProps {
 
 function CategoryToggles(props: CategoryToggleProps) {
 
-  const { filter, setFilter } = useQuestionStore();
+  const { filter, setFilter } = questionStore.getState();
   const { categories } = props;
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
@@ -64,7 +64,7 @@ interface ProblemTypeToggleProps {
 
 function ProblemTypeToggles(props: ProblemTypeToggleProps) {
 
-  const { filter, setFilter } = useQuestionStore();
+  const { filter, setFilter } = questionStore.getState();
   const { problemTypes } = props;
 
   // const { id, problemType: name } = problemType;
@@ -117,7 +117,7 @@ function ProblemTypeToggles(props: ProblemTypeToggleProps) {
 
 function DifficultyToggles() {
 
-  const { filter, setFilter } = useQuestionStore();
+  const { filter, setFilter } = questionStore.getState();
 
   const { difficulty } = filter;
 

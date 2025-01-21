@@ -24,6 +24,30 @@
   height: 2rem;
 }
 
+.formAlign {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.formSectionDetailText {
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.formSectionAlign {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.formSectionWidth {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0rem 1rem;
+}
+
+
 /* Settings/Filter component */
 
 .alignFilters {
@@ -211,29 +235,6 @@
   margin-top: 1rem;
 }
 
-.formAlign {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.formSectionDetailText {
-  font-size: 0.8rem;
-  text-align: center;
-}
-
-.formSectionAlign {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.formSectionWidth {
-  box-sizing: border-box;
-  width: 100%;
-  padding: 0rem 1rem;
-}
-
 .resultTextSize {
   font-size: 1.2rem;
 }
@@ -268,8 +269,8 @@
 .modalStyle {
   background-color: var(--off-white);
   padding: 1rem 2rem;
-  max-width: 350px;
-  min-width: 90%;
+  width: 80vw;
+  max-width: 500px;
 }
 
 .modalButtonStyle {

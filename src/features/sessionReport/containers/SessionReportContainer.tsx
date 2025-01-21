@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 
-import styles from "./SessionReportContainer.module.css"
+import styles from "./SessionReportContainer.module.css";
+import animations from "@/src/animations.module.css";
 
 import getResponsesBySession from "@/src/queries/GET/getResponsesBySession";
 
@@ -67,19 +68,47 @@ export default function ReportContainer(props: ReportContainerProps) {
       {
         (sessionResponseData) &&
         <>
-          <Report
-            studentResponses={sessionResponseData}
-          />
-          <button onClick={() => {
-            setSendStatus("sending");
-          }}>
-            Send Report
-          </button>
-          <Link to={`/report/pdf/${sessionId}`}>
-            <button>
-              View PDF Report
+          <div id="report"
+            className={[
+              styles.sectionSpacing
+            ].join(" ")}>
+            <Report
+              studentResponses={sessionResponseData}
+            />
+          </div>
+          <div id="session-report-actions-container"
+            className={[
+              styles.buttonsContainer,
+            ].join(" ")}>
+            <Link
+              className={[
+                styles.buttonSize,
+                styles.sectionSpacing,
+              ].join(" ")}
+              to={`/report/pdf/${sessionId}`}>
+              <button
+                className={[
+                  styles.buttonStyle,
+                  styles.widthFull,
+                  animations.highlightPrimary,
+                ].join(" ")}
+              >
+                View PDF Report
+              </button>
+            </Link>
+            <button
+              className={[
+                styles.buttonStyleSecondary,
+                styles.buttonSize,
+                animations.highlightPrimaryDark,
+              ].join(" ")}
+              onClick={() => {
+                setSendStatus("sending");
+              }}>
+              Send Report
             </button>
-          </Link>
+
+          </div>
           {
             sendStatus === "sending" &&
             <ModalContainer>

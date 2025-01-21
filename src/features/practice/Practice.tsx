@@ -2,7 +2,7 @@ import styles from "./Practice.module.css";
 import animations from "@/src/animations.module.css"
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react"
-import { useQuestionStore } from "@/src/stores/questionStore";
+import { questionStore } from "@/src/stores/questionStore";
 import { useCategoryStore } from "@/src/stores/categoryStore";
 import { useTagStore } from "@/src/stores/tagStore"
 import ErrorPage from "@/src/ErrorPage";
@@ -24,7 +24,8 @@ import fetchTags from "@/src/queries/GET/getTags";
 export default function Practice() {
 
   const { setCategories, setProblemTypes } = useCategoryStore();
-  const { filter, filteredQuestions, setQuestions, filterQuestions } = useQuestionStore();
+  const { filter, filteredQuestions, setQuestions, filterQuestions } = questionStore.getState();
+
   const { setTags } = useTagStore();
 
   const [practiceType, setPracticeType] = useState<"random" | "structured" | null>(null)

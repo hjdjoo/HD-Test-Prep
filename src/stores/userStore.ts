@@ -1,4 +1,6 @@
-import { create } from "zustand";
+import { createStore } from "zustand";
+import { persist } from "zustand/middleware";
+
 
 export interface User {
   id: number,
@@ -14,7 +16,14 @@ interface UserState {
   setUser: (user: User | null) => void
 }
 
-export const useUserStore = create<UserState>()((set) => ({
-  user: null,
-  setUser: (user) => set(() => ({ user: user }))
-}))
+export const userStore = createStore<UserState>()(
+  persist(
+    (set) => ({
+      user: null,
+      setUser: (user) => set(() => ({ user: user }))
+    }),
+    {
+      name: "user-storage"
+    }
+  )
+);

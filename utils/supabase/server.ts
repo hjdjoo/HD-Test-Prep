@@ -14,7 +14,7 @@ interface Context {
 const createSupabase = (context: Context) => {
 
   // const cookies = context.req.cookies;
-  // console.log("CreateSupabase/cookies: ", cookies);
+  console.log("CreateSupabase/cookies: ", context.req.cookies);
 
   const { accessToken, refreshToken } = context.req.cookies;
 
@@ -32,7 +32,10 @@ const createSupabase = (context: Context) => {
       refresh_token: refreshToken,
     }).then(res => {
       const { error } = res;
-      console.log("sessionError: ", error);
+      console.error("sessionError: ", error);
+      if (error) {
+        console.error("message: ", error?.message);
+      }
     });
 
   }

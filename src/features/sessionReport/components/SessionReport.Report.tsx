@@ -18,8 +18,12 @@ export default function Report(props: ReportProps) {
 
   const { studentResponses, children } = props;
 
+  console.log("Report/studentResponses: ", studentResponses);
+
   const questionsAnswered = useQuestionsAnswered({ studentResponses });
   const questionsCorrect = useQuestionsCorrect({ studentResponses, questionsAnswered })
+
+  console.log("questionsAnswered, questionsCorrect: ", questionsAnswered, questionsCorrect)
 
   if (!studentResponses) {
     return (

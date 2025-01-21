@@ -1,6 +1,6 @@
 import styles from "./PdfContainer.module.css"
 import { useQuery } from "@tanstack/react-query";
-import { PDFViewer, renderToStream } from "@react-pdf/renderer";
+import { PDFViewer } from "@react-pdf/renderer";
 
 import ErrorPage from "@/src/ErrorPage";
 
@@ -10,11 +10,12 @@ import getResponsesBySession from "@/src/queries/GET/getResponsesBySession";
 import getFeedbackById, { ClientFeedbackFormData } from "@/src/queries/GET/getFeedbackById";
 import getTagsById from "@/src/queries/GET/getTagsById";
 
+import { userStore } from "@/src/stores/userStore";
 import useQuestionsAnswered from "@/src/hooks/useQuestionsAnswered";
 import useQuestionsCorrect from "@/src/hooks/useQuestionsCorrect";
 
 import createSupabase from "@/utils/supabase/client";
-import { useEffect } from "react";
+import Loading from "components/loading/Loading";
 
 interface PdfContainerProps {
   sessionId: string
@@ -38,7 +39,9 @@ export type TagsData = {
 export default function PdfContainer(props: PdfContainerProps) {
 
   const supabase = createSupabase();
+  const user = userStore.getState().user;
   const { sessionId } = props;
+  // const user = useUserStore((state) => state.user);
   // get practice session responses based on ID;
   const { data: sessionResponseData, error: sessionResponseError } = useQuery({
     queryKey: ["studentResponses", sessionId],
@@ -151,6 +154,12 @@ export default function PdfContainer(props: PdfContainerProps) {
   const questionsAnswered = useQuestionsAnswered({ studentResponses: sessionResponseData });
   const questionsCorrect = useQuestionsCorrect({ studentResponses: sessionResponseData, questionsAnswered });
 
+  if (!user) {
+    console.error("No user detected.");
+    return (
+      <ErrorPage />
+    )
+  }
   if (sessionResponseError) {
     console.error(sessionResponseError)
     return (
@@ -177,18 +186,28 @@ export default function PdfContainer(props: PdfContainerProps) {
   }
 
   if (!sessionResponseData || !questionImageData || !feedbackData || !tagsData) {
+
+    console.log("PdfContainer: ")
+    console.log("sessionResponseData", sessionResponseData)
+    console.log("questionImageData", questionImageData)
+    console.log("feedbackData", feedbackData)
+    console.log("sessionResponseData", sessionResponseData)
+
     return (
-      <div>
-        Loading...
-      </div>
+      <Loading />
     )
   }
 
   return (
     <div id="pdf-summary-container" className={[
+      styles.pageMargins,
       styles.centerReport
     ].join(" ")}>
-      <PDFViewer>
+      <PDFViewer
+        className={[
+          styles.viewerSize,
+        ].join(" ")}
+      >
         <PdfReport
           studentResponses={sessionResponseData}
           questionImageData={questionImageData}
@@ -196,6 +215,7 @@ export default function PdfContainer(props: PdfContainerProps) {
           tagsData={tagsData}
           questionsAnswered={questionsAnswered}
           questionsCorrect={questionsCorrect}
+          user={user}
         />
       </PDFViewer>
       <button>

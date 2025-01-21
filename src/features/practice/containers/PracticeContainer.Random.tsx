@@ -7,9 +7,9 @@ import { useQuery } from "@tanstack/react-query";
 import QuestionContainer from "@/src/features/practice/containers/PracticeContainer.Question";
 import Filter from "@/src/features/practice/components/Practice.filter";
 
-import { Question as QuestionType, useQuestionStore } from "@/src/stores/questionStore";
+import { Question as QuestionType, questionStore } from "@/src/stores/questionStore";
 import { usePracticeSessionStore } from "@/src/stores/practiceSessionStore";
-import { useUserStore } from "@/src/stores/userStore";
+import { userStore } from "@/src/stores/userStore";
 
 import endSession from "@/src/queries/PATCH/endPracticeSession";
 
@@ -23,14 +23,14 @@ import ContinuePracticeModal from "@/src/features/practice/components/Practice.c
 
 export default function RandomPractice() {
 
-  const { filteredQuestions } = useQuestionStore();
+  const { filteredQuestions } = questionStore.getState();
 
   const sessionId = usePracticeSessionStore((state) => state.sessionId);
   const sessionResponses = usePracticeSessionStore((state) => state.sessionResponses);
   const setSessionId = usePracticeSessionStore((state) => state.setSessionId)
   const setSessionResponses = usePracticeSessionStore((state) => state.setSessionResponses)
 
-  const { user } = useUserStore();
+  const user = userStore.getState().user;
 
   const sessionResponsesRef = useRef(sessionResponses)
 

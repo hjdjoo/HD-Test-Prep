@@ -7,7 +7,7 @@ import animations from "@/src/animations.module.css";
 import createSupabase from "@/utils/supabase/client";
 
 import { Question } from "@/src/stores/questionStore";
-import { useUserStore } from "@/src/stores/userStore";
+import { userStore } from "@/src/stores/userStore";
 import { usePracticeSessionStore } from "@/src/stores/practiceSessionStore";
 
 import Answers from "@/src/features/practice/components/Practice.answers.js";
@@ -46,7 +46,7 @@ export default function QuestionContainer(props: QuestionContainerProps) {
 
   // const sessionId = usePracticeSession();
   const { sessionId, addResponse } = usePracticeSessionStore();
-  const { user } = useUserStore();
+  const user = userStore.getState().user;
   const { question, getNextQuestion } = props;
 
   const [submitStatus, setSubmitStatus] = useState<"waiting" | "submitting" | "submitted">("waiting");

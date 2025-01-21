@@ -52,7 +52,7 @@ function errorHandler(err: ServerError, _req: Request, res: Response, _next: Nex
 
     const errObj = Object.assign({}, defaultError, err);
 
-    res.status(500).json(errObj);
+    res.status(500).json(errObj.message);
 
   }
 }

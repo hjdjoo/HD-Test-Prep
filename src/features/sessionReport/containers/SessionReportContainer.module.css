@@ -1,3 +1,5 @@
+@import "@/src/vars.module.css";
+
 .centerReport {
   display: flex;
   flex-direction: column;
@@ -6,8 +8,41 @@
 
 .pageMargin {
   margin-top: 10%;
+  margin-bottom: 15%;
+}
+
+.sectionSpacing {
+  margin-bottom: 1rem;
 }
 
 .pagePadding {
   padding-top: 2rem;
+}
+
+.buttonsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.buttonStyle {
+  composes: buttonReset from "@/src/App.module.css";
+  background-color: var(--primary-extralight);
+  height: 2rem;
+  border-radius: 0.5rem;
+}
+.buttonStyleSecondary {
+  composes: buttonReset from "@/src/App.module.css";
+  background-color: var(--primary);
+  color: var(--off-white);
+  height: 2rem;
+  border-radius: 0.5rem;
+}
+
+.buttonSize {
+  width: 80%;
+}
+
+.widthFull {
+  width: 100%;
 }

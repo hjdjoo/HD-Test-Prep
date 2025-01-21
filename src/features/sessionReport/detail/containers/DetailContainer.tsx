@@ -23,7 +23,7 @@ export default function DetailsContainer(props: DetailsContainerProps) {
 
     const responseQuestion = questionsAnswered.filter((question) => {
 
-      console.log("detailsContainer/question: ", question);
+      // console.log("detailsContainer/question: ", question);
 
       return question.id === response.questionId;
 

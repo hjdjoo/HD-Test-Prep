@@ -1,0 +1,14 @@
+.centerReport {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pageMargins {
+  margin-top: 10%;
+}
+
+.viewerSize {
+  width: 90vw;
+  height: 90vh;
+}

@@ -3,7 +3,8 @@ import {
   QueryClientProvider,
 } from "@tanstack/react-query";
 import { useEffect } from "react"
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 import styles from "./App.module.css"
 
 import createSupabase from "@/utils/supabase/client";
@@ -11,22 +12,60 @@ import NavContainer from "containers/nav/NavContainer";
 
 import { User } from "./stores/userStore";
 
-import { useUserStore } from "./stores/userStore";
+import { userStore } from "./stores/userStore";
+
+// import usePersistedState from "./hooks/usePersistedState";
 
 import Auth from "./features/auth/Auth";
+import { Session } from "@supabase/supabase-js";
 
 const queryClient = new QueryClient();
 
 function App() {
 
-  // TODO: move to global state
-  const { user, setUser } = useUserStore();
+  const user = userStore.getState().user;
+  const navigate = useNavigate();
+
+  console.log("App.tsx/user: ", user);
+
+  // check if user exists. Also check 
+  useEffect(() => {
+
+    (async () => {
+
+      const supabase = createSupabase();
+
+      const { data, error } = await supabase.auth.refreshSession();
+
+      if (error) {
+        console.error("refreshSession/error: ", error);
+        // console.error(error.message);
+        userStore.getState().setUser(null);
+        return;
+      }
+
+      const user = await getUser(data.session);
+
+      if (!user) {
+        userStore.getState().setUser(null);
+        return;
+      }
+
+      userStore.getState().setUser(user);
+
+    })()
+
+  }, [])
+
+  // const persistedState = usePersistedState(user, "user");
 
   // get & set user upon render;
   useEffect(() => {
+
     const supabase = createSupabase();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+
       if (event === 'SIGNED_OUT') {
         console.log('SIGNED_OUT', session);
         // clear local and session storage;
@@ -40,33 +79,20 @@ function App() {
             })
         });
 
-        setUser(null);
+        userStore.getState().setUser(null);
+        navigate("/");
+
       };
 
       if (event === "SIGNED_IN") {
 
+        console.log("SIGNED_IN/Session: ", session);
         // get JWTs from session.
-        const accessToken = session?.access_token;
-        const refreshToken = session?.refresh_token;
+        const userRes: User | null = await getUser(session)
 
-        if (!accessToken || !refreshToken) {
-          console.log("Access token or refresh token missing")
-          return;
-        }
-
-        // use session data to fetch user info;
-        const res = await fetch(`api/auth`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          credentials: "include",
-          body: JSON.stringify({ accessToken, refreshToken })
-        })
-
-        const user: User = await res.json();
-
-        setUser(user);
+        userStore.getState().setUser(userRes);
+        navigate("/");
+        // }
       }
     })
 
@@ -76,7 +102,69 @@ function App() {
 
   }, [])
 
-  console.log("App.tsx/user: ", user)
+  async function getUser(session: Session | null) {
+
+    const supabase = createSupabase();
+
+    if (!session) {
+      await supabase.auth.signOut();
+      navigate("/");
+      return null;
+    }
+
+    const accessToken = session.access_token;
+    const refreshToken = session.refresh_token;
+
+    Cookies.set("accessToken", accessToken);
+    Cookies.set("refreshToken", refreshToken);
+
+    if (!accessToken || !refreshToken) {
+      console.log("Access token or refresh token missing")
+      await supabase.auth.signOut();
+      navigate("/");
+      return null;
+    }
+
+    // use session data to fetch user info;
+    const res = await fetch(`api/auth`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      credentials: "include",
+      // body: JSON.stringify({ accessToken, refreshToken })
+    })
+
+    const user: User = await res.json();
+
+    if (!user.id) {
+      console.log("No user Id returned");
+      console.log("signing out...");
+      await supabase.auth.signOut();
+      console.log("signed out, navigating home...");
+      navigate("/");
+      return null;
+    }
+    // console.log(user);
+
+    return user;
+
+  }
+
+  // // log out if closing window.
+  // useEffect(() => {
+
+  //   async function beforeUnload() {
+
+  //     const supabase = createSupabase();
+
+  //     await supabase.auth.signOut();
+
+  //   }
+
+  //   window.addEventListener("beforeunload", beforeUnload);
+
+  // }, [])
 
   return (
     <>

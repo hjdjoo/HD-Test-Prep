@@ -1,18 +1,20 @@
-import { useUserStore } from "@/src/stores/userStore";
+// import { useEffect, useRef } from "react";
+import { userStore } from "@/src/stores/userStore";
 import { useParams } from "react-router-dom";
 import ErrorPage from "@/src/ErrorPage";
 
 // import PdfSummary from "components/summary/Summary.Pdf";
 // import PdfReportContainer from "containers/report/ReportContainer.Pdf";
 import PdfContainer from "@/src/features/pdf/containers/PdfContainer";
+// import { User } from "@/src/stores/userStore";
+
 
 export default function PdfReport() {
 
-  const user = useUserStore((state) => state.user)
+  const user = userStore.getState().user;
 
   // get practice session ID from params;
   const { id: sessionId } = useParams();
-
 
   if (!user) {
     console.error("No user detected - not authorized");
@@ -31,7 +33,9 @@ export default function PdfReport() {
 
 
   return (
+
     <PdfContainer sessionId={sessionId} />
+
   )
 
 }

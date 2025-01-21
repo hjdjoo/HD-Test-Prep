@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState, ChangeEvent, MouseEvent } from "react";
+import { Dispatch, SetStateAction, useState, ChangeEvent } from "react";
 
 import styles from "./Practice.Components.module.css";
 import animations from "@/src/animations.module.css";
@@ -10,7 +10,7 @@ import UploadIcon from "@/src/assets/icons/uploadIcon.svg";
 import TrashIcon from "@/src/assets/icons/trashIcon.svg"
 
 import { useTagStore } from "@/src/stores/tagStore";
-import { Question, useQuestionStore } from "@/src/stores/questionStore";
+import { Question, questionStore } from "@/src/stores/questionStore";
 import { StudentResponse } from "@/src/features/practice/containers/PracticeContainer.Question";
 
 import ModalContainer from "containers/modal/ModalContainer";
@@ -89,7 +89,7 @@ function UploadPreview(props: UploadPreviewProps) {
 export default function FeedbackForm(props: FeedbackFormProps) {
 
   const tags = useTagStore((state) => state.tags);
-  const { questions, setQuestions } = useQuestionStore();
+  const { questions, setQuestions } = questionStore.getState();
   const { question, studentResponse, setSubmitStatus, setStudentResponse, feedbackForm, setFeedbackForm } = props;
 
   const [activeTags, setActiveTags] = useState<string[]>([]);

@@ -4,9 +4,9 @@ import { Page, View, Document, Image, Text, StyleSheet } from "@react-pdf/render
 import PdfSessionSummary from "../components/Pdf.Summary";
 import PdfSessionItem from "./Pdf.Item";
 
-
 import { FeedbackData, QuestionImageData, TagsData } from "@/src/features/pdf/containers/PdfContainer";
 import { Question } from "@/src/stores/questionStore";
+import { User } from "@/src/stores/userStore";
 
 interface PdfReportProps {
   studentResponses: ClientStudentResponse[]
@@ -15,29 +15,26 @@ interface PdfReportProps {
   tagsData: TagsData[]
   questionsAnswered: Question[]
   questionsCorrect: number
+  user: User
 }
 
 const styles = StyleSheet.create({
   page: {
-
+    padding: "0.5in"
   },
   details: {
 
   },
-  detailsOdd: {
-
-  },
-  detailsEven: {
-
+  heading: {
+    display: "flex",
+    flexDirection: "row",
   }
 })
 
 
 export default function PdfReport(props: PdfReportProps) {
 
-  const { studentResponses, questionImageData, feedbackData, tagsData, questionsAnswered, questionsCorrect } = props;
-
-
+  const { studentResponses, questionImageData, feedbackData, tagsData, questionsAnswered, questionsCorrect, user } = props;
 
   if (!questionsAnswered.length || !!!questionsCorrect) {
     return (
@@ -45,6 +42,15 @@ export default function PdfReport(props: PdfReportProps) {
         Nothing to render!
       </div>
     )
+  }
+
+  const studentInfo = () => {
+    return (
+      <View style={styles.heading}>
+        <Text>{`Student: `}</Text>
+        <Text>{user.name}</Text>
+      </View>
+    );
   }
 
   const summary = () => {
@@ -104,7 +110,10 @@ export default function PdfReport(props: PdfReportProps) {
   return (
 
     <Document>
-      <Page size="LETTER">
+      <Page size="LETTER"
+        style={styles.page}
+      >
+        {studentInfo()}
         {summary()}
         {details}
       </Page>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ClientStudentResponse } from "../queries/GET/getResponsesBySession";
 import { Question } from "../stores/questionStore";
-import { useQuestionStore } from "../stores/questionStore";
+import { questionStore } from "../stores/questionStore";
 
 interface useQuestionsAnsweredProps {
   studentResponses?: ClientStudentResponse[]
@@ -10,7 +10,13 @@ interface useQuestionsAnsweredProps {
 export default function useQuestionsAnswered(props: useQuestionsAnsweredProps) {
 
   const { studentResponses } = props;
-  const filteredQuestions = useQuestionStore((state) => state.filteredQuestions)
+
+  console.log("useQuestionsAnswered/studentResponses: ", studentResponses);
+
+  const filteredQuestions = questionStore.getState().filteredQuestions;
+
+  console.log("filteredQuestions.length", filteredQuestions.length)
+
   const [questionsAnswered, setQuestionsAnswered] = useState<Question[]>([]);
 
   useEffect(() => {
@@ -31,5 +37,6 @@ export default function useQuestionsAnswered(props: useQuestionsAnsweredProps) {
   }, [studentResponses])
 
 
+  console.log("useQuestionsAnswered/questionsAnswered: ", questionsAnswered)
   return questionsAnswered;
 }

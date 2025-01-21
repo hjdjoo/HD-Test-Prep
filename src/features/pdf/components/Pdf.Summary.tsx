@@ -5,36 +5,62 @@ interface PdfSessionSummaryProps {
   questionsCorrect: number
 }
 
+const styles = StyleSheet.create({
+  container: {
+    display: "flex",
+    flexDirection: "column",
+  },
+  heading: {
+    marginBottom: "0.25in"
+  },
+  sectionSpacing: {
+
+  },
+  summary: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+  },
+  details: {
+    display: "flex",
+    flexDirection: "row",
+  }
+})
+
 export default function PdfSessionSummary(props: PdfSessionSummaryProps) {
 
   const { questionsAnswered, questionsCorrect } = props;
 
   return (
-    <View>
-      <section id="session-summary">
+    <View style={
+      styles.container
+    }>
+      <View style={
+        styles.heading
+      }>
         <Text>
           Session Summary:
         </Text>
-        <div id="summary-data">
-          <div id="questions-answered">
-            <Text>
-              Questions Answered:
-            </Text>
-            <Text>
-              {questionsAnswered}
-            </Text>
-          </div>
-          <div id="questions-correct">
-            <Text>
-              Questions Correct:
-            </Text>
-            <Text>
-              {questionsCorrect}
-            </Text>
-          </div>
-        </div>
-      </section>
-    </View>
+      </View>
+      <View style={styles.summary}>
+        <View style={styles.details}>
+          <Text>
+            {`Questions Answered: `}
+          </Text>
+          <Text>
+            {questionsAnswered}
+          </Text>
+        </View>
+        <View style={styles.details}>
+          <Text>
+            {`Questions Correct: `}
+          </Text>
+          <Text>
+            {questionsCorrect}
+          </Text>
+        </View>
+      </View>
+    </View >
   )
 
 }

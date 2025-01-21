@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { pdf } from "@react-pdf/renderer";
 
-import { useUserStore } from "@/src/stores/userStore";
+import { userStore } from "@/src/stores/userStore";
 
 import useQuestionsAnswered from "@/src/hooks/useQuestionsAnswered";
 import useQuestionsCorrect from "@/src/hooks/useQuestionsCorrect";
@@ -34,7 +34,7 @@ export default function SendPdfModal(props: SendPdfModalProps) {
 
   const sentRef = useRef<boolean>(false);
 
-  const user = useUserStore((state) => state.user);
+  const user = userStore.getState().user;
 
   const supabase = createSupabase();
   // get practice session responses based on ID;
@@ -194,6 +194,7 @@ export default function SendPdfModal(props: SendPdfModalProps) {
         tagsData={tagsData}
         questionsAnswered={questionsAnswered}
         questionsCorrect={questionsCorrect}
+        user={user}
       />
 
       const pdfBlob = await pdf(Report).toBlob();
@@ -214,6 +215,13 @@ export default function SendPdfModal(props: SendPdfModalProps) {
 
 
   /* Renders: */
+
+  if (!user) {
+    console.error("No user detected")
+    return (
+      <ErrorPage />
+    )
+  }
   if (sessionResponseError) {
     console.error(sessionResponseError)
     return (

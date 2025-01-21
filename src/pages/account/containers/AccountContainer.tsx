@@ -2,14 +2,23 @@ import { Link } from "react-router-dom";
 import styles from "./AccountContainer.module.css";
 import animations from "@/src/animations.module.css"
 
-import { useUserStore } from "@/src/stores/userStore";
+import { userStore } from "@/src/stores/userStore";
+import ErrorPage from "@/src/ErrorPage";
 
 // import AccountSummary from "@/src/pages/account/components/Account.summary";
 // import AccountSettings from "@/src/pages/account/components/Account.settings";
 
 export default function AccountContainer() {
 
-  const { user } = useUserStore();
+  const user = userStore.getState().user;
+
+  if (!user || !user.id) {
+
+    return (
+      <ErrorPage />
+    )
+
+  }
 
   return (
     <div id="account-container"
