@@ -2,6 +2,7 @@ import { Text, View } from "@react-pdf/renderer";
 import { ClientFeedbackFormData } from "@/src/queries/GET/getFeedbackById";
 import { ClientStudentResponse } from "@/src/queries/GET/getResponsesBySession";
 import { Question } from "@/src/stores/questionStore";
+import { styles } from "../styles";
 
 interface PdfSessionItemProps {
   question: Question
@@ -10,8 +11,21 @@ interface PdfSessionItemProps {
   tagsData?: { [tagId: string]: string }
 }
 
-export default function PdfSessionItem(props: PdfSessionItemProps) {
+// const styles = StyleSheet.create({
 
+//   container: {
+
+//   },
+//   itemName: {
+
+//   },
+//   itemValue: {
+
+//   },
+
+// })
+
+export default function PdfSessionItem(props: PdfSessionItemProps) {
 
   const { question, studentResponse, feedbackForm, tagsData } = props;
 
@@ -40,95 +54,133 @@ export default function PdfSessionItem(props: PdfSessionItemProps) {
     tagsDisplay = tags.map(((tag, idx) => {
 
       return (
-        <div key={`feedback-tag-${idx + 1}`}>
+        <View key={`question-${question.id}-tag-${idx + 1}`}>
           <Text>
             {tag}
           </Text>
-        </div>
+        </View>
       )
-
     }))
-
   }
+
+  function renderFeedbackItems(feedbackForm: { [key: string]: any }) {
+
+    let renderedItems = 0;
+
+    const itemText: { [key: string]: string } = {
+      comment: "Message to Instructor",
+      difficultyRating: "Student Rating",
+      guessed: "This was a guess",
+      tags: "Tags Added",
+    }
+
+    return Object.keys(feedbackForm).map((key, idx) => {
+
+      const itemName = itemText[key];
+
+      console.log("key: ", key);
+      console.log("feedbackForm[key]: ", feedbackForm[key]);
+
+      let item: React.ReactNode;
+
+      switch (key) {
+        case "comment":
+          item = (
+            <>
+              <Text >
+                {`${itemName}: `}
+              </Text>
+              <Text>
+                {feedbackForm[key].length ? feedbackForm[key] : "N/A"}
+              </Text>
+            </>
+          )
+          break;
+        case "difficultyRating":
+          item = (
+            <>
+              <Text >
+                {`${itemName}: `}
+              </Text>
+              <Text>
+                {difficulties[feedbackForm[key]]}
+              </Text>
+            </>
+          )
+          break;
+        case "guessed":
+          item = (
+            <>
+              <Text >
+                {`${itemName}`}
+              </Text>
+            </>
+          )
+          break;
+      }
+
+      if (itemText[key]) {
+        renderedItems++;
+        return (
+          <View key={`question-${question.id}-feedback-item-${idx + 1}`}
+            style={styles.questionInfo}>
+            {item}
+          </View>
+        )
+      }
+    })
+  }
+
+  const feedbackItems = feedbackForm ? renderFeedbackItems(feedbackForm) : [];
 
   return (
     <View>
-      <div id={`summary-item-question-${question.id}-student-response-info`}>
-        <div id={`summary-item-question-${question.id}-student-answer`}>
+      <View style={styles.questionInfo}>
+        <Text style={{
+          fontWeight: "bold",
+        }}>
+          Student Response:
+        </Text>
+        <Text>
+          {`${studentResponse.response}`}
+        </Text>
+      </View>
+      <View style={styles.questionInfo}>
+        <Text>
+          Answer:
+        </Text>
+        <Text>
+          {question.answer}
+        </Text>
+      </View>
+      {
+        feedbackForm &&
+        feedbackItems
+      }
+      {
+        !!tags.length &&
+        <View>
           <Text>
-            Student Response:
+            Tags added:
+          </Text>
+          <View>
+            {tagsDisplay}
+          </View>
+        </View>
+      }
+      {
+        studentResponse.timeTaken &&
+        <View>
+          <Text>
+            Time taken:
           </Text>
           <Text>
-            {`${studentResponse.response}`}
+            {`${studentResponse.timeTaken}s`}
           </Text>
-        </div>
-        <div id={`summary-item-question-${question.id}-answer`}>
-          <Text>
-            Answer:
-          </Text>
-          <Text>
-            {question.answer}
-          </Text>
-        </div>
-        {
-          feedbackForm &&
-          <div id={`summary-item-question-${question.id}-feedback-info`}>
-            {
-              feedbackForm.difficultyRating &&
-              <div id={`feedback-${feedbackForm.id}-difficulty-rating`}>
-                <Text>
-                  Student Rating:
-                </Text>
-                <Text>
-                  {difficulties[feedbackForm.difficultyRating]}
-                </Text>
-              </div>
-            }
-            {
-              feedbackForm.guessed &&
-              <div id={`feedback-${feedbackForm.id}-guessed`}>
-                <Text>
-                  This was a guess.
-                </Text>
-              </div>
-            }
-            {
-              (feedbackForm.comment && feedbackForm.comment.length) &&
-              <div id={`feedback-${feedbackForm.id}-comment`}>
-                <Text>
-                  Message to instructor:
-                </Text>
-                <Text>
-                  {feedbackForm.comment}
-                </Text>
-              </div>
-            }
-            {
-              !!tags.length &&
-              <div id={`feedback-${feedbackForm.id}-tags`}>
-                <Text>
-                  Tags added:
-                </Text>
-                <div id={`feedback-${feedbackForm.id}-tags-display`}
-                >
-                  {tagsDisplay}
-                </div>
-              </div>
-            }
-            {
-              studentResponse.timeTaken &&
-              <div id={`student-response-time`}>
-                <Text>
-                  Time taken:
-                </Text>
-                <Text>
-                  {`${studentResponse.timeTaken}s`}
-                </Text>
-              </div>
-            }
-          </div>
-        }
-      </div>
+        </View>
+      }
+
+
     </View>
   )
 };

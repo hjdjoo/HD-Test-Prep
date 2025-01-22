@@ -12,9 +12,7 @@ interface Context {
 }
 
 const createSupabase = (context: Context) => {
-
-  // const cookies = context.req.cookies;
-  console.log("CreateSupabase/cookies: ", context.req.cookies);
+  // console.log("CreateSupabase/cookies: ", context.req.cookies);
 
   const { accessToken, refreshToken } = context.req.cookies;
 

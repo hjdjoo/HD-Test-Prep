@@ -22,32 +22,12 @@ userController.checkTokens = async (req: Request, _res: Response, next: NextFunc
 
     // check if there are tokens in cookies. If not, check the body.
     const { cookies } = req;
-    console.log("cookies", cookies);
+    // console.log("cookies", cookies);
     if (cookies.accessToken && cookies.refreshToken) {
       console.log("tokens detected in cookies. Continuing..")
       return next();
     }
 
-
-    // if (!req.body.accessToken) {
-    //   throw new Error("No access token found in request body")
-    // }
-    // if (!req.body.refreshToken) {
-    //   throw new Error("No refresh token found in request body")
-    // }
-
-    // const { accessToken, refreshToken } = req.body;
-
-    // if (accessToken && refreshToken) {
-    //   console.log("auth tokens found in request body. saving to cookies...")
-    //   // We set the request cookies for the supabase client to set session.
-    //   req.cookies.accessToken = accessToken;
-    //   req.cookies.refreshToken = refreshToken;
-    //   // And update the response cookies for storage.
-    //   res.cookie("accessToken", accessToken);
-    //   res.cookie("refreshToken", refreshToken);
-    //   return next();
-    // }
 
   }
   catch (e) {

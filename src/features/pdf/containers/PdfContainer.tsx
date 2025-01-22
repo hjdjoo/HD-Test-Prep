@@ -1,6 +1,7 @@
 import styles from "./PdfContainer.module.css"
 import { useQuery } from "@tanstack/react-query";
 import { PDFViewer } from "@react-pdf/renderer";
+import { useStore } from "zustand";
 
 import ErrorPage from "@/src/ErrorPage";
 
@@ -39,7 +40,7 @@ export type TagsData = {
 export default function PdfContainer(props: PdfContainerProps) {
 
   const supabase = createSupabase();
-  const user = userStore.getState().user;
+  const user = useStore(userStore, (state) => state.user);
   const { sessionId } = props;
   // const user = useUserStore((state) => state.user);
   // get practice session responses based on ID;
@@ -206,6 +207,7 @@ export default function PdfContainer(props: PdfContainerProps) {
       <PDFViewer
         className={[
           styles.viewerSize,
+          styles.viewerFont,
         ].join(" ")}
       >
         <PdfReport

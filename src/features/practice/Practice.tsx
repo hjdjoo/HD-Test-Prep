@@ -1,7 +1,9 @@
-import styles from "./Practice.module.css";
-import animations from "@/src/animations.module.css"
-import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react"
+import { useQuery } from "@tanstack/react-query";
+import { useStore } from "zustand";
+import animations from "@/src/animations.module.css"
+import styles from "./Practice.module.css";
+
 import { questionStore } from "@/src/stores/questionStore";
 import { useCategoryStore } from "@/src/stores/categoryStore";
 import { useTagStore } from "@/src/stores/tagStore"
@@ -24,7 +26,13 @@ import fetchTags from "@/src/queries/GET/getTags";
 export default function Practice() {
 
   const { setCategories, setProblemTypes } = useCategoryStore();
-  const { filter, filteredQuestions, setQuestions, filterQuestions } = questionStore.getState();
+  // const { filter, filteredQuestions, setQuestions, filterQuestions } = questionStore.getState();
+
+  const filter = useStore(questionStore, (state) => state.filter);
+  const filteredQuestions = useStore(questionStore, (state) => state.filteredQuestions);
+  const setQuestions = useStore(questionStore, (state) => state.setQuestions);
+  const filterQuestions = useStore(questionStore, (state) => state.filterQuestions);
+
 
   const { setTags } = useTagStore();
 
@@ -53,8 +61,17 @@ export default function Practice() {
 
   // make sure to update the filtered question bank when the filter is changed.
   useEffect(() => {
+    console.log("change in filter detected, setting new questions...")
     filterQuestions();
+
   }, [filter])
+
+  // const filterSubscriber: Parameters<typeof questionStore.subscribe>[0] = (state) => {
+  //   console.log("filterSubscriber/filter: ", state.filter);
+  //   // filterQuestions();
+  // }
+
+  // questionStore.subscribe(filterSubscriber);
 
   useEffect(() => {
 

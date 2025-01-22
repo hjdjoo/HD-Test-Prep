@@ -1,5 +1,5 @@
 import { ClientStudentResponse } from "@/src/queries/GET/getResponsesBySession";
-import { Page, View, Document, Image, Text, StyleSheet } from "@react-pdf/renderer";
+import { Page, View, Document, Image, Text, Font, StyleSheet } from "@react-pdf/renderer";
 
 import PdfSessionSummary from "../components/Pdf.Summary";
 import PdfSessionItem from "./Pdf.Item";
@@ -7,6 +7,7 @@ import PdfSessionItem from "./Pdf.Item";
 import { FeedbackData, QuestionImageData, TagsData } from "@/src/features/pdf/containers/PdfContainer";
 import { Question } from "@/src/stores/questionStore";
 import { User } from "@/src/stores/userStore";
+import { styles } from "../styles";
 
 interface PdfReportProps {
   studentResponses: ClientStudentResponse[]
@@ -16,39 +17,33 @@ interface PdfReportProps {
   questionsAnswered: Question[]
   questionsCorrect: number
   user: User
-}
-
-const styles = StyleSheet.create({
-  page: {
-    padding: "0.5in"
-  },
-  details: {
-
-  },
-  heading: {
-    display: "flex",
-    flexDirection: "row",
-  }
-})
-
+};
 
 export default function PdfReport(props: PdfReportProps) {
 
-  const { studentResponses, questionImageData, feedbackData, tagsData, questionsAnswered, questionsCorrect, user } = props;
+  const {
+    studentResponses,
+    questionImageData,
+    feedbackData,
+    tagsData,
+    questionsAnswered,
+    questionsCorrect,
+    user
+  } = props;
 
   if (!questionsAnswered.length || !!!questionsCorrect) {
     return (
-      <div>
+      <View>
         Nothing to render!
-      </div>
+      </View>
     )
   }
 
   const studentInfo = () => {
+
     return (
       <View style={styles.heading}>
-        <Text>{`Student: `}</Text>
-        <Text>{user.name}</Text>
+        <Text>{`Student Name: ${user.name}`}</Text>
       </View>
     );
   }
@@ -57,7 +52,9 @@ export default function PdfReport(props: PdfReportProps) {
 
     if (questionsAnswered.length && !!questionsCorrect) {
       return (
-        <PdfSessionSummary questionsAnswered={questionsAnswered.length} questionsCorrect={questionsCorrect} />
+        <PdfSessionSummary
+          questionsAnswered={questionsAnswered.length}
+          questionsCorrect={questionsCorrect} />
       )
     } else {
       return (
@@ -94,11 +91,16 @@ export default function PdfReport(props: PdfReportProps) {
       if (question.id) {
 
         return (
-          <View key={`response-item-${idx + 1}`}>
-            <Text>{`Question ${idx + 1}`}</Text>
-            <View>
+          <View key={`response-item-${idx + 1}`}
+            wrap={false}>
+            <Text style={styles.questionTitle}>{`Question ${idx + 1}`}</Text>
+            <View style={styles.question}>
               <Image src={imageItem.imageUrl} />
-              <PdfSessionItem question={question} feedbackForm={feedbackItem.data} studentResponse={response} tagsData={feedbackTags.data} />
+              <PdfSessionItem
+                question={question}
+                feedbackForm={feedbackItem.data}
+                studentResponse={response}
+                tagsData={feedbackTags.data} />
             </View>
           </View>
         )

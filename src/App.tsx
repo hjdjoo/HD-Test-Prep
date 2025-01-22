@@ -1,8 +1,9 @@
+import { useEffect } from "react"
 import {
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
-import { useEffect } from "react"
+import { useStore } from "zustand";
 import { Outlet, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import styles from "./App.module.css"
@@ -23,7 +24,8 @@ const queryClient = new QueryClient();
 
 function App() {
 
-  const user = userStore.getState().user;
+  const user = useStore(userStore, (state) => state.user);
+  const setUser = useStore(userStore, (state) => state.setUser)
   const navigate = useNavigate();
 
   console.log("App.tsx/user: ", user);
@@ -40,18 +42,18 @@ function App() {
       if (error) {
         console.error("refreshSession/error: ", error);
         // console.error(error.message);
-        userStore.getState().setUser(null);
+        setUser(null);
         return;
       }
 
       const user = await getUser(data.session);
 
       if (!user) {
-        userStore.getState().setUser(null);
+        setUser(null);
         return;
       }
 
-      userStore.getState().setUser(user);
+      setUser(user);
 
     })()
 
@@ -79,7 +81,7 @@ function App() {
             })
         });
 
-        userStore.getState().setUser(null);
+        setUser(null);
         navigate("/");
 
       };
@@ -90,7 +92,7 @@ function App() {
         // get JWTs from session.
         const userRes: User | null = await getUser(session)
 
-        userStore.getState().setUser(userRes);
+        setUser(userRes);
         navigate("/");
         // }
       }
@@ -132,7 +134,6 @@ function App() {
         "Content-Type": "application/json"
       },
       credentials: "include",
-      // body: JSON.stringify({ accessToken, refreshToken })
     })
 
     const user: User = await res.json();
@@ -145,7 +146,6 @@ function App() {
       navigate("/");
       return null;
     }
-    // console.log(user);
 
     return user;
 

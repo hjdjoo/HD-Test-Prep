@@ -1,4 +1,5 @@
 import { ChangeEvent } from "react";
+import { useStore } from "zustand";
 import styles from "./Practice.Components.module.css"
 // import { Filter } from "@/src/stores/questionStore"
 import { questionStore } from "@/src/stores/questionStore"
@@ -11,7 +12,8 @@ interface CategoryToggleProps {
 
 function CategoryToggles(props: CategoryToggleProps) {
 
-  const { filter, setFilter } = questionStore.getState();
+  const filter = useStore(questionStore, (state) => state.filter)
+  const setFilter = useStore(questionStore, (state) => state.setFilter);
   const { categories } = props;
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
@@ -64,7 +66,8 @@ interface ProblemTypeToggleProps {
 
 function ProblemTypeToggles(props: ProblemTypeToggleProps) {
 
-  const { filter, setFilter } = questionStore.getState();
+  const filter = questionStore.getState().filter;
+  const setFilter = questionStore.getState().setFilter;
   const { problemTypes } = props;
 
   // const { id, problemType: name } = problemType;
@@ -117,7 +120,8 @@ function ProblemTypeToggles(props: ProblemTypeToggleProps) {
 
 function DifficultyToggles() {
 
-  const { filter, setFilter } = questionStore.getState();
+  const filter = questionStore.getState().filter;
+  const setFilter = questionStore.getState().setFilter;
 
   const { difficulty } = filter;
 
@@ -128,7 +132,6 @@ function DifficultyToggles() {
     const { value } = e.target as HTMLInputElement;
 
     const newFilter = structuredClone(filter);
-
     // const difficulty = value;
     newFilter.difficulty[value] = !filter.difficulty[value]
 
@@ -172,7 +175,10 @@ function FilterForm(props: FilterFormProps) {
   const { categories, problemTypes } = props;
 
   return (
-    <form name="filter-form" className={[styles.alignFilters].join(" ")}>
+    <form name="filter-form" className={[
+      styles.alignFilters,
+      styles.sectionMargin,
+    ].join(" ")}>
       <div>
         <DifficultyToggles />
         <br />

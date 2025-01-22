@@ -1,7 +1,8 @@
 import { useEffect, useState, useRef } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useStore } from "zustand";
 import styles from "./PracticeContainer.module.css"
 import animations from "@/src/animations.module.css";
-import { useQuery } from "@tanstack/react-query";
 
 
 import QuestionContainer from "@/src/features/practice/containers/PracticeContainer.Question";
@@ -23,7 +24,7 @@ import ContinuePracticeModal from "@/src/features/practice/components/Practice.c
 
 export default function RandomPractice() {
 
-  const { filteredQuestions } = questionStore.getState();
+  const filteredQuestions = useStore(questionStore, (state) => state.filteredQuestions);
 
   const sessionId = usePracticeSessionStore((state) => state.sessionId);
   const sessionResponses = usePracticeSessionStore((state) => state.sessionResponses);
