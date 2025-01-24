@@ -1,5 +1,6 @@
 import "dotenv/config"
 import express, { Application, NextFunction, Request, Response } from "express";
+import cors from "cors";
 import cookieParser from "cookie-parser"
 
 import userRouter from "./routes/user";
@@ -16,12 +17,18 @@ process.on('uncaughtException', function (err) {
   console.log(err);
 });
 
+const corsOptions = {
+  origin: process.env.VITE_URL!,
+  optionsSuccessStatus: 200,
+}
+
 const PORT = process.env.PORT || 3000;
 
 const app: Application = express();
 
-console.log("entered express server")
+console.log("entered express server");
 
+app.use(cors(corsOptions))
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(SUPABASE_JWT_SECRET))

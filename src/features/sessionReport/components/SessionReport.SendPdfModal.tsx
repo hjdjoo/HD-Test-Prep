@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useEffect, useRef } from "react"
 import { useQuery } from "@tanstack/react-query";
-
 import { pdf } from "@react-pdf/renderer";
+import styles from "./Report.module.css"
 
 import { userStore } from "@/src/stores/userStore";
 
@@ -168,7 +168,6 @@ export default function SendPdfModal(props: SendPdfModalProps) {
 
   }, [sessionResponseData, questionImageData, feedbackData, tagsData, questionsAnswered, questionsCorrect])
 
-
   async function handleSend() {
     try {
       if (!user) {
@@ -201,6 +200,7 @@ export default function SendPdfModal(props: SendPdfModalProps) {
 
       await sendSessionSummary(pdfBlob, sessionId, String(user.id));
 
+      console.log("ending session...")
       await endSession(Number(sessionId), "inactive");
 
       sentRef.current = false;
@@ -247,28 +247,25 @@ export default function SendPdfModal(props: SendPdfModalProps) {
     )
   }
 
-  if (!sessionResponseData || !feedbackData || !questionImageData || !tagsData) {
-    return (
-      <>
-        <div>
-          Loading Data...
-        </div>
-        <div>
-          <Spinner />
-        </div>
-      </>
-    )
-  }
 
   return (
-    <>
-      <div>
-        Sending report...
-      </div>
+    <div id="send-pdf-modal-form"
+      className={[
+        styles.modalFormBackground,
+        styles.sectionAlign,
+      ].join(" ")}>
+      {(!sessionResponseData || !feedbackData || !questionImageData || !tagsData) ?
+        <div>
+          Loading Data...
+        </div> :
+        <div>
+          Sending report...
+        </div>
+      }
       <div>
         <Spinner />
       </div>
-    </>
+    </div>
   )
 
 }

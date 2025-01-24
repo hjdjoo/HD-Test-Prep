@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { ClientStudentResponse } from "../queries/GET/getResponsesBySession";
 import { Question } from "../stores/questionStore";
+import { useStore } from "zustand";
 import { questionStore } from "../stores/questionStore";
 
 interface useQuestionsAnsweredProps {
@@ -13,8 +14,7 @@ export default function useQuestionsAnswered(props: useQuestionsAnsweredProps) {
 
   console.log("useQuestionsAnswered/studentResponses: ", studentResponses);
 
-  const filteredQuestions = questionStore.getState().filteredQuestions;
-
+  const filteredQuestions = useStore(questionStore, (state) => state.filteredQuestions);
   console.log("filteredQuestions.length", filteredQuestions.length)
 
   const [questionsAnswered, setQuestionsAnswered] = useState<Question[]>([]);

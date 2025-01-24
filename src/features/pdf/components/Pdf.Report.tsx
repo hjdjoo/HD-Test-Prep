@@ -93,9 +93,15 @@ export default function PdfReport(props: PdfReportProps) {
         return (
           <View key={`response-item-${idx + 1}`}
             wrap={false}>
-            <Text style={styles.questionTitle}>{`Question ${idx + 1}`}</Text>
-            <View style={styles.question}>
-              <Image src={imageItem.imageUrl} />
+            <View>
+              <Text style={styles.questionTitle}>{`Question ${idx + 1}`}</Text>
+            </View>
+            <View style={{ ...styles.question, ...styles.sectionSpacingLg }}>
+              <Image src={imageItem.imageUrl}
+                style={{
+                  ...styles.image,
+
+                }} />
               <PdfSessionItem
                 question={question}
                 feedbackForm={feedbackItem.data}

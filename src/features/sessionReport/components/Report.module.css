@@ -3,6 +3,16 @@
   padding: 1rem;
 }
 
+.modalFormSize {
+  width: 50%;
+  height: 30%;
+}
+
+.modalFormBackground {
+  background-color: white;
+  box-shadow: 5px 5px 5px grey;
+}
+
 .responseWidth {
   width: 50%;
 }

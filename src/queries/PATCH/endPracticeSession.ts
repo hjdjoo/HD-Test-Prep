@@ -1,13 +1,16 @@
+
+const SERVER_URL = process.env.SERVER_URL!
+
 export default async function endSession(sessionId: number, status: "inactive" | "abandoned") {
 
   const request = {
     status: status
   }
 
-  const res = await fetch(`api/db/practice_session/${sessionId}`, {
+  const res = await fetch(`${SERVER_URL}/api/db/practice_session/${sessionId}`, {
     method: "PATCH",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(request)
   })

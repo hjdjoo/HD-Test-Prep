@@ -1,12 +1,12 @@
-import styles from "./PdfContainer.module.css"
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { PDFViewer } from "@react-pdf/renderer";
 import { useStore } from "zustand";
+import styles from "./PdfContainer.module.css"
+import animations from "@/src/animations.module.css";
+import { PDFViewer } from "@react-pdf/renderer";
 
-import ErrorPage from "@/src/ErrorPage";
 
-import PdfReport from "@/src/features/pdf/components/Pdf.Report";
-
+import createSupabase from "@/utils/supabase/client";
 import getResponsesBySession from "@/src/queries/GET/getResponsesBySession";
 import getFeedbackById, { ClientFeedbackFormData } from "@/src/queries/GET/getFeedbackById";
 import getTagsById from "@/src/queries/GET/getTagsById";
@@ -15,8 +15,12 @@ import { userStore } from "@/src/stores/userStore";
 import useQuestionsAnswered from "@/src/hooks/useQuestionsAnswered";
 import useQuestionsCorrect from "@/src/hooks/useQuestionsCorrect";
 
-import createSupabase from "@/utils/supabase/client";
+import ErrorPage from "@/src/ErrorPage";
+import PdfReport from "@/src/features/pdf/components/Pdf.Report";
 import Loading from "components/loading/Loading";
+import SendPdfModal from "../../sessionReport/components/SessionReport.SendPdfModal";
+import ModalContainer from "containers/modal/ModalContainer";
+
 
 interface PdfContainerProps {
   sessionId: string
@@ -40,10 +44,13 @@ export type TagsData = {
 export default function PdfContainer(props: PdfContainerProps) {
 
   const supabase = createSupabase();
+
+  const [sendStatus, setSendStatus] = useState<"waiting" | "sending" | "sent">("waiting");
+
   const user = useStore(userStore, (state) => state.user);
   const { sessionId } = props;
   // const user = useUserStore((state) => state.user);
-  // get practice session responses based on ID;
+  // get practice session responses based on ID, using query key to cache data for repeated calls (for example when sending PDF).
   const { data: sessionResponseData, error: sessionResponseError } = useQuery({
     queryKey: ["studentResponses", sessionId],
     queryFn: async () => {
@@ -208,6 +215,7 @@ export default function PdfContainer(props: PdfContainerProps) {
         className={[
           styles.viewerSize,
           styles.viewerFont,
+          styles.sectionSpacing,
         ].join(" ")}
       >
         <PdfReport
@@ -220,9 +228,27 @@ export default function PdfContainer(props: PdfContainerProps) {
           user={user}
         />
       </PDFViewer>
-      <button>
-        Send Report
-      </button>
+      <div className={[
+        styles.fullWidth,
+        styles.centerReport,
+        styles.sectionSpacingLg,
+      ].join(" ")}>
+        <button id="send-pdf-button"
+          className={[
+            styles.buttonStyle,
+            animations.highlightPrimaryDark,
+          ].join(" ")}
+          onClick={() => {
+            setSendStatus("sending");
+          }}>
+          Send Report
+        </button>
+      </div>
+      {sendStatus === "sending" &&
+        <ModalContainer>
+          <SendPdfModal sessionId={sessionId} setSendStatus={setSendStatus} />
+        </ModalContainer>
+      }
     </div>
   )
 }

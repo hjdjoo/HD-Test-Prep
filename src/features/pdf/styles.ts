@@ -33,6 +33,9 @@ export const styles = StyleSheet.create({
   sectionSpacing: {
     marginBottom: "0.25in",
   },
+  sectionSpacingLg: {
+    marginBottom: "0.5in",
+  },
   summary: {
     padding: "0.1in",
     backgroundColor: vars.primaryExtralight,
@@ -59,17 +62,46 @@ export const styles = StyleSheet.create({
     fontSize: "15",
   },
   question: {
-
-  },
-  questionTitle: {
-    fontFamily: "Helvetica-Bold",
-    fontSize: 16,
-  },
-  questionInfo: {
     display: "flex",
     flexDirection: "row",
   },
+  questionTitle: {
+    fontFamily: "Helvetica-Bold",
+    fontSize: 14,
+  },
+  questionInfoContainer: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    width: "100%",
+  },
+  questionInfo: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    padding: "0.1in",
+    fontSize: 14,
+  },
   questionInfoDetails: {
-
+    fontSize: 14,
+  },
+  itemEven: {
+    backgroundColor: vars.offWhite
+  },
+  itemOdd: {
+    backgroundColor: vars.primaryExtralight
+  },
+  image: {
+    flexShrink: 1,
+    minWidth: "50%",
+    objectFit: "scale-down",
+  },
+  studentWorkImage: {
+    flexShrink: 1,
+    objectFit: "contain",
+  },
+  border: {
+    border: "1px solid black"
   }
 })

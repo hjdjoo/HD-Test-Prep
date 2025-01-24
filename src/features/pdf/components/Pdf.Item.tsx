@@ -1,4 +1,5 @@
-import { Text, View } from "@react-pdf/renderer";
+import { useRef } from "react";
+import { Text, View, Link } from "@react-pdf/renderer";
 import { ClientFeedbackFormData } from "@/src/queries/GET/getFeedbackById";
 import { ClientStudentResponse } from "@/src/queries/GET/getResponsesBySession";
 import { Question } from "@/src/stores/questionStore";
@@ -11,21 +12,9 @@ interface PdfSessionItemProps {
   tagsData?: { [tagId: string]: string }
 }
 
-// const styles = StyleSheet.create({
-
-//   container: {
-
-//   },
-//   itemName: {
-
-//   },
-//   itemValue: {
-
-//   },
-
-// })
-
 export default function PdfSessionItem(props: PdfSessionItemProps) {
+
+  const renderCountRef = useRef(2);
 
   const { question, studentResponse, feedbackForm, tagsData } = props;
 
@@ -46,7 +35,7 @@ export default function PdfSessionItem(props: PdfSessionItemProps) {
         tags.push(tagsData[String(id)]);
       }
     })
-    console.log("PdfSessionItem/tags: ", tags);
+    // console.log("PdfSessionItem/tags: ", tags);
   }
 
   if (tags.length) {
@@ -65,88 +54,183 @@ export default function PdfSessionItem(props: PdfSessionItemProps) {
 
   function renderFeedbackItems(feedbackForm: { [key: string]: any }) {
 
-    let renderedItems = 0;
-
     const itemText: { [key: string]: string } = {
       comment: "Message to Instructor",
       difficultyRating: "Student Rating",
       guessed: "This was a guess",
-      tags: "Tags Added",
     }
 
     return Object.keys(feedbackForm).map((key, idx) => {
 
       const itemName = itemText[key];
-
       console.log("key: ", key);
-      console.log("feedbackForm[key]: ", feedbackForm[key]);
-
+      // console.log("feedbackForm[key]: ", feedbackForm[key]);
       let item: React.ReactNode;
 
       switch (key) {
         case "comment":
           item = (
             <>
-              <Text >
-                {`${itemName}: `}
-              </Text>
-              <Text>
-                {feedbackForm[key].length ? feedbackForm[key] : "N/A"}
-              </Text>
+              <View style={{ display: "flex", flexDirection: "column" }}>
+                <Text style={{ ...styles.questionTitle, marginBottom: "0.05in" }}>
+                  {`${itemName}: `}
+                </Text>
+                <Text style={styles.questionInfoDetails}>
+                  {feedbackForm[key].length ? feedbackForm[key] : "N/A"}
+                </Text>
+              </View>
             </>
           )
           break;
         case "difficultyRating":
           item = (
             <>
-              <Text >
+              <Text style={styles.questionTitle}>
                 {`${itemName}: `}
               </Text>
-              <Text>
+              <Text style={styles.questionInfoDetails}>
                 {difficulties[feedbackForm[key]]}
               </Text>
             </>
           )
           break;
         case "guessed":
+          console.log("feedbackForm.guessed: ", feedbackForm.guessed)
           item = (
             <>
-              <Text >
-                {`${itemName}`}
-              </Text>
+              <View style={{ width: "100%", textAlign: "right" }}>
+                <Text style={{ fontFamily: "Helvetica-Oblique" }}>
+                  {`${itemName}.`}
+                </Text>
+              </View>
             </>
           )
+
           break;
       }
 
-      if (itemText[key]) {
-        renderedItems++;
+      if (itemText[key] && feedbackForm[key]) {
+        // console.log(itemText[key]);
+        renderCountRef.current += 1;
+        console.log("renderCountRef.current: ", renderCountRef.current);
+        const background = (renderCountRef.current % 2 === 0) ? styles.itemEven : styles.itemOdd
+
+        const itemStyle = {
+          ...styles.questionInfo,
+          ...background
+        }
+
         return (
           <View key={`question-${question.id}-feedback-item-${idx + 1}`}
-            style={styles.questionInfo}>
+            style={{ ...itemStyle }}>
             {item}
           </View>
         )
       }
-    })
+    }).filter((item) => {
+      // console.log(item)
+      // console.log(item === undefined);
+      return item !== undefined
+    });
   }
+
+  function renderOtherItems() {
+
+    const output: React.ReactNode[] = [];
+
+    if (tags.length) {
+      renderCountRef.current += 1;
+
+      const tagsBackground = (renderCountRef.current % 2 === 0) ? styles.itemEven : styles.itemOdd
+
+      const tagsStyle = {
+        ...styles.questionInfo,
+        ...tagsBackground
+      }
+
+      output.push(
+        (
+          <>
+            <View style={tagsStyle}>
+              <Text style={styles.questionTitle}>
+                Tags added:
+              </Text>
+              <View style={styles.questionInfoDetails}>
+                {tagsDisplay}
+              </View>
+            </View>
+          </>
+        )
+      )
+    }
+
+    const timeBackground = (renderCountRef.current % 2 === 0) ? styles.itemOdd : styles.itemEven;
+
+    const timeStyle = {
+      ...styles.questionInfo,
+      ...timeBackground
+    };
+
+    output.push(
+      (
+        <>
+          <View style={timeStyle}>
+            <Text style={styles.questionTitle}>
+              Time taken:
+            </Text>
+            <Text style={styles.questionInfoDetails}>
+              {`${studentResponse.timeTaken}s`}
+            </Text>
+          </View>
+        </>
+      )
+    )
+
+    const linkBackground = (renderCountRef.current % 2 === 0) ? styles.itemEven : styles.itemOdd;
+
+    const linkStyle = {
+      ...styles.questionInfo,
+      ...linkBackground
+    };
+
+    if (feedbackForm?.imageUrl && feedbackForm.imageUrl.length) {
+      output.push(
+        (
+          <>
+            <View style={linkStyle}>
+              <Text style={styles.questionTitle}>
+                Student's Work:
+              </Text>
+              <Text style={styles.questionInfoDetails}>
+                <Link src={feedbackForm.imageUrl}>
+                  {`Link to Image`}
+                </Link>
+              </Text>
+            </View>
+          </>
+        )
+      )
+    }
+    return output;
+  }
+
 
   const feedbackItems = feedbackForm ? renderFeedbackItems(feedbackForm) : [];
 
+  const otherItems = renderOtherItems();
+
   return (
-    <View>
-      <View style={styles.questionInfo}>
-        <Text style={{
-          fontWeight: "bold",
-        }}>
+    <View style={styles.questionInfoContainer}>
+      <View style={{ ...styles.questionInfo, ...styles.itemOdd }}>
+        <Text style={styles.questionTitle}>
           Student Response:
         </Text>
         <Text>
           {`${studentResponse.response}`}
         </Text>
       </View>
-      <View style={styles.questionInfo}>
-        <Text>
+      <View style={{ ...styles.questionInfo, ...styles.itemEven }}>
+        <Text style={styles.questionTitle}>
           Answer:
         </Text>
         <Text>
@@ -158,29 +242,8 @@ export default function PdfSessionItem(props: PdfSessionItemProps) {
         feedbackItems
       }
       {
-        !!tags.length &&
-        <View>
-          <Text>
-            Tags added:
-          </Text>
-          <View>
-            {tagsDisplay}
-          </View>
-        </View>
+        otherItems
       }
-      {
-        studentResponse.timeTaken &&
-        <View>
-          <Text>
-            Time taken:
-          </Text>
-          <Text>
-            {`${studentResponse.timeTaken}s`}
-          </Text>
-        </View>
-      }
-
-
     </View>
   )
 };
