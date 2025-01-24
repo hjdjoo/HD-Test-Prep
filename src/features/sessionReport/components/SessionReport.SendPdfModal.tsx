@@ -168,6 +168,7 @@ export default function SendPdfModal(props: SendPdfModalProps) {
 
   }, [sessionResponseData, questionImageData, feedbackData, tagsData, questionsAnswered, questionsCorrect])
 
+
   async function handleSend() {
     try {
       if (!user) {
@@ -198,6 +199,7 @@ export default function SendPdfModal(props: SendPdfModalProps) {
 
       const pdfBlob = await pdf(Report).toBlob();
 
+      console.log('sending session summary');
       await sendSessionSummary(pdfBlob, sessionId, String(user.id));
 
       console.log("ending session...")

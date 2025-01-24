@@ -63,8 +63,7 @@ export default function PdfSessionItem(props: PdfSessionItemProps) {
     return Object.keys(feedbackForm).map((key, idx) => {
 
       const itemName = itemText[key];
-      console.log("key: ", key);
-      // console.log("feedbackForm[key]: ", feedbackForm[key]);
+
       let item: React.ReactNode;
 
       switch (key) {
@@ -95,7 +94,6 @@ export default function PdfSessionItem(props: PdfSessionItemProps) {
           )
           break;
         case "guessed":
-          console.log("feedbackForm.guessed: ", feedbackForm.guessed)
           item = (
             <>
               <View style={{ width: "100%", textAlign: "right" }}>
@@ -211,6 +209,9 @@ export default function PdfSessionItem(props: PdfSessionItemProps) {
         )
       )
     }
+
+    renderCountRef.current = 2;
+
     return output;
   }
 

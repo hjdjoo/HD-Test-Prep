@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import styles from "./SessionReportContainer.module.css";
 import animations from "@/src/animations.module.css";
@@ -22,6 +22,7 @@ interface ReportContainerProps {
 export default function ReportContainer(props: ReportContainerProps) {
 
   const { sessionId } = props;
+  const navigate = useNavigate();
 
   // get practice session responses based on ID;
   const { data: sessionResponseData, error: sessionResponseError } = useQuery({
@@ -43,6 +44,12 @@ export default function ReportContainer(props: ReportContainerProps) {
 
   const [sendStatus, setSendStatus] = useState<"waiting" | "sending" | "sent">("waiting");
 
+
+  useEffect(() => {
+    if (sendStatus === "sent") {
+      navigate("/");
+    }
+  })
 
   if (sessionResponseError) {
     console.error(sessionResponseError)

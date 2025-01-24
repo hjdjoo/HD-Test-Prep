@@ -111,6 +111,8 @@ practiceSessionController.initPracticeSession = async (req: Request, res: Respon
 
 practiceSessionController.endPracticeSession = async (req: Request, res: Response, next: NextFunction) => {
 
+  console.log("entered endPracticeSession middleware")
+
   try {
 
     const { id } = req.params;
@@ -124,10 +126,11 @@ practiceSessionController.endPracticeSession = async (req: Request, res: Respons
 
 
     if (error) {
+      console.error(error.details);
       throw new Error(`Error while ending practice session: ${error.message}`)
     }
 
-    return res.status(200).json(`Successfully updated ${id} in db to ${body.status}`).redirect("/")
+    return res.status(200).json(`Successfully updated session ${id} to ${body.status}`);
 
   } catch (e) {
     console.error(e);

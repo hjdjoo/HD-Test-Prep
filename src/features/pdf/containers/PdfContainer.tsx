@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { useStore } from "zustand";
 import styles from "./PdfContainer.module.css"
@@ -45,9 +46,19 @@ export default function PdfContainer(props: PdfContainerProps) {
 
   const supabase = createSupabase();
 
+  const navigate = useNavigate();
+
   const [sendStatus, setSendStatus] = useState<"waiting" | "sending" | "sent">("waiting");
 
   const user = useStore(userStore, (state) => state.user);
+
+
+  useEffect(() => {
+    if (sendStatus === "sent") {
+      navigate("/");
+    }
+  })
+
   const { sessionId } = props;
   // const user = useUserStore((state) => state.user);
   // get practice session responses based on ID, using query key to cache data for repeated calls (for example when sending PDF).
@@ -246,7 +257,9 @@ export default function PdfContainer(props: PdfContainerProps) {
       </div>
       {sendStatus === "sending" &&
         <ModalContainer>
-          <SendPdfModal sessionId={sessionId} setSendStatus={setSendStatus} />
+          <SendPdfModal
+            sessionId={sessionId}
+            setSendStatus={setSendStatus} />
         </ModalContainer>
       }
     </div>
