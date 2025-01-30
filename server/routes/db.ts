@@ -6,6 +6,7 @@ import tagsRouter from "./tags";
 import feedbackRouter from "./feedback";
 import studentResponsesRouter from "./studentResponses";
 import practiceSessionRouter from "./practiceSession";
+import profilesRouter from "./profiles"
 // import categoriesR
 // import userController from "../controllers/userController";
 const dbRouter = Router();
@@ -31,5 +32,7 @@ dbRouter.use("/student_responses",
 dbRouter.use("/practice_session",
   practiceSessionRouter);
 
+dbRouter.use("/profiles",
+  profilesRouter);
 
 export default dbRouter;

@@ -12,6 +12,7 @@ import {
 import HomePage from './pages/home/home.tsx';
 import PracticePage from './pages/practice/practice.tsx';
 import AccountPage from './pages/account/account.tsx';
+import AdminPage from './pages/admin/admin.tsx';
 import PdfReport from './features/pdf/PdfReport.tsx';
 import SessionReport from './features/sessionReport/SessionReport.tsx';
 
@@ -25,6 +26,7 @@ const router = createBrowserRouter(
         <Route path="/" element={<HomePage />} />
         <Route path="/practice" element={<PracticePage />} />
         <Route path="/account" element={<AccountPage />} />
+        <Route path="/admin" element={<AdminPage />} />
         <Route path="/report/:id" element={<SessionReport />} />
         <Route path="/report/pdf/:id" element={<PdfReport />} />
       </Route>

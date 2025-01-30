@@ -23,7 +23,14 @@ export default function LoginForm() {
     e.preventDefault();
     const supabase = createSupabase();
     const { data, error } = await supabase.auth
-      .signInWithOAuth({ provider: "google" });
+      .signInWithOAuth({
+        provider: "google",
+        options: {
+          queryParams: {
+            prompt: "select_account"
+          }
+        }
+      });
     if (error) {
       console.error(error);
     }

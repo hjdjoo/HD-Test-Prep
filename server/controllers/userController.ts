@@ -64,19 +64,18 @@ userController.getUser = async (req: Request, res: Response, next: NextFunction)
     if (authError) {
       throw new Error(`Couldn't get user from DB. ${authError.message}`)
     }
-    // console.log(authData, error);
+    // console.log("getUser/data, error: ", authData, authError);
 
     const { data: profileData, error: profileError } = await supabase
       .from("profiles")
       .select("*")
-      .eq("uid", authData.user.id)
-      .single();
+      .eq("uid", authData.user.id);
 
     if (profileError) {
       throw new Error(`Error while querying database for authorization: ${profileError.message}`)
     }
 
-    if (!profileData) {
+    if (!profileData.length) {
       console.log(`No user found in profiles database. Initializing profile.`);
       res.locals.user = authData.user;
       // should go to initProfile
@@ -85,11 +84,10 @@ userController.getUser = async (req: Request, res: Response, next: NextFunction)
 
     console.log("user found!")
 
-    return res.status(200).json(profileData);
+    return res.status(200).json(profileData[0]);
 
   } catch (e) {
     console.error(e);
-
 
     const error: ServerError = {
       log: "userController: Error while getting profile data",
@@ -119,10 +117,14 @@ userController.initProfile = async (_req: Request, res: Response, next: NextFunc
     // console.log(res.locals.user);
     const user = res.locals.user as User;
 
+    const nameArr: string[] = user.user_metadata.full_name.split(" ");
+
     const query = {
       role: "student",
       uid: user.id,
       name: user.user_metadata.full_name,
+      first_name: nameArr[0],
+      last_name: nameArr[nameArr.length - 1],
       email: user.email
     };
 

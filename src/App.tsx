@@ -15,8 +15,6 @@ import { User } from "./stores/userStore";
 
 import { userStore } from "./stores/userStore";
 
-// import usePersistedState from "./hooks/usePersistedState";
-
 import Auth from "./features/auth/Auth";
 import { Session } from "@supabase/supabase-js";
 
@@ -58,8 +56,6 @@ function App() {
     })()
 
   }, [])
-
-  // const persistedState = usePersistedState(user, "user");
 
   // get & set user upon render;
   useEffect(() => {
@@ -141,6 +137,7 @@ function App() {
     if (!user.id) {
       console.log("No user Id returned");
       console.log("signing out...");
+      setUser(null);
       await supabase.auth.signOut();
       console.log("signed out, navigating home...");
       navigate("/");
