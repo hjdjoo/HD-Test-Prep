@@ -1,4 +1,7 @@
+import styles from "./Admin.module.css"
+
 import { ClientStudentData } from "@/src/queries/GET/getStudents"
+import StudentItem from "./Admin.StudentItem";
 
 interface StudentsDisplayProps {
   students: ClientStudentData[]
@@ -17,8 +20,14 @@ export default function StudentsDisplay(props: StudentsDisplayProps) {
       if (student.role === "student") {
         rendered++;
         return (
-          <div key={`student-${idx + 1}`}>
-            <p>{`${rendered}. ${student.name}`}</p>
+          <div key={`student-${student.id}-display`}
+            id={`student-${student.id}-display`}
+            className={[
+              styles.studentAlign,
+            ].join(" ")}>
+            <p>{`${idx + 1}. `}</p>
+            <StudentItem
+              student={student} />
           </div>
         )
       }
@@ -27,10 +36,12 @@ export default function StudentsDisplay(props: StudentsDisplayProps) {
     return studentsList;
   }
 
+  const studentsList = renderStudents();
+
   return (
     <div id="students-display">
       <h3>Student Roster</h3>
-      {renderStudents()}
+      {studentsList}
     </div>
   )
 

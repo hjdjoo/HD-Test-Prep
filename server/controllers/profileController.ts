@@ -21,7 +21,8 @@ profileController.getStudents = async (req: Request, res: Response, next: NextFu
 
     const { data, error } = await supabase
       .from("profiles")
-      .select();
+      .select()
+      .eq("role", "student");
 
     if (error) {
       console.error(error);
@@ -94,32 +95,33 @@ profileController.getInstructors = async (req: Request, res: Response, next: Nex
 profileController.addProfile = async (req: Request, res: Response, next: NextFunction) => {
   try {
 
-    const { firstName, lastName, fullName, email, role }: NewProfileForm = req.body;
+    const form: NewProfileForm = req.body;
 
-    if (!role) {
+    if (!form.role) {
       throw new Error("No role detected; no user added.")
     }
 
     // console.log(query);
-    const query = {
-      first_name: firstName,
-      last_name: lastName,
-      name: fullName,
-      email: email,
-      role: role
-    }
+    const query = snakeCase(form) as SnakeCasedProperties<typeof form>
 
     const supabase = createSupabase({ req, res });
 
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from("profiles")
-      .insert(query);
+      .insert(query)
+      .select();
 
     if (error) {
       console.error(error);
       console.error(error.details);
       throw new Error(error.message);
     }
+
+    const clientData = data.map((row) => {
+      return camelCase(row) as CamelCasedProperties<typeof row>
+    })
+
+    res.locals.clientData = clientData[0];
 
     return next();
 
@@ -139,19 +141,26 @@ profileController.addProfile = async (req: Request, res: Response, next: NextFun
 profileController.addInstructor = async (req: Request, res: Response, next: NextFunction) => {
   try {
 
-    const { fullName, email }: NewProfileForm = req.body;
+    const { name, email }: NewProfileForm = req.body;
 
     const supabase = createSupabase({ req, res });
 
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from("tutors")
-      .insert({ name: fullName, email: email });
+      .insert({ name: name, email: email })
+      .select();
 
     if (error) {
       console.error(error);
       console.error(error.details);
       throw new Error(error.message);
     }
+
+    const clientData = data.map((row) => {
+      return camelCase(row) as CamelCasedProperties<typeof row>
+    })
+
+    res.locals.clientData = clientData[0];
 
     return next();
 
@@ -175,16 +184,23 @@ profileController.linkInstructor = async (req: Request, res: Response, next: Nex
 
     const supabase = createSupabase({ req, res });
 
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from("profiles")
       .update({ "instructor_id": instructorId })
       .eq("id", studentId)
+      .select();
 
     if (error) {
       console.error(error);
       console.error(error.details);
       throw new Error(error.message);
     }
+
+    const clientData = data.map((row) => {
+      return camelCase(row) as CamelCasedProperties<typeof row>
+    })
+
+    res.locals.clientData = clientData[0];
 
     return next();
 

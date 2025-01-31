@@ -1,0 +1,12 @@
+.flexRow {
+  display: flex;
+}
+
+.flexCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.studentAlign {
+  display: flex;
+}

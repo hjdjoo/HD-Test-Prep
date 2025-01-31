@@ -1,5 +1,6 @@
 
 import { NewProfileForm } from "@/src/pages/admin/components/Admin.AddProfileForm";
+import { ClientInstructorData } from "../GET/getInstructors";
 
 const VITE_URL = process.env.VITE_URL || import.meta.env.VITE_URL
 
@@ -20,6 +21,6 @@ export default async function addNewInstructor(form: NewProfileForm) {
 
   const data = await res.json();
 
-  return data;
+  return data as ClientInstructorData;
 
 }

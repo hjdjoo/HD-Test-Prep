@@ -1,5 +1,6 @@
 import { ChangeEvent, Dispatch, SetStateAction, useRef, useState } from "react";
 import styles from "./Admin.module.css";
+import { useProfilesStore } from "@/src/stores/profilesStore";
 
 import addNewInstructor from "@/src/queries/POST/addNewInstructor";
 import addNewProfile from "@/src/queries/POST/addNewProfile";
@@ -11,7 +12,7 @@ type Role = "admin" | "tutor" | "student"
 export interface NewProfileForm {
   firstName: string
   lastName: string
-  fullName: string
+  name: string
   email: string
   role: Role | ""
   [field: string]: string
@@ -25,6 +26,11 @@ export default function AddProfileForm(props: AddProfileFormProps) {
 
   const { setShow } = props;
 
+  const students = useProfilesStore((state) => state.students)
+  const instructors = useProfilesStore((state) => state.instructors)
+  const setStudents = useProfilesStore((state) => state.setStudents)
+  const setInstructors = useProfilesStore((state) => state.setInstructors)
+
   const roles: ["student", "tutor", "admin"] = ["student", "tutor", "admin"]
 
   const selectedRoleRef = useRef<number | null>(null);
@@ -32,7 +38,7 @@ export default function AddProfileForm(props: AddProfileFormProps) {
   const defaultForm: NewProfileForm = {
     firstName: "",
     lastName: "",
-    fullName: "",
+    name: "",
     email: "",
     role: "",
   }
@@ -56,7 +62,7 @@ export default function AddProfileForm(props: AddProfileFormProps) {
 
     newForm[name] = value;
 
-    newForm.fullName = `${newForm.firstName} ${newForm.lastName}`
+    newForm.name = `${newForm.firstName} ${newForm.lastName}`
 
     setNewProfileForm(newForm);
 
@@ -68,15 +74,23 @@ export default function AddProfileForm(props: AddProfileFormProps) {
       switch (role) {
         case ("admin"):
         case ("student"):
-          await addNewProfile(newProfileForm);
+          const newProfileData = await addNewProfile(newProfileForm);
+          const newStudents = [...students].concat(newProfileData);
+
+          setStudents(newStudents);
+
           break;
         case ("tutor"):
-          await addNewInstructor(newProfileForm);
+          const newInstructorData = await addNewInstructor(newProfileForm);
+          const newInstructors = [...instructors].concat(newInstructorData);
+
+          setInstructors(newInstructors);
       }
     }
     catch (e) {
       console.error(e);
       resetForm();
+      return;
     }
     finally {
       resetForm();
@@ -90,7 +104,7 @@ export default function AddProfileForm(props: AddProfileFormProps) {
     selectedRoleRef.current = null;
   }
 
-  console.log("AddProfileForm/newProfileForm: ", newProfileForm)
+  // console.log("AddProfileForm/newProfileForm: ", newProfileForm)
 
   const dropdownItems = roles.map((role, idx) => {
 

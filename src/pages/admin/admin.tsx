@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useStore } from "zustand";
 import { userStore } from "@/src/stores/userStore";
+import { useProfilesStore } from "@/src/stores/profilesStore";
 import { useNavigate } from "react-router-dom";
 
 import getStudents from "@/src/queries/GET/getStudents";
@@ -18,16 +19,28 @@ export default function AdminPage() {
 
   const navigate = useNavigate();
   const user = useStore(userStore, (state) => state.user);
+  const students = useProfilesStore((state) => state.students)
+  const instructors = useProfilesStore((state) => state.instructors)
+  const setStudents = useProfilesStore((state) => state.setStudents)
+  const setInstructors = useProfilesStore((state) => state.setInstructors)
 
 
   const { data: instructorData, error: instructorError } = useQuery({
-    queryKey: ["instructorData"],
-    queryFn: getInstructors
+    queryKey: ["instructorData", instructors],
+    queryFn: async () => {
+      const data = await getInstructors();
+      setInstructors(data);
+      return data;
+    }
   })
 
   const { data: studentData, error: studentError } = useQuery({
-    queryKey: ["studentData"],
-    queryFn: getStudents
+    queryKey: ["studentData", students],
+    queryFn: async () => {
+      const data = await getStudents();
+      setStudents(data)
+      return data;
+    }
   })
 
   if (!user) {
@@ -36,7 +49,7 @@ export default function AdminPage() {
     return;
   }
   if (user.role !== "admin") {
-    console.log("No user detected")
+    console.log("Unauthorized user detected")
     navigate("/");
     return;
   }
