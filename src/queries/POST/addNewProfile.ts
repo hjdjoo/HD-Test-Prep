@@ -14,6 +14,7 @@ export default async function addNewProfile(form: NewProfileForm) {
 
   if (!res.ok) {
     console.error(res.status, res.statusText)
+    throw new Error("Error while adding profile to DB. Check server logs.")
   }
 
   const data = await res.json();

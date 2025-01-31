@@ -65,20 +65,24 @@ userController.getUser = async (req: Request, res: Response, next: NextFunction)
       throw new Error(`Couldn't get user from DB. ${authError.message}`)
     }
     // console.log("getUser/data, error: ", authData, authError);
+    if (!authData.user.email) {
+      throw new Error("No email address for user detected!")
+    }
 
     const { data: profileData, error: profileError } = await supabase
       .from("profiles")
       .select("*")
-      .eq("uid", authData.user.id)
+      .eq("email", authData.user.email)
       .single();
 
     if (profileError) {
       throw new Error(`Error while querying database for authorization: ${profileError.message}`)
     }
 
-    if (!profileData) {
-      // console.log(`No user found in profiles database. Initializing profile.`);
-      // res.locals.user = authData.user;
+    if (!profileData.uid) {
+      console.log(`No user found in profiles database. Initializing profile.`);
+      // save the user information from **auth** data (from auth.users, where id=profiles.uid)
+      res.locals.user = authData.user;
       // should go to initProfile
       return next();
     }
@@ -100,63 +104,58 @@ userController.getUser = async (req: Request, res: Response, next: NextFunction)
 
     return next(error);
 
-    // return res.status(500).json("couldn't get profile data")
-
   }
 
 }
 
 
-// userController.initProfile = async (_req: Request, res: Response, next: NextFunction) => {
+userController.initProfile = async (_req: Request, res: Response, next: NextFunction) => {
 
-//   console.log("initializing profile...")
+  console.log("initializing profile...")
 
-//   try {
+  try {
 
-//     const supabase = createServiceClient();
+    const supabase = createServiceClient();
+    // console.log(res.locals.user);
+    const user = res.locals.user as User;
 
-//     // console.log(res.locals.user);
-//     const user = res.locals.user as User;
+    if (!user.email) {
+      throw new Error("No email detected for user while initializing profile")
+    }
 
-//     const nameArr: string[] = user.user_metadata.full_name.split(" ");
+    const query = {
+      role: "student",
+      uid: user.id,
+      name: user.user_metadata.full_name,
+      email: user.email
+    };
 
-//     const query = {
-//       role: "student",
-//       uid: user.id,
-//       name: user.user_metadata.full_name,
-//       first_name: nameArr[0],
-//       last_name: nameArr[nameArr.length - 1],
-//       email: user.email
-//     };
+    const { data, error } = await supabase
+      .from("profiles")
+      .update(query)
+      .eq("email", user.email)
+      .select();
 
-//     const { data, error } = await supabase
-//       .from("profiles")
-//       .upsert(query)
-//       .select();
+    if (!data) {
+      throw new Error(`Couldn't initialize profile. ${error.message}`)
+    }
 
-//     if (!data) {
-//       throw new Error(`Couldn't initialize profile. ${error.message}`)
-//     }
+    res.status(200).json("profile created");
 
-//     res.status(200).json("profile created");
+  } catch (e) {
 
-//   } catch (e) {
+    const error: ServerError = {
+      log: "userController: Error while initializing profile",
+      status: 401,
+      message: {
+        error: `${e}`
+      }
+    }
 
-//     const error: ServerError = {
-//       log: "userController: Error while initializing profile",
-//       status: 401,
-//       message: {
-//         error: `${e}`
-//       }
-//     }
+    return next(error);
+  }
 
-//     return next(error);
-
-//     // res.status(500).json(`Server error while initializing profile. ${e}`)
-
-//   }
-
-// }
+}
 
 
 export default userController;

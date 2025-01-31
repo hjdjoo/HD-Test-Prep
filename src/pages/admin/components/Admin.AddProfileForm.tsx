@@ -1,6 +1,9 @@
 import { ChangeEvent, Dispatch, SetStateAction, useRef, useState } from "react";
 import styles from "./Admin.module.css";
 
+import addNewInstructor from "@/src/queries/POST/addNewInstructor";
+import addNewProfile from "@/src/queries/POST/addNewProfile";
+
 import Dropdown from "components/dropdown/Dropdown";
 
 type Role = "admin" | "tutor" | "student"
@@ -59,24 +62,26 @@ export default function AddProfileForm(props: AddProfileFormProps) {
 
   }
 
-  async function handleSubmit(role: Role) {
-
+  async function handleSubmit() {
     try {
+      const role = newProfileForm.role;
       switch (role) {
         case ("admin"):
-
         case ("student"):
-
+          await addNewProfile(newProfileForm);
+          break;
         case ("tutor"):
-
+          await addNewInstructor(newProfileForm);
       }
     }
     catch (e) {
       console.error(e);
+      resetForm();
     }
     finally {
-
       resetForm();
+      setShow(false);
+      console.log("Success!");
     }
   }
 
@@ -140,7 +145,7 @@ export default function AddProfileForm(props: AddProfileFormProps) {
       </label>
       <button onClick={(e) => {
         e.preventDefault();
-        setShow(false);
+        handleSubmit();
       }}>
         Add Profile
       </button>

@@ -139,13 +139,13 @@ profileController.addProfile = async (req: Request, res: Response, next: NextFun
 profileController.addInstructor = async (req: Request, res: Response, next: NextFunction) => {
   try {
 
-    const { name, email }: { name: string, email: string } = req.body;
+    const { fullName, email }: NewProfileForm = req.body;
 
     const supabase = createSupabase({ req, res });
 
     const { error } = await supabase
       .from("tutors")
-      .insert({ name: name, email: email });
+      .insert({ name: fullName, email: email });
 
     if (error) {
       console.error(error);
