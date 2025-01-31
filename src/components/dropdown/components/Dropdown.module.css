@@ -1,0 +1,36 @@
+@import "@/src/vars.module.css";
+
+
+.centerForm {
+  composes: flexColCenter from "@/src/App.module.css";
+}
+
+/* dropdown item */
+
+.selected {
+  background-color: var(--off-white);
+}
+
+/* dropdown button */
+
+.buttonStyle {
+  composes: buttonReset from "@/src/App.module.css";
+  background-color: var(--primary-extralight);
+}
+.dropdownIcon {
+  height: 1rem;
+  width: 1rem;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.open {
+  rotate: 90deg;
+  transition-duration: 0.1s;
+}
+
+.close {
+  rotate: 0deg;
+  transition-duration: 0.1s;
+}
+

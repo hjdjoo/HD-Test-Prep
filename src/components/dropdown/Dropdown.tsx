@@ -1,9 +1,9 @@
-import { Dispatch, SetStateAction, useState, useContext } from "react";
+import { useState } from "react";
 import { DropdownContext } from "@/src/contexts/DropdownContext";
 
-import DropdownButton from "./Dropdown.Button";
-import DropdownList from "./Dropdown.List";
-import DropdownItem from "./Dropdown.Item";
+import DropdownButton from "./components/Dropdown.Button";
+import DropdownList from "./components/Dropdown.List";
+import DropdownItem from "./components/Dropdown.Item";
 
 interface DropdownChildren {
   Button: typeof DropdownButton
@@ -12,6 +12,7 @@ interface DropdownChildren {
 }
 
 interface DropdownProps {
+  id?: string
   children: React.ReactNode
 }
 
@@ -22,10 +23,8 @@ function DropdownComponent(props: DropdownProps) {
   const { children } = props;
 
   return (
-    <DropdownContext.Provider value={{ open: isOpen, setOpen: setIsOpen }}>
-      <div onClick={() => {
-        setIsOpen(!isOpen)
-      }}>Select An Option:</div>
+    <DropdownContext.Provider
+      value={{ open: isOpen, setOpen: setIsOpen }}>
       {children}
     </DropdownContext.Provider>
   )

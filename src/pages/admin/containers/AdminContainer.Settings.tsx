@@ -34,7 +34,7 @@ export default function SettingsContainer(props: AdminSettingsProps) {
       </button>
       {
         showAddProfile &&
-        <AddProfileForm />
+        <AddProfileForm setShow={setShowAddProfile} />
       }
     </div>
   )

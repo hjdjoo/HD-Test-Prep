@@ -23,15 +23,15 @@ router.get("/instructors",
 
   })
 
-router.post("/students",
-  profileController.addStudent,
+router.post("/new",
+  profileController.addProfile,
   (_req: Request, res: Response) => {
 
     res.status(200).json("Success!")
 
   })
 
-router.post("/instructors",
+router.post("/instructor/new",
   profileController.addInstructor,
   (_req: Request, res: Response) => {
 
@@ -39,7 +39,7 @@ router.post("/instructors",
 
   })
 
-router.patch("/students/:id",
+router.patch("/student/:id",
   profileController.linkInstructor,
   (_req: Request, res: Response) => {
 

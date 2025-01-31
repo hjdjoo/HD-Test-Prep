@@ -55,8 +55,25 @@
   }
 }
 
+@keyframes rotate90Right {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(90deg);
+  }
+}
+
 .rotate {
   animation: rotate 1s linear infinite;
+}
+
+.rotate90Right{
+  animation: rotate90Right 0.1s linear forwards;
+}
+
+.rotate90Back {
+  animation: rotate90Right 0.1s linear reverse;
 }
 
 

@@ -137,8 +137,8 @@ function App() {
     if (!user.id) {
       console.log("No user Id returned");
       console.log("signing out...");
-      setUser(null);
       await supabase.auth.signOut();
+      setUser(null);
       console.log("signed out, navigating home...");
       navigate("/");
       return null;

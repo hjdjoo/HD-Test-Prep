@@ -1,7 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 import { Tables } from "@/database.types";
-import { camelCase } from "change-case/keys";
-import { CamelCasedProperties } from "type-fest";
+import { camelCase, snakeCase } from "change-case/keys";
+import { CamelCasedProperties, SnakeCasedProperties } from "type-fest";
+
+import { NewProfileForm } from "@/src/pages/admin/components/Admin.AddProfileForm"
 
 import createSupabase from "@/utils/supabase/server";
 
@@ -89,16 +91,29 @@ profileController.getInstructors = async (req: Request, res: Response, next: Nex
   }
 }
 
-profileController.addStudent = async (req: Request, res: Response, next: NextFunction) => {
+profileController.addProfile = async (req: Request, res: Response, next: NextFunction) => {
   try {
 
-    const { name, email }: { name: string, email: string } = req.body;
+    const { firstName, lastName, fullName, email, role }: NewProfileForm = req.body;
+
+    if (!role) {
+      throw new Error("No role detected; no user added.")
+    }
+
+    // console.log(query);
+    const query = {
+      first_name: firstName,
+      last_name: lastName,
+      name: fullName,
+      email: email,
+      role: role
+    }
 
     const supabase = createSupabase({ req, res });
 
     const { error } = await supabase
       .from("profiles")
-      .insert({ name: name, email: email });
+      .insert(query);
 
     if (error) {
       console.error(error);
@@ -111,7 +126,7 @@ profileController.addStudent = async (req: Request, res: Response, next: NextFun
   } catch (e) {
 
     const error: ServerError = {
-      log: "profileController: Error while adding student to DB",
+      log: "profileController: Error while adding profile to DB",
       status: 500,
       message: {
         error: `${e}`

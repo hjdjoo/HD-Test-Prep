@@ -7,7 +7,6 @@ const userRouter = Router();
 userRouter.post("/",
   userController.checkTokens,
   userController.getUser,
-  userController.initProfile,
   (_req: Request, _res: Response, next: NextFunction) => {
 
     return next();
