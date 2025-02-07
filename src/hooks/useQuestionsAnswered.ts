@@ -12,10 +12,10 @@ export default function useQuestionsAnswered(props: useQuestionsAnsweredProps) {
 
   const { studentResponses } = props;
 
-  console.log("useQuestionsAnswered/studentResponses: ", studentResponses);
+  // console.log("useQuestionsAnswered/studentResponses: ", studentResponses);
 
   const filteredQuestions = useStore(questionStore, (state) => state.filteredQuestions);
-  console.log("filteredQuestions.length", filteredQuestions.length)
+  // console.log("filteredQuestions.length", filteredQuestions.length)
 
   const [questionsAnswered, setQuestionsAnswered] = useState<Question[]>([]);
 
@@ -37,6 +37,6 @@ export default function useQuestionsAnswered(props: useQuestionsAnsweredProps) {
   }, [studentResponses])
 
 
-  console.log("useQuestionsAnswered/questionsAnswered: ", questionsAnswered)
+  // console.log("useQuestionsAnswered/questionsAnswered: ", questionsAnswered)
   return questionsAnswered;
 }

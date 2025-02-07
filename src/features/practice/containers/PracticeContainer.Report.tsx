@@ -45,6 +45,15 @@ export default function SessionReportContainer(props: SessionReportContainerProp
     setShowDetails(!showDetails);
   }
 
+  function handleSend() {
+    if (!questionsAnswered.length) {
+      console.log("Nothing to send!")
+      return;
+    } else {
+      setSendStatus("sending");
+    }
+  }
+
   if (!sessionId) {
     console.error("No session ID detected!")
     return (
@@ -102,8 +111,9 @@ export default function SessionReportContainer(props: SessionReportContainerProp
           styles.buttonStyleSecondary,
           animations.highlightPrimaryDark,
         ].join(" ")}
-        onClick={() => {
-          setSendStatus("sending");
+        onClick={(e) => {
+          e.preventDefault();
+          handleSend();
         }}>
         End Session & Send Report
       </button>

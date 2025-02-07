@@ -23,7 +23,8 @@ export default function StudentsDisplay(props: StudentsDisplayProps) {
           <div key={`student-${student.id}-display`}
             id={`student-${student.id}-display`}
             className={[
-              styles.studentAlign,
+              styles.flexRow,
+              styles.widthFull,
             ].join(" ")}>
             <p>{`${idx + 1}. `}</p>
             <StudentItem
@@ -39,7 +40,11 @@ export default function StudentsDisplay(props: StudentsDisplayProps) {
   const studentsList = renderStudents();
 
   return (
-    <div id="students-display">
+    <div id="students-display"
+      className={[
+        styles.displayWidth,
+
+      ].join(" ")}>
       <h3>Student Roster</h3>
       {studentsList}
     </div>

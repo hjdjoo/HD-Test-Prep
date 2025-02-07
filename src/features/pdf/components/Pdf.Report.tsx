@@ -69,21 +69,31 @@ export default function PdfReport(props: PdfReportProps) {
 
     if (questionsAnswered.length) {
 
+      console.log("mapping details...")
       const question = questionsAnswered.filter(question => {
-
+        console.log("questionsAnswered/question: ")
+        console.log(question)
         return question.id === response.questionId;
 
       })[0]
 
       const imageItem = questionImageData.filter(item => {
+        console.log("questionImageData/item: ")
+        console.log(item);
         return item.responseId === response.id
       })[0]
 
       const feedbackItem = feedbackData.filter(item => {
-        return item.responseId === response.id
+        console.log("feedbackData/item: ")
+        console.log(item);
+        if (item.responseId) {
+          return item.responseId === response.id
+        }
       })[0]
 
       const feedbackTags = tagsData.filter(item => {
+        console.log("tagsData/item: ")
+        console.log(item);
         return item.responseId = response.id
       })[0]
 
@@ -100,7 +110,6 @@ export default function PdfReport(props: PdfReportProps) {
               <Image src={imageItem.imageUrl}
                 style={{
                   ...styles.image,
-
                 }} />
               <PdfSessionItem
                 question={question}

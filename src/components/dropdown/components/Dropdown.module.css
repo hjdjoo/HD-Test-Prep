@@ -1,5 +1,9 @@
 @import "@/src/vars.module.css";
 
+.flexRow {
+  display: flex;
+  flex-direction: row;
+}
 
 .centerForm {
   composes: flexColCenter from "@/src/App.module.css";
@@ -7,16 +11,31 @@
 
 /* dropdown item */
 
+.cursorHover {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
 .selected {
-  background-color: var(--off-white);
+  background-color: var(--primary-extralight);
 }
 
 /* dropdown button */
 
 .buttonStyle {
   composes: buttonReset from "@/src/App.module.css";
-  background-color: var(--primary-extralight);
+  background-color: var(--off-white);
 }
+.buttonSize {
+  width: 100%;
+}
+.buttonAlign {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .dropdownIcon {
   height: 1rem;
   width: 1rem;

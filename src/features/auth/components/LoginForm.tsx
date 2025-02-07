@@ -144,6 +144,7 @@ export default function LoginForm() {
       ].join(" ")}>
         <div id="form-heading"
           className={[
+            styles.sectionFullWidth,
             styles.alignHeading,
             styles.sectionMargin,
           ].join(" ")}>

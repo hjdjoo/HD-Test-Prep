@@ -17,13 +17,17 @@ export default function DropdownButton(props: DropdownButtonProps) {
   return (
     <button id={`${id || "dropdown-button"}`}
       className={[
-        styles.buttonStyle
+        styles.buttonStyle,
+        styles.buttonSize,
       ].join(" ")}
       onClick={(e) => {
         e.preventDefault();
         setOpen(!open);
       }}>
-      <div style={{ display: "flex", flexDirection: "row" }}>
+      <div className={[
+        styles.flexRow,
+        styles.buttonAlign,
+      ].join(" ")}>
         {children}
         <div className={[
           styles.dropdownIcon,

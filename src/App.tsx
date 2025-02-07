@@ -167,11 +167,28 @@ function App() {
     <>
       <QueryClientProvider client={queryClient}>
         <NavContainer />
-        <main className={[styles.flexColCenter].join(" ")}>
+        <main className={[
+          styles.flexColCenter,
+        ].join(" ")}>
           {
             user ?
-              <Outlet /> :
-              <Auth />
+              <div id="outlet"
+                className={[
+                  styles.outletDisplay,
+                  styles.outletWidthFull,
+                  styles.outletPadding
+                ].join(" ")}>
+                <Outlet />
+              </div>
+              :
+              <div id="auth-outlet"
+                className={[
+                  styles.outletDisplay,
+                  styles.outletWidthFull,
+                  styles.outletPadding
+                ].join(" ")}>
+                <Auth />
+              </div>
           }
         </main>
       </QueryClientProvider>

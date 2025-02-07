@@ -65,6 +65,15 @@ export default function ReportContainer(props: ReportContainerProps) {
     )
   }
 
+  function handleSend() {
+    if (!sessionResponseData || !sessionResponseData.length) {
+      console.log("sessionreportcontainer/sessionResponsedata: ", sessionResponseData)
+      return;
+    } else {
+      setSendStatus("sending");
+    }
+  }
+
 
   return (
     <div id={`session-${sessionId}-report`}
@@ -109,8 +118,9 @@ export default function ReportContainer(props: ReportContainerProps) {
                 styles.buttonSize,
                 animations.highlightPrimaryDark,
               ].join(" ")}
-              onClick={() => {
-                setSendStatus("sending");
+              onClick={(e) => {
+                e.preventDefault();
+                handleSend();
               }}>
               Send Report
             </button>

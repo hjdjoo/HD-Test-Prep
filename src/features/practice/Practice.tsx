@@ -7,6 +7,7 @@ import styles from "./Practice.module.css";
 import { questionStore } from "@/src/stores/questionStore";
 import { useCategoryStore } from "@/src/stores/categoryStore";
 import { useTagStore } from "@/src/stores/tagStore"
+import { userStore } from "@/src/stores/userStore";
 import ErrorPage from "@/src/ErrorPage";
 import Loading from "components/loading/Loading";
 // import usePracticeSession from "@/src/hooks/usePracticeSession";
@@ -20,6 +21,8 @@ import fetchProblemTypes from "@/src/queries/GET/getProblemTypes";
 
 import RandomPractice from "./containers/PracticeContainer.Random";
 import StructuredPractice from "./containers/PracticeContainer.Structured";
+import LinkInstructorModal from "./components/Practice.LinkInstructorModal";
+
 import fetchTags from "@/src/queries/GET/getTags";
 
 
@@ -32,11 +35,15 @@ export default function Practice() {
   const filteredQuestions = useStore(questionStore, (state) => state.filteredQuestions);
   const setQuestions = useStore(questionStore, (state) => state.setQuestions);
   const filterQuestions = useStore(questionStore, (state) => state.filterQuestions);
-
+  const user = useStore(userStore, (state) => state.user);
 
   const { setTags } = useTagStore();
 
   const [practiceType, setPracticeType] = useState<"random" | "structured" | null>(null)
+
+  const openModal = (user && !user.instructor_id) ? true : false;
+
+  const [modalOpen, setModalOpen] = useState<boolean>(openModal);
 
   // React query states:
   const { status: questionStatus, data: questionData, error: questionError } = useQuery({
@@ -65,13 +72,6 @@ export default function Practice() {
     filterQuestions();
 
   }, [filter])
-
-  // const filterSubscriber: Parameters<typeof questionStore.subscribe>[0] = (state) => {
-  //   console.log("filterSubscriber/filter: ", state.filter);
-  //   // filterQuestions();
-  // }
-
-  // questionStore.subscribe(filterSubscriber);
 
   useEffect(() => {
 
@@ -130,6 +130,10 @@ export default function Practice() {
         onClick={() => { setPracticeType("random") }}>
         {`Start Practice`}
       </button>
+      {
+        modalOpen &&
+        <LinkInstructorModal setOpen={setModalOpen} />
+      }
       {/* <p>Or</p>
       <button
         onClick={() => { setPracticeType("structured") }}>{`Structured Practice`}

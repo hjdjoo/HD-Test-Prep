@@ -47,6 +47,14 @@
   padding: 0rem 1rem;
 }
 
+/* Link Instructor modal */
+.modalBg {
+  background-color: white;
+}
+
+.modalPadding {
+  padding: 2rem 4rem;
+}
 
 /* Settings/Filter component */
 

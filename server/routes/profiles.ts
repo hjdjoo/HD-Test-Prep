@@ -39,7 +39,7 @@ router.post("/instructor/new",
 
   })
 
-router.patch("/student/:id",
+router.patch("/student/:id/link",
   profileController.linkInstructor,
   (_req: Request, res: Response) => {
 
@@ -47,5 +47,23 @@ router.patch("/student/:id",
 
   }
 )
+
+router.delete("/:id", profileController.deleteProfile,
+  (_req: Request, res: Response) => {
+
+    res.status(200).json("Success!");
+
+  })
+
+router.delete("/instructor/:id",
+  profileController.deleteInstructor,
+  (_req: Request, res: Response) => {
+
+    res.status(200).json("Success!");
+
+  }
+)
+
+
 
 export default router;

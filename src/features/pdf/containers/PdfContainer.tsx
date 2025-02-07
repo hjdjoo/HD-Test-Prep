@@ -33,8 +33,8 @@ export type QuestionImageData = {
 }
 
 export type FeedbackData = {
-  responseId: number
-  data: ClientFeedbackFormData
+  responseId?: number
+  data: ClientFeedbackFormData | undefined
 }
 
 export type TagsData = {
@@ -91,7 +91,7 @@ export default function PdfContainer(props: PdfContainerProps) {
         return `math/${String(response.questionId)}.png`
       });
 
-      const { data, error } = await supabase.storage.from("questions").createSignedUrls(questionImageNames, 3600)
+      const { data, error } = await supabase.storage.from("questions").createSignedUrls(questionImageNames, 3600 * 24 * 7)
 
       if (error) {
         throw new Error("Error while getting signed URLs from supabase")
@@ -118,7 +118,7 @@ export default function PdfContainer(props: PdfContainerProps) {
     queryFn: async () => {
 
       if (!sessionResponseData || !sessionResponseData.length) {
-        return [{}] as FeedbackData[]
+        return [{ data: undefined }] as FeedbackData[]
       }
 
       const feedbackProms = sessionResponseData.map(async (response) => {
@@ -131,7 +131,7 @@ export default function PdfContainer(props: PdfContainerProps) {
           } as FeedbackData
 
         } else {
-          return Promise.resolve({} as FeedbackData)
+          return Promise.resolve({ responseId: response.id, data: undefined } as FeedbackData)
         }
       })
 
@@ -150,7 +150,7 @@ export default function PdfContainer(props: PdfContainerProps) {
 
       const tagsProms = feedbackData.map(async (item) => {
 
-        if (!item.data.tags.length) {
+        if (!item || !item.data || !item.data.tags || !item.data.tags.length) {
           return Promise.resolve({} as TagsData)
 
         } else {

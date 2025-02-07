@@ -12,7 +12,10 @@ export default function LoginContainer(props: LoginContainerProps) {
 
   return (
     <div id="login-container"
-      className={style.container}>
+      className={[
+        style.container
+
+      ].join(" ")}>
       {children}
     </div>
   )

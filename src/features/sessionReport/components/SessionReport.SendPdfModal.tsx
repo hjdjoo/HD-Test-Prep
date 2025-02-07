@@ -126,7 +126,10 @@ export default function SendPdfModal(props: SendPdfModalProps) {
 
       const tagsProms = feedbackData.map(async (item) => {
 
-        if (!item.data.tags.length) {
+        console.log("sendPdfModal/item: ", item);
+
+        if (!item.data || !item.data.tags || !item.data.tags.length) {
+          console.log("no item")
           return Promise.resolve({} as TagsData)
 
         } else {

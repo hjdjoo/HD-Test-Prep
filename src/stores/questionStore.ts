@@ -63,7 +63,7 @@ export const questionStore = createStore<Questions>()(
       (questions) => set(() => ({ questions: questions })),
     filterQuestions:
       () => set((state) => {
-        console.log(state.filter);
+        // console.log(state.filter);
         const { filter, questions } = state;
         // console.log("questionStore/filterQuestions/filter: ", filter)
 

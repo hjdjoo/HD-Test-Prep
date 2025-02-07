@@ -32,7 +32,6 @@ export default function RandomPractice() {
   const setSessionResponses = usePracticeSessionStore((state) => state.setSessionResponses)
 
   const user = userStore.getState().user;
-
   const sessionResponsesRef = useRef(sessionResponses)
 
   const [showSettings, setShowSettings] = useState<boolean>(false);
@@ -92,8 +91,6 @@ export default function RandomPractice() {
   }, [sessionResponses]);
 
   // Session management effect - mark empty sessions as abandoned, set practice sessionId for user.
-
-
 
   useEffect(() => {
     console.log("running unload registration useEffect...")

@@ -114,14 +114,6 @@ export default function QuestionContainer(props: QuestionContainerProps) {
 
   }, [question]);
 
-  // useEffect(() => {
-
-  //   if (!sessionId) return;
-  //   console.log("QuestionContainer/useEffect/sessionId found: ", sessionId)
-  //   initStudentResponse(sessionId);
-
-  // }, [sessionId])
-
   // submit student response once feedback is submitted.
   useEffect(() => {
 

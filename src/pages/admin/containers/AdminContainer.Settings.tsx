@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import styles from "./AdminContainer.module.css"
 import { ClientStudentData } from "@/src/queries/GET/getStudents"
 import { ClientInstructorData } from "@/src/queries/GET/getInstructors"
 
@@ -21,10 +21,18 @@ export default function SettingsContainer(props: AdminSettingsProps) {
   console.log(students, instructors);
 
   return (
-    <div id="admin-settings-page">
-      Admin Settings Page
-      <StudentsDisplay students={students} />
-      <InstructorsDisplay instructors={instructors} />
+    <div id="admin-settings-page"
+      className={[
+
+      ].join(" ")}>
+      <b>Admin:</b>
+      <div id="roster"
+        className={[
+
+        ].join(" ")}>
+        <StudentsDisplay students={students} />
+        <InstructorsDisplay instructors={instructors} />
+      </div>
       <button
         onClick={() => {
           setShowAddProfile(!showAddProfile)

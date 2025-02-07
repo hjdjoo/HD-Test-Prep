@@ -12,7 +12,8 @@ export default function HomeContainer() {
   const user = userStore.getState().user;
 
   return (
-    <div className={style.container}>
+    <div id="home-container"
+      className={style.container}>
       {user ? <Account /> : <Auth />}
     </div>
   )

@@ -12,6 +12,19 @@
   }
 }
 
+.outletDisplay {
+  display: flex;
+  justify-content: center;
+}
+
+.outletWidthFull {
+  width: 100%;
+}
+
+.outletPadding {
+  padding-top: 3rem;
+  padding: 1rem;
+}
 
 .linkReset {
   text-decoration: none;

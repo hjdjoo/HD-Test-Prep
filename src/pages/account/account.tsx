@@ -24,6 +24,7 @@ export default function AccountPage() {
       {isAdmin ?
         <div id="admin-page"
           className={[
+            styles.pageDisplay,
             styles.pageSizing,
             styles.pageMargins,
           ].join(" ")}>
@@ -31,6 +32,7 @@ export default function AccountPage() {
         </div> :
         <div id="account-page"
           className={[
+            styles.pageDisplay,
             styles.pageSizing,
             styles.pageMargins,
           ].join(" ")}>

@@ -30,6 +30,9 @@ export default function PdfSessionItem(props: PdfSessionItemProps) {
   let tagsDisplay = [] as React.ReactNode[];
 
   if (feedbackForm && feedbackForm.tags.length && tagsData) {
+
+    console.log(tagsData);
+
     feedbackForm.tags.forEach(id => {
       if (tagsData[String(id)]) {
         tags.push(tagsData[String(id)]);

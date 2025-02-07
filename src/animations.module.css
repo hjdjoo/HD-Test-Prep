@@ -2,7 +2,7 @@
 
 @keyframes highlight { 
   from {
-    background-color: white;
+    background-color: current;
   }
   to {
     background-color: var(--primary-light);

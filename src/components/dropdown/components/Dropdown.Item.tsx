@@ -15,6 +15,7 @@ export default function DropdownItem(props: DropdownItemProps) {
   return (
     <div id={id || undefined}
       className={[
+        styles.cursorHover,
         idx === selectedIdx ? styles.selected : "",
       ].join(" ")}
       onClick={onClick}>

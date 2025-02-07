@@ -26,7 +26,7 @@ export default function DetailItem(props: DetailItemProps) {
   let tags = [] as string[];
   let tagsDisplay = [] as React.ReactNode[];
 
-  if (feedbackData && feedbackData.tags.length && tagsData) {
+  if (feedbackData && feedbackData.tags && feedbackData.tags.length && tagsData) {
     feedbackData.tags.forEach(id => {
       if (tagsData[String(id)]) {
         tags.push(tagsData[String(id)]);

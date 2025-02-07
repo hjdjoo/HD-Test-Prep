@@ -188,7 +188,8 @@ profileController.linkInstructor = async (req: Request, res: Response, next: Nex
       .from("profiles")
       .update({ "instructor_id": instructorId })
       .eq("id", studentId)
-      .select();
+      .select()
+      .single();
 
     if (error) {
       console.error(error);
@@ -196,11 +197,9 @@ profileController.linkInstructor = async (req: Request, res: Response, next: Nex
       throw new Error(error.message);
     }
 
-    const clientData = data.map((row) => {
-      return camelCase(row) as CamelCasedProperties<typeof row>
-    })
+    const clientData = camelCase(data) as CamelCasedProperties<typeof data>
 
-    res.locals.clientData = clientData[0];
+    res.locals.clientData = clientData;
 
     return next();
 
@@ -214,6 +213,85 @@ profileController.linkInstructor = async (req: Request, res: Response, next: Nex
       }
     }
     return next(error);
+  }
+}
+
+profileController.deleteProfile = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+
+    const { id } = req.params;
+
+    console.log(id);
+
+    if (!Number.parseInt(id)) {
+      throw new Error("Couldn't parse ID from params");
+    }
+
+    const supabase = createSupabase({ req, res });
+
+    const { error } = await supabase
+      .from("profiles")
+      .delete()
+      .eq("id", Number.parseInt(id));
+
+    if (error) {
+      console.error(error.details);
+      throw new Error(error.message);
+    }
+
+  } catch (e) {
+
+    const error: ServerError = {
+      log: "profileController: Error while removing student from DB",
+      status: 500,
+      message: {
+        error: `${e}`
+      }
+    }
+    return next(error);
+
+  }
+}
+
+profileController.deleteInstructor = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+
+    const { id } = req.params;
+
+    console.log(id);
+
+    console.log(id);
+
+    if (!Number.parseInt(id)) {
+      throw new Error("Couldn't parse ID from params");
+    }
+
+    const supabase = createSupabase({ req, res });
+
+    const id_int = Number.parseInt(id);
+
+    const { error } = await supabase
+      .from("tutors")
+      .delete()
+      .eq("id", id_int);
+
+    if (error) {
+      console.error(error.details);
+      throw new Error(error.message);
+    }
+
+    return next();
+
+  } catch (e) {
+    const error: ServerError = {
+      log: "profileController: Error while removing instructor from DB",
+      status: 500,
+      message: {
+        error: `${e}`
+      }
+    }
+    return next(error);
+
   }
 }
 

@@ -54,7 +54,6 @@ interface FeedbackFormProps {
 }
 
 
-
 function UploadPreview(props: UploadPreviewProps) {
 
   const { uploadFileData, setUploadFileData } = props;
@@ -109,7 +108,7 @@ export default function FeedbackForm(props: FeedbackFormProps) {
   }
 
   function handleClose() {
-    setSubmitStatus("waiting");
+    setSubmitStatus("submitted");
   }
 
   async function submitForm() {
@@ -117,7 +116,6 @@ export default function FeedbackForm(props: FeedbackFormProps) {
 
       if (!studentResponse) return;
       // compile feedback form.
-      // console.log("before update/feedbackForm: ", feedbackForm);
       const updatedFeedbackForm = structuredClone(feedbackForm);
 
       const newTags: string[] = [];
@@ -146,7 +144,6 @@ export default function FeedbackForm(props: FeedbackFormProps) {
       }
 
       console.log("submit feedback form request body: ", body);
-
       // submit feedback form and get id;
       const res = await fetch("api/db/feedback/new", {
         method: "POST",
@@ -189,7 +186,6 @@ export default function FeedbackForm(props: FeedbackFormProps) {
     } catch (e) {
       console.error(e);
     }
-
   }
 
 

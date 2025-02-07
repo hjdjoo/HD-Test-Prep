@@ -1,5 +1,7 @@
 import { ChangeEvent, Dispatch, SetStateAction, useRef, useState } from "react";
 import styles from "./Admin.module.css";
+
+
 import { useProfilesStore } from "@/src/stores/profilesStore";
 
 import addNewInstructor from "@/src/queries/POST/addNewInstructor";
@@ -71,6 +73,7 @@ export default function AddProfileForm(props: AddProfileFormProps) {
   async function handleSubmit() {
     try {
       const role = newProfileForm.role;
+
       switch (role) {
         case ("admin"):
         case ("student"):
@@ -103,8 +106,6 @@ export default function AddProfileForm(props: AddProfileFormProps) {
     setNewProfileForm(defaultForm);
     selectedRoleRef.current = null;
   }
-
-  // console.log("AddProfileForm/newProfileForm: ", newProfileForm)
 
   const dropdownItems = roles.map((role, idx) => {
 
