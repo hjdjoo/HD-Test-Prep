@@ -22,7 +22,7 @@ const corsOptions = {
   optionsSuccessStatus: 200,
 }
 
-const PORT = process.env.PORT || 3000;
+const PORT = Number(process.env.SERVER_PORT) || 3000;
 
 const app: Application = express();
 
@@ -66,7 +66,7 @@ function errorHandler(err: ServerError, _req: Request, res: Response, _next: Nex
 
 app.use(errorHandler)
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
 
   console.log(`Server listening on port ${PORT}`);
 

@@ -1,5 +1,5 @@
 import { ClientStudentResponse } from "@/src/queries/GET/getResponsesBySession";
-import { Page, View, Document, Image, Text, Font, StyleSheet } from "@react-pdf/renderer";
+import { Page, View, Document, Image, Text } from "@react-pdf/renderer";
 
 import PdfSessionSummary from "../components/Pdf.Summary";
 import PdfSessionItem from "./Pdf.Item";

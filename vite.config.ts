@@ -7,7 +7,8 @@ import svgr from "vite-plugin-svgr";
 import path from "path";
 import 'dotenv/config';
 
-// console.log(__dirname)
+// console.log(__dirname);
+console.log("SERVER_URL: ", process.env.SERVER_URL!)
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -22,7 +23,9 @@ export default defineConfig({
       "/api": {
         target: process.env.SERVER_URL!,
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ""),
+        rewrite: (path) => {
+          return path.replace(/^\/api/, "")
+        },
       }
     }
   },

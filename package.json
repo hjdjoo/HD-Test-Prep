@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"NODE_ENV=development\" \"vite\" \"tsx --tsconfig tsconfig.node.json --watch server/server.ts\"",
+    "dev": "concurrently \"NODE_ENV=development\" \"vite --host\" \"tsx --tsconfig tsconfig.node.json --watch server/server.ts\"",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",

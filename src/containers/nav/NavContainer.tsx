@@ -1,4 +1,4 @@
-import AccountButton from "components/nav/Nav.account"
+// import AccountButton from "components/nav/Nav.account"
 import Signout from "components/nav/Nav.signout"
 import HomeButton from "components/nav/Nav.home"
 
@@ -18,7 +18,7 @@ export default function NavContainer() {
       <div id="account-buttons" className={[
         style.alignButtons
       ].join(" ")}>
-        <AccountButton />
+        {/* <AccountButton /> */}
         <Signout />
       </div>
     </nav>
