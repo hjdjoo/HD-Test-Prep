@@ -146,11 +146,19 @@ export default function LoginForm() {
           className={[
             styles.sectionFullWidth,
             styles.alignHeading,
-            styles.sectionMargin,
+            styles.sectionSpacing,
           ].join(" ")}>
+          <div id="app-name"
+            className={[
+              styles.sectionSpacing,
+            ].join(" ")}>
+            <h2>
+              HD Prep
+            </h2>
+          </div>
           <img src="/HD-Tutors-Icon-512.png" alt="Logo"
             className={[
-              styles.sectionMargin,
+              styles.sectionSpacing,
               styles.logoSize,
             ].join(" ")} />
           <p className={[
@@ -162,25 +170,35 @@ export default function LoginForm() {
         <div id="auth-inputs"
           className={[
             styles.sectionFullWidth,
-            styles.sectionMargin
+            styles.sectionSpacing
           ].join(" ")}>
           <div id="email-input" className={[
             styles.justifyInputs
           ].join(" ")}>
-            <label htmlFor="email">{`Email: `}</label>
+            <label htmlFor="email"
+              className={[
+                styles.labelStyle,
+              ].join(" ")}
+            >{`Email: `}</label>
             <input type="text" name="email" autoComplete="email"
               className={[
                 styles.inputStyle,
+                styles.inputSize,
                 styles.rounded
               ].join(" ")} />
           </div>
           <div id="password-input" className={[
             styles.justifyInputs
           ].join(" ")}>
-            <label htmlFor="password">{`Password: `}</label>
+            <label htmlFor="password"
+              className={[
+                styles.labelStyle,
+              ].join(" ")}
+            >{`Password: `}</label>
             <input type="password" name="password" autoComplete="off"
               className={[
                 styles.inputStyle,
+                styles.inputSize,
                 styles.rounded
               ].join(" ")} />
           </div>

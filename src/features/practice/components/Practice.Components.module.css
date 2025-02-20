@@ -153,6 +153,7 @@
   top: 0;
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
   background-color: rgb(32, 32, 32, 0.6)
 }
 
@@ -166,8 +167,11 @@
 .formDisplay {
   background-color: white;
   min-height: 60vh;
+  min-height: 60dvh;
   max-height: 90vh;
+  max-height: 90dvh;
   max-width: 70vw;
+  max-width: 70dvw;
   padding-top: 1rem;
   padding-bottom: 2rem;
   border: 5px solid black;

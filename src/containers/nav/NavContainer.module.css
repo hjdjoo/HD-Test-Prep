@@ -1,5 +1,9 @@
 .navPosition {
-  position: absolute;
+  position: relative;
+}
+
+.navSize {
+  height: 40px;
 }
 
 .navSpacing {

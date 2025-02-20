@@ -25,7 +25,7 @@
   width: 100%;
 }
 
-.sectionMargin {
+.sectionSpacing {
   margin-bottom: 1rem;
 }
 
@@ -39,25 +39,22 @@
 
 .justifyInputs {
   display: flex;
-  box-sizing: border-box;
-  width: 100%;
   margin-top: 1rem;
+}
 
-  label {
-    font-size: 0.7rem;
-    text-align: left;
-    padding-right: 0.5rem;
-    margin-top: auto;
-    margin-bottom: auto;
-    width: 20%;
-  }
+.labelStyle {
+  font-size: 0.8rem;
+  text-align: right;
+  padding-right: 0.5rem;
+  margin-top: auto;
+  margin-bottom: auto;
+  width: 25%;
+}
 
-  input {
-    flex-grow: 1;
+.inputSize {
     height: 2rem;
-    margin-left: 0.5rem;
-    padding: 0rem 0.5rem;
-  }
+    width: 75%;
+    /* padding: 0rem 0.5rem; */
 }
 
 .buttonStyle {

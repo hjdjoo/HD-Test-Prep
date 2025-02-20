@@ -13,11 +13,13 @@
 }
 
 .outletDisplay {
+  flex-grow: 1;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 
-.outletWidthFull {
+.outletWidth {
   width: 100%;
 }
 

@@ -10,6 +10,7 @@ export default function NavContainer() {
     <nav id="navbar" className={[
       style.navPosition,
       style.navSpacing,
+      style.navSize,
       style.alignNav
     ].join(" ")}>
       <div id="menu">

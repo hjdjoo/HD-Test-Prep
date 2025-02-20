@@ -20,6 +20,8 @@ import { Session } from "@supabase/supabase-js";
 
 const queryClient = new QueryClient();
 
+// const VITE_URL = import.meta.env.VITE_URL
+
 function App() {
 
   const user = useStore(userStore, (state) => state.user);
@@ -132,6 +134,8 @@ function App() {
       credentials: "include",
     })
 
+    console.log("getUser/res: ", res);
+
     const user: User = await res.json();
 
     if (!user.id) {
@@ -164,35 +168,28 @@ function App() {
   // }, [])
 
   return (
-    <>
+    <div id="app">
       <QueryClientProvider client={queryClient}>
         <NavContainer />
         <main className={[
           styles.flexColCenter,
         ].join(" ")}>
-          {
-            user ?
-              <div id="outlet"
-                className={[
-                  styles.outletDisplay,
-                  styles.outletWidthFull,
-                  styles.outletPadding
-                ].join(" ")}>
+          <div id="outlet"
+            className={[
+              styles.outletDisplay,
+              styles.outletWidthFull,
+              styles.outletPadding
+            ].join(" ")}>
+            {
+              user ?
                 <Outlet />
-              </div>
-              :
-              <div id="auth-outlet"
-                className={[
-                  styles.outletDisplay,
-                  styles.outletWidthFull,
-                  styles.outletPadding
-                ].join(" ")}>
+                :
                 <Auth />
-              </div>
-          }
+            }
+          </div>
         </main>
       </QueryClientProvider>
-    </>
+    </div>
   )
 }
 

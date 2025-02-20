@@ -9,6 +9,8 @@ import 'dotenv/config';
 
 // console.log(__dirname);
 console.log("SERVER_URL: ", process.env.SERVER_URL!)
+const VITE_NGROK_URL = process.env.VITE_URL!;
+console.log("VITE_NGROK_URL", VITE_NGROK_URL);
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -19,9 +21,10 @@ export default defineConfig({
       include: '**/*.svg',
     })],
   server: {
+    allowedHosts: [VITE_NGROK_URL.replace("https://", "")],
     proxy: {
       "/api": {
-        target: process.env.SERVER_URL!,
+        target: "http://localhost:3000",
         changeOrigin: true,
         rewrite: (path) => {
           return path.replace(/^\/api/, "")
