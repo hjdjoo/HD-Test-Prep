@@ -168,17 +168,22 @@ function App() {
   // }, [])
 
   return (
-    <div id="app">
+    <div id="app" className={[
+      styles.fullHeight,
+      styles.flexColCenter
+    ].join(" ")}>
       <QueryClientProvider client={queryClient}>
         <NavContainer />
         <main className={[
           styles.flexColCenter,
+          styles.widthFull,
+          styles.flexGrow,
         ].join(" ")}>
           <div id="outlet"
             className={[
               styles.outletDisplay,
-              styles.outletWidthFull,
-              styles.outletPadding
+              styles.widthFull,
+              styles.outletPadding,
             ].join(" ")}>
             {
               user ?

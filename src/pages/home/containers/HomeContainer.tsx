@@ -13,7 +13,9 @@ export default function HomeContainer() {
 
   return (
     <div id="home-container"
-      className={style.container}>
+      className={[
+        style.container,
+      ].join(" ")}>
       {user ? <Account /> : <Auth />}
     </div>
   )

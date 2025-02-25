@@ -177,7 +177,11 @@ export default function RandomPractice() {
       {
         (user && sessionId && isPrevSession) &&
         <div id="prev-session-modal">
-          <ContinuePracticeModal user={user} sessionId={sessionId} setIsPrevSession={setIsPrevSession} practiceType="random" />
+          <ContinuePracticeModal
+            user={user}
+            sessionId={sessionId}
+            setIsPrevSession={setIsPrevSession}
+            practiceType="random" />
         </div>
       }
       <div id="practice-filter"
@@ -188,7 +192,10 @@ export default function RandomPractice() {
         <div id="question-module" className={[
           styles.nextButtonAlign,
         ].join(" ")}>
-          <QuestionContainer question={currQuestion} getNextQuestion={getRandomQuestion} />
+          <QuestionContainer
+            question={currQuestion}
+            getNextQuestion={getRandomQuestion}
+          />
           <div>
             <button id="next-question-button"
               className={[
@@ -218,7 +225,8 @@ export default function RandomPractice() {
       }
       {
         (!isPrevSession && sessionId) &&
-        <SessionReportContainer studentResponses={studentResponseData || []} />
+        <SessionReportContainer
+          studentResponses={studentResponseData || []} />
       }
     </div>
   )

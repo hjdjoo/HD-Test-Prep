@@ -3,20 +3,29 @@
 }
 
 .navSize {
-  height: 40px;
+  height: 60px;
 }
 
 .navSpacing {
   width: 100%;
-  padding: 0.5rem;
+  /* margins: 0.5rem; */
+  /* padding: 0.5rem; */
 }
 
 .alignNav {
   display: flex;
   justify-content: space-between;
+  padding-top: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 .alignButtons {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+/* .alignButtons {
   display: flex;
 
   button {
@@ -24,4 +33,4 @@
     margin-right: 0.25rem;
   }
 
-}
+} */

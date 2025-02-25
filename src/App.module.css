@@ -1,7 +1,16 @@
+.fullHeight {
+  height: 100vh;
+  height: 100dvh;
+}
+
 .flexColCenter {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.flexGrow {
+  flex-grow: 1;
 }
 
 .buttonReset {
@@ -19,7 +28,7 @@
   align-items: center;
 }
 
-.outletWidth {
+.widthFull {
   width: 100%;
 }
 

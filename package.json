@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "concurrently \"NODE_ENV=development\" \"vite --host\" \"tsx --tsconfig tsconfig.node.json --watch server/server.ts\"",
-    "start:ngrok": "npx tsx ngrok-start.ts",
+    "start:ngrok": "ngrok http 5173 --url https://ngrok.hdprep.me",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",

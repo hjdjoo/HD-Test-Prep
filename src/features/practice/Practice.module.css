@@ -1,8 +1,10 @@
 @import "@/src/vars.module.css";
 
 .container {
-  padding-top: 15%;
+  padding-bottom: 15%;
   composes: flexColCenter from "@/src/App.module.css";
+  justify-content: center;
+  height: 100%;
   width: 100%;
 }
 
@@ -17,6 +19,6 @@
 }
 
 .buttonSize {
-  width: 30%;
+  width: 50%;
   height: 2rem;
 }

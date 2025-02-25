@@ -1,7 +1,5 @@
 .container {
   composes: flexColCenter from "@/src/App.module.css";
-  flex-grow: 1;
-  height: 100vh;
-  height: 100dvh;
-  justify-content: center;
+  height: 100%;
+  width: 100%;
 }

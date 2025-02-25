@@ -13,7 +13,10 @@ export default function NavContainer() {
       style.navSize,
       style.alignNav
     ].join(" ")}>
-      <div id="menu">
+      <div id="menu"
+        className={[
+          style.alignButtons
+        ].join(" ")}>
         <HomeButton />
       </div>
       <div id="account-buttons" className={[

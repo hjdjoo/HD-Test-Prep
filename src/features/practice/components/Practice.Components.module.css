@@ -58,14 +58,23 @@
 
 /* Settings/Filter component */
 
+.customCheckbox {
+  min-height: 1rem;
+  max-height: 1rem;
+  min-width: 1rem;
+  max-width: 1rem;
+  border-radius: 50%;
+  background-color: grey;
+  
+}
+
 .alignFilters {
   display: flex;
 }
 
 .filterTextSize {
-  font-size: 0.8rem;
+  font-size: 0.8rem;z
 }
-
 
 .checkboxesVertical {
   display: flex;
@@ -279,10 +288,11 @@
 }
 
 .modalStyle {
-  background-color: var(--off-white);
+  background-color: white;
   padding: 1rem 2rem;
   width: 80vw;
   max-width: 500px;
+  border-radius: 10px;
 }
 
 .modalButtonStyle {
@@ -293,7 +303,7 @@
 
 .modalButtonSize {
   height: 2rem;
-  width: 70%
+  width: 100%
 }
 
 .submitButtonSize {

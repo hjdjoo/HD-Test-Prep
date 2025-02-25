@@ -20,9 +20,7 @@ import SessionReport from './features/sessionReport/SessionReport.tsx';
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route errorElement={<ErrorPage />}>
-      <Route
-        path="/"
-        element={<App />} >
+      <Route path="/" element={<App />} >
         <Route path="/" element={<HomePage />} />
         <Route path="/practice" element={<PracticePage />} />
         <Route path="/account" element={<AccountPage />} />
@@ -30,7 +28,7 @@ const router = createBrowserRouter(
         <Route path="/report/:id" element={<SessionReport />} />
         <Route path="/report/pdf/:id" element={<PdfReport />} />
       </Route>
-    </Route>
+    </Route >
   )
 );
 

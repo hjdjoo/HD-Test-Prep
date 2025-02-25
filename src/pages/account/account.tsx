@@ -20,25 +20,17 @@ export default function AccountPage() {
   const isAdmin = user.role === "admin"
 
   return (
-    <>
+    <div id={`${isAdmin ? "admin-page" : "account-page"}`}
+      className={[
+        styles.pageDisplay,
+        styles.pageSizing,
+        styles.paddingBottom,
+      ].join(" ")}>
       {isAdmin ?
-        <div id="admin-page"
-          className={[
-            styles.pageDisplay,
-            styles.pageSizing,
-            styles.pageMargins,
-          ].join(" ")}>
-          <AdminPage />
-        </div> :
-        <div id="account-page"
-          className={[
-            styles.pageDisplay,
-            styles.pageSizing,
-            styles.pageMargins,
-          ].join(" ")}>
-          <AccountContainer />
-        </div>
+        <AdminPage />
+        :
+        <AccountContainer />
       }
-    </>
+    </div>
   )
 }

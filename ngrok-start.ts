@@ -1,4 +1,4 @@
-import * as dotenv from "dotenv";
+// import * as dotenv from "dotenv";
 import * as fs from "node:fs";
 import * as path from "node:path"
 import { spawn, exec } from "node:child_process";
@@ -21,11 +21,11 @@ function startNgrok(port: number) {
 
     if (match && match[0]) {
       updateEnv(match[0]);
-      killVite();
+      // killVite();
       // killNode();
 
-      dotenv.config();
-      startVite();
+      // dotenv.config();
+      // startVite();
     }
 
   })
