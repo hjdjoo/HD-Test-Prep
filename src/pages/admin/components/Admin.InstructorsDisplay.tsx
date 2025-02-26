@@ -47,10 +47,14 @@ export default function InstructorsDisplay(props: InstructorsDisplayProps) {
             styles.widthFull,
           ].join(" ")}>
           <p>{`${rendered}. ${instructor.name}`}</p>
-          <button onClick={(e) => {
-            e.preventDefault();
-            handleDelete(instructor.id);
-          }}>
+          <button
+            className={[
+              styles.buttonStyle
+            ].join(" ")}
+            onClick={(e) => {
+              e.preventDefault();
+              handleDelete(instructor.id);
+            }}>
             delete
           </button>
         </div>

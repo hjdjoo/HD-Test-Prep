@@ -19,7 +19,6 @@ export default function StudentItem(props: StudentItemProps) {
     try {
 
       const data = await deleteProfile(id);
-
       console.log(data);
 
     } catch (e) {
@@ -40,15 +39,23 @@ export default function StudentItem(props: StudentItemProps) {
           styles.justifyBetween
         ].join(" ")}>
         <p>{`${student.name}`}</p>
-        <div>
+        <div className={[
+
+        ].join(" ")}>
           <button id={`edit-student-${student.id}-button`}
+            className={[
+              styles.buttonStyle
+            ].join(" ")}
             onClick={(e) => {
               e.preventDefault();
-              setEditing(!editing)
+              setEditing(!editing);
             }}>
             edit
           </button>
           <button id={`delete-student${student.id}-button`}
+            className={[
+              styles.buttonStyle
+            ].join(" ")}
             onClick={(e) => {
               e.preventDefault();
               handleDelete(student.id);

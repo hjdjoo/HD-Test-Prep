@@ -63,6 +63,7 @@ export default function QuestionContainer(props: QuestionContainerProps) {
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const [timerStart, setTimerStart] = useState<boolean>(false);
+  const [timerOn, setTimerOn] = useState<boolean>(false);
 
   // const [loadingNext, setLoadingNext] = useState<boolean>(false);
 
@@ -283,17 +284,34 @@ export default function QuestionContainer(props: QuestionContainerProps) {
   return (
     <div id="question-container"
       className={[
-        styles.questionAlign
+        styles.questionSize,
+        styles.questionAlign,
       ].join(" ")}>
       <div id="timer-container"
         className={[
           styles.container,
-          styles.sectionMarginSm,
+          styles.sectionMargin,
+          styles.timerStyle,
+          styles.timerBackground,
+          styles.sticky,
         ].join(" ")}>
         <h3>Question Number: {question.question}</h3>
-        <Timer start={timerStart} submitStatus={submitStatus} time={time} setTime={setTime} />
+        <Timer
+          start={timerStart}
+          timerOn={timerOn}
+          setTimerOn={setTimerOn}
+          submitStatus={submitStatus}
+          time={time}
+          setTime={setTime} />
       </div>
-      <QuestionImage imageUrl={questionUrl} imageLoaded={imageLoaded} setImageLoaded={setImageLoaded} />
+      <div className={[
+        timerOn ? "" : styles.questionBlur,
+      ].join(" ")}>
+        <QuestionImage
+          imageUrl={questionUrl}
+          imageLoaded={imageLoaded}
+          setImageLoaded={setImageLoaded} />
+      </div>
       {
         imageLoaded ?
           <div id="answer-choices-container"
@@ -309,6 +327,7 @@ export default function QuestionContainer(props: QuestionContainerProps) {
         <div id="submit-answer-button"
           className={[
             styles.sectionMargin,
+            styles.container,
           ].join(" ")}>
           <button
             className={[

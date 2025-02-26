@@ -7,6 +7,8 @@ import PauseIcon from "@/src/assets/icons/pauseIcon.svg";
 
 interface TimerProps {
   start: boolean
+  timerOn: boolean
+  setTimerOn: Dispatch<SetStateAction<boolean>>
   submitStatus: "waiting" | "submitting" | "submitted"
   time: number,
   setTime: Dispatch<SetStateAction<number>>
@@ -14,9 +16,9 @@ interface TimerProps {
 
 export default function Timer(props: TimerProps) {
 
-  const { start, submitStatus, time, setTime } = props;
+  const { start, submitStatus, timerOn, setTimerOn, time, setTime } = props;
 
-  const [timerOn, setTimerOn] = useState<boolean>(false);
+  // const [timerOn, setTimerOn] = useState<boolean>(false);
   const timerInterval = useRef<NodeJS.Timeout>()
 
   // const [timerMessage, setTimerMessage] = useState<string>("")

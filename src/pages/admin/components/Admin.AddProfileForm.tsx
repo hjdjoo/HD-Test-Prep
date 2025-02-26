@@ -122,10 +122,16 @@ export default function AddProfileForm(props: AddProfileFormProps) {
   })
 
   return (
-    <form style={{ display: "flex", flexDirection: "column", marginTop: "1rem", alignItems: "center", border: "1px solid grey" }}>
+    <form className={[
+      styles.alignForm,
+      styles.formStyle,
+    ].join(" ")}>
       <label htmlFor="new-profile-first-name">
         First Name:
         <input id="new-profile-first-name"
+          className={[
+            styles.inputStyle,
+          ].join(" ")}
           type="text"
           name="firstName"
           value={newProfileForm.firstName}
@@ -134,6 +140,9 @@ export default function AddProfileForm(props: AddProfileFormProps) {
       <label htmlFor="new-profile-last-name">
         Last Name:
         <input id="new-profile-last-name"
+          className={[
+            styles.inputStyle,
+          ].join(" ")}
           type="text"
           name="lastName"
           value={newProfileForm.lastName}
@@ -142,6 +151,9 @@ export default function AddProfileForm(props: AddProfileFormProps) {
       <label htmlFor="new-profile-email-address">
         Email Address:
         <input id="new-profile-email-address"
+          className={[
+            styles.inputStyle,
+          ].join(" ")}
           type="text"
           name="email"
           value={newProfileForm.email}
@@ -158,10 +170,14 @@ export default function AddProfileForm(props: AddProfileFormProps) {
           </Dropdown.List>
         </Dropdown>
       </label>
-      <button onClick={(e) => {
-        e.preventDefault();
-        handleSubmit();
-      }}>
+      <button
+        className={[
+          styles.buttonStyle
+        ].join(" ")}
+        onClick={(e) => {
+          e.preventDefault();
+          handleSubmit();
+        }}>
         Add Profile
       </button>
     </form>

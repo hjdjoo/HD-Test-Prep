@@ -7,6 +7,7 @@ import { userStore } from "@/src/stores/userStore";
 
 import useQuestionsAnswered from "@/src/hooks/useQuestionsAnswered";
 import useQuestionsCorrect from "@/src/hooks/useQuestionsCorrect";
+import { usePracticeSessionStore } from "@/src/stores/practiceSessionStore";
 
 import { QuestionImageData, FeedbackData, TagsData } from "@/src/features/pdf/containers/PdfContainer"
 import { ClientFeedbackFormData } from "@/src/queries/GET/getFeedbackById";
@@ -32,6 +33,7 @@ export default function SendPdfModal(props: SendPdfModalProps) {
 
   const { sessionId, setSendStatus } = props;
 
+  const setSessionId = usePracticeSessionStore((state) => state.setSessionId);
   const sentRef = useRef<boolean>(false);
 
   const user = userStore.getState().user;
@@ -210,6 +212,7 @@ export default function SendPdfModal(props: SendPdfModalProps) {
 
       sentRef.current = false;
       setSendStatus("sent");
+      setSessionId(null);
 
     } catch (e) {
       console.error(e);

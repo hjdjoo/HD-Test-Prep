@@ -24,11 +24,11 @@ interface SessionReportContainerProps {
 export default function SessionReportContainer(props: SessionReportContainerProps) {
 
   const sessionId = usePracticeSessionStore((state) => state.sessionId);
+
   // const sessionId = usePracticeSessionStore((state) => state.sessionId);
   // const sessionResponses = usePracticeSessionStore((state) => state.sessionResponses)
 
   const [showDetails, setShowDetails] = useState<boolean>(false)
-
 
   const [sendStatus, setSendStatus] = useState<"waiting" | "sending" | "sent">("waiting");
 

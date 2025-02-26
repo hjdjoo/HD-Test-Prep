@@ -8,15 +8,14 @@
   margin-bottom: 1rem;
 }
 
-.buttonStyleSecondary {
-  composes: buttonReset from "@/src/App.module.css";
-  background-color: var(--primary-dark);
-  padding: 0rem 1rem;
-}
-
 .container {
   composes: flexColCenter from "@/src/App.module.css";
   width: 100%;
+}
+
+.sticky {
+  position: sticky;
+  top: 0;
 }
 
 .buttonMarginY {
@@ -58,14 +57,24 @@
 
 .buttonStyleSecondary {
   composes: buttonReset from "@/src/App.module.css";
+  width: 100%;
   height: 2.5rem;
   background-color: var(--primary);
   color: var(--off-white);
-  border-radius: 5px;
+  border-radius: 1rem;
 }
 
 .buttonSize {
   width: 50%;
+}
+
+.timerStyle {
+  border-radius: 1rem;
+  padding: 1rem 0rem;
+}
+
+.timerBackground {
+  background-color: rgba(211, 211, 211, 0.4);
 }
 
 /* .buttonActive {
@@ -78,14 +87,18 @@
 /* Question */
 
 .questionSize{
-  max-width: 70vw;
-  height: auto;
+  width: 70%;
+  /* height: auto; */
 }
 
 .questionAlign{
   composes: flexColCenter from "@/src/App.module.css";
   margin-right: 2rem;
   margin-left: 4rem;
+}
+
+.questionBlur {
+  filter: blur(5px);
 }
 
 /* Practice Summary */

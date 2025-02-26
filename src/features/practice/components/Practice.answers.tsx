@@ -31,12 +31,19 @@ export default function Answers(props: AnswersProps) {
           `${choice === response && styles.radioButtonSelected}`,
           styles.radioButtonsWidth,
           styles.radioButtonsAlign,
-          styles.radioButtonsMouse,
-
-        ].join(" ")}
-      >{choice}
-        <input type="radio" id={`answer-radio-${choice}`} hidden={true} value={choice} onClick={handleClick} />
-      </label>
+          // styles.radioButtonsMouse,
+        ].join(" ")}>
+        {choice}
+        <div className={[
+          styles.hideInput
+        ].join(" ")}>
+          <input id={`answer-radio-${choice}`}
+            type="radio"
+            // hidden={true}
+            value={choice}
+            onClick={handleClick} />
+        </div>
+      </label >
 
     )
   })

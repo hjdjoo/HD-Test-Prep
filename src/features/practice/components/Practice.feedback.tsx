@@ -269,12 +269,24 @@ export default function FeedbackForm(props: FeedbackFormProps) {
 
       return (
         <div key={`difficulty-select-${level}`} className={[
-          styles.radioLabelAlign,
-          styles.radioLabelText,
+
         ].join(" ")}>
-          <input id={`difficulty-select-input-${level}`} type="radio" name={`difficultyRating`} value={Number(level)} onChange={handleForm} checked={feedbackForm.difficultyRating === Number(level)} />
-          <label htmlFor={`difficulty-select-input-${level}`} className={styles.difficultyLabelText}>
-            {difficulties[level]}
+          <label htmlFor={`difficulty-select-input-${level}`}
+            className={[
+              styles.radioLabelAlign,
+
+            ].join(" ")}>
+            <input id={`difficulty-select-input-${level}`}
+              type="radio"
+              name={`difficultyRating`}
+              value={Number(level)}
+              onChange={handleForm}
+              checked={feedbackForm.difficultyRating === Number(level)} />
+            <span className={[
+              styles.radioLabelText,
+            ].join(" ")}>
+              {difficulties[level]}
+            </span>
           </label>
         </div>
       )
@@ -396,23 +408,39 @@ export default function FeedbackForm(props: FeedbackFormProps) {
             <p>{"Upload a picture of your work for more context (optional):"}</p>
             <div id="upload-icon-wrapper"
               className={[
-                styles.uploadIconSize,
+                styles.wrapperSize,
                 styles.marginTopDefault,
                 styles.uploadIconColor,
+                styles.uploadButtonAlign,
+                styles.uploadIconDecoration,
                 animations.highlightPrimary,
               ].join(" ")}>
-              <label htmlFor="student-file-upload"
-                className={styles.uploadIconDecoration}>
+              <div id="upload-icon"
+                className={[
+                  styles.uploadIconSize,
+                  styles.sectionMargin,
+                ].join(" ")}>
                 <UploadIcon />
-                Upload
+              </div>
+              <label htmlFor="student-file-upload"
+                className={[
+                  styles.uploadIconDecoration,
+                ].join(" ")}>
+                <span>
+                  Upload
+                </span>
+                <div className={[
+                  styles.hideInput
+                ].join(" ")}>
+                  <input id="student-file-upload"
+                    type="file"
+                    // hidden={true}
+                    name={"imageUrl"}
+                    accept="image/*"
+                    capture="environment"
+                    onChange={handleFileUpload} />
+                </div>
               </label>
-              <input id="student-file-upload"
-                type="file"
-                hidden={true}
-                name={"imageUrl"}
-                accept="image/*"
-                capture="environment"
-                onChange={handleFileUpload} />
             </div>
             {uploadFileData.fileData && <UploadPreview uploadFileData={uploadFileData} setUploadFileData={setUploadFileData} />}
           </div>

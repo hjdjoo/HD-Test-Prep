@@ -41,10 +41,18 @@ function CategoryToggles(props: CategoryToggleProps) {
     return (
       <div key={`category-toggle-${id}`}
         className={[
-          styles.justifyCheckboxes,
-          styles.filterTextSize
+          styles.sectionWidthFull,
         ].join(" ")}>
-        <label htmlFor={`category-${id}`}>{name}
+        <label htmlFor={`category-${id}`}
+          className={[
+            styles.justifyCheckboxes,
+          ].join(" ")}
+        >
+          <span className={[
+            styles.filterTextSize,
+          ].join(" ")}>
+            {name}
+          </span>
           <input id={`category-${id}`} type="checkbox"
             className={[
               styles.checkboxMargins,
@@ -53,9 +61,6 @@ function CategoryToggles(props: CategoryToggleProps) {
             value={id}
             defaultChecked={checked}
             onChange={handleChange} />
-          <span className={[
-            styles.customCheckbox
-          ].join(" ")}></span>
         </label>
       </div>
     )
@@ -109,16 +114,24 @@ function ProblemTypeToggles(props: ProblemTypeToggleProps) {
     return (
       <div key={`problem-type-toggle-${id}`}
         className={[
-          styles.justifyCheckboxes,
-          styles.filterTextSize
+          styles.sectionWidthFull,
         ].join(" ")}>
-        <label htmlFor={`problem-type-${id}`}>{name}</label>
-        <input type="checkbox" id={`problem-type-${id}`}
-          className={[styles.checkboxMargins].join(" ")}
-          name={"problemTypes"}
-          value={id}
-          defaultChecked={checked}
-          onChange={handleChange} />
+        <label htmlFor={`problem-type-${id}`}
+          className={[
+            styles.justifyCheckboxes,
+          ].join(" ")}>
+          <span className={[
+            styles.filterTextSize,
+          ].join(" ")}>
+            {name}
+          </span>
+          <input type="checkbox" id={`problem-type-${id}`}
+            className={[styles.checkboxMargins].join(" ")}
+            name={"problemTypes"}
+            value={id}
+            defaultChecked={checked}
+            onChange={handleChange} />
+        </label>
       </div>
     )
 
@@ -161,18 +174,26 @@ function DifficultyToggles() {
     return (
       <div key={`${level}-difficulty-toggle`}
         className={[
-          styles.justifyCheckboxes,
-          styles.filterTextSize
+          styles.sectionWidthFull,
         ].join(" ")}>
-        <label htmlFor={`${level}-difficulty`}>{label}</label>
-        <input type="checkbox" id={`${level}-difficulty`}
+        <label htmlFor={`${level}-difficulty`}
           className={[
-            styles.checkboxMargins,
-          ].join(" ")}
-          name={"problemTypes"}
-          value={level}
-          defaultChecked={checked}
-          onChange={handleChange} />
+            styles.justifyCheckboxes,
+          ].join(" ")}>
+          <span className={[
+            styles.filterTextSize,
+          ].join(" ")}>
+            {label}
+          </span>
+          <input type="checkbox" id={`${level}-difficulty`}
+            className={[
+              styles.checkboxMargins,
+            ].join(" ")}
+            name={"problemTypes"}
+            value={level}
+            defaultChecked={checked}
+            onChange={handleChange} />
+        </label>
       </div>
     )
 
@@ -200,12 +221,15 @@ function FilterForm(props: FilterFormProps) {
       styles.alignFilters,
       styles.sectionMargin,
     ].join(" ")}>
-      <div>
+      <div className={[
+        styles.widthHalf,
+      ].join(" ")}>
         <DifficultyToggles />
-        <br />
         <CategoryToggles categories={categories} />
       </div>
-      <div>
+      <div className={[
+        styles.widthHalf,
+      ].join(" ")}>
         <ProblemTypeToggles problemTypes={problemTypes} />
       </div>
     </form>

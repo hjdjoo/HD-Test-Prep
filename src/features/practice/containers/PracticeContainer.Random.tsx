@@ -173,10 +173,13 @@ export default function RandomPractice() {
         ].join(" ")}
         onClick={() => {
           setShowSettings(!showSettings);
-        }}>{`Customize Session`}</button>
+        }}>{`${showSettings ? "Close Filters" : "Customize Session"}`}</button>
       {
         (user && sessionId && isPrevSession) &&
-        <div id="prev-session-modal">
+        <div id="prev-session-modal"
+          style={{
+            zIndex: 10
+          }}>
           <ContinuePracticeModal
             user={user}
             sessionId={sessionId}
@@ -184,10 +187,16 @@ export default function RandomPractice() {
             practiceType="random" />
         </div>
       }
-      <div id="practice-filter"
-        hidden={showSettings ? false : true}>
-        <Filter />
-      </div>
+      {
+        showSettings &&
+        <div id="practice-filter"
+          hidden={showSettings ? false : true}
+          className={[
+            styles.container,
+          ].join(" ")}>
+          <Filter />
+        </div>
+      }
       {currQuestion &&
         <div id="question-module" className={[
           styles.nextButtonAlign,

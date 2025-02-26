@@ -152,21 +152,6 @@ function App() {
 
   }
 
-  // // log out if closing window.
-  // useEffect(() => {
-
-  //   async function beforeUnload() {
-
-  //     const supabase = createSupabase();
-
-  //     await supabase.auth.signOut();
-
-  //   }
-
-  //   window.addEventListener("beforeunload", beforeUnload);
-
-  // }, [])
-
   return (
     <div id="app" className={[
       styles.fullHeight,

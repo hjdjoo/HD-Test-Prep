@@ -23,23 +23,30 @@ export default function SettingsContainer(props: AdminSettingsProps) {
   return (
     <div id="admin-settings-page"
       className={[
-
+        styles.fullWidth,
       ].join(" ")}>
       <b>Admin:</b>
       <div id="roster"
         className={[
-
         ].join(" ")}>
         <StudentsDisplay students={students} />
         <InstructorsDisplay instructors={instructors} />
       </div>
-      <button
-        onClick={() => {
-          setShowAddProfile(!showAddProfile)
-        }}
-      >
-        Add New Profile
-      </button>
+      <div
+        className={[
+          styles.container,
+        ].join(" ")}>
+        <button
+          className={[
+            styles.buttonStyle,
+          ].join(" ")}
+          onClick={() => {
+            setShowAddProfile(!showAddProfile)
+          }}
+        >
+          Add New Profile
+        </button>
+      </div>
       {
         showAddProfile &&
         <AddProfileForm setShow={setShowAddProfile} />

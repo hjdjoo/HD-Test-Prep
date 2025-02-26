@@ -282,6 +282,7 @@ export default function Autocomplete(props: AutocompleteProps) {
           placeholder="Press Enter or Select from Suggestions"
           className={[
             styles.inputSize,
+            styles.inputStyle,
           ].join(" ")} />
       </div>
       <div id="autocomplete-suggestions" hidden={!showSuggestions}>
