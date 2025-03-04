@@ -58,7 +58,6 @@ export default function RandomPractice() {
         const data = await startPracticeSession(user?.id, "random");
 
         console.log(data);
-        setIsPrevSession(false);
         return data;
       }
 
@@ -117,14 +116,13 @@ export default function RandomPractice() {
   }, [])
 
   useEffect(() => {
-    console.log("detected previous session, running session Id useEffect...")
+    console.log("detected session, running session Id useEffect...")
 
-    if (!isPrevSession) return;
     if (!practiceSessionData) return;
 
     setSessionId(practiceSessionData.id)
 
-  }, [isPrevSession, practiceSessionData]);
+  }, [practiceSessionData]);
 
   useEffect(() => {
 
@@ -199,6 +197,7 @@ export default function RandomPractice() {
       }
       {currQuestion &&
         <div id="question-module" className={[
+          styles.questionModuleWidth,
           styles.nextButtonAlign,
         ].join(" ")}>
           <QuestionContainer
@@ -233,7 +232,7 @@ export default function RandomPractice() {
         </button>
       }
       {
-        (!isPrevSession && sessionId) &&
+        (sessionId) &&
         <SessionReportContainer
           studentResponses={studentResponseData || []} />
       }

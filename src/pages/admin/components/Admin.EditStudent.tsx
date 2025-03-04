@@ -4,8 +4,9 @@ import animations from "@/src/animations.module.css";
 
 import { useProfilesStore } from "@/src/stores/profilesStore";
 
-import { ClientStudentData } from "@/src/queries/GET/getStudents";
-import { ClientInstructorData } from "@/src/queries/GET/getInstructors";
+import { ClientInstructorData, ClientStudentData } from "@/src/_types/client-types";
+import { EditStudentForm } from "@/src/_types/client-types";
+
 import linkInstructor from "@/src/queries/PATCH/linkInstructor";
 
 import Dropdown from "components/dropdown/Dropdown";
@@ -13,11 +14,6 @@ import Dropdown from "components/dropdown/Dropdown";
 interface EditStudentProps {
   student: ClientStudentData
   setOpen: Dispatch<SetStateAction<boolean>>
-}
-
-export type EditStudentForm = {
-  studentId: number
-  instructorId: number | null
 }
 
 export default function EditStudent(props: EditStudentProps) {

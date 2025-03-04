@@ -56,6 +56,7 @@ userController.getUser = async (req: Request, res: Response, next: NextFunction)
   try {
     // console.log(req.cookies);
     const supabase = createClient({ req, res });
+    const serviceClient = createServiceClient();
 
     const { data: authData, error: authError } = await supabase
       .auth
@@ -69,7 +70,7 @@ userController.getUser = async (req: Request, res: Response, next: NextFunction)
       throw new Error("No email address for user detected!")
     }
 
-    const { data: profileData, error: profileError } = await supabase
+    const { data: profileData, error: profileError } = await serviceClient
       .from("profiles")
       .select("*")
       .eq("email", authData.user.email)
@@ -124,23 +125,22 @@ userController.initProfile = async (_req: Request, res: Response, next: NextFunc
     }
 
     const query = {
-      role: "student",
       uid: user.id,
       name: user.user_metadata.full_name,
-      email: user.email
     };
 
     const { data, error } = await supabase
       .from("profiles")
       .update(query)
       .eq("email", user.email)
-      .select();
+      .select()
+      .single();
 
     if (!data) {
       throw new Error(`Couldn't initialize profile. ${error.message}`)
     }
 
-    res.status(200).json("profile created");
+    return res.status(200).json(data);
 
   } catch (e) {
 

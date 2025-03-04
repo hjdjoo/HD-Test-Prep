@@ -25,7 +25,6 @@ export default function SettingsContainer(props: AdminSettingsProps) {
       className={[
         styles.fullWidth,
       ].join(" ")}>
-      <b>Admin:</b>
       <div id="roster"
         className={[
         ].join(" ")}>

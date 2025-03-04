@@ -18,21 +18,23 @@ import { type FeedbackForm } from "@/src/features/practice/components/Practice.f
 import ErrorPage from "@/src/ErrorPage";
 import Spinner from "components/loading/Loading.Spinner";
 
+import { StudentResponse } from "@/src/_types/client-types";
+
 
 interface QuestionContainerProps {
   question: Question
   getNextQuestion: () => void;
 }
 
-export interface StudentResponse {
-  id?: number
-  sessionId: number
-  studentId: number,
-  questionId: number,
-  response: string,
-  feedbackId: number | null,
-  timeTaken: number,
-}
+// export interface StudentResponse {
+//   id?: number
+//   sessionId: number
+//   studentId: number,
+//   questionId: number,
+//   response: string,
+//   feedbackId: number | null,
+//   timeTaken: number,
+// }
 
 // type StudentResponseQuery = {
 //   studentId: number

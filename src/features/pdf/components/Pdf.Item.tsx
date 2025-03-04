@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { Text, View, Link } from "@react-pdf/renderer";
-import { ClientFeedbackFormData } from "@/src/queries/GET/getFeedbackById";
-import { ClientStudentResponse } from "@/src/queries/GET/getResponsesBySession";
+
+import { ClientFeedbackFormData, ClientStudentResponse } from "@/src/_types/client-types";
 import { Question } from "@/src/stores/questionStore";
 import { styles } from "../styles";
 

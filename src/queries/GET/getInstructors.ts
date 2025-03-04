@@ -1,7 +1,4 @@
-import { DbInstructorData } from "@/server/controllers/profileController";
-import { CamelCasedProperties } from "type-fest";
-
-export type ClientInstructorData = CamelCasedProperties<DbInstructorData>
+import { ClientInstructorData } from "@/src/_types/client-types";
 
 const VITE_URL = process.env.VITE_URL || import.meta.env.VITE_URL
 

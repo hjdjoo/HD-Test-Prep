@@ -1,7 +1,4 @@
-import { DbFeedbackFormData } from "@/server/controllers/feedbackController";
-import { CamelCasedProperties } from "type-fest";
-
-export type ClientFeedbackFormData = CamelCasedProperties<DbFeedbackFormData>
+import { ClientFeedbackFormData } from "@/src/_types/client-types";
 
 export default async function getFeedbackById(id: number) {
 

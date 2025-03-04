@@ -78,6 +78,7 @@ export default function AddProfileForm(props: AddProfileFormProps) {
         case ("admin"):
         case ("student"):
           const newProfileData = await addNewProfile(newProfileForm);
+
           const newStudents = [...students].concat(newProfileData);
 
           setStudents(newStudents);

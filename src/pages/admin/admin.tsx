@@ -24,7 +24,6 @@ export default function AdminPage() {
   const setStudents = useProfilesStore((state) => state.setStudents)
   const setInstructors = useProfilesStore((state) => state.setInstructors)
 
-
   const { data: instructorData, error: instructorError } = useQuery({
     queryKey: ["instructorData", instructors],
     queryFn: async () => {
@@ -71,6 +70,7 @@ export default function AdminPage() {
 
   return (
     <AdminContainer user={user}>
+      <h2><u>Admin Page:</u></h2>
       <SettingsContainer
         instructors={instructorData}
         students={studentData} />
