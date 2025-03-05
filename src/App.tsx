@@ -20,7 +20,7 @@ import { Session } from "@supabase/supabase-js";
 
 const queryClient = new QueryClient();
 
-// const VITE_URL = import.meta.env.VITE_URL
+const VITE_URL = import.meta.env.VITE_URL
 
 function App() {
 
@@ -126,7 +126,7 @@ function App() {
     }
 
     // use session data to fetch user info;
-    const res = await fetch(`api/auth`, {
+    const res = await fetch(`${VITE_URL}/api/auth`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

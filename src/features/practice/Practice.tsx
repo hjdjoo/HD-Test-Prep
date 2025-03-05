@@ -10,14 +10,10 @@ import { useTagStore } from "@/src/stores/tagStore"
 import { userStore } from "@/src/stores/userStore";
 import ErrorPage from "@/src/ErrorPage";
 import Loading from "components/loading/Loading";
-// import usePracticeSession from "@/src/hooks/usePracticeSession";
 
 import fetchQuestions from "@/src/queries/GET/getQuestions";
 import fetchCategories from "@/src/queries/GET/getCategories";
 import fetchProblemTypes from "@/src/queries/GET/getProblemTypes";
-// import createSupabase from "@/utils/supabase/client";
-
-// import Question from "@/src/components/practice/Practice.questionImage.js";
 
 import RandomPractice from "./containers/PracticeContainer.Random";
 import StructuredPractice from "./containers/PracticeContainer.Structured";

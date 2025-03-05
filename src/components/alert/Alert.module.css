@@ -1,0 +1,27 @@
+@import "@/src/vars.module.css";
+
+.position {
+  position: fixed;
+  top: 90%;
+}
+
+.size {
+  width: 90%;
+}
+
+.success {
+  background-color: var(--success);
+}
+
+.warning {
+  background-color: var(--warning);
+}
+
+.info {
+  background-color: var(--primary);
+}
+
+.error {
+  background-color: var(--error);
+  color: white;
+}

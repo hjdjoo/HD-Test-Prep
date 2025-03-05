@@ -12,6 +12,8 @@ import ErrorPage from "@/src/ErrorPage";
 import ModalContainer from "containers/modal/ModalContainer";
 import SendPdfModal from "@/src/features/sessionReport/components/SessionReport.SendPdfModal";
 
+import Alert, { UserAlert } from "components/alert/Alert";
+
 import Loading from "components/loading/Loading";
 
 interface ReportContainerProps {
@@ -23,6 +25,13 @@ export default function ReportContainer(props: ReportContainerProps) {
 
   const { sessionId } = props;
   const navigate = useNavigate();
+
+  const [userAlert, setUserAlert] = useState<UserAlert>({
+    message: "",
+    timestamp: Date.now()
+  });
+
+  console.log(userAlert);
 
   // get practice session responses based on ID;
   const { data: sessionResponseData, error: sessionResponseError } = useQuery({
@@ -60,6 +69,9 @@ export default function ReportContainer(props: ReportContainerProps) {
 
 
   if (!sessionResponseData) {
+
+    console.log("ReportContainer/sessionResponseData: ", sessionResponseData);
+
     return (
       <Loading />
     )
@@ -68,6 +80,13 @@ export default function ReportContainer(props: ReportContainerProps) {
   function handleSend() {
     if (!sessionResponseData || !sessionResponseData.length) {
       console.log("sessionreportcontainer/sessionResponsedata: ", sessionResponseData)
+
+      setUserAlert({
+        severity: "error",
+        message: "Nothing to send!",
+        timestamp: Date.now()
+      })
+
       return;
     } else {
       setSendStatus("sending");
@@ -80,13 +99,17 @@ export default function ReportContainer(props: ReportContainerProps) {
       className={[
         styles.pageMargin,
         styles.pagePadding,
+        styles.pageWidth,
+        styles.centerReport,
       ].join(" ")}>
       {
         (sessionResponseData) &&
         <>
           <div id="report"
             className={[
-              styles.sectionSpacing
+              styles.sectionSpacing,
+              styles.widthFull,
+              styles.centerReport,
             ].join(" ")}>
             <Report
               studentResponses={sessionResponseData}
@@ -95,6 +118,7 @@ export default function ReportContainer(props: ReportContainerProps) {
           <div id="session-report-actions-container"
             className={[
               styles.buttonsContainer,
+              styles.widthFull,
             ].join(" ")}>
             <Link
               className={[
@@ -116,6 +140,7 @@ export default function ReportContainer(props: ReportContainerProps) {
               className={[
                 styles.buttonStyleSecondary,
                 styles.buttonSize,
+                styles.sectionSpacing,
                 animations.highlightPrimaryDark,
               ].join(" ")}
               onClick={(e) => {
@@ -124,8 +149,20 @@ export default function ReportContainer(props: ReportContainerProps) {
               }}>
               Send Report
             </button>
-
+            <Link
+              className={[
+                styles.buttonSize,
+                styles.sectionSpacing,
+                styles.centerReport,
+              ].join(" ")}
+              to={`/`}>
+              Back to Practice
+            </Link>
           </div>
+          {
+            userAlert.severity &&
+            <Alert alert={userAlert} />
+          }
           {
             sendStatus === "sending" &&
             <ModalContainer>
@@ -137,6 +174,6 @@ export default function ReportContainer(props: ReportContainerProps) {
           }
         </>
       }
-    </div>
+    </div >
   )
 }

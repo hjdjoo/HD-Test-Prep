@@ -8,17 +8,7 @@ import addNewInstructor from "@/src/queries/POST/addNewInstructor";
 import addNewProfile from "@/src/queries/POST/addNewProfile";
 
 import Dropdown from "components/dropdown/Dropdown";
-
-type Role = "admin" | "tutor" | "student"
-
-export interface NewProfileForm {
-  firstName: string
-  lastName: string
-  name: string
-  email: string
-  role: Role | ""
-  [field: string]: string
-}
+import { NewProfileForm, Role } from "@/src/_types/client-types";
 
 interface AddProfileFormProps {
   setShow: Dispatch<SetStateAction<boolean>>

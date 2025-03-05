@@ -6,6 +6,14 @@
   align-items: center;
 }
 
+.pageWidth {
+  width: 90%;
+}
+
+.widthFull {
+  width: 100%;
+}
+
 .pageMargin {
   margin-top: 10%;
   margin-bottom: 15%;

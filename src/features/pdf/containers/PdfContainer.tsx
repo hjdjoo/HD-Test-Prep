@@ -9,8 +9,10 @@ import { PDFViewer } from "@react-pdf/renderer";
 
 import createSupabase from "@/utils/supabase/client";
 import getResponsesBySession from "@/src/queries/GET/getResponsesBySession";
-import getFeedbackById, { ClientFeedbackFormData } from "@/src/queries/GET/getFeedbackById";
+import getFeedbackById from "@/src/queries/GET/getFeedbackById";
 import getTagsById from "@/src/queries/GET/getTagsById";
+
+import { ClientFeedbackFormData } from "@/src/_types/client-types";
 
 import { userStore } from "@/src/stores/userStore";
 import useQuestionsAnswered from "@/src/hooks/useQuestionsAnswered";
@@ -219,7 +221,6 @@ export default function PdfContainer(props: PdfContainerProps) {
 
   return (
     <div id="pdf-summary-container" className={[
-      styles.pageMargins,
       styles.centerReport
     ].join(" ")}>
       <PDFViewer

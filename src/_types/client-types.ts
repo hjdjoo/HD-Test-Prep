@@ -2,7 +2,7 @@ import { CamelCasedProperties } from "type-fest";
 
 import { DbStudentData, DbFeedbackFormData, DbInstructorData, DbStudentResponse } from "./server-types";
 
-interface FileData {
+export interface FileData {
   fileType: string,
   fileData: string
 }
@@ -59,4 +59,15 @@ export type TagsData = {
 export type EditStudentForm = {
   studentId: number
   instructorId: number | null
+}
+
+export type Role = "admin" | "tutor" | "student"
+
+export interface NewProfileForm {
+  firstName: string
+  lastName: string
+  name: string
+  email: string
+  role: Role | ""
+  [field: string]: string
 }

@@ -1,5 +1,4 @@
-import { EditStudentForm } from "@/src/pages/admin/components/Admin.EditStudent";
-import { ClientStudentData } from "../GET/getStudents";
+import { EditStudentForm, ClientStudentData } from "@/src/_types/client-types";
 
 const VITE_URL = process.env.VITE_URL || import.meta.env.VITE_URL
 

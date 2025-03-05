@@ -1,4 +1,5 @@
 :root {
+  --primary-extradark: ##001524;
   --primary-dark: #293c65;
   --primary: #4362a5;
   --primary-light: #b6c3e2;
@@ -8,4 +9,7 @@
   --secondary: #2db7a9;
   --secondary-light: #e4e6be;
   --secondary-extralight: #eff0d7;
+  --success: #13793f;
+  --warning: #dfd028;
+  --error: #c5280f;
 }

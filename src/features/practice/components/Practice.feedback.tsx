@@ -11,33 +11,9 @@ import TrashIcon from "@/src/assets/icons/trashIcon.svg"
 
 import { useTagStore } from "@/src/stores/tagStore";
 import { Question, questionStore } from "@/src/stores/questionStore";
-import { StudentResponse } from "@/src/features/practice/containers/PracticeContainer.Question";
+import { StudentResponse, FileData, type FeedbackForm } from "@/src/_types/client-types";
 
 import ModalContainer from "containers/modal/ModalContainer";
-// import DeleteIcon from "@/src/assets/icons/deleteIcon.svg"
-// import debounce from "@/utils/debounce"
-
-
-export type FeedbackForm = {
-  sessionId: number
-  questionId: number
-  studentId: number
-  comment: string
-  difficultyRating: number | null
-  tags: number[]
-  guessed: boolean | null
-  instructorId: number
-  imageUrl: string
-}
-
-interface FileData {
-  fileType: string,
-  fileData: string
-}
-
-export interface ImageData extends FileData {
-  fileName: string
-}
 
 interface UploadPreviewProps {
   uploadFileData: FileData
