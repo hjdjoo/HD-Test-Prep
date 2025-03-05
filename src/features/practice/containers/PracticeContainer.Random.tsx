@@ -197,6 +197,7 @@ export default function RandomPractice() {
       }
       {currQuestion &&
         <div id="question-module" className={[
+          styles.questionModuleAlign,
           styles.questionModuleWidth,
           styles.nextButtonAlign,
         ].join(" ")}>

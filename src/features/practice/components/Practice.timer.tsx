@@ -106,39 +106,40 @@ export default function Timer(props: TimerProps) {
         styles.alignTimeDisplay,
       ].join(" ")}>
         <p>{`${displayTime()}`}</p>
-      </div>
-      <div id="timer-control-container"
-        className={[
-          styles.timerSize,
-          styles.alignTimerButtons,
-        ].join(" ")}>
-        <button id="start-timer-button"
+        <div id="timer-control-container"
           className={[
-            styles.buttonStyle,
-            styles.timerButtonMargins,
-            animations.highlightPrimary,
-          ].join(" ")}
-          onClick={startTimer}>
-          <div className={[
-            styles.timerIconSize,
+            styles.timerSize,
+            styles.alignTimerButtons,
           ].join(" ")}>
-            <PlayIcon />
-          </div>
-        </button>
-        <button id="stop-timer-button"
-          className={[
-            styles.buttonStyle,
-            styles.timerButtonMargins,
-            animations.highlightPrimary,
-          ].join(" ")}
-          onClick={stopTimer}>
-          <div className={[
-            styles.timerIconSize,
-          ].join(" ")}>
-            <PauseIcon />
-          </div>
-        </button>
+          <button id="start-timer-button"
+            className={[
+              styles.buttonStyle,
+              styles.timerButtonMargins,
+              animations.highlightPrimary,
+            ].join(" ")}
+            onClick={startTimer}>
+            <div className={[
+              styles.timerIconSize,
+            ].join(" ")}>
+              <PlayIcon />
+            </div>
+          </button>
+          <button id="stop-timer-button"
+            className={[
+              styles.buttonStyle,
+              styles.timerButtonMargins,
+              animations.highlightPrimary,
+            ].join(" ")}
+            onClick={stopTimer}>
+            <div className={[
+              styles.timerIconSize,
+            ].join(" ")}>
+              <PauseIcon />
+            </div>
+          </button>
+        </div>
       </div>
+
     </div>
   )
 }

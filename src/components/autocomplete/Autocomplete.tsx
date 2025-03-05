@@ -4,7 +4,7 @@ import styles from "./Autocomplete.module.css";
 import animations from "@/src/animations.module.css";
 
 import { useTagStore } from "@/src/stores/tagStore";
-import { FeedbackForm } from "@/src/features/practice/components/Practice.feedback";
+import { FeedbackForm } from "@/src/_types/client-types";
 
 import debounce from "@/utils/debounce";
 

@@ -71,7 +71,7 @@
 
 .timerStyle {
   border-radius: 1rem;
-  padding: 1rem 0rem;
+  padding: 0.5rem 0rem;
 }
 
 .timerBackground {
@@ -86,6 +86,11 @@
 } */
 
 /* Question */
+
+.questionModuleAlign {
+  display: flex;
+  justify-content: center;
+}
 
 .questionModuleWidth {
   width: 100%;

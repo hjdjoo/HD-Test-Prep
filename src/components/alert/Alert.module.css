@@ -9,8 +9,34 @@
   width: 90%;
 }
 
+.padding {
+  padding: 0.5rem 1rem;
+}
+
+.border {
+  border-radius: 0.5rem;
+}
+
+.align {
+  display: flex;
+}
+
+.justifyCenter {
+  justify-content: center;
+  align-items: center;
+}
+
+.grow1 {
+  flex-grow: 1;
+}
+
+.grow0 {
+  flex-grow: 0;
+}
+
 .success {
-  background-color: var(--success);
+  border: 3px solid;
+  border-color: var(--success);
 }
 
 .warning {
@@ -22,6 +48,8 @@
 }
 
 .error {
-  background-color: var(--error);
-  color: white;
+  border: 3px solid;
+  border-color: var(--error);
+  background-color: rgba(var(--error-rgb), 0.2);
+  /* color: white; */
 }

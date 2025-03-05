@@ -14,7 +14,8 @@ import Answers from "@/src/features/practice/components/Practice.answers.js";
 import Timer from "@/src/features/practice/components/Practice.timer";
 import QuestionImage from "@/src/features/practice/components/Practice.questionImage.js";
 import Feedback from "@/src/features/practice/components/Practice.feedback";
-import { type FeedbackForm } from "@/src/features/practice/components/Practice.feedback";
+
+import { FeedbackForm } from "@/src/_types/client-types";
 import ErrorPage from "@/src/ErrorPage";
 import Spinner from "components/loading/Loading.Spinner";
 
