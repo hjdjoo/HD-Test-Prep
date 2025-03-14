@@ -12,7 +12,7 @@ import DetailsContainer from "../../sessionReport/detail/containers/DetailContai
 import ModalContainer from "containers/modal/ModalContainer";
 import SendPdfModal from "../../sessionReport/components/SessionReport.SendPdfModal";
 
-import { ClientStudentResponse } from "@/src/queries/GET/getResponsesBySession";
+import { ClientStudentResponse } from "@/src/_types/client-types";
 import ErrorPage from "@/src/ErrorPage";
 // import Loading from "components/loading/Loading";
 import Spinner from "components/loading/Loading.Spinner"

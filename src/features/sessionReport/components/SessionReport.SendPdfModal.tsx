@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useRef } from "react"
+import { Dispatch, SetStateAction, useEffect, useState, useRef } from "react"
 import { useQuery } from "@tanstack/react-query";
 import { pdf } from "@react-pdf/renderer";
 import styles from "./Report.module.css"
@@ -10,7 +10,7 @@ import useQuestionsCorrect from "@/src/hooks/useQuestionsCorrect";
 import { usePracticeSessionStore } from "@/src/stores/practiceSessionStore";
 
 import { QuestionImageData, FeedbackData, TagsData } from "@/src/features/pdf/containers/PdfContainer"
-import { ClientFeedbackFormData } from "@/src/queries/GET/getFeedbackById";
+import { ClientFeedbackFormData } from "@/src/_types/client-types";
 
 import createSupabase from "@/utils/supabase/client";
 
@@ -37,6 +37,8 @@ export default function SendPdfModal(props: SendPdfModalProps) {
   const sentRef = useRef<boolean>(false);
 
   const user = userStore.getState().user;
+
+  const [pdfReport, setPdfReport] = useState<JSX.Element>()
 
   const supabase = createSupabase();
   // get practice session responses based on ID;
@@ -109,6 +111,7 @@ export default function SendPdfModal(props: SendPdfModalProps) {
           } as FeedbackData
 
         } else {
+          console.log("no feedback id. Returning blank Object.")
           return Promise.resolve({} as FeedbackData)
         }
       })
@@ -131,7 +134,7 @@ export default function SendPdfModal(props: SendPdfModalProps) {
         console.log("sendPdfModal/item: ", item);
 
         if (!item.data || !item.data.tags || !item.data.tags.length) {
-          console.log("no item")
+          console.log("no item to read tags")
           return Promise.resolve({} as TagsData)
 
         } else {
@@ -163,8 +166,14 @@ export default function SendPdfModal(props: SendPdfModalProps) {
       return;
     }
 
-    if (!sessionResponseData || !questionImageData || !feedbackData || !tagsData || !questionsAnswered.length || !!!questionsCorrect) {
+    if (!sessionResponseData || !questionImageData || !feedbackData || !tagsData || !questionsAnswered.length || (questionsCorrect !== 0 && !questionsCorrect)) {
       console.log("missing data, not sending yet");
+      console.log(!sessionResponseData)
+      console.log(!questionImageData)
+      console.log(!feedbackData)
+      console.log(!tagsData)
+      console.log(!questionsAnswered.length)
+      console.log(!!!questionsCorrect)
       return;
     } else {
       sentRef.current = true;
@@ -186,7 +195,7 @@ export default function SendPdfModal(props: SendPdfModalProps) {
         return;
       }
 
-      if (!questionsAnswered.length || !!!questionsCorrect) {
+      if (!questionsAnswered.length || (questionsCorrect !== 0 && !questionsCorrect)) {
         console.log("No data returned from hooks");
         return;
       }
@@ -202,17 +211,19 @@ export default function SendPdfModal(props: SendPdfModalProps) {
         user={user}
       />
 
-      const pdfBlob = await pdf(Report).toBlob();
+      setPdfReport(Report)
 
-      console.log('sending session summary');
-      await sendSessionSummary(pdfBlob, sessionId, String(user.id));
+      // const pdfBlob = await pdf(Report).toBlob();
 
-      console.log("ending session...")
-      await endSession(Number(sessionId), "inactive");
+      // console.log('sending session summary');
+      // await sendSessionSummary(pdfBlob, sessionId, String(user.id));
 
-      sentRef.current = false;
-      setSendStatus("sent");
-      setSessionId(null);
+      // console.log("ending session...")
+      // await endSession(Number(sessionId), "inactive");
+
+      // sentRef.current = false;
+      // setSendStatus("sent");
+      // setSessionId(null);
 
     } catch (e) {
       console.error(e);
@@ -260,6 +271,7 @@ export default function SendPdfModal(props: SendPdfModalProps) {
     <div id="send-pdf-modal-form"
       className={[
         styles.modalFormBackground,
+        styles.modalFormPadding,
         styles.sectionAlign,
       ].join(" ")}>
       {(!sessionResponseData || !feedbackData || !questionImageData || !tagsData) ?
@@ -269,9 +281,13 @@ export default function SendPdfModal(props: SendPdfModalProps) {
         <div>
           Sending report...
         </div>
+
       }
       <div>
         <Spinner />
+        <div>
+          {pdfReport}
+        </div>
       </div>
     </div>
   )

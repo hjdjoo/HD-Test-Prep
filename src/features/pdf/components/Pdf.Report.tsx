@@ -31,7 +31,7 @@ export default function PdfReport(props: PdfReportProps) {
     user
   } = props;
 
-  if (!questionsAnswered.length || !!!questionsCorrect) {
+  if (!questionsAnswered.length || (questionsCorrect !== 0 && !questionsCorrect)) {
     return (
       <View>
         Nothing to render!
@@ -50,7 +50,7 @@ export default function PdfReport(props: PdfReportProps) {
 
   const summary = () => {
 
-    if (questionsAnswered.length && !!questionsCorrect) {
+    if (questionsAnswered.length && questionsCorrect >= 0) {
       return (
         <PdfSessionSummary
           questionsAnswered={questionsAnswered.length}
@@ -106,14 +106,18 @@ export default function PdfReport(props: PdfReportProps) {
             <View>
               <Text style={styles.questionTitle}>{`Question ${idx + 1}`}</Text>
             </View>
-            <View style={{ ...styles.question, ...styles.sectionSpacingLg }}>
+            <View style={{
+              ...styles.question,
+              ...styles.sectionSpacingLg
+            }}>
               <Image src={imageItem.imageUrl}
+                debug={true}
                 style={{
                   ...styles.image,
                 }} />
               <PdfSessionItem
                 question={question}
-                feedbackForm={feedbackItem.data}
+                feedbackForm={feedbackItem && feedbackItem.data ? feedbackItem.data : undefined}
                 studentResponse={response}
                 tagsData={feedbackTags.data} />
             </View>

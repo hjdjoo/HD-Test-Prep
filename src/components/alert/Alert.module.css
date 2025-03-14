@@ -5,6 +5,21 @@
   top: 90%;
 }
 
+.alertTimerPosition {
+  position: absolute;
+  top: calc(100% - 5px);
+}
+
+.alertTimerSize {
+  width: 90%;
+}
+
+.alertTimerStyle {
+  background-color: grey;
+  height: 5px;
+  border-radius: 1rem;
+}
+
 .size {
   width: 90%;
 }
@@ -37,14 +52,19 @@
 .success {
   border: 3px solid;
   border-color: var(--success);
+  background-color: rgba(var(--success-rgb), 0.2);
 }
 
 .warning {
-  background-color: var(--warning);
+  border: 3px solid;
+  border-color: var(--warning);
+  background-color: rgba(var(--warning-rgb), 0.2);
 }
 
 .info {
-  background-color: var(--primary);
+  border: 3px solid;
+  border-color: var(--primary);
+  background-color: rgba(var(--info-rgb), 0.2);
 }
 
 .error {

@@ -1,4 +1,5 @@
 import styles from "./Alert.module.css";
+import animations from "@/src/animations.module.css";
 import { useState, useEffect } from "react";
 
 import SuccessIcon from "@/src/assets/icons/successIcon.svg"
@@ -54,9 +55,16 @@ export default function Alert(props: UserAlertProps) {
 
   useEffect(() => {
     setHideAlert(false);
+
+    if (alert.severity !== "error") {
+      setTimeout(() => {
+        setHideAlert(true);
+      }, 4000);
+    }
+
   }, [alert])
 
-  console.log("hideAlert: ", hideAlert)
+  // console.log("hideAlert: ", hideAlert)
 
   return (
     <div id="alert"
@@ -82,13 +90,13 @@ export default function Alert(props: UserAlertProps) {
           width: "1.5rem",
           marginTop: "auto",
           marginBottom: "auto",
+          marginRight: "1rem",
         }}>
           {icon}
         </div>
         <p>{alert.message}</p>
       </div>
       <div className={[
-
       ].join(" ")}>
         <button onClick={(e) => {
           e.preventDefault();
@@ -97,6 +105,18 @@ export default function Alert(props: UserAlertProps) {
           X
         </button>
       </div>
+      {alert.severity !== "error" &&
+        <div id="alert-timer"
+          className={[
+            styles.alertTimerPosition,
+            styles.alertTimerSize,
+            styles.alertTimerStyle,
+            styles.align,
+            styles.justifyCenter,
+            animations.shrinkTimer,
+          ].join(" ")}>
+        </div>
+      }
     </div>
   )
 

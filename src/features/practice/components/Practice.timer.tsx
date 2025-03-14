@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, Dispatch, SetStateAction } from "react";
+import { useRef, useEffect, Dispatch, SetStateAction } from "react";
 import styles from "./Practice.Components.module.css";
 import animations from "@/src/animations.module.css";
 
@@ -18,10 +18,7 @@ export default function Timer(props: TimerProps) {
 
   const { start, submitStatus, timerOn, setTimerOn, time, setTime } = props;
 
-  // const [timerOn, setTimerOn] = useState<boolean>(false);
   const timerInterval = useRef<NodeJS.Timeout>()
-
-  // const [timerMessage, setTimerMessage] = useState<string>("")
 
   useEffect(() => {
 

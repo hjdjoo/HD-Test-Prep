@@ -167,7 +167,6 @@ export default function QuestionContainer(props: QuestionContainerProps) {
       getNextQuestion();
       console.log("resetting submit status and response...")
       setSubmitStatus("waiting");
-      // console.log("")
       setResponse("");
     } catch (e) {
       console.error(e);

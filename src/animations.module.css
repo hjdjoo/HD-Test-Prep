@@ -64,6 +64,20 @@
   }
 }
 
+@keyframes shrinkTimer {
+  0% {
+    transform: scale(1, 1);
+  }
+  100% {
+    transform: scale(0, 1);
+  }
+}
+
+.shrinkTimer {
+  animation: shrinkTimer 4s linear forwards;
+}
+
+
 .rotate {
   animation: rotate 1s linear infinite;
 }

@@ -82,7 +82,7 @@ export default function ReportContainer(props: ReportContainerProps) {
       console.log("sessionreportcontainer/sessionResponsedata: ", sessionResponseData)
 
       setUserAlert({
-        severity: "error",
+        severity: "warning",
         message: "Nothing to send!",
         timestamp: Date.now()
       })

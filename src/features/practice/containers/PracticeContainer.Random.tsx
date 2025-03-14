@@ -41,7 +41,7 @@ export default function RandomPractice() {
 
   // retrieve practice session id from Db or init/return new one.
   const { data: practiceSessionData, error: practiceSessionError } = useQuery({
-    queryKey: ["practice_session", user],
+    queryKey: ["practice_session", user, sessionId],
     queryFn: async () => {
 
       if (!user) {

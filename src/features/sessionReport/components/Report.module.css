@@ -8,6 +8,10 @@
   height: 30%;
 }
 
+.modalFormPadding {
+  padding: 2rem 2rem;
+}
+
 .modalFormBackground {
   background-color: white;
   box-shadow: 5px 5px 5px grey;

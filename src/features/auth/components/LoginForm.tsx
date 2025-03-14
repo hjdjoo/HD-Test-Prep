@@ -6,6 +6,7 @@ import GoogleIcon from "@/src/assets/icons/googleIcon.svg"
 import createSupabase from "@/utils/supabase/client"
 import { equals, isEmail } from "validator";
 
+import Alert, { UserAlert } from "components/alert/Alert";
 
 // interface SignupForm {
 //   email: string,
@@ -18,6 +19,8 @@ export default function LoginForm() {
   // const blankForm = new FormData();
 
   const [isSignup, setIsSignup] = useState<boolean>(false);
+
+  const [userAlert, setUserAlert] = useState<UserAlert>({ message: "", timestamp: Date.now() });
 
   async function signinWithGoogle(e: MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
@@ -110,10 +113,20 @@ export default function LoginForm() {
         currentTarget.reset();
       }
       if (!isSignup) {
-        await signinWithEmail(String(email), String(password));
+        const res = await signinWithEmail(String(email), String(password));
+
+        if (!res) {
+          throw new Error("No response from sign-in attempt.")
+        }
+
+        if (res.error) {
+          throw new Error(res.error.message);
+        }
+
       }
     } catch (e) {
-      console.log("Error while authorizing user email")
+      console.log("Error while authorizing user email");
+      setUserAlert({ severity: "error", message: `${e}`, timestamp: Date.now() })
       console.error(e);
     }
   }
@@ -256,6 +269,10 @@ export default function LoginForm() {
           Sign up with Email
         </button>
       </div>
+      {
+        userAlert.severity &&
+        <Alert alert={userAlert}></Alert>
+      }
     </>
   )
 }
