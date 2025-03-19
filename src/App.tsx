@@ -138,6 +138,8 @@ function App() {
 
     const user: User = await res.json();
 
+    console.log("getUser/user: ", user);
+
     if (!user.id) {
       console.log("No user Id returned");
       console.log("signing out...");

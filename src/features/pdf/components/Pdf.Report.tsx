@@ -111,7 +111,6 @@ export default function PdfReport(props: PdfReportProps) {
               ...styles.sectionSpacingLg
             }}>
               <Image src={imageItem.imageUrl}
-                debug={true}
                 style={{
                   ...styles.image,
                 }} />

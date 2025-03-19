@@ -14,7 +14,7 @@ interface PdfSessionItemProps {
 
 export default function PdfSessionItem(props: PdfSessionItemProps) {
 
-  const renderCountRef = useRef(2);
+  const renderCountRef = useRef(1);
 
   const { question, studentResponse, feedbackForm, tagsData } = props;
 
@@ -213,7 +213,7 @@ export default function PdfSessionItem(props: PdfSessionItemProps) {
       )
     }
 
-    renderCountRef.current = 2;
+    renderCountRef.current = 1;
 
     return output;
   }
@@ -227,13 +227,21 @@ export default function PdfSessionItem(props: PdfSessionItemProps) {
     <View style={styles.questionInfoContainer}>
       <View style={{ ...styles.questionInfo, ...styles.itemOdd }}>
         <Text style={styles.questionTitle}>
+          Question Number:
+        </Text>
+        <Text>
+          {`${question.question}`}
+        </Text>
+      </View>
+      <View style={{ ...styles.questionInfo, ...styles.itemEven }}>
+        <Text style={styles.questionTitle}>
           Student Response:
         </Text>
         <Text>
           {`${studentResponse.response}`}
         </Text>
       </View>
-      <View style={{ ...styles.questionInfo, ...styles.itemEven }}>
+      <View style={{ ...styles.questionInfo, ...styles.itemOdd }}>
         <Text style={styles.questionTitle}>
           Answer:
         </Text>

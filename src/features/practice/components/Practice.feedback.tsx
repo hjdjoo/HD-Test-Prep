@@ -13,6 +13,8 @@ import { useTagStore } from "@/src/stores/tagStore";
 import { Question, questionStore } from "@/src/stores/questionStore";
 import { StudentResponse, FileData, type FeedbackForm } from "@/src/_types/client-types";
 
+import Alert, { UserAlert } from "components/alert/Alert";
+
 import ModalContainer from "containers/modal/ModalContainer";
 
 interface UploadPreviewProps {
@@ -207,7 +209,13 @@ export default function FeedbackForm(props: FeedbackFormProps) {
 
     /* TO DO */
     // add a conditional block to compress images to a max size.
-    if (files[0].size > 5000000) {
+    if (files[0].size > 4000000) {
+      console.log("large file!");
+      const maxSize = 4000000;
+      const ratio = maxSize / files[0].size;
+
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
 
       //.......
 
@@ -220,7 +228,6 @@ export default function FeedbackForm(props: FeedbackFormProps) {
         const result = e.target.result as string
 
         setUploadFileData({ fileType: fileType, fileData: result });
-
       }
     }
 

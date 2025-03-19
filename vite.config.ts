@@ -10,6 +10,7 @@ import 'dotenv/config';
 // console.log(__dirname);
 const VITE_NGROK_URL = process.env.VITE_URL!;
 const SERVER_URL = process.env.NODE_ENV === "production" ? process.env.SERVER_URL! : process.env.DEV_SERVER_URL!;
+console.log("SERVER_URL: ", SERVER_URL)
 console.log("VITE_NGROK_URL", VITE_NGROK_URL);
 
 // https://vitejs.dev/config/

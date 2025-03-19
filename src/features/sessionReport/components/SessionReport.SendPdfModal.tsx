@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useEffect, useState, useRef } from "react"
 import { useQuery } from "@tanstack/react-query";
-import { pdf } from "@react-pdf/renderer";
+import { pdf, render } from "@react-pdf/renderer";
 import styles from "./Report.module.css"
 
 import { userStore } from "@/src/stores/userStore";
@@ -24,6 +24,8 @@ import PdfReport from "@/src/features/pdf/components/Pdf.Report";
 import Spinner from "components/loading/Loading.Spinner";
 import endSession from "@/src/queries/PATCH/endPracticeSession";
 
+import { PDFViewer } from "@react-pdf/renderer";
+
 interface SendPdfModalProps {
   sessionId: string
   setSendStatus: Dispatch<SetStateAction<"waiting" | "sending" | "sent">>
@@ -33,7 +35,7 @@ export default function SendPdfModal(props: SendPdfModalProps) {
 
   const { sessionId, setSendStatus } = props;
 
-  const setSessionId = usePracticeSessionStore((state) => state.setSessionId);
+  // const setSessionId = usePracticeSessionStore((state) => state.setSessionId);
   const sentRef = useRef<boolean>(false);
 
   const user = userStore.getState().user;
@@ -178,6 +180,7 @@ export default function SendPdfModal(props: SendPdfModalProps) {
     } else {
       sentRef.current = true;
       handleSend();
+      // renderPdf();
     }
 
   }, [sessionResponseData, questionImageData, feedbackData, tagsData, questionsAnswered, questionsCorrect])
@@ -201,6 +204,7 @@ export default function SendPdfModal(props: SendPdfModalProps) {
       }
 
       console.log("sending report...")
+
       const Report = <PdfReport
         studentResponses={sessionResponseData}
         questionImageData={questionImageData}
@@ -211,7 +215,7 @@ export default function SendPdfModal(props: SendPdfModalProps) {
         user={user}
       />
 
-      setPdfReport(Report)
+      setPdfReport(Report);
 
       // const pdfBlob = await pdf(Report).toBlob();
 
@@ -231,6 +235,7 @@ export default function SendPdfModal(props: SendPdfModalProps) {
     }
 
   }
+
 
 
   /* Renders: */
@@ -286,7 +291,9 @@ export default function SendPdfModal(props: SendPdfModalProps) {
       <div>
         <Spinner />
         <div>
-          {pdfReport}
+          <PDFViewer>
+            {pdfReport && pdfReport}
+          </PDFViewer>
         </div>
       </div>
     </div>
