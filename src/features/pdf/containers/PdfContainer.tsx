@@ -75,7 +75,7 @@ export default function PdfContainer(props: PdfContainerProps) {
       }
       const data = await getResponsesBySession(Number(sessionId));
 
-      console.log("PdfContainer/useQuery/data: ", data);
+      console.log("PdfContainer/useQuery/sessionResponseData: ", data);
 
       return data;
     }
@@ -93,19 +93,31 @@ export default function PdfContainer(props: PdfContainerProps) {
         return `math/${String(response.questionId)}.png`
       });
 
+      console.log("questionImageData/imageNames: ", questionImageNames);
+
       const { data, error } = await supabase.storage.from("questions").createSignedUrls(questionImageNames, 3600 * 24 * 7)
 
       if (error) {
         throw new Error("Error while getting signed URLs from supabase")
       }
+      const responseCache: number[] = [];
 
       return data.map(item => {
 
-        const studentResponse = sessionResponseData.filter(response => {
-          return item.signedUrl.includes(String(response.questionId))
+        const studentResponse = sessionResponseData.filter((response, idx) => {
+
+          if (!responseCache.includes(idx)) {
+
+            responseCache.push(idx);
+            return item.signedUrl.includes(`${String(response.questionId)}.png`)
+
+          }
+
         })[0];
 
         console.log("PdfContainer/useQuery/return/data/map/studentResponse: ", studentResponse);
+        console.log("PdfContainer/useQuery/return/data/map/item.signedUrl: ", item.signedUrl);
+
 
         return {
           responseId: studentResponse.id,

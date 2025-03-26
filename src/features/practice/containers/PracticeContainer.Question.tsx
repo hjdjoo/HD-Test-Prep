@@ -315,15 +315,14 @@ export default function QuestionContainer(props: QuestionContainerProps) {
           setImageLoaded={setImageLoaded} />
       </div>
       {
-        imageLoaded ?
-          <div id="answer-choices-container"
-            className={[
-              styles.container,
-              styles.sectionMarginSm,
-            ].join(" ")}>
-            <Answers answerChoices={answerChoices} question={question} response={response} setResponse={setResponse} />
-          </div> :
-          <Spinner />
+        imageLoaded &&
+        <div id="answer-choices-container"
+          className={[
+            styles.container,
+            styles.sectionMarginSm,
+          ].join(" ")}>
+          <Answers answerChoices={answerChoices} question={question} response={response} setResponse={setResponse} />
+        </div>
       }
       {imageLoaded &&
         <div id="submit-answer-button"

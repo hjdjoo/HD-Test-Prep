@@ -28,11 +28,13 @@ export default function RandomPractice() {
 
   const sessionId = usePracticeSessionStore((state) => state.sessionId);
   const sessionResponses = usePracticeSessionStore((state) => state.sessionResponses);
+  const sessionQuestions = usePracticeSessionStore((state) => state.sessionQuestions);
   const setSessionId = usePracticeSessionStore((state) => state.setSessionId)
   const setSessionResponses = usePracticeSessionStore((state) => state.setSessionResponses)
+  const setSessionQuestions = usePracticeSessionStore((state) => state.setSessionQuestions);
 
   const user = userStore.getState().user;
-  const sessionResponsesRef = useRef(sessionResponses)
+  const sessionResponsesRef = useRef(sessionResponses);
 
   const [showSettings, setShowSettings] = useState<boolean>(false);
   const [currQuestion, setCurrQuestion] = useState<QuestionType>();
@@ -128,8 +130,11 @@ export default function RandomPractice() {
 
     if (!studentResponseData || !studentResponseData.length) return;
 
+    const questionIds = studentResponseData.map(row => row.questionId)
+
     const responseIds = studentResponseData.map(row => row.id);
 
+    setSessionQuestions(questionIds);
     setSessionResponses(responseIds);
 
   }, [studentResponseData])
@@ -150,7 +155,11 @@ export default function RandomPractice() {
 
     const randomIdx = Math.floor(Math.random() * count);
 
-    setCurrQuestion(filteredQuestions[randomIdx]);
+    if (!sessionQuestions.includes(randomIdx)) {
+      setCurrQuestion(filteredQuestions[randomIdx]);
+    } else {
+      getRandomQuestion();
+    }
 
   }
 

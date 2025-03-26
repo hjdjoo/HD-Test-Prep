@@ -1,7 +1,7 @@
 import styles from "./DetailContainer.module.css"
 
 import { Question } from "@/src/stores/questionStore";
-import { ClientStudentResponse } from "@/src/queries/GET/getResponsesBySession";
+import { ClientStudentResponse } from "@/src/_types/client-types";
 
 
 import SummaryItemContainer from "@/src/features/sessionReport/detail/containers/DetailContainer.Item";

@@ -195,47 +195,84 @@ export default function FeedbackForm(props: FeedbackFormProps) {
 
   function handleFileUpload(e: ChangeEvent<HTMLInputElement>) {
 
+    console.log("handling file upload...");
     const { files } = e.target;
 
-    if (!files || !files.length) return;
+    if (!files || !files.length) {
+      console.log(files);
+      return
+    };
 
-    console.log(files);
-
-    const fileType = files[0].type;
+    const file = files[0];
+    const fileType = file.type;
+    const size = file.size;
 
     const fileReader = new FileReader();
 
-    fileReader.readAsDataURL(files[0])
+    fileReader.onload = (e) => {
 
-    /* TO DO */
-    // add a conditional block to compress images to a max size.
-    if (files[0].size > 4000000) {
-      console.log("large file!");
-      const maxSize = 4000000;
-      const ratio = maxSize / files[0].size;
+      console.log("fileReader/onload/e.target: ", e.target);
+      const result = e.target?.result as string;
+      const img = new Image();
 
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
+      img.onload = () => {
+        if (size > 3500000) {
+          console.log("large file!");
 
-      //.......
+          const maxSize = 3500000;
+          const ratio = maxSize / size;
+          const reduce = Math.sqrt(ratio);
+          const height = Math.floor(img.height * reduce);
+          const width = Math.floor(img.width * reduce);
+          console.log(height, width);
 
-    }
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
 
-    function fileDataSetter(e: ProgressEvent<FileReader>) {
+          canvas.width = width;
+          canvas.height = height;
 
-      if (e.target) {
+          if (ctx) {
+            console.log("drawing image on context...")
+            ctx.drawImage(img, 0, 0, width, height);
+            console.log("converting canvas to blob...")
+            canvas.toBlob((blob) => {
 
-        const result = e.target.result as string
+              if (!blob) return;
 
-        setUploadFileData({ fileType: fileType, fileData: result });
+              const fileReader2 = new FileReader();
+
+              fileReader2.onloadend = () => {
+
+                const data = fileReader2.result as string;
+                console.log("setting upload file");
+                setUploadFileData({ fileType, fileData: data });
+
+              }
+
+              console.log("reading blob...");
+              fileReader2.readAsDataURL(blob);
+
+            }, fileType, 0.7);
+          }
+
+        } else {
+          setUploadFileData({ fileType, fileData: result })
+        }
       }
+
+      console.log("setting image src...")
+      img.src = result as string;
     }
 
-    fileReader.addEventListener("load", fileDataSetter);
+    console.log("reading file...");
+    fileReader.readAsDataURL(file);
 
   }
 
   async function handleSubmit() {
+
+    console.log(feedbackForm);
 
     submitForm();
 
@@ -389,43 +426,44 @@ export default function FeedbackForm(props: FeedbackFormProps) {
             styles.formAlign,
           ].join(" ")}>
             <p>{"Upload a picture of your work for more context (optional):"}</p>
-            <div id="upload-icon-wrapper"
+            <label htmlFor="student-file-upload"
               className={[
-                styles.wrapperSize,
-                styles.marginTopDefault,
-                styles.uploadIconColor,
-                styles.uploadButtonAlign,
                 styles.uploadIconDecoration,
-                animations.highlightPrimary,
               ].join(" ")}>
-              <div id="upload-icon"
+              <div id="upload-icon-wrapper"
                 className={[
-                  styles.uploadIconSize,
-                  styles.sectionMargin,
-                ].join(" ")}>
-                <UploadIcon />
-              </div>
-              <label htmlFor="student-file-upload"
-                className={[
+                  styles.wrapperSize,
+                  styles.marginTopDefault,
+                  styles.uploadIconColor,
+                  styles.uploadButtonAlign,
                   styles.uploadIconDecoration,
+                  animations.highlightPrimary,
                 ].join(" ")}>
-                <span>
+
+                <div id="upload-icon"
+                  className={[
+                    styles.uploadIconSize,
+                    styles.sectionMargin,
+                  ].join(" ")}>
+                  <UploadIcon />
+                </div>
+                <div>
                   Upload
-                </span>
+                </div>
                 <div className={[
                   styles.hideInput
                 ].join(" ")}>
                   <input id="student-file-upload"
                     type="file"
-                    // hidden={true}
                     name={"imageUrl"}
                     accept="image/*"
                     capture="environment"
                     onChange={handleFileUpload} />
                 </div>
-              </label>
-            </div>
-            {uploadFileData.fileData && <UploadPreview uploadFileData={uploadFileData} setUploadFileData={setUploadFileData} />}
+
+              </div>
+              {uploadFileData.fileData && <UploadPreview uploadFileData={uploadFileData} setUploadFileData={setUploadFileData} />}
+            </label>
           </div>
         </section>
         <section id={"add-tags-section"}

@@ -195,6 +195,7 @@ export default function PdfSessionItem(props: PdfSessionItemProps) {
     };
 
     if (feedbackForm?.imageUrl && feedbackForm.imageUrl.length) {
+      console.log(feedbackForm.imageUrl);
       output.push(
         (
           <>

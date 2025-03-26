@@ -135,6 +135,14 @@ function App() {
     })
 
     console.log("getUser/res: ", res);
+    if (!res.ok) {
+      console.log("Error while getting user. Signing out...");
+      await supabase.auth.signOut();
+      setUser(null);
+      console.log("signed out, navigating home...");
+      navigate("/");
+      return null;
+    }
 
     const user: User = await res.json();
 
