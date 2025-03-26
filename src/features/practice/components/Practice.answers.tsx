@@ -1,5 +1,5 @@
 import { MouseEvent } from "react";
-import styles from "./Practice.module.css"
+import styles from "./Practice.Components.module.css"
 import type { Question } from "@/src/stores/questionStore";
 
 interface AnswersProps {
@@ -31,19 +31,27 @@ export default function Answers(props: AnswersProps) {
           `${choice === response && styles.radioButtonSelected}`,
           styles.radioButtonsWidth,
           styles.radioButtonsAlign,
-          styles.radioButtonsMouse,
-
-        ].join(" ")}
-      >{choice}
-        <input type="radio" id={`answer-radio-${choice}`} hidden={true} value={choice} onClick={handleClick} />
-      </label>
+          // styles.radioButtonsMouse,
+        ].join(" ")}>
+        {choice}
+        <div className={[
+          styles.hideInput
+        ].join(" ")}>
+          <input id={`answer-radio-${choice}`}
+            type="radio"
+            // hidden={true}
+            value={choice}
+            onClick={handleClick} />
+        </div>
+      </label >
 
     )
   })
 
 
   return (
-    <div className={[styles.radioButtonsVertical, styles.answersWidth].join(" ")}>
+    <div className={[
+      styles.radioButtonsVertical, styles.answersWidth].join(" ")}>
       {/* {answersAE.includes(answer) && radiosAE}
       {answersFK.includes(answer) && radiosFK} */}
       {radios}

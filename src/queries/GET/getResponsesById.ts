@@ -1,4 +1,4 @@
-import { StudentResponse } from "@/src/features/practice/containers/PracticeContainer.Question";
+import { StudentResponse } from "@/src/_types/client-types";
 
 /**
  * 

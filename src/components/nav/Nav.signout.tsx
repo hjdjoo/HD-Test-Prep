@@ -1,7 +1,10 @@
 import { MouseEvent } from "react";
-import createClient from "@/utils/supabase/client"
 import { useNavigate } from "react-router-dom";
+import styles from "./Nav.module.css"
+import animations from "@/src/animations.module.css"
 
+import createClient from "@/utils/supabase/client"
+import SignoutIcon from "@/src/assets/icons/signoutIcon.svg"
 
 export default function Signout() {
 
@@ -23,9 +26,14 @@ export default function Signout() {
   }
 
   return (
-    <div>
-      <button onClick={signout}>
-        Sign Out
+    <div id="nav-signout-button">
+      <button
+        className={[
+          styles.buttonStyle,
+          animations.grow,
+        ].join(" ")}
+        onClick={signout}>
+        <SignoutIcon />
       </button>
     </div>
   )

@@ -1,20 +1,29 @@
-import styles from "./PdfContainer.module.css"
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { PDFViewer, renderToStream } from "@react-pdf/renderer";
+import { useStore } from "zustand";
+import styles from "./PdfContainer.module.css"
+import animations from "@/src/animations.module.css";
+import { PDFViewer } from "@react-pdf/renderer";
 
-import ErrorPage from "@/src/ErrorPage";
 
-import PdfReport from "@/src/features/pdf/components/Pdf.Report";
-
+import createSupabase from "@/utils/supabase/client";
 import getResponsesBySession from "@/src/queries/GET/getResponsesBySession";
-import getFeedbackById, { ClientFeedbackFormData } from "@/src/queries/GET/getFeedbackById";
+import getFeedbackById from "@/src/queries/GET/getFeedbackById";
 import getTagsById from "@/src/queries/GET/getTagsById";
 
+import { ClientFeedbackFormData } from "@/src/_types/client-types";
+
+import { userStore } from "@/src/stores/userStore";
 import useQuestionsAnswered from "@/src/hooks/useQuestionsAnswered";
 import useQuestionsCorrect from "@/src/hooks/useQuestionsCorrect";
 
-import createSupabase from "@/utils/supabase/client";
-import { useEffect } from "react";
+import ErrorPage from "@/src/ErrorPage";
+import PdfReport from "@/src/features/pdf/components/Pdf.Report";
+import Loading from "components/loading/Loading";
+import SendPdfModal from "../../sessionReport/components/SessionReport.SendPdfModal";
+import ModalContainer from "containers/modal/ModalContainer";
+
 
 interface PdfContainerProps {
   sessionId: string
@@ -26,8 +35,8 @@ export type QuestionImageData = {
 }
 
 export type FeedbackData = {
-  responseId: number
-  data: ClientFeedbackFormData
+  responseId?: number
+  data: ClientFeedbackFormData | undefined
 }
 
 export type TagsData = {
@@ -38,8 +47,23 @@ export type TagsData = {
 export default function PdfContainer(props: PdfContainerProps) {
 
   const supabase = createSupabase();
+
+  const navigate = useNavigate();
+
+  const [sendStatus, setSendStatus] = useState<"waiting" | "sending" | "sent">("waiting");
+
+  const user = useStore(userStore, (state) => state.user);
+
+
+  useEffect(() => {
+    if (sendStatus === "sent") {
+      navigate("/");
+    }
+  })
+
   const { sessionId } = props;
-  // get practice session responses based on ID;
+  // const user = useUserStore((state) => state.user);
+  // get practice session responses based on ID, using query key to cache data for repeated calls (for example when sending PDF).
   const { data: sessionResponseData, error: sessionResponseError } = useQuery({
     queryKey: ["studentResponses", sessionId],
     queryFn: async () => {
@@ -51,7 +75,7 @@ export default function PdfContainer(props: PdfContainerProps) {
       }
       const data = await getResponsesBySession(Number(sessionId));
 
-      console.log("PdfContainer/useQuery/data: ", data);
+      console.log("PdfContainer/useQuery/sessionResponseData: ", data);
 
       return data;
     }
@@ -69,19 +93,31 @@ export default function PdfContainer(props: PdfContainerProps) {
         return `math/${String(response.questionId)}.png`
       });
 
-      const { data, error } = await supabase.storage.from("questions").createSignedUrls(questionImageNames, 3600)
+      console.log("questionImageData/imageNames: ", questionImageNames);
+
+      const { data, error } = await supabase.storage.from("questions").createSignedUrls(questionImageNames, 3600 * 24 * 7)
 
       if (error) {
         throw new Error("Error while getting signed URLs from supabase")
       }
+      const responseCache: number[] = [];
 
       return data.map(item => {
 
-        const studentResponse = sessionResponseData.filter(response => {
-          return item.signedUrl.includes(String(response.questionId))
+        const studentResponse = sessionResponseData.filter((response, idx) => {
+
+          if (!responseCache.includes(idx)) {
+
+            responseCache.push(idx);
+            return item.signedUrl.includes(`${String(response.questionId)}.png`)
+
+          }
+
         })[0];
 
         console.log("PdfContainer/useQuery/return/data/map/studentResponse: ", studentResponse);
+        console.log("PdfContainer/useQuery/return/data/map/item.signedUrl: ", item.signedUrl);
+
 
         return {
           responseId: studentResponse.id,
@@ -96,7 +132,7 @@ export default function PdfContainer(props: PdfContainerProps) {
     queryFn: async () => {
 
       if (!sessionResponseData || !sessionResponseData.length) {
-        return [{}] as FeedbackData[]
+        return [{ data: undefined }] as FeedbackData[]
       }
 
       const feedbackProms = sessionResponseData.map(async (response) => {
@@ -109,7 +145,7 @@ export default function PdfContainer(props: PdfContainerProps) {
           } as FeedbackData
 
         } else {
-          return Promise.resolve({} as FeedbackData)
+          return Promise.resolve({ responseId: response.id, data: undefined } as FeedbackData)
         }
       })
 
@@ -128,7 +164,7 @@ export default function PdfContainer(props: PdfContainerProps) {
 
       const tagsProms = feedbackData.map(async (item) => {
 
-        if (!item.data.tags.length) {
+        if (!item || !item.data || !item.data.tags || !item.data.tags.length) {
           return Promise.resolve({} as TagsData)
 
         } else {
@@ -151,6 +187,12 @@ export default function PdfContainer(props: PdfContainerProps) {
   const questionsAnswered = useQuestionsAnswered({ studentResponses: sessionResponseData });
   const questionsCorrect = useQuestionsCorrect({ studentResponses: sessionResponseData, questionsAnswered });
 
+  if (!user) {
+    console.error("No user detected.");
+    return (
+      <ErrorPage />
+    )
+  }
   if (sessionResponseError) {
     console.error(sessionResponseError)
     return (
@@ -177,10 +219,15 @@ export default function PdfContainer(props: PdfContainerProps) {
   }
 
   if (!sessionResponseData || !questionImageData || !feedbackData || !tagsData) {
+
+    console.log("PdfContainer: ")
+    console.log("sessionResponseData", sessionResponseData)
+    console.log("questionImageData", questionImageData)
+    console.log("feedbackData", feedbackData)
+    console.log("sessionResponseData", sessionResponseData)
+
     return (
-      <div>
-        Loading...
-      </div>
+      <Loading />
     )
   }
 
@@ -188,7 +235,13 @@ export default function PdfContainer(props: PdfContainerProps) {
     <div id="pdf-summary-container" className={[
       styles.centerReport
     ].join(" ")}>
-      <PDFViewer>
+      <PDFViewer
+        className={[
+          styles.viewerSize,
+          styles.viewerFont,
+          styles.sectionSpacing,
+        ].join(" ")}
+      >
         <PdfReport
           studentResponses={sessionResponseData}
           questionImageData={questionImageData}
@@ -196,11 +249,32 @@ export default function PdfContainer(props: PdfContainerProps) {
           tagsData={tagsData}
           questionsAnswered={questionsAnswered}
           questionsCorrect={questionsCorrect}
+          user={user}
         />
       </PDFViewer>
-      <button>
-        Send Report
-      </button>
+      <div className={[
+        styles.fullWidth,
+        styles.centerReport,
+        styles.sectionSpacingLg,
+      ].join(" ")}>
+        <button id="send-pdf-button"
+          className={[
+            styles.buttonStyle,
+            animations.highlightPrimaryDark,
+          ].join(" ")}
+          onClick={() => {
+            setSendStatus("sending");
+          }}>
+          Send Report
+        </button>
+      </div>
+      {sendStatus === "sending" &&
+        <ModalContainer>
+          <SendPdfModal
+            sessionId={sessionId}
+            setSendStatus={setSendStatus} />
+        </ModalContainer>
+      }
     </div>
   )
 }

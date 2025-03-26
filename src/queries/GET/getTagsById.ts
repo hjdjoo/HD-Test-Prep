@@ -1,10 +1,4 @@
-// import { CamelCasedProperties } from "type-fest";
-// import { DbTagsData } from "@/server/controllers/tagsController"
-
-// export type ClientTagsData = CamelCasedProperties<DbTagsData>
-
 /**
- * 
  * @param ids :number[] - list of tag ids
  * @returns Object: {[tagId: string]: string} - tagId coerced into string, with the name of the tag as the value.
  */

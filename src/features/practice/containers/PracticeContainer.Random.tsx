@@ -1,20 +1,22 @@
 import { useEffect, useState, useRef } from "react";
-import styles from "./PracticeContainer.module.css"
 import { useQuery } from "@tanstack/react-query";
+import { useStore } from "zustand";
+import styles from "./PracticeContainer.module.css"
+import animations from "@/src/animations.module.css";
 
 
 import QuestionContainer from "@/src/features/practice/containers/PracticeContainer.Question";
 import Filter from "@/src/features/practice/components/Practice.filter";
 
-import { Question as QuestionType, useQuestionStore } from "@/src/stores/questionStore";
+import { Question as QuestionType, questionStore } from "@/src/stores/questionStore";
 import { usePracticeSessionStore } from "@/src/stores/practiceSessionStore";
-import { useUserStore } from "@/src/stores/userStore";
+import { userStore } from "@/src/stores/userStore";
 
 import endSession from "@/src/queries/PATCH/endPracticeSession";
 
 import startPracticeSession from "@/src/queries/POST/startPracticeSession";
 import ErrorPage from "@/src/ErrorPage";
-import SessionContainer from "@/src/features/practice/containers/PracticeContainer.Report";
+import SessionReportContainer from "@/src/features/practice/containers/PracticeContainer.Report";
 import getPracticeSession from "@/src/queries/GET/getPracticeSession";
 import getResponsesBySession from "@/src/queries/GET/getResponsesBySession";
 
@@ -22,16 +24,17 @@ import ContinuePracticeModal from "@/src/features/practice/components/Practice.c
 
 export default function RandomPractice() {
 
-  const { filteredQuestions } = useQuestionStore();
+  const filteredQuestions = useStore(questionStore, (state) => state.filteredQuestions);
 
   const sessionId = usePracticeSessionStore((state) => state.sessionId);
   const sessionResponses = usePracticeSessionStore((state) => state.sessionResponses);
+  const sessionQuestions = usePracticeSessionStore((state) => state.sessionQuestions);
   const setSessionId = usePracticeSessionStore((state) => state.setSessionId)
   const setSessionResponses = usePracticeSessionStore((state) => state.setSessionResponses)
+  const setSessionQuestions = usePracticeSessionStore((state) => state.setSessionQuestions);
 
-  const { user } = useUserStore();
-
-  const sessionResponsesRef = useRef(sessionResponses)
+  const user = userStore.getState().user;
+  const sessionResponsesRef = useRef(sessionResponses);
 
   const [showSettings, setShowSettings] = useState<boolean>(false);
   const [currQuestion, setCurrQuestion] = useState<QuestionType>();
@@ -40,7 +43,7 @@ export default function RandomPractice() {
 
   // retrieve practice session id from Db or init/return new one.
   const { data: practiceSessionData, error: practiceSessionError } = useQuery({
-    queryKey: ["practice_session", user],
+    queryKey: ["practice_session", user, sessionId],
     queryFn: async () => {
 
       if (!user) {
@@ -57,7 +60,6 @@ export default function RandomPractice() {
         const data = await startPracticeSession(user?.id, "random");
 
         console.log(data);
-        setIsPrevSession(false);
         return data;
       }
 
@@ -91,8 +93,6 @@ export default function RandomPractice() {
 
   // Session management effect - mark empty sessions as abandoned, set practice sessionId for user.
 
-
-
   useEffect(() => {
     console.log("running unload registration useEffect...")
     console.log("sessionId, practiceSessionData: ", sessionId)
@@ -118,21 +118,23 @@ export default function RandomPractice() {
   }, [])
 
   useEffect(() => {
-    console.log("detected previous session, running session Id useEffect...")
+    console.log("detected session, running session Id useEffect...")
 
-    if (!isPrevSession) return;
     if (!practiceSessionData) return;
 
     setSessionId(practiceSessionData.id)
 
-  }, [isPrevSession, practiceSessionData]);
+  }, [practiceSessionData]);
 
   useEffect(() => {
 
     if (!studentResponseData || !studentResponseData.length) return;
 
+    const questionIds = studentResponseData.map(row => row.questionId)
+
     const responseIds = studentResponseData.map(row => row.id);
 
+    setSessionQuestions(questionIds);
     setSessionResponses(responseIds);
 
   }, [studentResponseData])
@@ -153,42 +155,73 @@ export default function RandomPractice() {
 
     const randomIdx = Math.floor(Math.random() * count);
 
-    setCurrQuestion(filteredQuestions[randomIdx]);
+    if (!sessionQuestions.includes(randomIdx)) {
+      setCurrQuestion(filteredQuestions[randomIdx]);
+    } else {
+      getRandomQuestion();
+    }
 
   }
 
 
   return (
     <div id="random-practice-container"
-      className={[styles.container].join(" ")}>
-      <h3>Random Practice:</h3>
+      className={[
+        styles.container,
+        styles.sectionMargin,
+      ].join(" ")}>
+      <h3>Randomized Practice:</h3>
       <button id="show-settings-button"
-        className={[styles.buttonMarginY].join(" ")}
+        className={[
+          styles.buttonMarginY,
+          styles.buttonStyle,
+          styles.buttonSize,
+          animations.highlightPrimary,
+        ].join(" ")}
         onClick={() => {
           setShowSettings(!showSettings);
-        }}>{`Customize Session`}</button>
+        }}>{`${showSettings ? "Close Filters" : "Customize Session"}`}</button>
       {
         (user && sessionId && isPrevSession) &&
-        <div id="prev-session-modal">
-          <ContinuePracticeModal user={user} sessionId={sessionId} setIsPrevSession={setIsPrevSession} practiceType="random" />
+        <div id="prev-session-modal"
+          style={{
+            zIndex: 10
+          }}>
+          <ContinuePracticeModal
+            user={user}
+            sessionId={sessionId}
+            setIsPrevSession={setIsPrevSession}
+            practiceType="random" />
         </div>
       }
-      <div id="practice-filter"
-        hidden={showSettings ? false : true}>
-        <Filter />
-      </div>
+      {
+        showSettings &&
+        <div id="practice-filter"
+          hidden={showSettings ? false : true}
+          className={[
+            styles.container,
+          ].join(" ")}>
+          <Filter />
+        </div>
+      }
       {currQuestion &&
         <div id="question-module" className={[
+          styles.questionModuleAlign,
+          styles.questionModuleWidth,
           styles.nextButtonAlign,
         ].join(" ")}>
-          <QuestionContainer question={currQuestion} getNextQuestion={getRandomQuestion} />
+          <QuestionContainer
+            question={currQuestion}
+            getNextQuestion={getRandomQuestion}
+          />
           <div>
             <button id="next-question-button"
               className={[
+                styles.nextButtonStyle,
                 styles.nextButtonBorder,
                 styles.nextButtonMargin,
                 styles.nextButtonRound,
-                styles.buttonActive,
+                animations.highlightPrimary,
               ].join(" ")}
               onClick={getRandomQuestion}
             >{">"}</button>
@@ -196,16 +229,22 @@ export default function RandomPractice() {
           </div>
         </div>
       }
-      <br />
       {
         !currQuestion &&
-        <button onClick={getRandomQuestion}>
+        <button onClick={getRandomQuestion}
+          className={[
+            styles.sectionMargin,
+            styles.buttonStyle,
+            styles.buttonSize,
+            animations.highlightPrimary,
+          ].join(" ")}>
           Go!
         </button>
       }
       {
-        (!isPrevSession && sessionId) &&
-        <SessionContainer studentResponses={studentResponseData || []} />
+        (sessionId) &&
+        <SessionReportContainer
+          studentResponses={studentResponseData || []} />
       }
     </div>
   )

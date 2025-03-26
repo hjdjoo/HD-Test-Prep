@@ -7,7 +7,11 @@ import svgr from "vite-plugin-svgr";
 import path from "path";
 import 'dotenv/config';
 
-// console.log(__dirname)
+// console.log(__dirname);
+const VITE_NGROK_URL = process.env.VITE_URL!;
+const SERVER_URL = process.env.NODE_ENV === "production" ? process.env.SERVER_URL! : process.env.DEV_SERVER_URL!;
+console.log("SERVER_URL: ", SERVER_URL)
+console.log("VITE_NGROK_URL", VITE_NGROK_URL);
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -18,11 +22,14 @@ export default defineConfig({
       include: '**/*.svg',
     })],
   server: {
+    allowedHosts: [VITE_NGROK_URL.replace("https://", "")],
     proxy: {
       "/api": {
-        target: process.env.SERVER_URL!,
+        target: `${SERVER_URL}`,
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ""),
+        rewrite: (path) => {
+          return path.replace(/^\/api/, "")
+        },
       }
     }
   },

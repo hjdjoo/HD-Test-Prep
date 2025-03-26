@@ -1,0 +1,11 @@
+.buttonStyle {
+  composes: buttonReset from "@/src/App.module.css";
+  background-color: transparent;
+  width: 40px;
+  height: 40px;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+}

@@ -1,0 +1,13 @@
+.pageDisplay {
+  composes: flexColCenter from "@/src/App.module.css";
+  justify-content: center;
+}
+
+.pageSizing {
+  width: 100%;
+  height: 100%;
+}
+
+.paddingBottom {
+  padding-bottom: 15%;
+}

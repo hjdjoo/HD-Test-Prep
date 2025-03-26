@@ -1,40 +1,21 @@
-import { Dispatch, SetStateAction, useState, ChangeEvent } from "react"
-import styles from "./Practice.module.css"
+import { Dispatch, SetStateAction, useState, ChangeEvent } from "react";
+
+import styles from "./Practice.Components.module.css";
+import animations from "@/src/animations.module.css";
 
 import Autocomplete from "components/autocomplete/Autocomplete"
 
 import DeleteIcon from "@/src/assets/icons/deleteIcon.svg"
 import UploadIcon from "@/src/assets/icons/uploadIcon.svg";
+import TrashIcon from "@/src/assets/icons/trashIcon.svg"
 
 import { useTagStore } from "@/src/stores/tagStore";
-import { Question, useQuestionStore } from "@/src/stores/questionStore";
-import { StudentResponse } from "@/src/features/practice/containers/PracticeContainer.Question";
+import { Question, questionStore } from "@/src/stores/questionStore";
+import { StudentResponse, FileData, type FeedbackForm } from "@/src/_types/client-types";
+
+import Alert, { UserAlert } from "components/alert/Alert";
 
 import ModalContainer from "containers/modal/ModalContainer";
-// import DeleteIcon from "@/src/assets/icons/deleteIcon.svg"
-// import debounce from "@/utils/debounce"
-
-
-export type FeedbackForm = {
-  sessionId: number
-  questionId: number
-  studentId: number
-  comment: string
-  difficultyRating: number | null
-  tags: number[]
-  guessed: boolean | null
-  instructorId: number
-  imageUrl: string
-}
-
-interface FileData {
-  fileType: string,
-  fileData: string
-}
-
-export interface ImageData extends FileData {
-  fileName: string
-}
 
 interface UploadPreviewProps {
   uploadFileData: FileData
@@ -49,7 +30,6 @@ interface FeedbackFormProps {
   setFeedbackForm: Dispatch<SetStateAction<FeedbackForm | undefined>>
   setSubmitStatus: Dispatch<SetStateAction<"waiting" | "submitting" | "submitted">>
 }
-
 
 
 function UploadPreview(props: UploadPreviewProps) {
@@ -68,12 +48,14 @@ function UploadPreview(props: UploadPreviewProps) {
       <div id="remove-upload-button"
         className={[
           styles.removeUploadSize,
+          styles.removeUploadPosition,
           styles.removeUploadColor,
           styles.removeUploadDecoration,
+          animations.highlightPrimaryDark,
         ].join(" ")}
         onClick={handleDelete}
       >
-        <DeleteIcon />
+        <TrashIcon />
       </div>
       <img src={uploadFileData.fileData} alt={"Upload preview:"} />
     </div>
@@ -84,7 +66,7 @@ function UploadPreview(props: UploadPreviewProps) {
 export default function FeedbackForm(props: FeedbackFormProps) {
 
   const tags = useTagStore((state) => state.tags);
-  const { questions, setQuestions } = useQuestionStore();
+  const { questions, setQuestions } = questionStore.getState();
   const { question, studentResponse, setSubmitStatus, setStudentResponse, feedbackForm, setFeedbackForm } = props;
 
   const [activeTags, setActiveTags] = useState<string[]>([]);
@@ -103,32 +85,15 @@ export default function FeedbackForm(props: FeedbackFormProps) {
     5: "Very Hard"
   }
 
-  // useEffect(() => {
-
-  //   console.log("feedback.tsx/useEffect/feedbackStatus: ", feedbackStatus)
-
-  //   switch (feedbackStatus) {
-  //     case "waiting":
-  //       break;
-  //     case "submitting":
-  //       console.log("submitting feedback form...")
-  //       submitForm();
-  //       break;
-  //     case "submitted":
-  //       console.log("initializing student response submission...")
-  //       setSubmitStatus("submitted");
-  //       break;
-  //   }
-
-  // }, [feedbackStatus])
-
+  function handleClose() {
+    setSubmitStatus("submitted");
+  }
 
   async function submitForm() {
     try {
 
       if (!studentResponse) return;
       // compile feedback form.
-      // console.log("before update/feedbackForm: ", feedbackForm);
       const updatedFeedbackForm = structuredClone(feedbackForm);
 
       const newTags: string[] = [];
@@ -157,7 +122,6 @@ export default function FeedbackForm(props: FeedbackFormProps) {
       }
 
       console.log("submit feedback form request body: ", body);
-
       // submit feedback form and get id;
       const res = await fetch("api/db/feedback/new", {
         method: "POST",
@@ -200,7 +164,6 @@ export default function FeedbackForm(props: FeedbackFormProps) {
     } catch (e) {
       console.error(e);
     }
-
   }
 
 
@@ -232,46 +195,85 @@ export default function FeedbackForm(props: FeedbackFormProps) {
 
   function handleFileUpload(e: ChangeEvent<HTMLInputElement>) {
 
+    console.log("handling file upload...");
     const { files } = e.target;
 
-    if (!files || !files.length) return;
+    if (!files || !files.length) {
+      console.log(files);
+      return
+    };
 
-    console.log(files);
-
-    const fileType = files[0].type;
+    const file = files[0];
+    const fileType = file.type;
+    const size = file.size;
 
     const fileReader = new FileReader();
 
-    fileReader.readAsDataURL(files[0])
+    fileReader.onload = (e) => {
 
-    // add a conditional block to compress images to a max size.
+      console.log("fileReader/onload/e.target: ", e.target);
+      const result = e.target?.result as string;
+      const img = new Image();
 
-    if (files[0].size > 5000000) {
+      img.onload = () => {
+        if (size > 3500000) {
+          console.log("large file!");
 
-      //.......
+          const maxSize = 3500000;
+          const ratio = maxSize / size;
+          const reduce = Math.sqrt(ratio);
+          const height = Math.floor(img.height * reduce);
+          const width = Math.floor(img.width * reduce);
+          console.log(height, width);
 
-    }
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
 
-    function fileDataSetter(e: ProgressEvent<FileReader>) {
+          canvas.width = width;
+          canvas.height = height;
 
-      if (e.target) {
+          if (ctx) {
+            console.log("drawing image on context...")
+            ctx.drawImage(img, 0, 0, width, height);
+            console.log("converting canvas to blob...")
+            canvas.toBlob((blob) => {
 
-        const result = e.target.result as string
+              if (!blob) return;
 
-        setUploadFileData({ fileType: fileType, fileData: result });
+              const fileReader2 = new FileReader();
 
+              fileReader2.onloadend = () => {
+
+                const data = fileReader2.result as string;
+                console.log("setting upload file");
+                setUploadFileData({ fileType, fileData: data });
+
+              }
+
+              console.log("reading blob...");
+              fileReader2.readAsDataURL(blob);
+
+            }, fileType, 0.7);
+          }
+
+        } else {
+          setUploadFileData({ fileType, fileData: result })
+        }
       }
+
+      console.log("setting image src...")
+      img.src = result as string;
     }
 
-    fileReader.addEventListener("load", fileDataSetter);
+    console.log("reading file...");
+    fileReader.readAsDataURL(file);
 
   }
 
   async function handleSubmit() {
 
-    // if (feedbackStatus === "waiting") {
-    //   setFeedbackStatus("submitting");
-    // }
+    console.log(feedbackForm);
+
     submitForm();
 
   }
@@ -287,12 +289,24 @@ export default function FeedbackForm(props: FeedbackFormProps) {
 
       return (
         <div key={`difficulty-select-${level}`} className={[
-          styles.radioLabelAlign,
-          styles.radioLabelText,
+
         ].join(" ")}>
-          <input id={`difficulty-select-input-${level}`} type="radio" name={`difficultyRating`} value={Number(level)} onChange={handleForm} checked={feedbackForm.difficultyRating === Number(level)} />
-          <label htmlFor={`difficulty-select-input-${level}`} className={styles.difficultyLabelText}>
-            {difficulties[level]}
+          <label htmlFor={`difficulty-select-input-${level}`}
+            className={[
+              styles.radioLabelAlign,
+
+            ].join(" ")}>
+            <input id={`difficulty-select-input-${level}`}
+              type="radio"
+              name={`difficultyRating`}
+              value={Number(level)}
+              onChange={handleForm}
+              checked={feedbackForm.difficultyRating === Number(level)} />
+            <span className={[
+              styles.radioLabelText,
+            ].join(" ")}>
+              {difficulties[level]}
+            </span>
           </label>
         </div>
       )
@@ -310,6 +324,16 @@ export default function FeedbackForm(props: FeedbackFormProps) {
           styles.formDisplay,
           styles.formAlign,
         ].join(" ")}>
+        <div id="close-modal-button">
+          <button
+            onClick={handleClose}
+            className={[
+              styles.closeFormButtonStyle,
+              styles.closeFormButtonPosition,
+            ].join(" ")}>
+            <DeleteIcon />
+          </button>
+        </div>
         <h2>Reflection Form</h2>
         <div className={[
           styles.formSectionDetailText
@@ -383,6 +407,8 @@ export default function FeedbackForm(props: FeedbackFormProps) {
             <p>Add a note or question for your instructor:</p>
           </div>
           <textarea id="instructor-feedback"
+            autoComplete="off"
+            cols={30}
             name="comment"
             onChange={handleForm}
             value={feedbackForm.comment}
@@ -400,26 +426,44 @@ export default function FeedbackForm(props: FeedbackFormProps) {
             styles.formAlign,
           ].join(" ")}>
             <p>{"Upload a picture of your work for more context (optional):"}</p>
-            <div id="upload-icon-wrapper"
+            <label htmlFor="student-file-upload"
               className={[
-                styles.uploadIconSize,
-                styles.marginTopDefault,
-                styles.uploadIconColor,
+                styles.uploadIconDecoration,
               ].join(" ")}>
-              <label htmlFor="student-file-upload"
-                className={styles.uploadIconDecoration}>
-                <UploadIcon />
-                Upload
-              </label>
-              <input id="student-file-upload"
-                type="file"
-                hidden={true}
-                name={"imageUrl"}
-                accept="image/*"
-                capture="environment"
-                onChange={handleFileUpload} />
-            </div>
-            {uploadFileData.fileData && <UploadPreview uploadFileData={uploadFileData} setUploadFileData={setUploadFileData} />}
+              <div id="upload-icon-wrapper"
+                className={[
+                  styles.wrapperSize,
+                  styles.marginTopDefault,
+                  styles.uploadIconColor,
+                  styles.uploadButtonAlign,
+                  styles.uploadIconDecoration,
+                  animations.highlightPrimary,
+                ].join(" ")}>
+
+                <div id="upload-icon"
+                  className={[
+                    styles.uploadIconSize,
+                    styles.sectionMargin,
+                  ].join(" ")}>
+                  <UploadIcon />
+                </div>
+                <div>
+                  Upload
+                </div>
+                <div className={[
+                  styles.hideInput
+                ].join(" ")}>
+                  <input id="student-file-upload"
+                    type="file"
+                    name={"imageUrl"}
+                    accept="image/*"
+                    capture="environment"
+                    onChange={handleFileUpload} />
+                </div>
+
+              </div>
+              {uploadFileData.fileData && <UploadPreview uploadFileData={uploadFileData} setUploadFileData={setUploadFileData} />}
+            </label>
           </div>
         </section>
         <section id={"add-tags-section"}
@@ -427,7 +471,8 @@ export default function FeedbackForm(props: FeedbackFormProps) {
             styles.formSectionWidth,
           ].join(" ")}>
           <div className={[
-            styles.formSectionHeading
+            styles.formSectionHeading,
+            styles.sectionMargin,
           ].join(" ")}>
             <p>{"Add any tags that fit this problem (e.g., quadratic equations, linear equations, sohcahtoa, etc)"}
             </p>
@@ -440,8 +485,18 @@ export default function FeedbackForm(props: FeedbackFormProps) {
           />
         </section>
         <section id="submit-button-box"
-          className={[styles.formSectionHeading].join(" ")}>
-          <button onClick={handleSubmit}>Submit</button>
+          className={[
+            styles.formSectionHeading,
+            styles.sectionWidthFull,
+            styles.formAlign,
+          ].join(" ")}>
+          <button
+            className={[
+              styles.buttonStyleSecondary,
+              styles.submitButtonSize,
+              animations.highlightPrimaryDark,
+            ].join(" ")}
+            onClick={handleSubmit}>Submit</button>
         </section>
       </div>
     </ModalContainer>

@@ -14,7 +14,12 @@ export default function ModalContainer(props: ModalContainerProps) {
         styles.backdropStyle,
         styles.centerForm,
       ].join(" ")}>
-      {children}
+      <div id="modal-content-container"
+        className={[
+          styles.modalContentPosition
+        ].join(" ")}>
+        {children}
+      </div>
     </div>
 
   )

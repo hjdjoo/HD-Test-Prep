@@ -1,31 +1,45 @@
-import styles from "./Practice.module.css";
-import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react"
-import { useQuestionStore } from "@/src/stores/questionStore";
+import { useQuery } from "@tanstack/react-query";
+import { useStore } from "zustand";
+import animations from "@/src/animations.module.css"
+import styles from "./Practice.module.css";
+
+import { questionStore } from "@/src/stores/questionStore";
 import { useCategoryStore } from "@/src/stores/categoryStore";
 import { useTagStore } from "@/src/stores/tagStore"
+import { userStore } from "@/src/stores/userStore";
 import ErrorPage from "@/src/ErrorPage";
-// import usePracticeSession from "@/src/hooks/usePracticeSession";
+import Loading from "components/loading/Loading";
 
 import fetchQuestions from "@/src/queries/GET/getQuestions";
 import fetchCategories from "@/src/queries/GET/getCategories";
 import fetchProblemTypes from "@/src/queries/GET/getProblemTypes";
-// import createSupabase from "@/utils/supabase/client";
-
-// import Question from "@/src/components/practice/Practice.questionImage.js";
 
 import RandomPractice from "./containers/PracticeContainer.Random";
 import StructuredPractice from "./containers/PracticeContainer.Structured";
+import LinkInstructorModal from "./components/Practice.LinkInstructorModal";
+
 import fetchTags from "@/src/queries/GET/getTags";
 
 
 export default function Practice() {
 
   const { setCategories, setProblemTypes } = useCategoryStore();
-  const { filter, filteredQuestions, setQuestions, filterQuestions } = useQuestionStore();
+  // const { filter, filteredQuestions, setQuestions, filterQuestions } = questionStore.getState();
+
+  const filter = useStore(questionStore, (state) => state.filter);
+  const filteredQuestions = useStore(questionStore, (state) => state.filteredQuestions);
+  const setQuestions = useStore(questionStore, (state) => state.setQuestions);
+  const filterQuestions = useStore(questionStore, (state) => state.filterQuestions);
+  const user = useStore(userStore, (state) => state.user);
+
   const { setTags } = useTagStore();
 
   const [practiceType, setPracticeType] = useState<"random" | "structured" | null>(null)
+
+  const openModal = (user && !user.instructor_id) ? true : false;
+
+  const [modalOpen, setModalOpen] = useState<boolean>(openModal);
 
   // React query states:
   const { status: questionStatus, data: questionData, error: questionError } = useQuery({
@@ -50,7 +64,9 @@ export default function Practice() {
 
   // make sure to update the filtered question bank when the filter is changed.
   useEffect(() => {
+    console.log("change in filter detected, setting new questions...")
     filterQuestions();
+
   }, [filter])
 
   useEffect(() => {
@@ -74,9 +90,7 @@ export default function Practice() {
 
   if (questionStatus === "pending" || categoryStatus === "pending" || problemTypeStatus === "pending" || tagsStatus === "pending") {
     return (
-      <>
-        <p>Loading...</p>
-      </>
+      <Loading />
     )
   }
 
@@ -91,13 +105,35 @@ export default function Practice() {
   console.log("PracticeContainer/filteredQuestions length: ", filteredQuestions.length);
 
   return (
-    <div id="practice-container" className={[styles.container,].join(" ")}>
-      <h1>
-        Practice
-      </h1>
-      <button onClick={() => { setPracticeType("random") }}>{`Random Questions`}</button>
-      <p>Or</p>
-      <button onClick={() => { setPracticeType("structured") }}>{`Structured Practice`}</button>
+    <div id="practice-container"
+      className={[
+        styles.container,
+      ].join(" ")}>
+      <div id="practice-heading"
+        className={[
+          styles.sectionSpacing,
+        ].join(" ")}>
+        <h1>
+          Practice
+        </h1>
+      </div>
+      <button id="start-practice-button"
+        className={[
+          styles.buttonStyle,
+          styles.buttonSize,
+          animations.highlightPrimary,
+        ].join(" ")}
+        onClick={() => { setPracticeType("random") }}>
+        {`Start Practice`}
+      </button>
+      {
+        modalOpen &&
+        <LinkInstructorModal setOpen={setModalOpen} />
+      }
+      {/* <p>Or</p>
+      <button
+        onClick={() => { setPracticeType("structured") }}>{`Structured Practice`}
+      </button> */}
       <br />
       {/* Settings Component */}
       {practiceType === "random" && <RandomPractice />}

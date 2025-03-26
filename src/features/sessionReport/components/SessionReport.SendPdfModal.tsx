@@ -1,15 +1,16 @@
-import { Dispatch, SetStateAction, useEffect, useRef } from "react"
+import { Dispatch, SetStateAction, useEffect, useState, useRef } from "react"
 import { useQuery } from "@tanstack/react-query";
+import { pdf, render } from "@react-pdf/renderer";
+import styles from "./Report.module.css"
 
-import { pdf, renderToStream } from "@react-pdf/renderer";
-
-import { useUserStore } from "@/src/stores/userStore";
+import { userStore } from "@/src/stores/userStore";
 
 import useQuestionsAnswered from "@/src/hooks/useQuestionsAnswered";
 import useQuestionsCorrect from "@/src/hooks/useQuestionsCorrect";
+import { usePracticeSessionStore } from "@/src/stores/practiceSessionStore";
 
 import { QuestionImageData, FeedbackData, TagsData } from "@/src/features/pdf/containers/PdfContainer"
-import { ClientFeedbackFormData } from "@/src/queries/GET/getFeedbackById";
+import { ClientFeedbackFormData } from "@/src/_types/client-types";
 
 import createSupabase from "@/utils/supabase/client";
 
@@ -20,6 +21,10 @@ import sendSessionSummary from "@/src/queries/POST/sendSessionSummary";
 
 import ErrorPage from "@/src/ErrorPage";
 import PdfReport from "@/src/features/pdf/components/Pdf.Report";
+import Spinner from "components/loading/Loading.Spinner";
+import endSession from "@/src/queries/PATCH/endPracticeSession";
+
+import { PDFViewer } from "@react-pdf/renderer";
 
 interface SendPdfModalProps {
   sessionId: string
@@ -30,9 +35,12 @@ export default function SendPdfModal(props: SendPdfModalProps) {
 
   const { sessionId, setSendStatus } = props;
 
+  // const setSessionId = usePracticeSessionStore((state) => state.setSessionId);
   const sentRef = useRef<boolean>(false);
 
-  const user = useUserStore((state) => state.user);
+  const user = userStore.getState().user;
+
+  const [pdfReport, setPdfReport] = useState<JSX.Element>()
 
   const supabase = createSupabase();
   // get practice session responses based on ID;
@@ -105,6 +113,7 @@ export default function SendPdfModal(props: SendPdfModalProps) {
           } as FeedbackData
 
         } else {
+          console.log("no feedback id. Returning blank Object.")
           return Promise.resolve({} as FeedbackData)
         }
       })
@@ -124,7 +133,10 @@ export default function SendPdfModal(props: SendPdfModalProps) {
 
       const tagsProms = feedbackData.map(async (item) => {
 
-        if (!item.data.tags.length) {
+        console.log("sendPdfModal/item: ", item);
+
+        if (!item.data || !item.data.tags || !item.data.tags.length) {
+          console.log("no item to read tags")
           return Promise.resolve({} as TagsData)
 
         } else {
@@ -156,55 +168,84 @@ export default function SendPdfModal(props: SendPdfModalProps) {
       return;
     }
 
-    if (!sessionResponseData || !questionImageData || !feedbackData || !tagsData || !questionsAnswered.length || !!!questionsCorrect) {
+    if (!sessionResponseData || !questionImageData || !feedbackData || !tagsData || !questionsAnswered.length || (questionsCorrect !== 0 && !questionsCorrect)) {
       console.log("missing data, not sending yet");
+      console.log(!sessionResponseData)
+      console.log(!questionImageData)
+      console.log(!feedbackData)
+      console.log(!tagsData)
+      console.log(!questionsAnswered.length)
+      console.log(!!!questionsCorrect)
       return;
     } else {
       sentRef.current = true;
       handleSend();
+      // renderPdf();
     }
 
   }, [sessionResponseData, questionImageData, feedbackData, tagsData, questionsAnswered, questionsCorrect])
 
 
   async function handleSend() {
+    try {
+      if (!user) {
+        console.log("No user detected");
+        return;
+      }
 
-    if (!user) {
-      console.log("No user detected");
-      return;
+      if (!sessionResponseData || !feedbackData || !questionImageData || !tagsData) {
+        console.log("incomplete data; returning...");
+        return;
+      }
+
+      if (!questionsAnswered.length || (questionsCorrect !== 0 && !questionsCorrect)) {
+        console.log("No data returned from hooks");
+        return;
+      }
+
+      console.log("sending report...")
+
+      const Report = <PdfReport
+        studentResponses={sessionResponseData}
+        questionImageData={questionImageData}
+        feedbackData={feedbackData}
+        tagsData={tagsData}
+        questionsAnswered={questionsAnswered}
+        questionsCorrect={questionsCorrect}
+        user={user}
+      />
+
+      setPdfReport(Report);
+
+      // const pdfBlob = await pdf(Report).toBlob();
+
+      // console.log('sending session summary');
+      // await sendSessionSummary(pdfBlob, sessionId, String(user.id));
+
+      // console.log("ending session...")
+      // await endSession(Number(sessionId), "inactive");
+
+      // sentRef.current = false;
+      // setSendStatus("sent");
+      // setSessionId(null);
+
+    } catch (e) {
+      console.error(e);
+      setSendStatus("waiting");
     }
-
-    if (!sessionResponseData || !feedbackData || !questionImageData || !tagsData) {
-      console.log("incomplete data; returning...");
-      return;
-    }
-
-    if (!questionsAnswered.length || !!!questionsCorrect) {
-      console.log("No data returned from hooks");
-      return;
-    }
-
-    console.log("sending report...")
-    const Report = <PdfReport
-      studentResponses={sessionResponseData}
-      questionImageData={questionImageData}
-      feedbackData={feedbackData}
-      tagsData={tagsData}
-      questionsAnswered={questionsAnswered}
-      questionsCorrect={questionsCorrect}
-    />
-
-    const pdfBlob = await pdf(Report).toBlob();
-
-    await sendSessionSummary(pdfBlob, sessionId, String(user.id));
-
-    sentRef.current = false;
-    setSendStatus("sent");
 
   }
 
 
+
   /* Renders: */
+
+  if (!user) {
+    console.error("No user detected")
+    return (
+      <ErrorPage />
+    )
+  }
   if (sessionResponseError) {
     console.error(sessionResponseError)
     return (
@@ -230,20 +271,32 @@ export default function SendPdfModal(props: SendPdfModalProps) {
     )
   }
 
-  if (!sessionResponseData || !feedbackData || !questionImageData || !tagsData) {
-    return (
-      <div>
-        Loading...
-      </div>
-    )
-  }
 
   return (
-    <>
+    <div id="send-pdf-modal-form"
+      className={[
+        styles.modalFormBackground,
+        styles.modalFormPadding,
+        styles.sectionAlign,
+      ].join(" ")}>
+      {(!sessionResponseData || !feedbackData || !questionImageData || !tagsData) ?
+        <div>
+          Loading Data...
+        </div> :
+        <div>
+          Sending report...
+        </div>
+
+      }
       <div>
-        Sending report...
+        <Spinner />
+        <div>
+          <PDFViewer>
+            {pdfReport && pdfReport}
+          </PDFViewer>
+        </div>
       </div>
-    </>
+    </div>
   )
 
 }

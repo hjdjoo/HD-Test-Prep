@@ -3,16 +3,19 @@ import Auth from "@/src/features/auth/Auth";
 // import AccountContainer from "../account/AccountContainer"
 import Account from "@/src/pages/account/account";
 
-import { useUserStore } from "@/src/stores/userStore";
+import { userStore } from "@/src/stores/userStore";
 
 
 export default function HomeContainer() {
 
   // const [user, setUser] = useState(0)
-  const { user } = useUserStore();
+  const user = userStore.getState().user;
 
   return (
-    <div className={style.container}>
+    <div id="home-container"
+      className={[
+        style.container,
+      ].join(" ")}>
       {user ? <Account /> : <Auth />}
     </div>
   )

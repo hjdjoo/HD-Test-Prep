@@ -1,4 +1,8 @@
 
+.sectionMargin {
+  margin-bottom: 2rem;
+}
+
 .sectionHeaderText {
   text-decoration: underline;
 }
@@ -8,24 +12,24 @@
   flex-direction: column;
 }
 
+.itemPadding {
+  
+}
+
+.itemImageSize {
+  max-width: 50%;
+}
+
 .sectionSize {
   width: 90vw;
 }
 
-.summarySize {
-  width: 100%;
-}
-
-.summaryAlign {
-  display: flex;
-}
-
-.summaryItem {
-  flex-grow: 1;
-}
-
 .detailMargin {
   margin-left: 1rem;
+}
+
+.detailAlign {
+  display: flex;
 }
 
 .textBold {

@@ -1,7 +1,4 @@
-import { CamelCasedProperties } from "type-fest"
-import { DbStudentResponse } from "@/server/controllers/studentResponsesController";
-
-export type ClientStudentResponse = CamelCasedProperties<DbStudentResponse>;
+import { ClientStudentResponse } from "@/src/_types/client-types";
 
 /**
  * 

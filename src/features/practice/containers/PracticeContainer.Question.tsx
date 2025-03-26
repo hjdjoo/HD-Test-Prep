@@ -1,19 +1,25 @@
 import { useState, useEffect } from "react";
-import styles from "./PracticeContainer.module.css"
 import { useQuery } from "@tanstack/react-query";
+
+import styles from "./PracticeContainer.module.css";
+import animations from "@/src/animations.module.css";
 
 import createSupabase from "@/utils/supabase/client";
 
 import { Question } from "@/src/stores/questionStore";
-import { useUserStore } from "@/src/stores/userStore";
+import { userStore } from "@/src/stores/userStore";
 import { usePracticeSessionStore } from "@/src/stores/practiceSessionStore";
 
 import Answers from "@/src/features/practice/components/Practice.answers.js";
 import Timer from "@/src/features/practice/components/Practice.timer";
 import QuestionImage from "@/src/features/practice/components/Practice.questionImage.js";
 import Feedback from "@/src/features/practice/components/Practice.feedback";
-import { type FeedbackForm } from "@/src/features/practice/components/Practice.feedback";
+
+import { FeedbackForm } from "@/src/_types/client-types";
 import ErrorPage from "@/src/ErrorPage";
+import Spinner from "components/loading/Loading.Spinner";
+
+import { StudentResponse } from "@/src/_types/client-types";
 
 
 interface QuestionContainerProps {
@@ -21,15 +27,15 @@ interface QuestionContainerProps {
   getNextQuestion: () => void;
 }
 
-export interface StudentResponse {
-  id?: number
-  sessionId: number
-  studentId: number,
-  questionId: number,
-  response: string,
-  feedbackId: number | null,
-  timeTaken: number,
-}
+// export interface StudentResponse {
+//   id?: number
+//   sessionId: number
+//   studentId: number,
+//   questionId: number,
+//   response: string,
+//   feedbackId: number | null,
+//   timeTaken: number,
+// }
 
 // type StudentResponseQuery = {
 //   studentId: number
@@ -43,7 +49,7 @@ export default function QuestionContainer(props: QuestionContainerProps) {
 
   // const sessionId = usePracticeSession();
   const { sessionId, addResponse } = usePracticeSessionStore();
-  const { user } = useUserStore();
+  const user = userStore.getState().user;
   const { question, getNextQuestion } = props;
 
   const [submitStatus, setSubmitStatus] = useState<"waiting" | "submitting" | "submitted">("waiting");
@@ -60,8 +66,9 @@ export default function QuestionContainer(props: QuestionContainerProps) {
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const [timerStart, setTimerStart] = useState<boolean>(false);
+  const [timerOn, setTimerOn] = useState<boolean>(false);
 
-  const [loadingNext, setLoadingNext] = useState<boolean>(false);
+  // const [loadingNext, setLoadingNext] = useState<boolean>(false);
 
   const showFeedback = (submitStatus === "submitting");
 
@@ -110,14 +117,6 @@ export default function QuestionContainer(props: QuestionContainerProps) {
     setStudentRes(initStudentResponse(sessionId));
 
   }, [question]);
-
-  // useEffect(() => {
-
-  //   if (!sessionId) return;
-  //   console.log("QuestionContainer/useEffect/sessionId found: ", sessionId)
-  //   initStudentResponse(sessionId);
-
-  // }, [sessionId])
 
   // submit student response once feedback is submitted.
   useEffect(() => {
@@ -168,7 +167,6 @@ export default function QuestionContainer(props: QuestionContainerProps) {
       getNextQuestion();
       console.log("resetting submit status and response...")
       setSubmitStatus("waiting");
-      // console.log("")
       setResponse("");
     } catch (e) {
       console.error(e);
@@ -287,20 +285,57 @@ export default function QuestionContainer(props: QuestionContainerProps) {
 
   return (
     <div id="question-container"
-      className={[styles.questionAlign].join(" ")}>
-      <div>
+      className={[
+        styles.questionSize,
+        styles.questionAlign,
+      ].join(" ")}>
+      <div id="timer-container"
+        className={[
+          styles.container,
+          styles.sectionMargin,
+          styles.timerStyle,
+          styles.timerBackground,
+          styles.sticky,
+        ].join(" ")}>
         <h3>Question Number: {question.question}</h3>
-        <Timer start={timerStart} submitStatus={submitStatus} time={time} setTime={setTime} />
+        <Timer
+          start={timerStart}
+          timerOn={timerOn}
+          setTimerOn={setTimerOn}
+          submitStatus={submitStatus}
+          time={time}
+          setTime={setTime} />
       </div>
-      <QuestionImage imageUrl={questionUrl} imageLoaded={imageLoaded} setImageLoaded={setImageLoaded} />
+      <div className={[
+        timerOn ? "" : styles.questionBlur,
+      ].join(" ")}>
+        <QuestionImage
+          imageUrl={questionUrl}
+          imageLoaded={imageLoaded}
+          setImageLoaded={setImageLoaded} />
+      </div>
       {
-        imageLoaded ?
-          <Answers answerChoices={answerChoices} question={question} response={response} setResponse={setResponse} /> :
-          <p>Loading...</p>
+        imageLoaded &&
+        <div id="answer-choices-container"
+          className={[
+            styles.container,
+            styles.sectionMarginSm,
+          ].join(" ")}>
+          <Answers answerChoices={answerChoices} question={question} response={response} setResponse={setResponse} />
+        </div>
       }
       {imageLoaded &&
-        <div>
-          <button onClick={handleSubmit}>Submit</button>
+        <div id="submit-answer-button"
+          className={[
+            styles.sectionMargin,
+            styles.container,
+          ].join(" ")}>
+          <button
+            className={[
+              styles.buttonStyleSecondary,
+              animations.highlightPrimaryDark,
+            ].join(" ")}
+            onClick={handleSubmit}>Submit</button>
         </div>
       }
       {

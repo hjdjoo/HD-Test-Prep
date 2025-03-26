@@ -1,7 +1,7 @@
 import styles from "./Detail.module.css"
 
-import { ClientFeedbackFormData } from "@/src/queries/GET/getFeedbackById";
-import { ClientStudentResponse } from "@/src/queries/GET/getResponsesBySession";
+import { ClientFeedbackFormData } from "@/src/_types/client-types";
+import { ClientStudentResponse } from "@/src/_types/client-types";
 import { Question } from "@/src/stores/questionStore";
 
 interface DetailItemProps {
@@ -26,7 +26,7 @@ export default function DetailItem(props: DetailItemProps) {
   let tags = [] as string[];
   let tagsDisplay = [] as React.ReactNode[];
 
-  if (feedbackData && feedbackData.tags.length && tagsData) {
+  if (feedbackData && feedbackData.tags && feedbackData.tags.length && tagsData) {
     feedbackData.tags.forEach(id => {
       if (tagsData[String(id)]) {
         tags.push(tagsData[String(id)]);
@@ -41,7 +41,7 @@ export default function DetailItem(props: DetailItemProps) {
 
       return (
         <div key={`feedback-tag-${idx + 1}`}>
-          <p>{tag}</p>
+          <i>{tag}</i>
         </div>
       )
 
@@ -53,8 +53,24 @@ export default function DetailItem(props: DetailItemProps) {
     <>
       <div id={`summary-item-question-${question.id}-student-response-info`}
         className={[
+          styles.detailsBg,
           styles.responseWidth,
+          styles.detailsTextSm,
         ].join(" ")}>
+        <div id={`summary-item-question-${question.id}-question-number`}
+          className={[
+            styles.detailsAlign,
+          ].join(" ")}>
+          <p className={[
+            styles.dataHeaderAlign
+          ].join(" ")}>
+            {`Question Number:`}
+          </p>
+          <p className={[
+            styles.dataMargin,
+            styles.dataAlign,
+          ].join(" ")}>{`${question.question}`}</p>
+        </div>
         <div id={`summary-item-question-${question.id}-student-answer`}
           className={[
             styles.detailsAlign,
@@ -85,7 +101,7 @@ export default function DetailItem(props: DetailItemProps) {
           feedbackData &&
           <div id={`summary-item-question-${question.id}-feedback-info`}
             className={[
-
+              styles.feedbackBg,
             ].join(" ")}>
             {
               feedbackData.difficultyRating &&

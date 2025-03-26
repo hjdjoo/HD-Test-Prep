@@ -1,0 +1,75 @@
+@import "@/src/vars.module.css";
+
+.position {
+  position: fixed;
+  top: 90%;
+}
+
+.alertTimerPosition {
+  position: absolute;
+  top: calc(100% - 5px);
+}
+
+.alertTimerSize {
+  width: 90%;
+}
+
+.alertTimerStyle {
+  background-color: grey;
+  height: 5px;
+  border-radius: 1rem;
+}
+
+.size {
+  width: 90%;
+}
+
+.padding {
+  padding: 0.5rem 1rem;
+}
+
+.border {
+  border-radius: 0.5rem;
+}
+
+.align {
+  display: flex;
+}
+
+.justifyCenter {
+  justify-content: center;
+  align-items: center;
+}
+
+.grow1 {
+  flex-grow: 1;
+}
+
+.grow0 {
+  flex-grow: 0;
+}
+
+.success {
+  border: 3px solid;
+  border-color: var(--success);
+  background-color: rgba(var(--success-rgb), 0.2);
+}
+
+.warning {
+  border: 3px solid;
+  border-color: var(--warning);
+  background-color: rgba(var(--warning-rgb), 0.2);
+}
+
+.info {
+  border: 3px solid;
+  border-color: var(--primary);
+  background-color: rgba(var(--info-rgb), 0.2);
+}
+
+.error {
+  border: 3px solid;
+  border-color: var(--error);
+  background-color: rgba(var(--error-rgb), 0.2);
+  /* color: white; */
+}

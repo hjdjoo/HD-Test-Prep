@@ -6,7 +6,7 @@ import DetailsContainer from "@/src/features/sessionReport/detail/containers/Det
 import useQuestionsAnswered from "@/src/hooks/useQuestionsAnswered";
 import useQuestionsCorrect from "@/src/hooks/useQuestionsCorrect";
 
-import { ClientStudentResponse } from "@/src/queries/GET/getResponsesBySession"
+import { ClientStudentResponse } from "@/src/_types/client-types";
 
 
 interface ReportProps {
@@ -18,10 +18,14 @@ export default function Report(props: ReportProps) {
 
   const { studentResponses, children } = props;
 
+  console.log("Report/studentResponses: ", studentResponses);
+
   const questionsAnswered = useQuestionsAnswered({ studentResponses });
   const questionsCorrect = useQuestionsCorrect({ studentResponses, questionsAnswered })
 
-  if (!studentResponses) {
+  console.log("questionsAnswered, questionsCorrect: ", questionsAnswered, questionsCorrect)
+
+  if (!studentResponses || !studentResponses.length) {
     return (
       <div>
         No student responses!

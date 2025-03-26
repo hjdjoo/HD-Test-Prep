@@ -6,15 +6,14 @@ import { useQuery } from "@tanstack/react-query";
 import createSupabase from "@/utils/supabase/client";
 
 import { Question } from "@/src/stores/questionStore";
-import { ClientStudentResponse } from "@/src/queries/GET/getResponsesBySession"
-import { ClientFeedbackFormData } from "@/src/queries/GET/getFeedbackById";
+import { ClientStudentResponse } from "@/src/_types/client-types"
+import { ClientFeedbackFormData } from "@/src/_types/client-types";
 
 import QuestionImage from "@/src/features/practice/components/Practice.questionImage";
 import SummaryItem from "@/src/features/sessionReport/detail/components/Detail.Item";
 
 import getFeedbackById from "@/src/queries/GET/getFeedbackById";
 import getTagsById from "@/src/queries/GET/getTagsById";
-
 
 interface DetailItemContainerProps {
   question: Question
@@ -116,11 +115,11 @@ export default function DetailItemContainer(props: DetailItemContainerProps) {
   return (
     <div id={`summary-item-question-${question.id}-container`}
       className={[
-        styles.itemAlign,
+        styles.detailAlign,
       ].join(" ")}>
       <div id={`summary-item-question-${question.id}-image`}
         className={[
-          styles.imageSize,
+          styles.itemImageSize,
         ].join(" ")}>
         <QuestionImage imageUrl={questionUrl} imageLoaded={imageLoaded} setImageLoaded={setImageLoaded} />
       </div>
