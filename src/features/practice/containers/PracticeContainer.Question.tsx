@@ -17,7 +17,7 @@ import Feedback from "@/src/features/practice/components/Practice.feedback";
 
 import { FeedbackForm } from "@/src/_types/client-types";
 import ErrorPage from "@/src/ErrorPage";
-import Spinner from "components/loading/Loading.Spinner";
+// import Spinner from "components/loading/Loading.Spinner";
 
 import { StudentResponse } from "@/src/_types/client-types";
 
@@ -27,27 +27,9 @@ interface QuestionContainerProps {
   getNextQuestion: () => void;
 }
 
-// export interface StudentResponse {
-//   id?: number
-//   sessionId: number
-//   studentId: number,
-//   questionId: number,
-//   response: string,
-//   feedbackId: number | null,
-//   timeTaken: number,
-// }
-
-// type StudentResponseQuery = {
-//   studentId: number
-//   questionId: number
-//   feedbackId: number | null
-//   timeTaken: number
-//   studentResponse: string
-// }
 
 export default function QuestionContainer(props: QuestionContainerProps) {
 
-  // const sessionId = usePracticeSession();
   const { sessionId, addResponse } = usePracticeSessionStore();
   const user = userStore.getState().user;
   const { question, getNextQuestion } = props;
@@ -55,7 +37,6 @@ export default function QuestionContainer(props: QuestionContainerProps) {
   const [submitStatus, setSubmitStatus] = useState<"waiting" | "submitting" | "submitted">("waiting");
 
   const [imageLoaded, setImageLoaded] = useState<boolean>(false);
-  // const [showFeedback, setShowFeedback] = useState<boolean>(false);
 
   const [questionUrl, setQuestionUrl] = useState<string>("")
   const [time, setTime] = useState(0);
@@ -68,7 +49,6 @@ export default function QuestionContainer(props: QuestionContainerProps) {
   const [timerStart, setTimerStart] = useState<boolean>(false);
   const [timerOn, setTimerOn] = useState<boolean>(false);
 
-  // const [loadingNext, setLoadingNext] = useState<boolean>(false);
 
   const showFeedback = (submitStatus === "submitting");
 
@@ -81,7 +61,14 @@ export default function QuestionContainer(props: QuestionContainerProps) {
       const { data, error } = await supabase
         .storage
         .from("questions")
-        .createSignedUrl(`math/${String(question.id)}.png`, 3600)
+        .createSignedUrl(`math/${String(question.id)}.png`, 3600, {
+          transform: {
+            width: 600,
+            height: 600,
+            quality: 70,
+            resize: "contain"
+          }
+        })
 
       if (error) {
         throw new Error(`Error while getting signed Url: ${error.message}`)
@@ -137,7 +124,6 @@ export default function QuestionContainer(props: QuestionContainerProps) {
       console.log("submitResponse: starting...")
 
       const finalStudentResponse = { ...studentRes };
-      // finalStudentResponse.feedbackId;
 
       finalStudentResponse.timeTaken = time;
 
@@ -220,7 +206,6 @@ export default function QuestionContainer(props: QuestionContainerProps) {
       imageUrl: ""
     }
   }
-
 
   // set up answer choices for question;
   const ae = ["A", "B", "C", "D", "E"];
@@ -307,7 +292,7 @@ export default function QuestionContainer(props: QuestionContainerProps) {
           setTime={setTime} />
       </div>
       <div className={[
-        timerOn ? "" : styles.questionBlur,
+        timerOn ? "" : (imageLoaded && styles.questionBlur),
       ].join(" ")}>
         <QuestionImage
           imageUrl={questionUrl}

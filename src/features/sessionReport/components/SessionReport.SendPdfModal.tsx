@@ -1,6 +1,6 @@
-import { Dispatch, SetStateAction, useEffect, useState, useRef } from "react"
+import { Dispatch, SetStateAction, useEffect, useRef } from "react"
 import { useQuery } from "@tanstack/react-query";
-import { pdf, render } from "@react-pdf/renderer";
+import { pdf } from "@react-pdf/renderer";
 import styles from "./Report.module.css"
 
 import { userStore } from "@/src/stores/userStore";
@@ -24,8 +24,6 @@ import PdfReport from "@/src/features/pdf/components/Pdf.Report";
 import Spinner from "components/loading/Loading.Spinner";
 import endSession from "@/src/queries/PATCH/endPracticeSession";
 
-import { PDFViewer } from "@react-pdf/renderer";
-
 interface SendPdfModalProps {
   sessionId: string
   setSendStatus: Dispatch<SetStateAction<"waiting" | "sending" | "sent">>
@@ -35,12 +33,10 @@ export default function SendPdfModal(props: SendPdfModalProps) {
 
   const { sessionId, setSendStatus } = props;
 
-  // const setSessionId = usePracticeSessionStore((state) => state.setSessionId);
+  const setSessionId = usePracticeSessionStore((state) => state.setSessionId);
   const sentRef = useRef<boolean>(false);
 
   const user = userStore.getState().user;
-
-  const [pdfReport, setPdfReport] = useState<JSX.Element>()
 
   const supabase = createSupabase();
   // get practice session responses based on ID;
@@ -60,7 +56,7 @@ export default function SendPdfModal(props: SendPdfModalProps) {
       return data;
     }
   })
-
+  // fetch data for question images when session data is fetched;
   const { data: questionImageData, error: questionImageError } = useQuery({
     queryKey: [`session${sessionId}QuestionImages`, sessionResponseData],
     queryFn: async () => {
@@ -94,7 +90,7 @@ export default function SendPdfModal(props: SendPdfModalProps) {
       })
     }
   })
-
+  // fetch feedback data once session responses are fetched;
   const { data: feedbackData, error: feedbackError } = useQuery({
     queryKey: [`feedbackData${sessionId}`, sessionResponseData],
     queryFn: async () => {
@@ -121,8 +117,7 @@ export default function SendPdfModal(props: SendPdfModalProps) {
       return Promise.all(feedbackProms);
     }
   })
-
-
+  // fetch any tags found in feedback data;
   const { data: tagsData, error: tagsError } = useQuery({
     queryKey: [`session${sessionId}FeedbackTags`, feedbackData],
     queryFn: async () => {
@@ -156,7 +151,6 @@ export default function SendPdfModal(props: SendPdfModalProps) {
     }
   })
 
-
   const questionsAnswered = useQuestionsAnswered({ studentResponses: sessionResponseData });
   const questionsCorrect = useQuestionsCorrect({ studentResponses: sessionResponseData, questionsAnswered });
 
@@ -170,12 +164,12 @@ export default function SendPdfModal(props: SendPdfModalProps) {
 
     if (!sessionResponseData || !questionImageData || !feedbackData || !tagsData || !questionsAnswered.length || (questionsCorrect !== 0 && !questionsCorrect)) {
       console.log("missing data, not sending yet");
-      console.log(!sessionResponseData)
-      console.log(!questionImageData)
-      console.log(!feedbackData)
-      console.log(!tagsData)
-      console.log(!questionsAnswered.length)
-      console.log(!!!questionsCorrect)
+      // console.log(!sessionResponseData)
+      // console.log(!questionImageData)
+      // console.log(!feedbackData)
+      // console.log(!tagsData)
+      // console.log(!questionsAnswered.length)
+      // console.log(!!!questionsCorrect)
       return;
     } else {
       sentRef.current = true;
@@ -215,19 +209,17 @@ export default function SendPdfModal(props: SendPdfModalProps) {
         user={user}
       />
 
-      setPdfReport(Report);
+      const pdfBlob = await pdf(Report).toBlob();
 
-      // const pdfBlob = await pdf(Report).toBlob();
+      console.log('sending session summary');
+      await sendSessionSummary(pdfBlob, sessionId, String(user.id));
 
-      // console.log('sending session summary');
-      // await sendSessionSummary(pdfBlob, sessionId, String(user.id));
+      console.log("ending session...")
+      await endSession(Number(sessionId), "inactive");
 
-      // console.log("ending session...")
-      // await endSession(Number(sessionId), "inactive");
-
-      // sentRef.current = false;
-      // setSendStatus("sent");
-      // setSessionId(null);
+      sentRef.current = false;
+      setSendStatus("sent");
+      setSessionId(null);
 
     } catch (e) {
       console.error(e);
@@ -235,8 +227,6 @@ export default function SendPdfModal(props: SendPdfModalProps) {
     }
 
   }
-
-
 
   /* Renders: */
 
@@ -286,15 +276,10 @@ export default function SendPdfModal(props: SendPdfModalProps) {
         <div>
           Sending report...
         </div>
-
       }
+      <br />
       <div>
         <Spinner />
-        <div>
-          <PDFViewer>
-            {pdfReport && pdfReport}
-          </PDFViewer>
-        </div>
       </div>
     </div>
   )

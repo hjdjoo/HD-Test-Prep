@@ -117,12 +117,17 @@
 .radioButtonsDecoration {
   &:hover {
     cursor: pointer;
+    transition: background-color 0.2s ease-in-out 10ms;
+    background-color: lightgrey;
+  }
+  &:active {
+    background-color: var(--primary-light);
   }
 }
 
 .radioButtonsWidth {
   width: 100%;
-  border: 1px solid black;
+  border: 1px solid gray;
   border-radius: 15px;
 }
 
@@ -133,7 +138,7 @@
 }
 
 .radioButtonSelected {
-  background-color: lightblue;
+  background-color: var(--primary-light);
 }
 
 .answersWidth {
@@ -311,12 +316,15 @@
   justify-content: center;
 }
 
+/* modal styling */
+
 .modalStyle {
   background-color: white;
   padding: 1rem 2rem;
   width: 80vw;
   max-width: 500px;
   border-radius: 10px;
+  box-shadow:  3px 3px 10px 5px rgba(32, 32, 32, 0.5);
 }
 
 .modalButtonStyle {

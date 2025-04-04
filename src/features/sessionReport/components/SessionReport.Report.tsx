@@ -18,12 +18,12 @@ export default function Report(props: ReportProps) {
 
   const { studentResponses, children } = props;
 
-  console.log("Report/studentResponses: ", studentResponses);
+  // console.log("Report/studentResponses: ", studentResponses);
 
   const questionsAnswered = useQuestionsAnswered({ studentResponses });
   const questionsCorrect = useQuestionsCorrect({ studentResponses, questionsAnswered })
 
-  console.log("questionsAnswered, questionsCorrect: ", questionsAnswered, questionsCorrect)
+  // console.log("questionsAnswered, questionsCorrect: ", questionsAnswered, questionsCorrect)
 
   if (!studentResponses || !studentResponses.length) {
     return (
@@ -48,12 +48,11 @@ export default function Report(props: ReportProps) {
         styles.sectionAlign,
       ].join(" ")}>
       {!children
-        && (questionsAnswered.length && !!questionsCorrect) &&
+        && (questionsAnswered.length && questionsCorrect >= 0) &&
         <>
           <SummaryContainer questionsAnswered={questionsAnswered} questionsCorrect={questionsCorrect} />
           <DetailsContainer questionsAnswered={questionsAnswered} studentResponses={studentResponses} />
         </>}
-      {children}
     </article>
   )
 
