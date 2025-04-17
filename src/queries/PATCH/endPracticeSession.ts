@@ -1,5 +1,5 @@
 
-const VITE_URL = process.env.VITE_URL || import.meta.env.VITE_URL
+const VITE_URL = import.meta.env.VITE_URL!
 
 export default async function endPracticeSession(sessionId: number, status: "inactive" | "abandoned") {
 

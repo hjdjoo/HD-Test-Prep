@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useRef } from "react"
+import { Dispatch, SetStateAction, useEffect, useRef, lazy } from "react"
 import { useQuery } from "@tanstack/react-query";
 import { pdf } from "@react-pdf/renderer";
 import styles from "./Report.module.css"
@@ -20,9 +20,11 @@ import getTagsById from "@/src/queries/GET/getTagsById";
 import sendSessionSummary from "@/src/queries/POST/sendSessionSummary";
 
 import ErrorPage from "@/src/ErrorPage";
-import PdfReport from "@/src/features/pdf/components/Pdf.Report";
+// import PdfReport from "@/src/features/pdf/components/Pdf.Report";
 import Spinner from "components/loading/Loading.Spinner";
 import endSession from "@/src/queries/PATCH/endPracticeSession";
+
+const PdfReport = lazy(() => import("@/src/features/pdf/components/Pdf.Report"))
 
 interface SendPdfModalProps {
   sessionId: string

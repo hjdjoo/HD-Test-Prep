@@ -1,6 +1,6 @@
 import styles from "./PracticeContainer.module.css"
 import animations from "@/src/animations.module.css";
-import { useState, Suspense } from "react";
+import { useState, Suspense, lazy } from "react";
 import { Link } from "react-router-dom";
 
 import { usePracticeSessionStore } from "@/src/stores/practiceSessionStore";
@@ -10,12 +10,14 @@ import useQuestionsAnswered from "@/src/hooks/useQuestionsAnswered";
 import SummaryContainer from "@/src/features/sessionReport/summary/containers/SummaryContainer";
 import DetailsContainer from "../../sessionReport/detail/containers/DetailContainer";
 import ModalContainer from "containers/modal/ModalContainer";
-import SendPdfModal from "../../sessionReport/components/SessionReport.SendPdfModal";
+// import SendPdfModal from "../../sessionReport/components/SessionReport.SendPdfModal";
 
 import { ClientStudentResponse } from "@/src/_types/client-types";
 import ErrorPage from "@/src/ErrorPage";
-// import Loading from "components/loading/Loading";
 import Spinner from "components/loading/Loading.Spinner"
+
+
+const SendPdfModal = lazy(() => import("@/src/features/sessionReport/components/SessionReport.SendPdfModal"))
 
 interface SessionReportContainerProps {
   studentResponses: ClientStudentResponse[]

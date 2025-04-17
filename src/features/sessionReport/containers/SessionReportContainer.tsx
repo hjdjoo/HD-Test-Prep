@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -10,7 +10,9 @@ import getResponsesBySession from "@/src/queries/GET/getResponsesBySession";
 import Report from "@/src/features/sessionReport/components/SessionReport.Report";
 import ErrorPage from "@/src/ErrorPage";
 import ModalContainer from "containers/modal/ModalContainer";
-import SendPdfModal from "@/src/features/sessionReport/components/SessionReport.SendPdfModal";
+// import SendPdfModal from "@/src/features/sessionReport/components/SessionReport.SendPdfModal";
+
+const SendPdfModal = lazy(() => import("@/src/features/sessionReport/components/SessionReport.SendPdfModal"))
 
 import Alert, { UserAlert } from "components/alert/Alert";
 
