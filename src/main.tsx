@@ -13,9 +13,10 @@ import HomePage from './pages/home/home.tsx';
 import PracticePage from './pages/practice/practice.tsx';
 import AccountPage from './pages/account/account.tsx';
 import AdminPage from './pages/admin/admin.tsx';
-import PdfReport from './features/pdf/PdfReport.tsx';
 import SessionReport from './features/sessionReport/SessionReport.tsx';
+import PdfReport from './features/pdf/PdfReport.tsx';
 
+// const PdfReport = lazy(() => import("@/src/features/pdf/PdfReport.tsx"));
 
 const router = createBrowserRouter(
   createRoutesFromElements(

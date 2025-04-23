@@ -1,6 +1,6 @@
 import { ClientInstructorData } from "@/src/_types/client-types";
 
-const VITE_URL = process.env.VITE_URL || import.meta.env.VITE_URL
+const VITE_URL = import.meta.env.VITE_URL!
 
 export default async function getInstructors() {
 

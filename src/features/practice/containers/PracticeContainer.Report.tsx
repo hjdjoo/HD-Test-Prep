@@ -14,8 +14,9 @@ import SendPdfModal from "../../sessionReport/components/SessionReport.SendPdfMo
 
 import { ClientStudentResponse } from "@/src/_types/client-types";
 import ErrorPage from "@/src/ErrorPage";
-// import Loading from "components/loading/Loading";
 import Spinner from "components/loading/Loading.Spinner"
+
+// const SendPdfModal = lazy(() => import("@/src/features/sessionReport/components/SessionReport.SendPdfModal"))
 
 interface SessionReportContainerProps {
   studentResponses: ClientStudentResponse[]
@@ -24,26 +25,21 @@ interface SessionReportContainerProps {
 export default function SessionReportContainer(props: SessionReportContainerProps) {
 
   const sessionId = usePracticeSessionStore((state) => state.sessionId);
-
-  // const sessionId = usePracticeSessionStore((state) => state.sessionId);
-  // const sessionResponses = usePracticeSessionStore((state) => state.sessionResponses)
+  console.log("SessionReportContainer/sessionId: ", sessionId)
 
   const [showDetails, setShowDetails] = useState<boolean>(false)
 
   const [sendStatus, setSendStatus] = useState<"waiting" | "sending" | "sent">("waiting");
 
-
   const { studentResponses } = props;
+  console.log("SessionReportContainer/studentResponses: ", studentResponses)
 
-  const questionsAnswered = useQuestionsAnswered({ studentResponses })
-  const questionsCorrect = useQuestionsCorrect({ studentResponses, questionsAnswered })
-
-  console.log("SessionContainer/questionsAnswered: ", questionsAnswered)
-  console.log("SessionContainer/questionsCorrect: ", questionsCorrect)
+  const questionsAnswered = useQuestionsAnswered({ studentResponses });
+  const questionsCorrect = useQuestionsCorrect({ studentResponses, questionsAnswered });
 
   function handleShowDetails() {
     setShowDetails(!showDetails);
-  }
+  };
 
   function handleSend() {
     if (!questionsAnswered.length) {

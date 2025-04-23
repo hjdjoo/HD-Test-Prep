@@ -13,7 +13,7 @@ import { useTagStore } from "@/src/stores/tagStore";
 import { Question, questionStore } from "@/src/stores/questionStore";
 import { StudentResponse, FileData, type FeedbackForm } from "@/src/_types/client-types";
 
-import Alert, { UserAlert } from "components/alert/Alert";
+// import Alert, { UserAlert } from "components/alert/Alert";
 
 import ModalContainer from "containers/modal/ModalContainer";
 
@@ -89,82 +89,6 @@ export default function FeedbackForm(props: FeedbackFormProps) {
     setSubmitStatus("submitted");
   }
 
-  async function submitForm() {
-    try {
-
-      if (!studentResponse) return;
-      // compile feedback form.
-      const updatedFeedbackForm = structuredClone(feedbackForm);
-
-      const newTags: string[] = [];
-
-      activeTags.forEach(tag => {
-
-        console.log("tags: ", tags);
-        console.log("tag: ", tag);
-        console.log("tags[tag]: ", tags[tag]);
-
-        if (tags[tag]) {
-          updatedFeedbackForm.tags.push(tags[tag]);
-        } else {
-          newTags.push(tag);
-        }
-      })
-
-      const body = {
-        feedbackForm: updatedFeedbackForm,
-        newTags: newTags,
-        imageData: {
-          fileName: `s${feedbackForm.studentId}q${feedbackForm.questionId}`,
-          ...uploadFileData
-        },
-        question: question,
-      }
-
-      console.log("submit feedback form request body: ", body);
-      // submit feedback form and get id;
-      const res = await fetch("api/db/feedback/new", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(body)
-      })
-
-
-      if (!res.ok) {
-        throw new Error(`Something went wrong while adding feedback to DB. ${res.status}: ${res.statusText}`)
-      }
-
-      // then update the feedback form with the id
-      const data = await res.json();
-
-      // console.log("feedback id data: ", data);
-      const updatedStudentRes = structuredClone(studentResponse);
-
-      updatedStudentRes.feedbackId = data.id;
-
-      console.log("FeedbackForm/submitForm/data", data);
-
-      const updatedQuestion = data.updatedQuestion as Question;
-      const updatedQuestions = [...questions];
-
-      updatedQuestions.forEach(item => {
-        if (item.id === updatedQuestion.id) {
-          item.tags = updatedQuestion.tags;
-        }
-      })
-
-      console.log("updating questions...")
-      setQuestions(updatedQuestions);
-      console.log("updating student response...")
-      setStudentResponse(updatedStudentRes);
-      console.log("updating feedback status...")
-      setSubmitStatus("submitted")
-    } catch (e) {
-      console.error(e);
-    }
-  }
 
 
   function handleForm(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
@@ -273,9 +197,83 @@ export default function FeedbackForm(props: FeedbackFormProps) {
   async function handleSubmit() {
 
     console.log(feedbackForm);
-
     submitForm();
 
+  }
+
+  async function submitForm() {
+    try {
+
+      if (!studentResponse) return;
+      // compile feedback form.
+      const updatedFeedbackForm = structuredClone(feedbackForm);
+
+      const newTags: string[] = [];
+
+      activeTags.forEach(tag => {
+        // console.log("tags: ", tags);
+        // console.log("tag: ", tag);
+        // console.log("tags[tag]: ", tags[tag]);
+        if (tags[tag]) {
+          updatedFeedbackForm.tags.push(tags[tag]);
+        } else {
+          newTags.push(tag);
+        }
+      })
+
+      const body = {
+        feedbackForm: updatedFeedbackForm,
+        newTags: newTags,
+        imageData: {
+          fileName: `s${feedbackForm.sessionId}p${feedbackForm.studentId}q${feedbackForm.questionId}`,
+          ...uploadFileData
+        },
+        question: question,
+      }
+
+      console.log("submit feedback form request body: ", body);
+      // submit feedback form and get id;
+      const res = await fetch("api/db/feedback/new", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body)
+      })
+
+
+      if (!res.ok) {
+        throw new Error(`Something went wrong while adding feedback to DB. ${res.status}: ${res.statusText}`)
+      }
+
+      // then update the feedback form with the id
+      const data = await res.json();
+
+      // console.log("feedback id data: ", data);
+      const updatedStudentRes = structuredClone(studentResponse);
+
+      updatedStudentRes.feedbackId = data.id;
+
+      console.log("FeedbackForm/submitForm/data", data);
+
+      const updatedQuestion = data.updatedQuestion as Question;
+      const updatedQuestions = [...questions];
+
+      updatedQuestions.forEach(item => {
+        if (item.id === updatedQuestion.id) {
+          item.tags = updatedQuestion.tags;
+        }
+      })
+
+      console.log("updating questions...")
+      setQuestions(updatedQuestions);
+      console.log("updating student response...")
+      setStudentResponse(updatedStudentRes);
+      console.log("updating feedback status...")
+      setSubmitStatus("submitted")
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   // function handleSkip () {
@@ -423,12 +421,13 @@ export default function FeedbackForm(props: FeedbackFormProps) {
           ].join(" ")}>
           <div className={[
             styles.formSectionHeading,
-            styles.formAlign,
+            styles.formSectionAlign,
           ].join(" ")}>
             <p>{"Upload a picture of your work for more context (optional):"}</p>
             <label htmlFor="student-file-upload"
               className={[
                 styles.uploadIconDecoration,
+                styles.formSectionAlign,
               ].join(" ")}>
               <div id="upload-icon-wrapper"
                 className={[

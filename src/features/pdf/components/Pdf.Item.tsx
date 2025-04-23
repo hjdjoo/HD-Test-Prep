@@ -73,7 +73,7 @@ export default function PdfSessionItem(props: PdfSessionItemProps) {
         case "comment":
           item = (
             <>
-              <View style={{ display: "flex", flexDirection: "column" }}>
+              <View key={`session-${studentResponse.sessionId}-${question.id}-feedback-item-${idx + 1}`} style={{ display: "flex", flexDirection: "column" }}>
                 <Text style={{ ...styles.questionTitle, marginBottom: "0.05in" }}>
                   {`${itemName}: `}
                 </Text>
@@ -87,19 +87,22 @@ export default function PdfSessionItem(props: PdfSessionItemProps) {
         case "difficultyRating":
           item = (
             <>
-              <Text style={styles.questionTitle}>
-                {`${itemName}: `}
-              </Text>
-              <Text style={styles.questionInfoDetails}>
-                {difficulties[feedbackForm[key]]}
-              </Text>
+              <View key={`session-${studentResponse.sessionId}-${question.id}-feedback-item-${idx + 1}`}>
+                <Text style={styles.questionTitle}>
+                  {`${itemName}: `}
+                </Text>
+                <Text style={styles.questionInfoDetails}>
+                  {difficulties[feedbackForm[key]]}
+                </Text>
+              </View>
             </>
           )
           break;
         case "guessed":
           item = (
             <>
-              <View style={{ width: "100%", textAlign: "right" }}>
+              <View key={`session-${studentResponse.sessionId}-${question.id}-feedback-item-${idx + 1}`}
+                style={{ width: "100%", textAlign: "right" }}>
                 <Text style={{ fontFamily: "Helvetica-Oblique" }}>
                   {`${itemName}.`}
                 </Text>
@@ -152,7 +155,7 @@ export default function PdfSessionItem(props: PdfSessionItemProps) {
       output.push(
         (
           <>
-            <View style={tagsStyle}>
+            <View key={`question-${question.id}-tags-added`} style={tagsStyle}>
               <Text style={styles.questionTitle}>
                 Tags added:
               </Text>
@@ -175,7 +178,7 @@ export default function PdfSessionItem(props: PdfSessionItemProps) {
     output.push(
       (
         <>
-          <View style={timeStyle}>
+          <View key={`question-${question.id}-time-taken`} style={timeStyle}>
             <Text style={styles.questionTitle}>
               Time taken:
             </Text>
@@ -199,7 +202,7 @@ export default function PdfSessionItem(props: PdfSessionItemProps) {
       output.push(
         (
           <>
-            <View style={linkStyle}>
+            <View key={`question-${question.id}-student-work`} style={linkStyle}>
               <Text style={styles.questionTitle}>
                 Student's Work:
               </Text>

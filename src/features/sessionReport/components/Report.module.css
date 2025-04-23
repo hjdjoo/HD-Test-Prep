@@ -14,7 +14,8 @@
 
 .modalFormBackground {
   background-color: white;
-  box-shadow: 5px 5px 5px grey;
+  border-radius: 10px;
+  box-shadow: 3px 3px 10px 5px rgba(32, 32, 32, 0.5);
 }
 
 .responseWidth {

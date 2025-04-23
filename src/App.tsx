@@ -30,7 +30,7 @@ function App() {
 
   console.log("App.tsx/user: ", user);
 
-  // check if user exists. Also check 
+  // check session and get user from session data.
   useEffect(() => {
 
     (async () => {
@@ -59,7 +59,6 @@ function App() {
 
   }, [])
 
-  // get & set user upon render;
   useEffect(() => {
 
     const supabase = createSupabase();
@@ -107,6 +106,7 @@ function App() {
     const supabase = createSupabase();
 
     if (!session) {
+      console.log("No session detected. Signing out...")
       await supabase.auth.signOut();
       navigate("/");
       return null;

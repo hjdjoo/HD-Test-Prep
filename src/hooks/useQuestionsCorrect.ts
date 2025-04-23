@@ -1,8 +1,6 @@
-import { useState, useEffect } from "react"
-
 import { Question } from "../stores/questionStore";
 
-import { ClientStudentResponse } from "../queries/GET/getResponsesBySession";
+import { ClientStudentResponse } from "@/src/_types/client-types";
 
 
 interface useQuestionsCorrectProps {
@@ -13,20 +11,13 @@ interface useQuestionsCorrectProps {
 export default function useQuestionsCorrect(props: useQuestionsCorrectProps) {
 
   const { studentResponses, questionsAnswered } = props;
-  const [questionsCorrect, setQuestionsCorrect] = useState<number>(0);
-
-  useEffect(() => {
-
-    calculateQuestionsCorrect();
-
-  }, [studentResponses, questionsAnswered])
 
   function calculateQuestionsCorrect() {
 
     let correct = 0;
 
-    if (!studentResponses) {
-      return;
+    if (!studentResponses || !studentResponses.length) {
+      return correct;
     }
 
     studentResponses.forEach(entry => {
@@ -37,9 +28,10 @@ export default function useQuestionsCorrect(props: useQuestionsCorrectProps) {
       })
     });
 
-    setQuestionsCorrect(correct);
+    return correct;
+
   }
 
-  return questionsCorrect;
+  return calculateQuestionsCorrect();
 
 }

@@ -19,11 +19,14 @@ import useQuestionsAnswered from "@/src/hooks/useQuestionsAnswered";
 import useQuestionsCorrect from "@/src/hooks/useQuestionsCorrect";
 
 import ErrorPage from "@/src/ErrorPage";
-import PdfReport from "@/src/features/pdf/components/Pdf.Report";
 import Loading from "components/loading/Loading";
-import SendPdfModal from "../../sessionReport/components/SessionReport.SendPdfModal";
 import ModalContainer from "containers/modal/ModalContainer";
+import PdfReport from "@/src/features/pdf/components/Pdf.Report";
+import SendPdfModal from "../../sessionReport/components/SessionReport.SendPdfModal";
 
+
+// const SendPdfModal = lazy(() => import("@/src/features/sessionReport/components/SessionReport.SendPdfModal"))
+// const PdfReport = lazy(() => import("@/src/features/pdf/components/Pdf.Report"))
 
 interface PdfContainerProps {
   sessionId: string
@@ -95,28 +98,30 @@ export default function PdfContainer(props: PdfContainerProps) {
 
       console.log("questionImageData/imageNames: ", questionImageNames);
 
-      const { data, error } = await supabase.storage.from("questions").createSignedUrls(questionImageNames, 3600 * 24 * 7)
+      const { data, error } = await supabase.storage.from("questions").createSignedUrls(questionImageNames, 3600 * 24 * 7,)
 
       if (error) {
         throw new Error("Error while getting signed URLs from supabase")
       }
       const responseCache: number[] = [];
 
+      console.log(data);
       return data.map(item => {
+        console.log(item.signedUrl);
 
         const studentResponse = sessionResponseData.filter((response, idx) => {
-
-          if (!responseCache.includes(idx)) {
-
-            responseCache.push(idx);
-            return item.signedUrl.includes(`${String(response.questionId)}.png`)
-
+          if (responseCache.includes(idx)) {
+            return false;
           }
+          if (item.signedUrl.includes(`${String(response.questionId)}.png`)) {
+            console.log("caching response idx");
+            responseCache.push(idx);
+          }
+          return item.signedUrl.includes(`${String(response.questionId)}.png`)
 
         })[0];
 
         console.log("PdfContainer/useQuery/return/data/map/studentResponse: ", studentResponse);
-        console.log("PdfContainer/useQuery/return/data/map/item.signedUrl: ", item.signedUrl);
 
 
         return {
@@ -224,7 +229,8 @@ export default function PdfContainer(props: PdfContainerProps) {
     console.log("sessionResponseData", sessionResponseData)
     console.log("questionImageData", questionImageData)
     console.log("feedbackData", feedbackData)
-    console.log("sessionResponseData", sessionResponseData)
+    console.log("tagsData", tagsData)
+
 
     return (
       <Loading />
@@ -242,6 +248,7 @@ export default function PdfContainer(props: PdfContainerProps) {
           styles.sectionSpacing,
         ].join(" ")}
       >
+
         <PdfReport
           studentResponses={sessionResponseData}
           questionImageData={questionImageData}
@@ -251,6 +258,7 @@ export default function PdfContainer(props: PdfContainerProps) {
           questionsCorrect={questionsCorrect}
           user={user}
         />
+
       </PDFViewer>
       <div className={[
         styles.fullWidth,

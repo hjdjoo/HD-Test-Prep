@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -10,7 +10,9 @@ import getResponsesBySession from "@/src/queries/GET/getResponsesBySession";
 import Report from "@/src/features/sessionReport/components/SessionReport.Report";
 import ErrorPage from "@/src/ErrorPage";
 import ModalContainer from "containers/modal/ModalContainer";
-import SendPdfModal from "@/src/features/sessionReport/components/SessionReport.SendPdfModal";
+// import SendPdfModal from "@/src/features/sessionReport/components/SessionReport.SendPdfModal";
+
+const SendPdfModal = lazy(() => import("@/src/features/sessionReport/components/SessionReport.SendPdfModal"))
 
 import Alert, { UserAlert } from "components/alert/Alert";
 
@@ -31,7 +33,7 @@ export default function ReportContainer(props: ReportContainerProps) {
     timestamp: Date.now()
   });
 
-  console.log(userAlert);
+  // console.log(userAlert);
 
   // get practice session responses based on ID;
   const { data: sessionResponseData, error: sessionResponseError } = useQuery({
@@ -69,9 +71,7 @@ export default function ReportContainer(props: ReportContainerProps) {
 
 
   if (!sessionResponseData) {
-
-    console.log("ReportContainer/sessionResponseData: ", sessionResponseData);
-
+    console.log("No session data: loading...");
     return (
       <Loading />
     )
@@ -102,78 +102,78 @@ export default function ReportContainer(props: ReportContainerProps) {
         styles.pageWidth,
         styles.centerReport,
       ].join(" ")}>
-      {
-        (sessionResponseData) &&
-        <>
-          <div id="report"
+
+      <>
+        <div id="report"
+          className={[
+            styles.sectionSpacing,
+            styles.widthFull,
+            styles.centerReport,
+          ].join(" ")}>
+          <Report
+            studentResponses={sessionResponseData}
+          />
+        </div>
+        <div id="session-report-actions-container"
+          className={[
+            styles.buttonsContainer,
+            styles.widthFull,
+          ].join(" ")}>
+          <Link
             className={[
+              styles.buttonSize,
               styles.sectionSpacing,
-              styles.widthFull,
-              styles.centerReport,
-            ].join(" ")}>
-            <Report
-              studentResponses={sessionResponseData}
-            />
-          </div>
-          <div id="session-report-actions-container"
-            className={[
-              styles.buttonsContainer,
-              styles.widthFull,
-            ].join(" ")}>
-            <Link
-              className={[
-                styles.buttonSize,
-                styles.sectionSpacing,
-              ].join(" ")}
-              to={`/report/pdf/${sessionId}`}>
-              <button
-                className={[
-                  styles.buttonStyle,
-                  styles.widthFull,
-                  animations.highlightPrimary,
-                ].join(" ")}
-              >
-                View PDF Report
-              </button>
-            </Link>
+            ].join(" ")}
+            to={`/report/pdf/${sessionId}`}>
             <button
               className={[
-                styles.buttonStyleSecondary,
-                styles.buttonSize,
-                styles.sectionSpacing,
-                animations.highlightPrimaryDark,
+                styles.buttonStyle,
+                styles.widthFull,
+                animations.highlightPrimary,
               ].join(" ")}
-              onClick={(e) => {
-                e.preventDefault();
-                handleSend();
-              }}>
-              Send Report
+            >
+              View PDF Report
             </button>
-            <Link
-              className={[
-                styles.buttonSize,
-                styles.sectionSpacing,
-                styles.centerReport,
-              ].join(" ")}
-              to={`/`}>
-              Back to Practice
-            </Link>
-          </div>
-          {
-            userAlert.severity &&
-            <Alert alert={userAlert} />
-          }
-          {
-            sendStatus === "sending" &&
-            <ModalContainer>
+          </Link>
+          <button
+            className={[
+              styles.buttonStyleSecondary,
+              styles.buttonSize,
+              styles.sectionSpacing,
+              animations.highlightPrimaryDark,
+            ].join(" ")}
+            onClick={(e) => {
+              e.preventDefault();
+              handleSend();
+            }}>
+            Send Report
+          </button>
+          <Link
+            className={[
+              styles.buttonSize,
+              styles.sectionSpacing,
+              styles.centerReport,
+            ].join(" ")}
+            to={`/`}>
+            Back to Practice
+          </Link>
+        </div>
+        {
+          userAlert.severity &&
+          <Alert alert={userAlert} />
+        }
+        {
+          sendStatus === "sending" &&
+          <ModalContainer>
+            <Suspense fallback={<Loading />}>
               <SendPdfModal
                 sessionId={sessionId}
                 setSendStatus={setSendStatus}
               />
-            </ModalContainer>
-          }
-        </>
-      }
+            </Suspense>
+          </ModalContainer>
+        }
+      </>
     </div >
   )
 }

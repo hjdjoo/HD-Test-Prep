@@ -31,7 +31,7 @@ export default function Answers(props: AnswersProps) {
           `${choice === response && styles.radioButtonSelected}`,
           styles.radioButtonsWidth,
           styles.radioButtonsAlign,
-          // styles.radioButtonsMouse,
+          styles.radioButtonsDecoration,
         ].join(" ")}>
         {choice}
         <div className={[

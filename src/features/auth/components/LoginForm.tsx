@@ -185,25 +185,25 @@ export default function LoginForm() {
             styles.sectionFullWidth,
             styles.sectionSpacing
           ].join(" ")}>
-          <div id="email-input" className={[
+          <div id="email-input-div" className={[
             styles.justifyInputs
           ].join(" ")}>
-            <label htmlFor="email"
+            <label htmlFor="email-input"
               className={[
                 styles.labelStyle,
               ].join(" ")}
             >{`Email: `}</label>
-            <input type="text" name="email" autoComplete="email"
+            <input id="email-input" type="text" name="email" autoComplete="email"
               className={[
                 styles.inputStyle,
                 styles.inputSize,
                 styles.rounded
               ].join(" ")} />
           </div>
-          <div id="password-input" className={[
+          <div id="password-input-div" className={[
             styles.justifyInputs
           ].join(" ")}>
-            <label htmlFor="password"
+            <label id="password-input" htmlFor="password"
               className={[
                 styles.labelStyle,
               ].join(" ")}
@@ -221,10 +221,15 @@ export default function LoginForm() {
             className={[
               styles.justifyInputs
             ].join(" ")}>
-            <label htmlFor="confirm">{`Verify Password: `}</label>
+            <label htmlFor="confirm"
+              className={[
+                styles.labelStyle,
+              ].join(" ")}
+            >{`Verify Password: `}</label>
             <input type="password" name="confirm" autoComplete="off"
               className={[
                 styles.inputStyle,
+                styles.inputSize,
                 styles.rounded,
               ].join(" ")} />
           </div>

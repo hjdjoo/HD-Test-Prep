@@ -37,7 +37,14 @@ export default function DetailItemContainer(props: DetailItemContainerProps) {
       const { data, error } = await supabase
         .storage
         .from("questions")
-        .createSignedUrl(`math/${String(question.id)}.png`, 3600)
+        .createSignedUrl(`math/${String(question.id)}.png`, 3600, {
+          transform: {
+            width: 600,
+            height: 600,
+            quality: 70,
+            resize: "contain"
+          }
+        })
 
       if (error) throw new Error(`Error while getting signed image URL for question: ${error.message}`);
 
