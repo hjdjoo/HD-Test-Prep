@@ -1,0 +1,41 @@
+
+.sectionMargin {
+  margin-bottom: 2rem;
+}
+
+.sectionHeaderText {
+  text-decoration: underline;
+}
+
+.sectionAlign {
+  display: flex;
+  flex-direction: column;
+}
+
+.itemPadding {
+  
+}
+
+.itemImageSize {
+  max-width: 50%;
+}
+
+.sectionSize {
+  width: 90vw;
+}
+
+.detailMargin {
+  margin-left: 1rem;
+}
+
+.detailAlign {
+  display: flex;
+}
+
+.textBold {
+  font-weight: 600;
+}
+
+.summaryBg {
+
+}

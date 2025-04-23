@@ -1,0 +1,36 @@
+.navPosition {
+  position: relative;
+}
+
+.navSize {
+  height: 60px;
+}
+
+.navSpacing {
+  width: 100%;
+  /* margins: 0.5rem; */
+  /* padding: 0.5rem; */
+}
+
+.alignNav {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.alignButtons {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+/* .alignButtons {
+  display: flex;
+
+  button {
+    margin-left: 0.25rem;
+    margin-right: 0.25rem;
+  }
+
+} */

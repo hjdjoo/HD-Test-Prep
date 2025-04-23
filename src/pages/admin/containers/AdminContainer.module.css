@@ -1,0 +1,21 @@
+.containerWidth {
+  min-width: 450px;
+  max-width: 600px;
+}
+
+.container {
+  composes: flexColCenter from "@/src/App.module.css";
+}
+
+.fullWidth{
+  width: 100%;
+}
+
+.buttonStyle {
+  composes: buttonReset from "@/src/App.module.css";
+  height: 2rem;
+  padding: 0rem 2rem;
+  background-color: var(--primary-extralight);
+  border-radius: 5px;
+
+}

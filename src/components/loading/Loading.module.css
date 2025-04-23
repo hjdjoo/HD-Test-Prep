@@ -1,0 +1,11 @@
+@import "@/src/vars.module.css";
+
+.loader {
+  width: 3rem;
+  height: 3rem;
+  border: 5px solid var(--primary-extralight);
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+}

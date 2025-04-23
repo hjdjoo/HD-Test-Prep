@@ -1,0 +1,42 @@
+.fullHeight {
+  height: 100vh;
+  height: 100dvh;
+}
+
+.flexColCenter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.flexGrow {
+  flex-grow: 1;
+}
+
+.buttonReset {
+  /* background-color: transparent; */
+  border: none;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.outletDisplay {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.widthFull {
+  width: 100%;
+}
+
+.outletPadding {
+  padding-top: 3rem;
+  padding: 1rem;
+}
+
+.linkReset {
+  text-decoration: none;
+}

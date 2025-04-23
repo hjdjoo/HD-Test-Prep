@@ -1,0 +1,46 @@
+.pageBorder {
+  border: 2px solid black;
+  padding: 1rem;
+}
+
+.modalFormSize {
+  width: 50%;
+  height: 30%;
+}
+
+.modalFormPadding {
+  padding: 2rem 2rem;
+}
+
+.modalFormBackground {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 3px 3px 10px 5px rgba(32, 32, 32, 0.5);
+}
+
+.responseWidth {
+  width: 50%;
+}
+
+.sectionAlign {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.detailsAlign {
+  display: flex;
+  justify-content: flex-start
+}
+
+.dataMargin {
+  margin-left: 1rem;
+}
+
+.dataHeaderAlign {
+  width: 40%;
+}
+
+.dataAlign {
+  flex-grow: 1;
+}

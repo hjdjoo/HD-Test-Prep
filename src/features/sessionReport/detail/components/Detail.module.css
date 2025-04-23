@@ -1,0 +1,49 @@
+@import "@/src/vars.module.css";
+
+
+.detailsBg {
+  
+  &>div:nth-of-type(odd) {
+    background-color: var(--primary-extralight);
+  }
+}
+
+.feedbackBg {
+  
+  &>div:nth-of-type(even) {
+    background-color: white;
+  }
+}
+
+.detailsTextSm {
+  font-size: 0.8rem;
+}
+
+.responseWidth {
+  width: 50%;
+}
+
+.sectionAlign {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.detailsAlign {
+  display: flex;
+  justify-content: flex-start
+}
+
+.dataMargin {
+  margin-left: 1rem;
+}
+
+.dataHeaderAlign {
+  width: 40%;
+}
+
+.dataAlign {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

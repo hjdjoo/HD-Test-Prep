@@ -1,0 +1,157 @@
+@import "@/src/vars.module.css";
+
+.sectionMargin {
+  margin-bottom: 2rem;
+}
+
+.sectionMarginSm {
+  margin-bottom: 1rem;
+}
+
+.container {
+  composes: flexColCenter from "@/src/App.module.css";
+  width: 100%;
+}
+
+
+.sticky {
+  position: sticky;
+  top: 0;
+}
+
+.buttonMarginY {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.nextButtonStyle {
+  composes: buttonReset from "@/src/App.module.css";
+  background-color: var(--primary-extralight);
+}
+
+.nextButtonBorder {
+  border: 1px solid gray;
+}
+
+.nextButtonAlign {
+  display: flex;
+  align-items: center;
+}
+
+.nextButtonMargin {
+  margin-right: 1rem;
+}
+
+.nextButtonRound {
+  flex-shrink: 1;
+  height: 2rem;
+  width: 2rem;
+  border-radius: 50%;
+}
+
+.buttonStyle {
+  composes: buttonReset from "@/src/App.module.css";
+  height: 2rem;
+  background-color: var(--primary-extralight);
+  border-radius: 5px;
+}
+
+.buttonStyleSecondary {
+  composes: buttonReset from "@/src/App.module.css";
+  width: 100%;
+  height: 2.5rem;
+  background-color: var(--primary);
+  color: var(--off-white);
+  border-radius: 1rem;
+}
+
+.buttonSize {
+  width: 50%;
+}
+
+.timerStyle {
+  border-radius: 1rem;
+  padding: 0.5rem 0rem;
+}
+
+.timerBackground {
+  background-color: rgba(211, 211, 211, 0.4);
+}
+
+/* .buttonActive {
+  &:hover {
+    cursor: pointer;
+    background-color: lightblue;
+  }
+} */
+
+/* Question */
+
+.questionModuleAlign {
+  display: flex;
+  justify-content: center;
+}
+
+.questionModuleWidth {
+  width: 100%;
+  max-width: 600px;
+}
+
+.questionSize{
+  width: 70%;
+  /* height: auto; */
+}
+
+.questionAlign{
+  composes: flexColCenter from "@/src/App.module.css";
+  margin-right: 2rem;
+  margin-left: 4rem;
+  position: relative;
+}
+
+.questionBlur {
+  filter: blur(5px);
+}
+
+/* Practice Summary */
+
+.sectionHeaderText {
+  text-decoration: underline;
+}
+
+.sectionAlign {
+  display: flex;
+  flex-direction: column;
+}
+
+.sectionSize {
+  width: 90vw;
+}
+
+.summarySize {
+  width: 100%;
+}
+
+.summaryAlign {
+  display: flex;
+}
+
+.linkAlign {
+  align-self: center;
+}
+
+.summaryItem {
+  flex-grow: 1;
+}
+
+.detailMargin {
+  margin-left: 1rem;
+}
+
+.textBold {
+  font-weight: 600;
+}
+
+.summaryBg {
+
+}

@@ -1,0 +1,122 @@
+@import "@/src/vars.module.css";
+
+@keyframes highlight { 
+  from {
+    background-color: current;
+  }
+  to {
+    background-color: var(--primary-light);
+  }
+}
+
+@keyframes highlightPrimary {
+  from {
+    background-color: var(--primary-extralight);
+  }
+  to {
+    background-color: var(--primary-light);
+  }
+}
+
+@keyframes highlightPrimaryDark {
+  
+  from {
+    background-color: var(--primary);
+  }
+  to {
+    background-color: var(--primary-dark);
+  }
+}
+
+@keyframes grow {
+  from {
+    scale: 1;
+  }
+  to {
+    scale: 1.2;
+  }
+}
+
+@keyframes shiftUp {
+  from {
+    transform: translateY(0px);
+  }
+  to {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotate90Right {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(90deg);
+  }
+}
+
+@keyframes shrinkTimer {
+  0% {
+    transform: scale(1, 1);
+  }
+  100% {
+    transform: scale(0, 1);
+  }
+}
+
+.shrinkTimer {
+  animation: shrinkTimer 4s linear forwards;
+}
+
+
+.rotate {
+  animation: rotate 1s linear infinite;
+}
+
+.rotate90Right{
+  animation: rotate90Right 0.1s linear forwards;
+}
+
+.rotate90Back {
+  animation: rotate90Right 0.1s linear reverse;
+}
+
+
+.highlight {
+  &:hover {
+    animation: highlight 0.2s ease-in-out forwards;
+  }
+}
+
+.highlightPrimary {
+  &:hover {
+    animation: highlightPrimary 0.2s ease-in-out forwards;
+  }
+}
+
+.highlightPrimaryDark {
+  &:hover {
+    animation: highlightPrimaryDark 0.2s ease-in-out forwards;
+  }
+}
+
+.grow {
+  &:hover {
+    animation: grow 0.2s ease-in-out forwards;
+  }
+}
+
+.shiftUp {
+  &:hover {
+    animation: shiftUp 0.2s ease-in-out forwards;
+  }
+}

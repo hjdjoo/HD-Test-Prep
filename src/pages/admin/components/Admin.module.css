@@ -1,0 +1,52 @@
+@import "@/src/vars.module.css";
+
+.alignForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.formStyle {
+  border: 1px solid grey;
+  gap: 1rem;
+}
+
+.flexRow {
+  display: flex;
+}
+
+.justifyBetween {
+  justify-content: space-between;
+}
+
+.flexCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.widthFull {
+  width: 100%;
+}
+
+.sectionSpacing {
+  margin-bottom: 1rem;
+}
+
+.inputStyle {
+  background-color: white;
+  border: 1px solid lightgrey;
+}
+
+.buttonStyle {
+  composes: buttonReset from "@/src/App.module.css";
+  padding: 0.5rem;
+  margin: 0.5rem 0.5rem;
+  background-color: var(--primary-extralight);
+
+  &:hover {
+    transition-property: background-color;
+  }
+}

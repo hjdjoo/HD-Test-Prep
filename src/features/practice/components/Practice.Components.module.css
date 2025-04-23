@@ -1,0 +1,343 @@
+@import "@/src/vars.module.css";
+
+/* Locals */
+.sectionMargin {
+  margin-bottom: 1rem;
+}
+
+.sectionWidthFull {
+  width: 100%;
+}
+
+.widthHalf {
+  width: 50%;
+}
+
+.hideInput {
+  visibility: hidden;
+  width: 0px;
+  height: 0px;
+}
+
+.buttonStyle {
+  composes: buttonReset from "@/src/App.module.css";
+  background-color: var(--primary-extralight);
+  border-radius: 0.4rem;
+  height: 2rem;
+}
+
+.buttonStyleSecondary {
+  composes: buttonReset from "@/src/App.module.css";
+  background-color: var(--primary);
+  color: var(--off-white);
+  border-radius: 0.4rem;
+  height: 2rem;
+}
+
+.formAlign {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.formSectionDetailText {
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.formSectionAlign {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.formSectionWidth {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0rem 1rem;
+}
+
+/* Link Instructor modal */
+.modalBg {
+  background-color: white;
+}
+
+.modalPadding {
+  padding: 2rem 4rem;
+}
+
+/* Settings/Filter component */
+
+.customCheckbox {
+  min-height: 1rem;
+  max-height: 1rem;
+  min-width: 1rem;
+  max-width: 1rem;
+  border-radius: 50%;
+  background-color: lightgrey;
+  border: 1px solid grey;
+}
+
+.alignFilters {
+  display: flex;
+}
+
+.filterTextSize {
+  max-width: 70%;
+  font-size: 0.8rem;
+}
+
+.checkboxesVertical {
+  display: flex;
+  flex-direction: column;
+  margin-right: 1rem;
+
+  :nth-of-type(even) {
+    background-color: antiquewhite;
+  }
+}
+
+.justifyCheckboxes {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.checkboxMargins {
+  margin-left: 2rem;
+}
+
+/* Answer components */
+
+.radioButtonsVertical {
+  display: flex;
+  flex-direction: column;
+}
+
+.radioButtonsDecoration {
+  &:hover {
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out 10ms;
+    background-color: lightgrey;
+  }
+  &:active {
+    background-color: var(--primary-light);
+  }
+}
+
+.radioButtonsWidth {
+  width: 100%;
+  border: 1px solid gray;
+  border-radius: 15px;
+}
+
+.radioButtonsAlign {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.radioButtonSelected {
+  background-color: var(--primary-light);
+}
+
+.answersWidth {
+  width: 100%;
+}
+
+/*Timer styles*/
+
+.timerSize {
+  /* width: 100%; */
+}
+
+.alignTimerButtons {
+  display: flex;
+  justify-content: center;
+}
+
+.alignTimeDisplay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.timerIconSize {
+  height: 1.5rem;
+  width: 1.5rem;
+}
+
+.timerButtonMargins {
+  margin-left: 0.5rem;
+}
+
+/* Feedback Form */
+
+.backdropStyle {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  background-color: rgb(32, 32, 32, 0.6)
+}
+
+.centerForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.formDisplay {
+  background-color: white;
+  min-height: 60vh;
+  min-height: 60dvh;
+  max-height: 90vh;
+  max-height: 90dvh;
+  max-width: 70vw;
+  max-width: 70dvw;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+  border: 5px solid black;
+  overflow-y: scroll;
+}
+
+
+.closeFormButtonStyle {
+  composes: buttonReset from "@/src/App.module.css";
+  background-color: transparent;
+  height: 1.5rem;
+  width: 1.5rem;
+  padding: 0rem;
+  border-radius: 50%;
+}
+
+.closeFormButtonPosition {
+  position: absolute;
+  left: 90%;
+}
+
+/* Upload file component in feedback form */
+
+.uploadIconDecoration {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.uploadButtonAlign {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.imagePreviewBox {
+  padding-top: 1rem;
+  position: relative;
+  /* color: white; */
+}
+
+.wrapperSize {
+  height: auto;
+  width: 100%;
+  padding: 2rem 4rem;
+  border-radius: 1rem;
+}
+
+.uploadIconSize {
+  height: auto;
+  width: 5rem;
+}
+
+.uploadIconColor {
+  color: black;
+  background-color: var(--primary-extralight);
+}
+
+.removeUploadColor{
+  background-color: var(--primary);
+  color: white;
+}
+
+.removeUploadDecoration{
+  border-radius: 50%;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.removeUploadPosition {
+  position: absolute;
+  left: 90%;
+  margin: 0.5rem;
+}
+
+.removeUploadSize {
+  width: 2rem;
+  height: 2rem;
+  padding: 0.4rem;
+}
+
+.marginTopDefault {
+  margin-top: 1rem;
+}
+
+.resultTextSize {
+  font-size: 1.2rem;
+}
+
+.formSectionHeading {
+  margin-top: 1rem;
+}
+
+.difficultyRadioAlign {
+  margin-top: 1rem;
+  display: flex;
+}
+
+.radioLabelAlign {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.radioLabelText {
+  margin-top: 0.5rem;
+  font-size: 0.7rem;
+  text-align: center;
+}
+
+.guessInputAlign {
+  display: flex;
+  justify-content: center;
+}
+
+/* modal styling */
+
+.modalStyle {
+  background-color: white;
+  padding: 1rem 2rem;
+  width: 80vw;
+  max-width: 500px;
+  border-radius: 10px;
+  box-shadow:  3px 3px 10px 5px rgba(32, 32, 32, 0.5);
+}
+
+.modalButtonStyle {
+  composes: buttonReset from "@/src/App.module.css";;
+  background-color: var(--primary-extralight);
+  border-radius: 5px;
+}
+
+.modalButtonSize {
+  height: 2rem;
+  width: 100%
+}
+
+.submitButtonSize {
+  width: 70%;
+}

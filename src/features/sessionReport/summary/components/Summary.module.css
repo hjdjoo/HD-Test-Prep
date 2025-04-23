@@ -1,0 +1,42 @@
+
+.sectionMargin {
+  margin-bottom: 2rem;
+}
+
+.sectionHeaderText {
+  text-decoration: underline;
+}
+
+.sectionAlign {
+  display: flex;
+  flex-direction: column;
+}
+
+.sectionSize {
+  width: 90vw;
+}
+
+.summarySize {
+  width: 100%;
+}
+
+.summaryAlign {
+  display: flex;
+  gap: 1rem;
+}
+
+.summaryItem {
+  flex-grow: 1;
+}
+
+.detailMargin {
+  margin-left: 1rem;
+}
+
+.textBold {
+  font-weight: 600;
+}
+
+.summaryBg {
+
+}

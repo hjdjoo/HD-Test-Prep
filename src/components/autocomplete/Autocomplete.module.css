@@ -1,0 +1,76 @@
+/* Input Field */
+
+.inputStyle {
+  border: 1px solid rgba(128, 128, 128, 0.7);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+
+.inputSize {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* Suggestions list*/ 
+.listContainerStyle {
+  height: auto;
+  max-height: 10rem;
+  max-width: 100%;
+  padding: 0.5rem;
+  background-color: var(--off-white);
+  overflow-y: scroll;
+  scrollbar-color: lightgrey;
+}
+
+.listAlign {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.activeSuggestion {
+  background-color: lightgray;
+}
+
+.itemText {
+  font-size: 0.8rem;
+}
+
+/* Autocomplete tags */
+
+.tagsContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.tagChipSize {
+  width: fit-content;
+  padding: 0.1rem 0.5rem 0.1rem 0.8rem;
+}
+
+.tagChipDecorate {
+  border-radius: 15px;
+  font-size: 0.8rem;
+  margin-bottom: 5px;
+  margin-left: 5px;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.tagChipColor {
+  background-color: var(--primary-extralight);
+}
+
+.tagChipAlign {
+  display: flex;
+  align-items: center;
+}
+
+.tagButton {  
+  border-radius: 50%;
+  text-align: center;
+  margin-left: 5px;
+  width: 1rem;
+  height: 1rem;
+}

@@ -1,0 +1,18 @@
+:root {
+  --primary-extradark: rgb(0, 21, 36);
+  --primary-dark: rgb(41, 60, 101);
+  --primary: rgb(67, 98, 165);
+  --primary-light: rgb(182, 195, 226);
+  --primary-extralight: rgb(219, 221, 237);
+  --off-white: rgb(249, 249, 240);
+  --secondary-dark: #0f5f57;
+  --secondary: #2db7a9;
+  --secondary-light: #e4e6be;
+  --secondary-extralight: #eff0d7;
+  --success: rgb(19, 121, 63);
+  --warning: rgb(235, 217, 23);
+  --error: rgb(197, 40, 15);
+  --error-rgb: 197, 40, 15;
+  --success-rgb: 19, 121, 63;
+  --warning-rgb: 235, 217, 23;
+}

@@ -1,0 +1,18 @@
+
+.containerMargins {
+  margin-bottom: 1rem;
+}
+
+.imageSize {
+  max-width: 40%;
+}
+
+.itemAlign {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+.detailsAlign {
+  display: flex;
+}
