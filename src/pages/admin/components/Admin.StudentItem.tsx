@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styles from "./Admin.module.css"
 
-import { ClientStudentData } from "@/src/queries/GET/getStudents"
+import { ClientStudentData } from "@/src/_types/client-types"
 import deleteProfile from "@/src/queries/DELETE/deleteProfile";
 import EditStudent from "./Admin.EditStudent";
 

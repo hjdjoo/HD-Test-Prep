@@ -1,6 +1,5 @@
 import ModalContainer from "containers/modal/ModalContainer";
 import styles from "./Practice.Components.module.css"
-import Dropdown from "components/dropdown/Dropdown";
 
 import { useQuery } from "@tanstack/react-query";
 import { userStore } from "@/src/stores/userStore";

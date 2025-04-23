@@ -1,7 +1,6 @@
 import { useState } from "react";
 import styles from "./AdminContainer.module.css"
-import { ClientStudentData } from "@/src/queries/GET/getStudents"
-import { ClientInstructorData } from "@/src/queries/GET/getInstructors"
+import { ClientStudentData, ClientInstructorData } from "@/src/_types/client-types"
 
 import StudentsDisplay from "../components/Admin.StudentsDisplay";
 import InstructorsDisplay from "../components/Admin.InstructorsDisplay";
@@ -17,8 +16,6 @@ export default function SettingsContainer(props: AdminSettingsProps) {
   const { students, instructors } = props;
 
   const [showAddProfile, setShowAddProfile] = useState<boolean>(false);
-
-  console.log(students, instructors);
 
   return (
     <div id="admin-settings-page"
