@@ -8,7 +8,6 @@ import path from "path";
 import { compression } from "vite-plugin-compression2"
 import 'dotenv/config';
 
-// console.log(__dirname);
 const VITE_NGROK_URL = process.env.VITE_URL!;
 const SERVER_URL = process.env.NODE_ENV === "production" ? process.env.SERVER_URL! : process.env.DEV_SERVER_URL!;
 

@@ -1,5 +1,4 @@
-
-import { NewProfileForm } from "@/src/pages/admin/components/Admin.AddProfileForm";
+import { NewProfileForm } from "@/src/_types/client-types";
 import { ClientInstructorData } from "@/src/_types/client-types";
 const VITE_URL = import.meta.env.VITE_URL!
 

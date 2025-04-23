@@ -1,5 +1,5 @@
 import styles from "./Admin.module.css"
-import { ClientInstructorData } from "@/src/queries/GET/getInstructors";
+import { ClientInstructorData } from "@/src/_types/client-types"
 import { useProfilesStore } from "@/src/stores/profilesStore";
 
 import deleteInstructor from "@/src/queries/DELETE/deleteInstructor";

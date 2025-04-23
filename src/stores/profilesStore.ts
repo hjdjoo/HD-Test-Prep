@@ -1,7 +1,6 @@
 import { create } from "zustand";
 
-import { ClientStudentData } from "../queries/GET/getStudents";
-import { ClientInstructorData } from "../queries/GET/getInstructors";
+import { ClientStudentData, ClientInstructorData } from "@/src/_types/client-types";
 
 interface ProfilesState {
   students: ClientStudentData[]
