@@ -3,6 +3,11 @@
 .position {
   position: fixed;
   top: 90%;
+  left: 0%;
+}
+
+.fullWidth {
+  width: 100%;
 }
 
 .alertTimerPosition {
@@ -21,7 +26,7 @@
 }
 
 .size {
-  width: 90%;
+  width: 95%;
 }
 
 .padding {
@@ -52,24 +57,24 @@
 .success {
   border: 3px solid;
   border-color: var(--success);
-  background-color: rgba(var(--success-rgb), 0.2);
+  background-color: rgba(var(--success-rgb), 1.0);
 }
 
 .warning {
   border: 3px solid;
   border-color: var(--warning);
-  background-color: rgba(var(--warning-rgb), 0.2);
+  background-color: rgba(var(--warning-rgb), 1.0);
 }
 
 .info {
   border: 3px solid;
   border-color: var(--primary);
-  background-color: rgba(var(--info-rgb), 0.2);
+  background-color: rgba(var(--info-rgb), 1.0);
 }
 
 .error {
   border: 3px solid;
   border-color: var(--error);
-  background-color: rgba(var(--error-rgb), 0.2);
+  background-color: rgba(var(--error-rgb), 1.0);
   /* color: white; */
 }

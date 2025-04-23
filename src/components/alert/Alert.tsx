@@ -16,7 +16,6 @@ export type UserAlert = {
 
 interface UserAlertProps {
   alert: UserAlert
-  // children?: React.ReactNode
 }
 
 export default function Alert(props: UserAlertProps) {
@@ -67,56 +66,63 @@ export default function Alert(props: UserAlertProps) {
   // console.log("hideAlert: ", hideAlert)
 
   return (
-    <div id="alert"
+    <div id="alert-wrapper"
       className={[
         styles.position,
-        styles.size,
-        styles.align,
-        styles.padding,
-        styles.border,
-        currStyle
-      ].join(" ")}
-      style={{
-        display: hideAlert ? "none" : "flex"
-      }}
-    >
-      <div className={[
+        styles.fullWidth,
         styles.align,
         styles.justifyCenter,
-        styles.grow1,
       ].join(" ")}>
-        <div style={{
-          height: "1.5rem",
-          width: "1.5rem",
-          marginTop: "auto",
-          marginBottom: "auto",
-          marginRight: "1rem",
-        }}>
-          {icon}
+      <div id="alert"
+        className={[
+          styles.size,
+          styles.align,
+          styles.padding,
+          styles.border,
+          currStyle
+        ].join(" ")}
+        style={{
+          display: hideAlert ? "none" : "flex"
+        }}
+      >
+        <div className={[
+          styles.align,
+          styles.justifyCenter,
+          styles.grow1,
+        ].join(" ")}>
+          <div style={{
+            height: "1.5rem",
+            width: "1.5rem",
+            marginTop: "auto",
+            marginBottom: "auto",
+            marginRight: "1rem",
+          }}>
+            {icon}
+          </div>
+          <p>{alert.message}</p>
         </div>
-        <p>{alert.message}</p>
-      </div>
-      <div className={[
-      ].join(" ")}>
-        <button onClick={(e) => {
-          e.preventDefault();
-          setHideAlert(!hideAlert);
-        }}>
-          X
-        </button>
-      </div>
-      {alert.severity !== "error" &&
-        <div id="alert-timer"
-          className={[
-            styles.alertTimerPosition,
-            styles.alertTimerSize,
-            styles.alertTimerStyle,
-            styles.align,
-            styles.justifyCenter,
-            animations.shrinkTimer,
-          ].join(" ")}>
+        <div className={[
+        ].join(" ")}>
+          <button onClick={(e) => {
+            e.preventDefault();
+            setHideAlert(!hideAlert);
+          }}>
+            X
+          </button>
         </div>
-      }
+        {alert.severity !== "error" &&
+          <div id="alert-timer"
+            className={[
+              styles.alertTimerPosition,
+              styles.alertTimerSize,
+              styles.alertTimerStyle,
+              styles.align,
+              styles.justifyCenter,
+              animations.shrinkTimer,
+            ].join(" ")}>
+          </div>
+        }
+      </div>
     </div>
   )
 

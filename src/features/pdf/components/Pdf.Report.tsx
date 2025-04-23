@@ -71,42 +71,28 @@ export default function PdfReport(props: PdfReportProps) {
 
       // console.log("mapping details...")
       const question = questionsAnswered.filter(question => {
-        // console.log("questionsAnswered/question: ")
-        // console.log(question)
         return question.id === response.questionId;
 
       })[0]
 
       const imageItem = questionImageData.filter(item => {
-        // console.log("questionImageData/item: ")
-        // console.log(item);
-        // console.log("response.id", response.id);
         return item.responseId === response.id
       })[0]
 
       const feedbackItem = feedbackData.filter(item => {
-        // console.log("feedbackData/item: ")
-        // console.log(item);
         if (item.responseId) {
           return item.responseId === response.id
         }
       })[0]
 
       const feedbackTags = tagsData.filter(item => {
-        // console.log("tagsData/item: ")
-        // console.log(item);
         return item.responseId = response.id
       })[0]
 
-      console.log("question: ", question, "imageItem: ", imageItem, "feedbackItem: ", feedbackItem, "feedbackTags: ", feedbackTags)
-
-
       if (question.id) {
 
-        console.log(imageItem);
-
         return (
-          <View key={`response-item-${idx + 1}`}
+          <View key={`session-${response.sessionId}-response-item-${idx + 1}`}
             wrap={false}>
             <View>
               <Text style={styles.questionTitle}>{`Question ${idx + 1}`}</Text>

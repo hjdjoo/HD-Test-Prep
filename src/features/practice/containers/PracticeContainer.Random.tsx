@@ -46,26 +46,29 @@ export default function RandomPractice() {
     queryKey: ["practice_session", user, sessionId],
     queryFn: async () => {
 
+      console.log("useQuery/RandomContainer/practiceSessionData/sessionId: ", sessionId);
+
       if (!user) {
         throw new Error(`No user detected; no practice session started`);
       };
       if (sessionId) return Promise.resolve({ id: sessionId });
 
       // const inactiveSessionData = 
-
+      console.log("getting active session data...");
       const activeSessionData = await getPracticeSession(user.id);
 
       if (!activeSessionData) {
         console.log("no active session detected; starting new session");
         const data = await startPracticeSession(user?.id, "random");
-
-        console.log(data);
+        console.log("New practice session started. Setting session ID.")
+        setSessionId(data.id)
         return data;
       }
 
-      console.log("active session detected.")
-      console.log(activeSessionData);
+      console.log("active session detected. Setting session ID.")
       setIsPrevSession(true);
+      setSessionId(activeSessionData.id);
+
       return activeSessionData;
     }
   })
@@ -116,15 +119,6 @@ export default function RandomPractice() {
     }
 
   }, [])
-
-  useEffect(() => {
-    console.log("detected session, running session Id useEffect...")
-
-    if (!practiceSessionData) return;
-
-    setSessionId(practiceSessionData.id)
-
-  }, [practiceSessionData]);
 
   useEffect(() => {
 
@@ -242,9 +236,13 @@ export default function RandomPractice() {
         </button>
       }
       {
-        (sessionId) &&
-        <SessionReportContainer
-          studentResponses={studentResponseData || []} />
+        (sessionId && studentResponseData) &&
+        <>
+          <br />
+          <br />
+          <SessionReportContainer
+            studentResponses={studentResponseData} />
+        </>
       }
     </div>
   )

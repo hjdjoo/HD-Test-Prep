@@ -7,8 +7,6 @@ export default async function endPracticeSession(sessionId: number, status: "ina
     status: status
   }
 
-  console.log(VITE_URL);
-
   const res = await fetch(`${VITE_URL}/api/db/practice_session/${sessionId}`, {
     method: "PATCH",
     headers: {

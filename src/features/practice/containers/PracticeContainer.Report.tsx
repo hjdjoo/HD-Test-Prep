@@ -1,6 +1,6 @@
 import styles from "./PracticeContainer.module.css"
 import animations from "@/src/animations.module.css";
-import { useState, Suspense, lazy } from "react";
+import { useState, Suspense } from "react";
 import { Link } from "react-router-dom";
 
 import { usePracticeSessionStore } from "@/src/stores/practiceSessionStore";
@@ -10,14 +10,13 @@ import useQuestionsAnswered from "@/src/hooks/useQuestionsAnswered";
 import SummaryContainer from "@/src/features/sessionReport/summary/containers/SummaryContainer";
 import DetailsContainer from "../../sessionReport/detail/containers/DetailContainer";
 import ModalContainer from "containers/modal/ModalContainer";
-// import SendPdfModal from "../../sessionReport/components/SessionReport.SendPdfModal";
+import SendPdfModal from "../../sessionReport/components/SessionReport.SendPdfModal";
 
 import { ClientStudentResponse } from "@/src/_types/client-types";
 import ErrorPage from "@/src/ErrorPage";
 import Spinner from "components/loading/Loading.Spinner"
 
-
-const SendPdfModal = lazy(() => import("@/src/features/sessionReport/components/SessionReport.SendPdfModal"))
+// const SendPdfModal = lazy(() => import("@/src/features/sessionReport/components/SessionReport.SendPdfModal"))
 
 interface SessionReportContainerProps {
   studentResponses: ClientStudentResponse[]
@@ -26,26 +25,21 @@ interface SessionReportContainerProps {
 export default function SessionReportContainer(props: SessionReportContainerProps) {
 
   const sessionId = usePracticeSessionStore((state) => state.sessionId);
-
-  // const sessionId = usePracticeSessionStore((state) => state.sessionId);
-  // const sessionResponses = usePracticeSessionStore((state) => state.sessionResponses)
+  console.log("SessionReportContainer/sessionId: ", sessionId)
 
   const [showDetails, setShowDetails] = useState<boolean>(false)
 
   const [sendStatus, setSendStatus] = useState<"waiting" | "sending" | "sent">("waiting");
 
-
   const { studentResponses } = props;
+  console.log("SessionReportContainer/studentResponses: ", studentResponses)
 
-  const questionsAnswered = useQuestionsAnswered({ studentResponses })
-  const questionsCorrect = useQuestionsCorrect({ studentResponses, questionsAnswered })
-
-  console.log("SessionContainer/questionsAnswered: ", questionsAnswered)
-  console.log("SessionContainer/questionsCorrect: ", questionsCorrect)
+  const questionsAnswered = useQuestionsAnswered({ studentResponses });
+  const questionsCorrect = useQuestionsCorrect({ studentResponses, questionsAnswered });
 
   function handleShowDetails() {
     setShowDetails(!showDetails);
-  }
+  };
 
   function handleSend() {
     if (!questionsAnswered.length) {

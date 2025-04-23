@@ -421,12 +421,13 @@ export default function FeedbackForm(props: FeedbackFormProps) {
           ].join(" ")}>
           <div className={[
             styles.formSectionHeading,
-            styles.formAlign,
+            styles.formSectionAlign,
           ].join(" ")}>
             <p>{"Upload a picture of your work for more context (optional):"}</p>
             <label htmlFor="student-file-upload"
               className={[
                 styles.uploadIconDecoration,
+                styles.formSectionAlign,
               ].join(" ")}>
               <div id="upload-icon-wrapper"
                 className={[

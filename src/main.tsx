@@ -1,4 +1,4 @@
-import { StrictMode, lazy } from 'react';
+import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 import ErrorPage from './ErrorPage.tsx';
@@ -14,8 +14,9 @@ import PracticePage from './pages/practice/practice.tsx';
 import AccountPage from './pages/account/account.tsx';
 import AdminPage from './pages/admin/admin.tsx';
 import SessionReport from './features/sessionReport/SessionReport.tsx';
+import PdfReport from './features/pdf/PdfReport.tsx';
 
-const PdfReport = lazy(() => import("@/src/features/pdf/PdfReport.tsx"));
+// const PdfReport = lazy(() => import("@/src/features/pdf/PdfReport.tsx"));
 
 const router = createBrowserRouter(
   createRoutesFromElements(

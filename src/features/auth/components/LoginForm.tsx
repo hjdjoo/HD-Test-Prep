@@ -221,10 +221,15 @@ export default function LoginForm() {
             className={[
               styles.justifyInputs
             ].join(" ")}>
-            <label htmlFor="confirm">{`Verify Password: `}</label>
+            <label htmlFor="confirm"
+              className={[
+                styles.labelStyle,
+              ].join(" ")}
+            >{`Verify Password: `}</label>
             <input type="password" name="confirm" autoComplete="off"
               className={[
                 styles.inputStyle,
+                styles.inputSize,
                 styles.rounded,
               ].join(" ")} />
           </div>

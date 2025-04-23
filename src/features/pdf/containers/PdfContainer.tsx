@@ -1,4 +1,4 @@
-import { useState, useEffect, lazy } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { useStore } from "zustand";
@@ -21,12 +21,12 @@ import useQuestionsCorrect from "@/src/hooks/useQuestionsCorrect";
 import ErrorPage from "@/src/ErrorPage";
 import Loading from "components/loading/Loading";
 import ModalContainer from "containers/modal/ModalContainer";
-// import PdfReport from "@/src/features/pdf/components/Pdf.Report";
-// import SendPdfModal from "../../sessionReport/components/SessionReport.SendPdfModal";
+import PdfReport from "@/src/features/pdf/components/Pdf.Report";
+import SendPdfModal from "../../sessionReport/components/SessionReport.SendPdfModal";
 
 
-const SendPdfModal = lazy(() => import("@/src/features/sessionReport/components/SessionReport.SendPdfModal"))
-const PdfReport = lazy(() => import("@/src/features/pdf/components/Pdf.Report"))
+// const SendPdfModal = lazy(() => import("@/src/features/sessionReport/components/SessionReport.SendPdfModal"))
+// const PdfReport = lazy(() => import("@/src/features/pdf/components/Pdf.Report"))
 
 interface PdfContainerProps {
   sessionId: string
@@ -229,7 +229,8 @@ export default function PdfContainer(props: PdfContainerProps) {
     console.log("sessionResponseData", sessionResponseData)
     console.log("questionImageData", questionImageData)
     console.log("feedbackData", feedbackData)
-    console.log("sessionResponseData", sessionResponseData)
+    console.log("tagsData", tagsData)
+
 
     return (
       <Loading />
@@ -247,6 +248,7 @@ export default function PdfContainer(props: PdfContainerProps) {
           styles.sectionSpacing,
         ].join(" ")}
       >
+
         <PdfReport
           studentResponses={sessionResponseData}
           questionImageData={questionImageData}
@@ -256,6 +258,7 @@ export default function PdfContainer(props: PdfContainerProps) {
           questionsCorrect={questionsCorrect}
           user={user}
         />
+
       </PDFViewer>
       <div className={[
         styles.fullWidth,

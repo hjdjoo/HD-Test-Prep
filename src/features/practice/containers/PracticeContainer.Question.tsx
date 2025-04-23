@@ -19,6 +19,8 @@ import { FeedbackForm } from "@/src/_types/client-types";
 import ErrorPage from "@/src/ErrorPage";
 // import Spinner from "components/loading/Loading.Spinner";
 
+import Alert, { UserAlert } from "components/alert/Alert";
+
 import { StudentResponse } from "@/src/_types/client-types";
 
 
@@ -44,7 +46,12 @@ export default function QuestionContainer(props: QuestionContainerProps) {
   const [response, setResponse] = useState<string>("")
   const [feedbackForm, setFeedbackForm] = useState<FeedbackForm | undefined>()
   const [studentRes, setStudentRes] = useState<StudentResponse | undefined>()
-  const [errorMessage, setErrorMessage] = useState<string>("");
+
+  const [userAlert, setUserAlert] = useState<UserAlert>({
+    timestamp: Date.now(),
+    severity: undefined,
+    message: "",
+  })
 
   const [timerStart, setTimerStart] = useState<boolean>(false);
   const [timerOn, setTimerOn] = useState<boolean>(false);
@@ -223,11 +230,20 @@ export default function QuestionContainer(props: QuestionContainerProps) {
     }
 
     if (!response) {
-      setErrorMessage("Please select an answer");
+      // setErrorMessage("Please select an answer");
+      setUserAlert({
+        timestamp: Date.now(),
+        severity: "warning",
+        message: "Please select an answer!"
+      })
       return;
     };
 
-    setErrorMessage("");
+    setUserAlert({
+      timestamp: Date.now(),
+      severity: undefined,
+      message: ""
+    })
 
     if (submitStatus === "waiting") {
 
@@ -324,8 +340,8 @@ export default function QuestionContainer(props: QuestionContainerProps) {
         </div>
       }
       {
-        errorMessage.length > 0 &&
-        <p>{errorMessage}</p>
+        userAlert.severity &&
+        <Alert alert={userAlert} />
       }
       {
         (showFeedback && feedbackForm && studentRes) &&

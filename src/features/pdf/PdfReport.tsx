@@ -1,7 +1,8 @@
-import { lazy } from "react";
+import { lazy, Suspense } from "react";
 import { userStore } from "@/src/stores/userStore";
 import { useParams } from "react-router-dom";
 import ErrorPage from "@/src/ErrorPage";
+import Loading from "components/loading/Loading";
 
 const PdfContainer = lazy(() => import("@/src/features/pdf/containers/PdfContainer"))
 
@@ -29,8 +30,9 @@ export default function PdfReport() {
 
 
   return (
-
-    <PdfContainer sessionId={sessionId} />
+    <Suspense fallback={<Loading />}>
+      <PdfContainer sessionId={sessionId} />
+    </Suspense>
 
   )
 
