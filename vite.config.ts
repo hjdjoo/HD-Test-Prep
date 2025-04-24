@@ -5,7 +5,6 @@ import react from '@vitejs/plugin-react-swc';
 import tsconfigPaths from "vite-tsconfig-paths"
 import svgr from "vite-plugin-svgr";
 import path from "path";
-import { compression } from "vite-plugin-compression2"
 import 'dotenv/config';
 
 const VITE_NGROK_URL = process.env.VITE_URL!;
@@ -18,9 +17,6 @@ export default defineConfig({
     tsconfigPaths(),
     svgr({
       include: '**/*.svg',
-    }),
-    compression({
-      deleteOriginalAssets: true
     }),
   ],
   server: {
