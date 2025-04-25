@@ -1,10 +1,12 @@
 import { NewProfileForm } from "@/src/_types/client-types";
 import { ClientInstructorData } from "@/src/_types/client-types";
-const VITE_URL = import.meta.env.VITE_URL!
+import { SERVER_URL } from "@/src/config";
+
+const VITE_SERVER_URL = SERVER_URL
 
 export default async function addNewInstructor(form: NewProfileForm) {
 
-  const res = await fetch(`${VITE_URL}/api/db/profiles/instructor/new`, {
+  const res = await fetch(`${VITE_SERVER_URL}/db/profiles/instructor/new`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"

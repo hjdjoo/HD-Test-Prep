@@ -25,14 +25,14 @@ interface SessionReportContainerProps {
 export default function SessionReportContainer(props: SessionReportContainerProps) {
 
   const sessionId = usePracticeSessionStore((state) => state.sessionId);
-  console.log("SessionReportContainer/sessionId: ", sessionId)
+  // console.log("SessionReportContainer/sessionId: ", sessionId)
 
   const [showDetails, setShowDetails] = useState<boolean>(false)
 
   const [sendStatus, setSendStatus] = useState<"waiting" | "sending" | "sent">("waiting");
 
   const { studentResponses } = props;
-  console.log("SessionReportContainer/studentResponses: ", studentResponses)
+  // console.log("SessionReportContainer/studentResponses: ", studentResponses)
 
   const questionsAnswered = useQuestionsAnswered({ studentResponses });
   const questionsCorrect = useQuestionsCorrect({ studentResponses, questionsAnswered });
@@ -43,7 +43,7 @@ export default function SessionReportContainer(props: SessionReportContainerProp
 
   function handleSend() {
     if (!questionsAnswered.length) {
-      console.log("Nothing to send!")
+      // console.log("Nothing to send!")
       return;
     } else {
       setSendStatus("sending");

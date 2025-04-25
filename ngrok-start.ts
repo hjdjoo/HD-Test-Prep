@@ -7,17 +7,17 @@
 
 // function startNgrok(port: number) {
 
-//   console.log(`starting Ngrok on port ${port}`)
+//   // console.log(`starting Ngrok on port ${port}`)
 
 //   const ngrokProcess = spawn("ngrok", ["http", String(port), "--log=stdout"], { stdio: ["ignore", "pipe", "pipe"] });
 
 //   ngrokProcess.stdout.on("data", (data) => {
 
-//     console.log("Ngrok stdout: ", data.toString());
+//     // console.log("Ngrok stdout: ", data.toString());
 //     const output = data.toString();
 
 //     const match = output.match(/https:\/\/(.+)\.ngrok-free\.app/g)
-//     // console.log("Ngrok URL: ", match[0]);
+//     // // console.log("Ngrok URL: ", match[0]);
 
 //     if (match && match[0]) {
 //       updateEnv(match[0]);
@@ -36,7 +36,7 @@
 //   })
 
 //   ngrokProcess.on("close", (code) => {
-//     console.log(`Ngrok process exited with code ${code}`)
+//     // console.log(`Ngrok process exited with code ${code}`)
 //   })
 
 //   ngrokProcess.on("error", (error) => {
@@ -48,10 +48,10 @@
 // function updateEnv(ngrokUrl: string) {
 
 //   // const ngrokUrl = match[0];
-//   console.log("ngrokUrl: ", ngrokUrl)
+//   // console.log("ngrokUrl: ", ngrokUrl)
 
 //   const envPath = path.resolve("./", ".env");
-//   console.log("envPath: ", envPath);
+//   // console.log("envPath: ", envPath);
 //   let envContent = "";
 
 //   if (fs.existsSync(envPath)) {
@@ -63,7 +63,7 @@
 //   }
 
 //   fs.writeFileSync(envPath, envContent, "utf8");
-//   console.log(`✅ Updated .env file with VITE_URL=${ngrokUrl}`);
+//   // console.log(`✅ Updated .env file with VITE_URL=${ngrokUrl}`);
 
 // }
 
@@ -71,11 +71,11 @@
 
 // //   exec(`pkill -f vite`, (error, stdout, stderr) => {
 // //     if (error) {
-// //       console.log("⚠️ No existing Vite process found or already stopped.");
+// //       // console.log("⚠️ No existing Vite process found or already stopped.");
 // //     } else {
-// //       console.log("✅ Vite process killed successfully.");
+// //       // console.log("✅ Vite process killed successfully.");
 // //     }
-// //     if (stdout) console.log(stdout);
+// //     if (stdout) // console.log(stdout);
 // //     if (stderr) console.error(stderr);
 // //   });
 
@@ -85,11 +85,11 @@
 
 // //   exec(`pkill -f node`, (error, stdout, stderr) => {
 // //     if (error) {
-// //       console.log("⚠️ No existing Node process found or already stopped.");
+// //       // console.log("⚠️ No existing Node process found or already stopped.");
 // //     } else {
-// //       console.log("✅ Node process killed successfully.");
+// //       // console.log("✅ Node process killed successfully.");
 // //     }
-// //     if (stdout) console.log(stdout);
+// //     if (stdout) // console.log(stdout);
 // //     if (stderr) console.error(stderr);
 // //   })
 // // }
@@ -103,12 +103,12 @@
 // //   });
 
 // //   if (!viteProcess.stdout) {
-// //     console.log("❌ No stdout from vite process...");
+// //     // console.log("❌ No stdout from vite process...");
 // //     return;
 // //   }
 
 // //   viteProcess.stdout.on("data", (data) => {
-// //     console.log("viteProcess stdout: ", data.toString())
+// //     // console.log("viteProcess stdout: ", data.toString())
 // //   })
 
 // //   viteProcess.on("error", (error) => {
@@ -116,10 +116,10 @@
 // //   })
 
 // //   viteProcess.on("close", (code) => {
-// //     console.log(`🔻 Vite process exited with code ${code}`);
+// //     // console.log(`🔻 Vite process exited with code ${code}`);
 // //   });
 
-// //   console.log("Vite started successfully");
+// //   // console.log("Vite started successfully");
 
 // // }
 

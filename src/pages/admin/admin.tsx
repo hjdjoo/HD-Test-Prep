@@ -43,27 +43,27 @@ export default function AdminPage() {
   })
 
   if (!user) {
-    console.log("No user detected")
+    // console.log("No user detected")
     navigate("/");
     return;
   }
   if (user.role !== "admin") {
-    console.log("Unauthorized user detected")
+    // console.log("Unauthorized user detected")
     navigate("/");
     return;
   }
 
   if (instructorError) {
-    console.log(instructorError)
+    // console.log(instructorError)
     return (<ErrorPage />)
   }
   if (studentError) {
-    console.log(studentError)
+    // console.log(studentError)
     return (<ErrorPage />)
   }
 
   if (!instructorData || !studentData) {
-    console.log("No data returned for instructors or students");
+    // console.log("No data returned for instructors or students");
     return (<Spinner />)
   }
 

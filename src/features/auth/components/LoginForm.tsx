@@ -51,7 +51,7 @@ export default function LoginForm() {
       return { data: null, error: error }
     };
 
-    console.log(data);
+    // console.log(data);
 
   };
 
@@ -77,16 +77,16 @@ export default function LoginForm() {
       const { data, error } = await supabase.auth.signUp({ email: email, password: password });
 
       if (!data) {
-        console.log("No data returned from server. User may already exist.")
+        // console.log("No data returned from server. User may already exist.")
         console.error(error);
         return;
       } else {
-        console.log("Account created!");
-        console.log(data);
+        // console.log("Account created!");
+        // console.log(data);
         return;
       }
     } catch (e) {
-      console.log("Error while signing up user with email")
+      // console.log("Error while signing up user with email")
       console.error(e);
     };
 
@@ -125,7 +125,7 @@ export default function LoginForm() {
 
       }
     } catch (e) {
-      console.log("Error while authorizing user email");
+      // console.log("Error while authorizing user email");
       setUserAlert({ severity: "error", message: `${e}`, timestamp: Date.now() })
       console.error(e);
     }

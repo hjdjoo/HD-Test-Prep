@@ -1,6 +1,11 @@
+
+import { SERVER_URL } from "@/src/config";
+
+const VITE_SERVER_URL = SERVER_URL
+
 export default async function getTags() {
 
-  const res = await fetch("/api/db/tags/all", {
+  const res = await fetch(`${VITE_SERVER_URL}/api/db/tags/all`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json"
@@ -12,7 +17,7 @@ export default async function getTags() {
   }
 
   const data: { [tag: string]: number } = await res.json(); // should return transformed data: {[tag]: number}
-  console.log("tagStore/getTags/data: ", data);
+  // console.log("tagStore/getTags/data: ", data);
 
   return data;
 

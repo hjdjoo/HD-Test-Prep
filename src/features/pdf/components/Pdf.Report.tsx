@@ -69,7 +69,7 @@ export default function PdfReport(props: PdfReportProps) {
 
     if (questionsAnswered.length) {
 
-      // console.log("mapping details...")
+      // // console.log("mapping details...")
       const question = questionsAnswered.filter(question => {
         return question.id === response.questionId;
 

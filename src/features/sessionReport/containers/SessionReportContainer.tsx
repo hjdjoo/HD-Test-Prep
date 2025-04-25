@@ -33,7 +33,7 @@ export default function ReportContainer(props: ReportContainerProps) {
     timestamp: Date.now()
   });
 
-  // console.log(userAlert);
+  // // console.log(userAlert);
 
   // get practice session responses based on ID;
   const { data: sessionResponseData, error: sessionResponseError } = useQuery({
@@ -47,7 +47,7 @@ export default function ReportContainer(props: ReportContainerProps) {
       }
       const data = await getResponsesBySession(Number(sessionId));
 
-      console.log("ReportContainer/useQuery/data: ", data);
+      // console.log("ReportContainer/useQuery/data: ", data);
 
       return data;
     }
@@ -71,7 +71,7 @@ export default function ReportContainer(props: ReportContainerProps) {
 
 
   if (!sessionResponseData) {
-    console.log("No session data: loading...");
+    // console.log("No session data: loading...");
     return (
       <Loading />
     )
@@ -79,7 +79,7 @@ export default function ReportContainer(props: ReportContainerProps) {
 
   function handleSend() {
     if (!sessionResponseData || !sessionResponseData.length) {
-      console.log("sessionreportcontainer/sessionResponsedata: ", sessionResponseData)
+      // console.log("sessionreportcontainer/sessionResponsedata: ", sessionResponseData)
 
       setUserAlert({
         severity: "warning",

@@ -18,8 +18,8 @@ export default function StudentItem(props: StudentItemProps) {
   async function handleDelete(id: number) {
     try {
 
-      const data = await deleteProfile(id);
-      console.log(data);
+      await deleteProfile(id);
+      // console.log(data);
 
     } catch (e) {
       console.error(e);

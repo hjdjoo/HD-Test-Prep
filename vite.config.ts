@@ -7,7 +7,7 @@ import svgr from "vite-plugin-svgr";
 import path from "path";
 import 'dotenv/config';
 
-const VITE_NGROK_URL = process.env.VITE_URL!;
+const VITE_URL = process.env.VITE_URL!;
 const SERVER_URL = process.env.NODE_ENV === "production" ? process.env.SERVER_URL! : process.env.DEV_SERVER_URL!;
 
 // https://vitejs.dev/config/
@@ -20,7 +20,7 @@ export default defineConfig({
     }),
   ],
   server: {
-    allowedHosts: [VITE_NGROK_URL.replace("https://", "")],
+    allowedHosts: [VITE_URL.replace("https://", ""),],
     proxy: {
       "/api": {
         target: `${SERVER_URL}`,

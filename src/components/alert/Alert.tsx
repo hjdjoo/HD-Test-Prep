@@ -63,7 +63,7 @@ export default function Alert(props: UserAlertProps) {
 
   }, [alert])
 
-  // console.log("hideAlert: ", hideAlert)
+  // // console.log("hideAlert: ", hideAlert)
 
   return (
     <div id="alert-wrapper"

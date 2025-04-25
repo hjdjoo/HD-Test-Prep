@@ -47,7 +47,7 @@ export default function LinkInstructorModal(props: LinkInstructorModalProps) {
     }
   })
 
-  console.log("LinkInstructorModal/students, user: ", students, user);
+  // console.log("LinkInstructorModal/students, user: ", students, user);
   if (studentError || instructorError) {
     return (
       <ErrorPage />

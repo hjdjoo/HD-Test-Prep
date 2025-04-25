@@ -1,5 +1,8 @@
 import { StudentResponse } from "@/src/_types/client-types";
 
+import { SERVER_URL } from "@/src/config";
+
+const VITE_SERVER_URL = SERVER_URL
 /**
  * 
  * @param responseIds : number[] - An array of response Ids to query.
@@ -7,7 +10,7 @@ import { StudentResponse } from "@/src/_types/client-types";
  */
 export default async function getResponsesById(responseIds: number[]) {
 
-  console.log(responseIds);
+  // console.log(responseIds);
 
   if (!responseIds.length) {
     return [];
@@ -15,7 +18,7 @@ export default async function getResponsesById(responseIds: number[]) {
 
   const responseQuery = responseIds.join(",");
 
-  const res = await fetch(`/api/db/student_responses/?ids=${responseQuery}`, {
+  const res = await fetch(`${VITE_SERVER_URL}/db/student_responses/?ids=${responseQuery}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json"
@@ -28,7 +31,7 @@ export default async function getResponsesById(responseIds: number[]) {
 
   const data: StudentResponse[] = await res.json();
 
-  console.log("getResponses/data: ", data);
+  // console.log("getResponses/data: ", data);
 
   return data;
 

@@ -56,16 +56,16 @@ export const questionStore = createStore<Questions>()(
     filter: defaultFilter,
     setFilter:
       (filter) => {
-        console.log("questionStore/setFilter/filter: ", filter);
+        // console.log("questionStore/setFilter/filter: ", filter);
         return set(() => ({ filter: filter }))
       },
     setQuestions:
       (questions) => set(() => ({ questions: questions })),
     filterQuestions:
       () => set((state) => {
-        // console.log(state.filter);
+        // // console.log(state.filter);
         const { filter, questions } = state;
-        // console.log("questionStore/filterQuestions/filter: ", filter)
+        // // console.log("questionStore/filterQuestions/filter: ", filter)
 
         const filteredQuestions = questions.filter((question) => {
 

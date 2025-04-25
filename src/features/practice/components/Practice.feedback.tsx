@@ -119,11 +119,11 @@ export default function FeedbackForm(props: FeedbackFormProps) {
 
   function handleFileUpload(e: ChangeEvent<HTMLInputElement>) {
 
-    console.log("handling file upload...");
+    // console.log("handling file upload...");
     const { files } = e.target;
 
     if (!files || !files.length) {
-      console.log(files);
+      // console.log(files);
       return
     };
 
@@ -135,20 +135,20 @@ export default function FeedbackForm(props: FeedbackFormProps) {
 
     fileReader.onload = (e) => {
 
-      console.log("fileReader/onload/e.target: ", e.target);
+      // console.log("fileReader/onload/e.target: ", e.target);
       const result = e.target?.result as string;
       const img = new Image();
 
       img.onload = () => {
         if (size > 3500000) {
-          console.log("large file!");
+          // console.log("large file!");
 
           const maxSize = 3500000;
           const ratio = maxSize / size;
           const reduce = Math.sqrt(ratio);
           const height = Math.floor(img.height * reduce);
           const width = Math.floor(img.width * reduce);
-          console.log(height, width);
+          // console.log(height, width);
 
           const canvas = document.createElement("canvas");
           const ctx = canvas.getContext("2d");
@@ -157,9 +157,9 @@ export default function FeedbackForm(props: FeedbackFormProps) {
           canvas.height = height;
 
           if (ctx) {
-            console.log("drawing image on context...")
+            // console.log("drawing image on context...")
             ctx.drawImage(img, 0, 0, width, height);
-            console.log("converting canvas to blob...")
+            // console.log("converting canvas to blob...")
             canvas.toBlob((blob) => {
 
               if (!blob) return;
@@ -169,12 +169,12 @@ export default function FeedbackForm(props: FeedbackFormProps) {
               fileReader2.onloadend = () => {
 
                 const data = fileReader2.result as string;
-                console.log("setting upload file");
+                // console.log("setting upload file");
                 setUploadFileData({ fileType, fileData: data });
 
               }
 
-              console.log("reading blob...");
+              // console.log("reading blob...");
               fileReader2.readAsDataURL(blob);
 
             }, fileType, 0.7);
@@ -185,18 +185,18 @@ export default function FeedbackForm(props: FeedbackFormProps) {
         }
       }
 
-      console.log("setting image src...")
+      // console.log("setting image src...")
       img.src = result as string;
     }
 
-    console.log("reading file...");
+    // console.log("reading file...");
     fileReader.readAsDataURL(file);
 
   }
 
   async function handleSubmit() {
 
-    console.log(feedbackForm);
+    // console.log(feedbackForm);
     submitForm();
 
   }
@@ -211,9 +211,9 @@ export default function FeedbackForm(props: FeedbackFormProps) {
       const newTags: string[] = [];
 
       activeTags.forEach(tag => {
-        // console.log("tags: ", tags);
-        // console.log("tag: ", tag);
-        // console.log("tags[tag]: ", tags[tag]);
+        // // console.log("tags: ", tags);
+        // // console.log("tag: ", tag);
+        // // console.log("tags[tag]: ", tags[tag]);
         if (tags[tag]) {
           updatedFeedbackForm.tags.push(tags[tag]);
         } else {
@@ -231,7 +231,7 @@ export default function FeedbackForm(props: FeedbackFormProps) {
         question: question,
       }
 
-      console.log("submit feedback form request body: ", body);
+      // console.log("submit feedback form request body: ", body);
       // submit feedback form and get id;
       const res = await fetch("api/db/feedback/new", {
         method: "POST",
@@ -249,12 +249,12 @@ export default function FeedbackForm(props: FeedbackFormProps) {
       // then update the feedback form with the id
       const data = await res.json();
 
-      // console.log("feedback id data: ", data);
+      // // console.log("feedback id data: ", data);
       const updatedStudentRes = structuredClone(studentResponse);
 
       updatedStudentRes.feedbackId = data.id;
 
-      console.log("FeedbackForm/submitForm/data", data);
+      // console.log("FeedbackForm/submitForm/data", data);
 
       const updatedQuestion = data.updatedQuestion as Question;
       const updatedQuestions = [...questions];
@@ -265,11 +265,11 @@ export default function FeedbackForm(props: FeedbackFormProps) {
         }
       })
 
-      console.log("updating questions...")
+      // console.log("updating questions...")
       setQuestions(updatedQuestions);
-      console.log("updating student response...")
+      // console.log("updating student response...")
       setStudentResponse(updatedStudentRes);
-      console.log("updating feedback status...")
+      // console.log("updating feedback status...")
       setSubmitStatus("submitted")
     } catch (e) {
       console.error(e);

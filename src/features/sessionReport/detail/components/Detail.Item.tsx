@@ -32,7 +32,7 @@ export default function DetailItem(props: DetailItemProps) {
         tags.push(tagsData[String(id)]);
       }
     })
-    console.log("SummaryItem/tags: ", tags);
+    // console.log("SummaryItem/tags: ", tags);
   }
 
   if (tags.length) {

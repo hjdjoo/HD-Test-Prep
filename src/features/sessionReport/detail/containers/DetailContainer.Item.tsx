@@ -27,7 +27,7 @@ export default function DetailItemContainer(props: DetailItemContainerProps) {
   const [imageLoaded, setImageLoaded] = useState<boolean>(false);
   const [questionUrl, setQuestionUrl] = useState<string>("");
 
-  // console.log("SummaryItemContainer/question: ", question)
+  // // console.log("SummaryItemContainer/question: ", question)
 
   const { data: imageUrlData, error: imageUrlError } = useQuery({
     queryKey: [`summaryQuestion${question.id}`, question],
@@ -77,7 +77,7 @@ export default function DetailItemContainer(props: DetailItemContainerProps) {
       }
 
       const data = await getTagsById(feedbackData.tags);
-      // console.log("SummaryContainer.Item/useQuery/tagsData: ", data)
+      // // console.log("SummaryContainer.Item/useQuery/tagsData: ", data)
 
       return data;
     }

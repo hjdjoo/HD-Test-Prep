@@ -78,7 +78,7 @@ export default function PdfContainer(props: PdfContainerProps) {
       }
       const data = await getResponsesBySession(Number(sessionId));
 
-      console.log("PdfContainer/useQuery/sessionResponseData: ", data);
+      // console.log("PdfContainer/useQuery/sessionResponseData: ", data);
 
       return data;
     }
@@ -96,7 +96,7 @@ export default function PdfContainer(props: PdfContainerProps) {
         return `math/${String(response.questionId)}.png`
       });
 
-      console.log("questionImageData/imageNames: ", questionImageNames);
+      // console.log("questionImageData/imageNames: ", questionImageNames);
 
       const { data, error } = await supabase.storage.from("questions").createSignedUrls(questionImageNames, 3600 * 24 * 7,)
 
@@ -105,23 +105,23 @@ export default function PdfContainer(props: PdfContainerProps) {
       }
       const responseCache: number[] = [];
 
-      console.log(data);
+      // console.log(data);
       return data.map(item => {
-        console.log(item.signedUrl);
+        // console.log(item.signedUrl);
 
         const studentResponse = sessionResponseData.filter((response, idx) => {
           if (responseCache.includes(idx)) {
             return false;
           }
           if (item.signedUrl.includes(`${String(response.questionId)}.png`)) {
-            console.log("caching response idx");
+            // console.log("caching response idx");
             responseCache.push(idx);
           }
           return item.signedUrl.includes(`${String(response.questionId)}.png`)
 
         })[0];
 
-        console.log("PdfContainer/useQuery/return/data/map/studentResponse: ", studentResponse);
+        // console.log("PdfContainer/useQuery/return/data/map/studentResponse: ", studentResponse);
 
 
         return {
@@ -225,11 +225,11 @@ export default function PdfContainer(props: PdfContainerProps) {
 
   if (!sessionResponseData || !questionImageData || !feedbackData || !tagsData) {
 
-    console.log("PdfContainer: ")
-    console.log("sessionResponseData", sessionResponseData)
-    console.log("questionImageData", questionImageData)
-    console.log("feedbackData", feedbackData)
-    console.log("tagsData", tagsData)
+    // console.log("PdfContainer: ")
+    // console.log("sessionResponseData", sessionResponseData)
+    // console.log("questionImageData", questionImageData)
+    // console.log("feedbackData", feedbackData)
+    // console.log("tagsData", tagsData)
 
 
     return (

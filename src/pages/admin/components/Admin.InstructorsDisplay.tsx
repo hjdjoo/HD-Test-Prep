@@ -23,9 +23,9 @@ export default function InstructorsDisplay(props: InstructorsDisplayProps) {
 
       setInstructors(updatedInstructors);
 
-      const data = await deleteInstructor(id);
+      await deleteInstructor(id);
 
-      console.log(data);
+      // console.log(data);
 
     } catch (e) {
       console.error(e);

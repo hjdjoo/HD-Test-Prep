@@ -17,7 +17,7 @@ export default function Answers(props: AnswersProps) {
 
     const { value } = e.target as HTMLInputElement;
     // setResponse(e.target.value)
-    console.log(value)
+    // console.log(value)
     setResponse(value);
 
   }

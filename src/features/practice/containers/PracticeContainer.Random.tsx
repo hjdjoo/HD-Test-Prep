@@ -46,7 +46,7 @@ export default function RandomPractice() {
     queryKey: ["practice_session", user, sessionId],
     queryFn: async () => {
 
-      console.log("useQuery/RandomContainer/practiceSessionData/sessionId: ", sessionId);
+      // console.log("useQuery/RandomContainer/practiceSessionData/sessionId: ", sessionId);
 
       if (!user) {
         throw new Error(`No user detected; no practice session started`);
@@ -54,18 +54,18 @@ export default function RandomPractice() {
       if (sessionId) return Promise.resolve({ id: sessionId });
 
       // const inactiveSessionData = 
-      console.log("getting active session data...");
+      // console.log("getting active session data...");
       const activeSessionData = await getPracticeSession(user.id);
 
       if (!activeSessionData) {
-        console.log("no active session detected; starting new session");
+        // console.log("no active session detected; starting new session");
         const data = await startPracticeSession(user?.id, "random");
-        console.log("New practice session started. Setting session ID.")
+        // console.log("New practice session started. Setting session ID.")
         setSessionId(data.id)
         return data;
       }
 
-      console.log("active session detected. Setting session ID.")
+      // console.log("active session detected. Setting session ID.")
       setIsPrevSession(true);
       setSessionId(activeSessionData.id);
 
@@ -77,12 +77,12 @@ export default function RandomPractice() {
   const { data: studentResponseData, error: studentResponseError } = useQuery({
     queryKey: ["studentResponses", sessionResponses, sessionId],
     queryFn: async () => {
-      console.log("PracticeContainer.Random/useQuery/studentResponses: ")
+      // console.log("PracticeContainer.Random/useQuery/studentResponses: ")
       if (!sessionId) {
-        console.log("no session id detected. returning empty array.")
+        // console.log("no session id detected. returning empty array.")
         return [];
       }
-      console.log("useQuery/studentResponses/sessionResponses: ", sessionResponses, sessionId);
+      // console.log("useQuery/studentResponses/sessionResponses: ", sessionResponses, sessionId);
       const data = await getResponsesBySession(sessionId);
       return data;
     },
@@ -97,11 +97,11 @@ export default function RandomPractice() {
   // Session management effect - mark empty sessions as abandoned, set practice sessionId for user.
 
   useEffect(() => {
-    console.log("running unload registration useEffect...")
-    console.log("sessionId, practiceSessionData: ", sessionId)
+    // console.log("running unload registration useEffect...")
+    // console.log("sessionId, practiceSessionData: ", sessionId)
 
     function handleBeforeUnload() {
-      console.log("useEffect/handleBeforeUnload/sessionResponses: ", sessionResponses)
+      // console.log("useEffect/handleBeforeUnload/sessionResponses: ", sessionResponses)
       if (sessionId) {
 
         if (!sessionResponsesRef.current.length) {
@@ -143,7 +143,7 @@ export default function RandomPractice() {
 
   function getRandomQuestion() {
 
-    console.log("getting random question...")
+    // console.log("getting random question...")
 
     const count = filteredQuestions.length;
 

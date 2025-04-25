@@ -1,9 +1,13 @@
 // import { QueryClientContext } from "@tanstack/react-query";
 import { Question } from "../../stores/questionStore";
 
+import { SERVER_URL } from "@/src/config";
+
+const VITE_SERVER_URL = SERVER_URL
+
 export default async function getQuestions() {
 
-  const res = await fetch("/api/db/questions", {
+  const res = await fetch(`${VITE_SERVER_URL}/api/db/questions`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json"

@@ -64,7 +64,7 @@ export default function Practice() {
 
   // make sure to update the filtered question bank when the filter is changed.
   useEffect(() => {
-    console.log("change in filter detected, setting new questions...")
+    // console.log("change in filter detected, setting new questions...")
     filterQuestions();
 
   }, [filter])
@@ -101,8 +101,8 @@ export default function Practice() {
     )
   }
 
-  // console.log(tags);
-  console.log("PracticeContainer/filteredQuestions length: ", filteredQuestions.length);
+  // // console.log(tags);
+  // console.log("PracticeContainer/filteredQuestions length: ", filteredQuestions.length);
 
   return (
     <div id="practice-container"

@@ -105,7 +105,7 @@ export default function QuestionContainer(props: QuestionContainerProps) {
 
   useEffect(() => {
 
-    console.log("QuestionContainer/useEffect/question: ", question);
+    // console.log("QuestionContainer/useEffect/question: ", question);
 
     setFeedbackForm(initFeedbackForm(sessionId));
     setStudentRes(initStudentResponse(sessionId));
@@ -115,11 +115,11 @@ export default function QuestionContainer(props: QuestionContainerProps) {
   // submit student response once feedback is submitted.
   useEffect(() => {
 
-    console.log("QuestionContainer/useEffect/submitStatus: ", submitStatus)
+    // console.log("QuestionContainer/useEffect/submitStatus: ", submitStatus)
 
     if (submitStatus !== "submitted") return;
 
-    console.log("submitting student response...")
+    // console.log("submitting student response...")
     submitResponse();
 
   }, [submitStatus])
@@ -128,13 +128,13 @@ export default function QuestionContainer(props: QuestionContainerProps) {
 
     try {
 
-      console.log("submitResponse: starting...")
+      // console.log("submitResponse: starting...")
 
       const finalStudentResponse = { ...studentRes };
 
       finalStudentResponse.timeTaken = time;
 
-      // console.log("final student response: ", finalStudentResponse);
+      // // console.log("final student response: ", finalStudentResponse);
 
       const res = await fetch("api/db/student_responses/new", {
         method: "POST",
@@ -144,7 +144,7 @@ export default function QuestionContainer(props: QuestionContainerProps) {
         body: JSON.stringify(finalStudentResponse)
       })
 
-      // console.log("submitResponse/res: ", res);
+      // // console.log("submitResponse/res: ", res);
 
       if (!res.ok) {
         console.error(res.status, res.statusText);
@@ -153,12 +153,12 @@ export default function QuestionContainer(props: QuestionContainerProps) {
 
       const data = await res.json();
 
-      // console.log("submitResponse/data: ", data);
-      console.log("adding response...")
+      // // console.log("submitResponse/data: ", data);
+      // console.log("adding response...")
       addResponse(data.id);
-      console.log("getting next question...")
+      // console.log("getting next question...")
       getNextQuestion();
-      console.log("resetting submit status and response...")
+      // console.log("resetting submit status and response...")
       setSubmitStatus("waiting");
       setResponse("");
     } catch (e) {
@@ -171,11 +171,11 @@ export default function QuestionContainer(props: QuestionContainerProps) {
   function initStudentResponse(sessionId: number | null) {
 
     if (!sessionId) {
-      console.log(`No sessionId detected. No response initiated.`)
+      // console.log(`No sessionId detected. No response initiated.`)
       return;
     };
     if (!user) {
-      console.log(`No user detected. No response initiated.`)
+      // console.log(`No user detected. No response initiated.`)
       return;
     };
 
@@ -193,11 +193,11 @@ export default function QuestionContainer(props: QuestionContainerProps) {
   function initFeedbackForm(sessionId: number | null) {
 
     if (!sessionId) {
-      console.log(`No sessionId detected. No feedback form initiated.`)
+      // console.log(`No sessionId detected. No feedback form initiated.`)
       return;
     };
     if (!user) {
-      console.log(`No user detected. No feedback form initiated.`)
+      // console.log(`No user detected. No feedback form initiated.`)
       return;
     };
 
@@ -225,7 +225,7 @@ export default function QuestionContainer(props: QuestionContainerProps) {
   async function handleSubmit() {
 
     if (!feedbackForm || !studentRes) {
-      console.log("no feedback form or student response form detected; check user")
+      // console.log("no feedback form or student response form detected; check user")
       return;
     }
 
@@ -260,7 +260,7 @@ export default function QuestionContainer(props: QuestionContainerProps) {
 
     if (submitStatus === "submitting") {
       // send call to DB to save student response;
-      console.log("QuestionContainer/handleSubmit/submitStatus: ", submitStatus)
+      // console.log("QuestionContainer/handleSubmit/submitStatus: ", submitStatus)
       setSubmitStatus("submitted");
       return;
     }

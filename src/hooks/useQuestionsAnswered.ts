@@ -12,7 +12,7 @@ export default function useQuestionsAnswered(props: useQuestionsAnsweredProps) {
 
   const { studentResponses } = props;
 
-  console.log("useQuestionsAnswered/studentResponses: ", studentResponses);
+  // console.log("useQuestionsAnswered/studentResponses: ", studentResponses);
 
   const filteredQuestions = useStore(questionStore, (state) => state.filteredQuestions);
 
@@ -26,7 +26,7 @@ export default function useQuestionsAnswered(props: useQuestionsAnsweredProps) {
     return questionIds.includes(item.id);
   })
 
-  console.log("useQuestionsAnswered/useEffect/currQsAnswered", currQuestionsAnswered);
+  // console.log("useQuestionsAnswered/useEffect/currQsAnswered", currQuestionsAnswered);
 
   return currQuestionsAnswered;
 }

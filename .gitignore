@@ -23,7 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 
-
 #Env files
 .env
 .env.*
@@ -32,3 +31,5 @@ dist-ssr
 .env.*.local
 
 resources/private
+
+*.js
