@@ -31,5 +31,3 @@ dist-ssr
 .env.*.local
 
 resources/private
-
-*.js
