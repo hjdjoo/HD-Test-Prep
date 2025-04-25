@@ -22,7 +22,9 @@ import { SERVER_URL } from "./config";
 
 const queryClient = new QueryClient();
 
-const VITE_SERVER_URL = SERVER_URL
+const VITE_SERVER_URL = SERVER_URL;
+
+const isProd = import.meta.env.MODE === "production";
 
 function App() {
 
@@ -117,8 +119,16 @@ function App() {
     const accessToken = session.access_token;
     const refreshToken = session.refresh_token;
 
-    Cookies.set("accessToken", accessToken);
-    Cookies.set("refreshToken", refreshToken);
+    Cookies.set("accessToken", accessToken, {
+      sameSite: isProd ? "None" : "Lax",
+      secure: isProd,
+      domain: isProd ? ".hdprep.me" : undefined
+    });
+    Cookies.set("refreshToken", refreshToken, {
+      sameSite: isProd ? "None" : "Lax",
+      secure: isProd,
+      domain: isProd ? ".hdprep.me" : undefined
+    });
 
     if (!accessToken || !refreshToken) {
       // console.log("Access token or refresh token missing")
