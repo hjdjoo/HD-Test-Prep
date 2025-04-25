@@ -20,7 +20,7 @@ import { Session } from "@supabase/supabase-js";
 
 const queryClient = new QueryClient();
 
-const VITE_URL = import.meta.env.VITE_URL
+const VITE_SERVER_URL = import.meta.env.VITE_URL
 
 function App() {
 
@@ -28,7 +28,7 @@ function App() {
   const setUser = useStore(userStore, (state) => state.setUser)
   const navigate = useNavigate();
 
-  console.log("App.tsx/user: ", user);
+  // console.log("App.tsx/user: ", user);
 
   // check session and get user from session data.
   useEffect(() => {
@@ -66,7 +66,7 @@ function App() {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
 
       if (event === 'SIGNED_OUT') {
-        console.log('SIGNED_OUT', session);
+        // console.log('SIGNED_OUT', session);
         // clear local and session storage;
         [
           window.localStorage,
@@ -85,7 +85,7 @@ function App() {
 
       if (event === "SIGNED_IN") {
 
-        console.log("SIGNED_IN/Session: ", session);
+        // console.log("SIGNED_IN/Session: ", session);
         // get JWTs from session.
         const userRes: User | null = await getUser(session)
 
@@ -106,7 +106,7 @@ function App() {
     const supabase = createSupabase();
 
     if (!session) {
-      console.log("No session detected. Signing out...")
+      // console.log("No session detected. Signing out...")
       await supabase.auth.signOut();
       navigate("/");
       return null;
@@ -119,14 +119,14 @@ function App() {
     Cookies.set("refreshToken", refreshToken);
 
     if (!accessToken || !refreshToken) {
-      console.log("Access token or refresh token missing")
+      // console.log("Access token or refresh token missing")
       await supabase.auth.signOut();
       navigate("/");
       return null;
     }
 
     // use session data to fetch user info;
-    const res = await fetch(`${VITE_URL}/api/auth`, {
+    const res = await fetch(`${VITE_SERVER_URL}/auth`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -134,26 +134,26 @@ function App() {
       credentials: "include",
     })
 
-    console.log("getUser/res: ", res);
+    // console.log("getUser/res: ", res);
     if (!res.ok) {
-      console.log("Error while getting user. Signing out...");
+      // console.log("Error while getting user. Signing out...");
       await supabase.auth.signOut();
       setUser(null);
-      console.log("signed out, navigating home...");
+      // console.log("signed out, navigating home...");
       navigate("/");
       return null;
     }
 
     const user: User = await res.json();
 
-    console.log("getUser/user: ", user);
+    // console.log("getUser/user: ", user);
 
     if (!user.id) {
-      console.log("No user Id returned");
-      console.log("signing out...");
+      // console.log("No user Id returned");
+      // console.log("signing out...");
       await supabase.auth.signOut();
       setUser(null);
-      console.log("signed out, navigating home...");
+      // console.log("signed out, navigating home...");
       navigate("/");
       return null;
     }

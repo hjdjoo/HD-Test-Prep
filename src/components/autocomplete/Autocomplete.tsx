@@ -31,12 +31,12 @@ function SuggestionsList(props: SuggestionsListProps) {
 
   function handleClick(e: MouseEvent<HTMLDivElement>) {
 
-    console.log("target: ", e.target);
-    console.log("currentTarget: ", e.currentTarget);
+    // console.log("target: ", e.target);
+    // console.log("currentTarget: ", e.currentTarget);
 
     const { innerText } = e.currentTarget as HTMLDivElement;
 
-    console.log(innerText);
+    // console.log(innerText);
     if (activeTags.includes(innerText)) {
       return;
     }
@@ -201,10 +201,10 @@ export default function Autocomplete(props: AutocompleteProps) {
       case "ArrowDown":
         e.preventDefault();
         setSelectSuggestion(true);
-        // console.log(activeSuggestionIdx, filteredSuggestions.length - 1);
+        // // console.log(activeSuggestionIdx, filteredSuggestions.length - 1);
         if (activeSuggestionIdx === filteredSuggestions.length - 1) return;
         if (Number.isNaN(activeSuggestionIdx)) {
-          // console.log("setting active suggestion idx to 0")
+          // // console.log("setting active suggestion idx to 0")
           setActiveSuggestionIdx(0);
           return;
         }

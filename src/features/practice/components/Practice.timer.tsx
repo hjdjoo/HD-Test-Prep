@@ -22,8 +22,8 @@ export default function Timer(props: TimerProps) {
 
   useEffect(() => {
 
-    console.log("Timer.tsx/useEffect")
-    console.log("start: ", start)
+    // console.log("Timer.tsx/useEffect")
+    // console.log("start: ", start)
 
     if (!start || timerInterval.current) {
       return;
@@ -45,10 +45,10 @@ export default function Timer(props: TimerProps) {
 
   function startTimer() {
 
-    console.log("starting timer...")
+    // console.log("starting timer...")
 
     if (timerOn) {
-      console.log("timer is on, returning")
+      // console.log("timer is on, returning")
       return
     };
 
@@ -63,7 +63,7 @@ export default function Timer(props: TimerProps) {
 
   function stopTimer() {
 
-    console.log("stopping timer - setting timerOn false and clearing interval...")
+    // console.log("stopping timer - setting timerOn false and clearing interval...")
 
     setTimerOn(false)
     clearInterval(timerInterval.current)

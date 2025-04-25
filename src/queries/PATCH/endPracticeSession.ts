@@ -1,5 +1,7 @@
 
-const VITE_URL = import.meta.env.VITE_URL!
+import { SERVER_URL } from "@/src/config";
+
+const VITE_SERVER_URL = SERVER_URL
 
 export default async function endPracticeSession(sessionId: number, status: "inactive" | "abandoned") {
 
@@ -7,7 +9,7 @@ export default async function endPracticeSession(sessionId: number, status: "ina
     status: status
   }
 
-  const res = await fetch(`${VITE_URL}/api/db/practice_session/${sessionId}`, {
+  const res = await fetch(`${VITE_SERVER_URL}/db/practice_session/${sessionId}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
@@ -21,7 +23,7 @@ export default async function endPracticeSession(sessionId: number, status: "ina
 
   const data = await res.json();
 
-  console.log(data);
+  // console.log(data);
   return data;
 
 }

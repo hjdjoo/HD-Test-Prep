@@ -39,7 +39,7 @@ function pdfToPng(files) {
         if (err) {
           console.error("Error: ", err)
         } else {
-          console.log("pdf converted to png")
+          // console.log("pdf converted to png")
         }
       })
 

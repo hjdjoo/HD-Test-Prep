@@ -41,7 +41,7 @@ export default function ContinuePracticeModal(props: ContinuePracticeModalProps)
 
       const data = await startPracticeSession(user.id, practiceType);
 
-      console.log(data.id);
+      // console.log(data.id);
       setSessionId(data.id);
       setSessionResponses([]);
       setIsPrevSession(false);

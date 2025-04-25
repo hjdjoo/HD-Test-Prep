@@ -1,10 +1,12 @@
 import { ClientInstructorData } from "@/src/_types/client-types";
 
-const VITE_URL = import.meta.env.VITE_URL!
+import { SERVER_URL } from "@/src/config";
+
+const VITE_SERVER_URL = SERVER_URL
 
 export default async function getInstructors() {
 
-  const res = await fetch(`${VITE_URL}/api/db/profiles/instructors`, {
+  const res = await fetch(`${VITE_SERVER_URL}/db/profiles/instructors`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json"

@@ -1,9 +1,11 @@
 
-const VITE_URL = import.meta.env.VITE_URL!
+import { SERVER_URL } from "@/src/config";
+
+const VITE_SERVER_URL = SERVER_URL
 
 export default async function deleteProfile(profileId: number) {
 
-  const res = await fetch(`${VITE_URL}/api/db/profiles/${profileId}`, {
+  const res = await fetch(`${VITE_SERVER_URL}/db/profiles/${profileId}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json"

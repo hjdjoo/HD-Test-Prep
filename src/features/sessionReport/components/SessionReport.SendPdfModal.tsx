@@ -53,7 +53,7 @@ export default function SendPdfModal(props: SendPdfModalProps) {
       }
       const data = await getResponsesBySession(Number(sessionId));
 
-      console.log("PdfContainer/useQuery/data: ", data);
+      // console.log("PdfContainer/useQuery/data: ", data);
 
       return data;
     }
@@ -83,7 +83,7 @@ export default function SendPdfModal(props: SendPdfModalProps) {
           return item.signedUrl.includes(String(response.questionId))
         })[0];
 
-        console.log("PdfContainer/useQuery/return/data/map/studentResponse: ", studentResponse);
+        // console.log("PdfContainer/useQuery/return/data/map/studentResponse: ", studentResponse);
 
         return {
           responseId: studentResponse.id,
@@ -111,7 +111,7 @@ export default function SendPdfModal(props: SendPdfModalProps) {
           } as FeedbackData
 
         } else {
-          console.log("no feedback id. Returning blank Object.")
+          // console.log("no feedback id. Returning blank Object.")
           return Promise.resolve({} as FeedbackData)
         }
       })
@@ -130,10 +130,10 @@ export default function SendPdfModal(props: SendPdfModalProps) {
 
       const tagsProms = feedbackData.map(async (item) => {
 
-        console.log("sendPdfModal/item: ", item);
+        // console.log("sendPdfModal/item: ", item);
 
         if (!item.data || !item.data.tags || !item.data.tags.length) {
-          console.log("no item to read tags")
+          // console.log("no item to read tags")
           return Promise.resolve({} as TagsData)
 
         } else {
@@ -160,18 +160,18 @@ export default function SendPdfModal(props: SendPdfModalProps) {
   useEffect(() => {
 
     if (sentRef.current === true) {
-      console.log("already sent");
+      // console.log("already sent");
       return;
     }
 
     if (!sessionResponseData || !questionImageData || !feedbackData || !tagsData || !questionsAnswered.length || (questionsCorrect !== 0 && !questionsCorrect)) {
-      console.log("missing data, not sending yet");
-      // console.log(!sessionResponseData)
-      // console.log(!questionImageData)
-      // console.log(!feedbackData)
-      // console.log(!tagsData)
-      // console.log(!questionsAnswered.length)
-      // console.log(!!!questionsCorrect)
+      // console.log("missing data, not sending yet");
+      // // console.log(!sessionResponseData)
+      // // console.log(!questionImageData)
+      // // console.log(!feedbackData)
+      // // console.log(!tagsData)
+      // // console.log(!questionsAnswered.length)
+      // // console.log(!!!questionsCorrect)
       return;
     } else {
       sentRef.current = true;
@@ -185,21 +185,21 @@ export default function SendPdfModal(props: SendPdfModalProps) {
   async function handleSend() {
     try {
       if (!user) {
-        console.log("No user detected");
+        // console.log("No user detected");
         return;
       }
 
       if (!sessionResponseData || !feedbackData || !questionImageData || !tagsData) {
-        console.log("incomplete data; returning...");
+        // console.log("incomplete data; returning...");
         return;
       }
 
       if (!questionsAnswered.length || (questionsCorrect !== 0 && !questionsCorrect)) {
-        console.log("No data returned from hooks");
+        // console.log("No data returned from hooks");
         return;
       }
 
-      console.log("sending report...")
+      // console.log("sending report...")
 
       const Report = <PdfReport
         studentResponses={sessionResponseData}
@@ -213,10 +213,10 @@ export default function SendPdfModal(props: SendPdfModalProps) {
 
       const pdfBlob = await pdf(Report).toBlob();
 
-      console.log('sending session summary');
+      // console.log('sending session summary');
       await sendSessionSummary(pdfBlob, sessionId, String(user.id));
 
-      console.log("ending session...")
+      // console.log("ending session...")
       await endSession(Number(sessionId), "inactive");
 
     } catch (e) {

@@ -1,12 +1,14 @@
 import { ClientStudentData } from "@/src/_types/client-types";
 
-const VITE_URL = import.meta.env.VITE_URL!
+import { SERVER_URL } from "@/src/config";
+
+const VITE_SERVER_URL = SERVER_URL
 
 export default async function getStudents() {
 
-  console.log("getStudents/vite_url: ", VITE_URL);
+  // console.log("getStudents/vite_url: ", VITE_URL);
 
-  const res = await fetch(`${VITE_URL}/api/db/profiles/students`, {
+  const res = await fetch(`${VITE_SERVER_URL}/db/profiles/students`, {
 
     method: "GET",
     headers: {
@@ -14,10 +16,10 @@ export default async function getStudents() {
     }
   })
 
-  console.log(res);
+  // console.log(res);
 
   const data = await res.json();
-  console.log(data);
+  // console.log(data);
 
   return data as ClientStudentData[]
 

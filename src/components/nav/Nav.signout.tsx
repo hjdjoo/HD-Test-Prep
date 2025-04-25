@@ -17,7 +17,7 @@ export default function Signout() {
     const { error } = await supabase.auth.signOut();
 
     if (error) {
-      console.log("couldn't sign out!")
+      // console.log("couldn't sign out!")
       console.error(error);
       return;
     }

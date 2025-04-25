@@ -25,10 +25,8 @@ import fetchTags from "@/src/queries/GET/getTags";
 export default function Practice() {
 
   const { setCategories, setProblemTypes } = useCategoryStore();
-  // const { filter, filteredQuestions, setQuestions, filterQuestions } = questionStore.getState();
 
   const filter = useStore(questionStore, (state) => state.filter);
-  const filteredQuestions = useStore(questionStore, (state) => state.filteredQuestions);
   const setQuestions = useStore(questionStore, (state) => state.setQuestions);
   const filterQuestions = useStore(questionStore, (state) => state.filterQuestions);
   const user = useStore(userStore, (state) => state.user);
@@ -64,7 +62,7 @@ export default function Practice() {
 
   // make sure to update the filtered question bank when the filter is changed.
   useEffect(() => {
-    console.log("change in filter detected, setting new questions...")
+    // console.log("change in filter detected, setting new questions...")
     filterQuestions();
 
   }, [filter])
@@ -100,9 +98,6 @@ export default function Practice() {
       <ErrorPage />
     )
   }
-
-  // console.log(tags);
-  console.log("PracticeContainer/filteredQuestions length: ", filteredQuestions.length);
 
   return (
     <div id="practice-container"

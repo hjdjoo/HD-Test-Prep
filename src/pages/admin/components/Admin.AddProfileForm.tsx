@@ -89,7 +89,7 @@ export default function AddProfileForm(props: AddProfileFormProps) {
     finally {
       resetForm();
       setShow(false);
-      console.log("Success!");
+      // console.log("Success!");
     }
   }
 

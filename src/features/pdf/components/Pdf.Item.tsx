@@ -31,14 +31,14 @@ export default function PdfSessionItem(props: PdfSessionItemProps) {
 
   if (feedbackForm && feedbackForm.tags.length && tagsData) {
 
-    console.log(tagsData);
+    // console.log(tagsData);
 
     feedbackForm.tags.forEach(id => {
       if (tagsData[String(id)]) {
         tags.push(tagsData[String(id)]);
       }
     })
-    // console.log("PdfSessionItem/tags: ", tags);
+    // // console.log("PdfSessionItem/tags: ", tags);
   }
 
   if (tags.length) {
@@ -114,9 +114,9 @@ export default function PdfSessionItem(props: PdfSessionItemProps) {
       }
 
       if (itemText[key] && feedbackForm[key]) {
-        // console.log(itemText[key]);
+        // // console.log(itemText[key]);
         renderCountRef.current += 1;
-        console.log("renderCountRef.current: ", renderCountRef.current);
+        // console.log("renderCountRef.current: ", renderCountRef.current);
         const background = (renderCountRef.current % 2 === 0) ? styles.itemEven : styles.itemOdd
 
         const itemStyle = {
@@ -132,8 +132,8 @@ export default function PdfSessionItem(props: PdfSessionItemProps) {
         )
       }
     }).filter((item) => {
-      // console.log(item)
-      // console.log(item === undefined);
+      // // console.log(item)
+      // // console.log(item === undefined);
       return item !== undefined
     });
   }
@@ -198,7 +198,7 @@ export default function PdfSessionItem(props: PdfSessionItemProps) {
     };
 
     if (feedbackForm?.imageUrl && feedbackForm.imageUrl.length) {
-      console.log(feedbackForm.imageUrl);
+      // console.log(feedbackForm.imageUrl);
       output.push(
         (
           <>

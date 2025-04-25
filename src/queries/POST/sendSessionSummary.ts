@@ -1,4 +1,8 @@
 
+import { SERVER_URL } from "@/src/config";
+
+const VITE_SERVER_URL = SERVER_URL
+
 export default async function sendSessionSummary(pdf: Blob, sessionId: string, studentId: string) {
 
   const formData = new FormData();
@@ -6,7 +10,7 @@ export default async function sendSessionSummary(pdf: Blob, sessionId: string, s
   formData.append("pdf", pdf);
 
   // make fetch request to: api/mail/send
-  const res = await fetch(`/api/mail/send/${sessionId}?userId=${studentId}`, {
+  const res = await fetch(`${VITE_SERVER_URL}/mail/send/${sessionId}?userId=${studentId}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/pdf"
@@ -19,8 +23,8 @@ export default async function sendSessionSummary(pdf: Blob, sessionId: string, s
     throw new Error(`Something went wrong while sending session sumary. ${res.status}`)
   }
 
-  const data = await res.json();
+  // const data = await res.json();
 
-  console.log(data);
+  // console.log(data);
 
 };
