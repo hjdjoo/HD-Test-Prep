@@ -18,9 +18,11 @@ import { userStore } from "./stores/userStore";
 import Auth from "./features/auth/Auth";
 import { Session } from "@supabase/supabase-js";
 
+import { SERVER_URL } from "./config";
+
 const queryClient = new QueryClient();
 
-const VITE_SERVER_URL = import.meta.env.VITE_URL
+const VITE_SERVER_URL = SERVER_URL
 
 function App() {
 
