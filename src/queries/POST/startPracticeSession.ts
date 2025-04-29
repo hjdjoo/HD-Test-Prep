@@ -10,7 +10,7 @@ export default async function startPracticeSession(userId: number, type: "random
     type: type
   }
 
-  const res = await fetch(`${VITE_SERVER_URL}/api/db/practice_session/new`, {
+  const res = await fetch(`${VITE_SERVER_URL}/db/practice_session/new`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"

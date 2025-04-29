@@ -7,7 +7,7 @@ const VITE_SERVER_URL = SERVER_URL
 
 export default async function getQuestions() {
 
-  const res = await fetch(`${VITE_SERVER_URL}/api/db/questions`, {
+  const res = await fetch(`${VITE_SERVER_URL}/db/questions`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json"
