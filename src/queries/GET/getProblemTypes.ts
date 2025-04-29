@@ -6,7 +6,7 @@ const VITE_SERVER_URL = SERVER_URL
 
 export default async function getProblemTypes() {
 
-  const res = await fetch(`${VITE_SERVER_URL}/api/db/problem_types`, {
+  const res = await fetch(`${VITE_SERVER_URL}/db/problem_types`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json"
