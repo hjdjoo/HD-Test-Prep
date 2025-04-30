@@ -5,14 +5,16 @@ const isProd = import.meta.env.MODE === "production";
 
 const supabase = createSupabase();
 
-async function refreshSession() {
+export async function refreshSession() {
 
   const { data: { session }, error } = await supabase.auth.refreshSession();
 
   if (error || !session) {
+    console.log("refreshSession: No supabase session detected.")
     return false;
   }
 
+  console.log("refreshSession: Supabase tokens detected. Saving to cookies.")
   const accessToken = session.access_token;
   const refreshToken = session.refresh_token;
 
