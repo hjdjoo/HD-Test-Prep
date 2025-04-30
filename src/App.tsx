@@ -88,6 +88,7 @@ function App() {
 
         // console.log("SIGNED_IN/Session: ", session);
         // get JWTs from session.
+        await refreshSession();
         const userRes: User | null = await getUser()
 
         setUser(userRes);
