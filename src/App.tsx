@@ -66,7 +66,6 @@ function App() {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
 
       if (event === 'SIGNED_OUT') {
-        console.log('SIGNED_OUT', event);
         // clear local and session storage;
         [
           window.localStorage,

@@ -17,17 +17,11 @@ async function refreshSession() {
 
 export async function apiFetch(url: string, options: RequestInit = {}, retry = true) {
 
-  console.log("entered apiFetch");
-
-  console.log("getting session...");
   const { data: { session }, error } = await supabase.auth.getSession();
 
-  console.log(session, error);
   if (error) {
     throw error;
   }
-
-  console.log("no error, setting access token");
 
   const headers = new Headers(options.headers || {});
   headers.set("Authorization", `Bearer ${session?.access_token}`);
@@ -40,7 +34,6 @@ export async function apiFetch(url: string, options: RequestInit = {}, retry = t
 
   if (res.status === 401 && retry) {
     const refreshed = await refreshSession();
-    console.log("refreshed: ", refreshed)
     if (refreshed) {
       console.log("retrying fetch...");
       return apiFetch(url, { ...options, ...headers }, false);
