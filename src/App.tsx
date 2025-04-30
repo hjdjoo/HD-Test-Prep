@@ -15,8 +15,10 @@ import { SERVER_URL } from "./config";
 import { apiFetch } from "@/utils/apiFetch";
 // components
 import NavContainer from "containers/nav/NavContainer";
-import { Session } from "@supabase/supabase-js";
+// import { Session } from "@supabase/supabase-js";
 import Auth from "./features/auth/Auth";
+
+import { refreshSession } from "@/utils/apiFetch";
 
 
 const queryClient = new QueryClient();
@@ -36,18 +38,16 @@ function App() {
 
     (async () => {
 
-      const supabase = createSupabase();
+      const refreshed = refreshSession();
 
-      const { data, error } = await supabase.auth.refreshSession();
-
-      if (error) {
-        console.error("refreshSession/error: ", error);
+      if (!refreshed) {
+        console.error("refreshSession/refreshed: ", refreshed);
         // console.error(error.message);
         setUser(null);
         return;
       }
 
-      const user = await getUser(data.session);
+      const user = await getUser();
 
       if (!user) {
         setUser(null);
@@ -64,7 +64,7 @@ function App() {
 
     const supabase = createSupabase();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event) => {
 
       if (event === 'SIGNED_OUT') {
         // console.log('SIGNED_OUT', session);
@@ -88,7 +88,8 @@ function App() {
 
         // console.log("SIGNED_IN/Session: ", session);
         // get JWTs from session.
-        const userRes: User | null = await getUser(session)
+        await refreshSession();
+        const userRes: User | null = await getUser()
 
         setUser(userRes);
         navigate("/");
@@ -102,16 +103,9 @@ function App() {
 
   }, [])
 
-  async function getUser(session: Session | null) {
+  async function getUser() {
 
     const supabase = createSupabase();
-
-    if (!session) {
-      // console.log("No session detected. Signing out...")
-      await supabase.auth.signOut();
-      navigate("/");
-      return null;
-    }
 
     // use session data to fetch user info;
     const res = await apiFetch(`${VITE_SERVER_URL}/auth`, {
