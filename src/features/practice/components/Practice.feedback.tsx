@@ -18,6 +18,7 @@ import { apiFetch } from "@/utils/apiFetch";
 // import Alert, { UserAlert } from "components/alert/Alert";
 
 import ModalContainer from "containers/modal/ModalContainer";
+import { SERVER_URL } from "@/src/config";
 
 interface UploadPreviewProps {
   uploadFileData: FileData
@@ -235,7 +236,7 @@ export default function FeedbackForm(props: FeedbackFormProps) {
 
       // console.log("submit feedback form request body: ", body);
       // submit feedback form and get id;
-      const res = await apiFetch("api/db/feedback/new", {
+      const res = await apiFetch(`${SERVER_URL}/db/feedback/new`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

@@ -22,6 +22,7 @@ import { apiFetch } from "@/utils/apiFetch";
 import Alert, { UserAlert } from "components/alert/Alert";
 
 import { StudentResponse } from "@/src/_types/client-types";
+import { SERVER_URL } from "@/src/config";
 
 
 interface QuestionContainerProps {
@@ -136,7 +137,7 @@ export default function QuestionContainer(props: QuestionContainerProps) {
 
       // // console.log("final student response: ", finalStudentResponse);
 
-      const res = await apiFetch("api/db/student_responses/new", {
+      const res = await apiFetch(`${SERVER_URL}/db/student_responses/new`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
