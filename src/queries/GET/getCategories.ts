@@ -1,4 +1,5 @@
 import { Category } from "../../stores/categoryStore";
+import { apiFetch } from "@/utils/apiFetch";
 
 import { SERVER_URL } from "@/src/config";
 
@@ -6,7 +7,7 @@ const VITE_SERVER_URL = SERVER_URL
 
 export default async function getCategories() {
 
-  const res = await fetch(`${VITE_SERVER_URL}/db/categories`, {
+  const res = await apiFetch(`${VITE_SERVER_URL}/db/categories`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json"

@@ -13,6 +13,8 @@ import { useTagStore } from "@/src/stores/tagStore";
 import { Question, questionStore } from "@/src/stores/questionStore";
 import { StudentResponse, FileData, type FeedbackForm } from "@/src/_types/client-types";
 
+import { apiFetch } from "@/utils/apiFetch";
+
 // import Alert, { UserAlert } from "components/alert/Alert";
 
 import ModalContainer from "containers/modal/ModalContainer";
@@ -233,7 +235,7 @@ export default function FeedbackForm(props: FeedbackFormProps) {
 
       // console.log("submit feedback form request body: ", body);
       // submit feedback form and get id;
-      const res = await fetch("api/db/feedback/new", {
+      const res = await apiFetch("api/db/feedback/new", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

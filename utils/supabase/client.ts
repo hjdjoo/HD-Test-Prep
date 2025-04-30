@@ -6,11 +6,14 @@ const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL!
 
 const client = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLIC_KEY, {
   auth: {
+    autoRefreshToken: true,
     detectSessionInUrl: true,
+    persistSession: true,
   }
 });
 
 const createSupabase = () => {
+
   return client
 };
 

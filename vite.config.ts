@@ -12,8 +12,9 @@ export default defineConfig(({ mode }) => {
 
   const env = loadEnv(mode, process.cwd(), '');
 
-  const VITE_SERVER_URL_DEV = env.VITE_SERVER_URL_DEV;
-  const VITE_SERVER_URL_PROD = env.VITE_SERVER_URL_PROD;
+  const isProd = mode === "production";
+  const VITE_SERVER_URL = isProd ? env.VITE_SERVER_URL_PROD : env.VITE_SERVER_URL_DEV;
+  const VITE_URL_DEV = env.VITE_URL_DEV;
 
   return {
     plugins: [
@@ -24,10 +25,10 @@ export default defineConfig(({ mode }) => {
       }),
     ],
     server: {
-      allowedHosts: [VITE_SERVER_URL_DEV.replace("https://", ""),],
+      allowedHosts: [VITE_URL_DEV.replace("https://", ""),],
       proxy: {
         "/api": {
-          target: `${VITE_SERVER_URL_PROD}`,
+          target: `${VITE_SERVER_URL}`,
           changeOrigin: true,
           rewrite: (path) => {
             return path.replace(/^\/api/, "")

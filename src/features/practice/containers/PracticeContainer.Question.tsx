@@ -18,7 +18,7 @@ import Feedback from "@/src/features/practice/components/Practice.feedback";
 import { FeedbackForm } from "@/src/_types/client-types";
 import ErrorPage from "@/src/ErrorPage";
 // import Spinner from "components/loading/Loading.Spinner";
-
+import { apiFetch } from "@/utils/apiFetch";
 import Alert, { UserAlert } from "components/alert/Alert";
 
 import { StudentResponse } from "@/src/_types/client-types";
@@ -136,7 +136,7 @@ export default function QuestionContainer(props: QuestionContainerProps) {
 
       // // console.log("final student response: ", finalStudentResponse);
 
-      const res = await fetch("api/db/student_responses/new", {
+      const res = await apiFetch("api/db/student_responses/new", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

@@ -2,12 +2,12 @@ import { NewProfileForm } from "@/src/_types/client-types";
 import { ClientStudentData } from "@/src/_types/client-types";
 
 import { SERVER_URL } from "@/src/config";
-
+import { apiFetch } from "@/utils/apiFetch";
 const VITE_SERVER_URL = SERVER_URL
 
 export default async function addNewProfile(form: NewProfileForm) {
 
-  const res = await fetch(`${VITE_SERVER_URL}/db/profiles/new`, {
+  const res = await apiFetch(`${VITE_SERVER_URL}/db/profiles/new`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"

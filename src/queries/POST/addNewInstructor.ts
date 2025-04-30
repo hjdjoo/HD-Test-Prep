@@ -1,15 +1,17 @@
 import { NewProfileForm } from "@/src/_types/client-types";
 import { ClientInstructorData } from "@/src/_types/client-types";
 import { SERVER_URL } from "@/src/config";
+import { apiFetch } from "@/utils/apiFetch";
+// import createSupabase from "@/utils/supabase/client";
 
 const VITE_SERVER_URL = SERVER_URL
 
 export default async function addNewInstructor(form: NewProfileForm) {
 
-  const res = await fetch(`${VITE_SERVER_URL}/db/profiles/instructor/new`, {
+  const res = await apiFetch(`${VITE_SERVER_URL}/db/profiles/instructor/new`, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(form)
   });

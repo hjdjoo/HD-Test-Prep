@@ -1,6 +1,6 @@
 
 import { SERVER_URL } from "@/src/config";
-
+import { apiFetch } from "@/utils/apiFetch";
 const VITE_SERVER_URL = SERVER_URL
 
 export default async function startPracticeSession(userId: number, type: "random" | "structured") {
@@ -10,7 +10,7 @@ export default async function startPracticeSession(userId: number, type: "random
     type: type
   }
 
-  const res = await fetch(`${VITE_SERVER_URL}/db/practice_session/new`, {
+  const res = await apiFetch(`${VITE_SERVER_URL}/db/practice_session/new`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"

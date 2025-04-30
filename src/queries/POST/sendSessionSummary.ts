@@ -1,6 +1,6 @@
 
 import { SERVER_URL } from "@/src/config";
-
+import { apiFetch } from "@/utils/apiFetch";
 const VITE_SERVER_URL = SERVER_URL
 
 export default async function sendSessionSummary(pdf: Blob, sessionId: string, studentId: string) {
@@ -10,7 +10,7 @@ export default async function sendSessionSummary(pdf: Blob, sessionId: string, s
   formData.append("pdf", pdf);
 
   // make fetch request to: api/mail/send
-  const res = await fetch(`${VITE_SERVER_URL}/mail/send/${sessionId}?userId=${studentId}`, {
+  const res = await apiFetch(`${VITE_SERVER_URL}/mail/send/${sessionId}?userId=${studentId}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/pdf"

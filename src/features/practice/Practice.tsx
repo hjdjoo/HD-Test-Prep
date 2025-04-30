@@ -42,7 +42,7 @@ export default function Practice() {
   // React query states:
   const { status: questionStatus, data: questionData, error: questionError } = useQuery({
     queryKey: ["questions"],
-    queryFn: fetchQuestions,
+    queryFn: fetchQuestions
   });
 
   const { status: categoryStatus, data: categoryData, error: categoryError } = useQuery({
