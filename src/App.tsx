@@ -15,7 +15,7 @@ import { SERVER_URL } from "./config";
 import { apiFetch } from "@/utils/apiFetch";
 // components
 import NavContainer from "containers/nav/NavContainer";
-import { Session } from "@supabase/supabase-js";
+// import { Session } from "@supabase/supabase-js";
 import Auth from "./features/auth/Auth";
 
 import { refreshSession } from "@/utils/apiFetch";
