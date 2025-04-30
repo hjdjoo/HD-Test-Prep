@@ -1,3 +1,4 @@
+// Globals
 import { useEffect } from "react"
 import {
   QueryClient,
@@ -5,26 +6,22 @@ import {
 } from "@tanstack/react-query";
 import { useStore } from "zustand";
 import { Outlet, useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
+// styles
 import styles from "./App.module.css"
-
+// utils
 import createSupabase from "@/utils/supabase/client";
-import NavContainer from "containers/nav/NavContainer";
-
-import { User } from "./stores/userStore";
-
-import { userStore } from "./stores/userStore";
-
-import Auth from "./features/auth/Auth";
-import { Session } from "@supabase/supabase-js";
-
+import { User, userStore } from "./stores/userStore";
 import { SERVER_URL } from "./config";
+import { apiFetch } from "@/utils/apiFetch";
+// components
+import NavContainer from "containers/nav/NavContainer";
+import { Session } from "@supabase/supabase-js";
+import Auth from "./features/auth/Auth";
+
 
 const queryClient = new QueryClient();
 
 const VITE_SERVER_URL = SERVER_URL;
-
-const isProd = import.meta.env.MODE === "production";
 
 function App() {
 
@@ -116,29 +113,8 @@ function App() {
       return null;
     }
 
-    const accessToken = session.access_token;
-    const refreshToken = session.refresh_token;
-
-    Cookies.set("accessToken", accessToken, {
-      sameSite: isProd ? "None" : "Lax",
-      secure: isProd,
-      domain: isProd ? ".hdprep.me" : undefined
-    });
-    Cookies.set("refreshToken", refreshToken, {
-      sameSite: isProd ? "None" : "Lax",
-      secure: isProd,
-      domain: isProd ? ".hdprep.me" : undefined
-    });
-
-    if (!accessToken || !refreshToken) {
-      // console.log("Access token or refresh token missing")
-      await supabase.auth.signOut();
-      navigate("/");
-      return null;
-    }
-
     // use session data to fetch user info;
-    const res = await fetch(`${VITE_SERVER_URL}/auth`, {
+    const res = await apiFetch(`${VITE_SERVER_URL}/auth`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
