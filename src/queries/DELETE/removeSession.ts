@@ -1,6 +1,6 @@
 // export default async function endSession(sessionId: number) {
 
-//   const res = await fetch(`api/db/practice_session/${sessionId}`, {
+//   const res = await apiFetch(`api/db/practice_session/${sessionId}`, {
 //     method: "",
 //     headers: {
 //       "Content-Type": "application/json"

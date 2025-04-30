@@ -14,10 +14,11 @@ export default function Signout() {
     e.preventDefault();
 
     const supabase = createClient();
+    console.log('signing out...')
     const { error } = await supabase.auth.signOut();
 
     if (error) {
-      // console.log("couldn't sign out!")
+      console.log("couldn't sign out!")
       console.error(error);
       return;
     }

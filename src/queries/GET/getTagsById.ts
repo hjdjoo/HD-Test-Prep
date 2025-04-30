@@ -1,6 +1,6 @@
 
 import { SERVER_URL } from "@/src/config";
-
+import { apiFetch } from "@/utils/apiFetch";
 const VITE_SERVER_URL = SERVER_URL
 
 /**
@@ -11,7 +11,7 @@ export default async function getTagsById(ids: number[]) {
 
   const query = ids.join(",");
 
-  const res = await fetch(`${VITE_SERVER_URL}/db/tags?ids=${query}`);
+  const res = await apiFetch(`${VITE_SERVER_URL}/db/tags?ids=${query}`);
 
   if (!res.ok) {
     throw new Error(`Something went wrong while fetch tags from DB by ID: ${res.status}`)

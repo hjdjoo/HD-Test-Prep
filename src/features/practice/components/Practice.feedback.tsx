@@ -233,7 +233,7 @@ export default function FeedbackForm(props: FeedbackFormProps) {
 
       // console.log("submit feedback form request body: ", body);
       // submit feedback form and get id;
-      const res = await fetch("api/db/feedback/new", {
+      const res = await apiFetch("api/db/feedback/new", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

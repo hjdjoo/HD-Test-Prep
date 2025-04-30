@@ -15,11 +15,8 @@ import { SERVER_URL } from "./config";
 import { apiFetch } from "@/utils/apiFetch";
 // components
 import NavContainer from "containers/nav/NavContainer";
-// import { Session } from "@supabase/supabase-js";
+import { Session } from "@supabase/supabase-js";
 import Auth from "./features/auth/Auth";
-
-import { refreshSession } from "@/utils/apiFetch";
-
 
 const queryClient = new QueryClient();
 
@@ -38,16 +35,18 @@ function App() {
 
     (async () => {
 
-      const refreshed = refreshSession();
+      const supabase = createSupabase();
 
-      if (!refreshed) {
-        console.error("refreshSession/refreshed: ", refreshed);
+      const { data, error } = await supabase.auth.refreshSession();
+
+      if (error) {
+        console.error("refreshSession/error: ", error);
         // console.error(error.message);
         setUser(null);
         return;
       }
 
-      const user = await getUser();
+      const user = await getUserProfile(data.session);
 
       if (!user) {
         setUser(null);
@@ -64,7 +63,7 @@ function App() {
 
     const supabase = createSupabase();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
 
       if (event === 'SIGNED_OUT') {
         // console.log('SIGNED_OUT', session);
@@ -85,11 +84,9 @@ function App() {
       };
 
       if (event === "SIGNED_IN") {
-
         // console.log("SIGNED_IN/Session: ", session);
         // get JWTs from session.
-        await refreshSession();
-        const userRes: User | null = await getUser()
+        const userRes: User | null = await getUserProfile(session)
 
         setUser(userRes);
         navigate("/");
@@ -103,15 +100,21 @@ function App() {
 
   }, [])
 
-  async function getUser() {
+  async function getUserProfile(session: Session | null) {
 
     const supabase = createSupabase();
+    if (!session) {
+      // console.log("No session detected. Signing out...")
+      await supabase.auth.signOut();
+      navigate("/");
+      return null;
+    }
 
     // use session data to fetch user info;
     const res = await apiFetch(`${VITE_SERVER_URL}/auth`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
     })
 

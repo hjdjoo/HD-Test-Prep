@@ -136,7 +136,7 @@ export default function QuestionContainer(props: QuestionContainerProps) {
 
       // // console.log("final student response: ", finalStudentResponse);
 
-      const res = await fetch("api/db/student_responses/new", {
+      const res = await apiFetch("api/db/student_responses/new", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

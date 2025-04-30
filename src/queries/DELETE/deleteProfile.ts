@@ -1,11 +1,11 @@
-
 import { SERVER_URL } from "@/src/config";
+import { apiFetch } from "@/utils/apiFetch";
 
 const VITE_SERVER_URL = SERVER_URL
 
 export default async function deleteProfile(profileId: number) {
 
-  const res = await fetch(`${VITE_SERVER_URL}/db/profiles/${profileId}`, {
+  const res = await apiFetch(`${VITE_SERVER_URL}/db/profiles/${profileId}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json"

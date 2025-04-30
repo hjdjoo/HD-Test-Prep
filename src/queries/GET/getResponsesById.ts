@@ -1,7 +1,7 @@
 import { StudentResponse } from "@/src/_types/client-types";
 
 import { SERVER_URL } from "@/src/config";
-
+import { apiFetch } from "@/utils/apiFetch";
 const VITE_SERVER_URL = SERVER_URL
 /**
  * 
@@ -18,7 +18,7 @@ export default async function getResponsesById(responseIds: number[]) {
 
   const responseQuery = responseIds.join(",");
 
-  const res = await fetch(`${VITE_SERVER_URL}/db/student_responses/?ids=${responseQuery}`, {
+  const res = await apiFetch(`${VITE_SERVER_URL}/db/student_responses/?ids=${responseQuery}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json"
