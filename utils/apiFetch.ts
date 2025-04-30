@@ -35,24 +35,26 @@ export async function apiFetch(url: string, options: RequestInit = {}, retry = t
 
   const accessToken = Cookies.get("accessToken");
 
+  console.log("setting headers")
   const headers = new Headers(options.headers || {});
   if (accessToken) {
     headers.set("Authorization", `Bearer ${accessToken}`);
   }
-
+  console.log("trying fetch");
   const res = await fetch(url, {
     ...options,
     headers,
-    credentials: "include", // important if you're relying on cookies being sent
+    credentials: "include",
   });
 
 
   if (res.status === 401 && retry) {
     const refreshed = await refreshSession();
+    console.log("refreshed: ", refreshed)
     if (refreshed) {
-      return apiFetch(url, options, false); // Retry once after refresh
+      console.log("retrying fetch...");
+      return apiFetch(url, options, false);
     } else {
-      // Optional: handle logout if refresh fails
       Cookies.remove("accessToken");
       Cookies.remove("refreshToken");
       window.location.href = "/";

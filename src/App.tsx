@@ -119,7 +119,6 @@ function App() {
       headers: {
         "Content-Type": "application/json"
       },
-      credentials: "include",
     })
 
     // console.log("getUser/res: ", res);
