@@ -12,9 +12,8 @@ export default defineConfig(({ mode }) => {
 
   const env = loadEnv(mode, process.cwd(), '');
 
-  const isProd = env.mode === "production";
+  const isProd = mode === "production";
   const VITE_SERVER_URL = isProd ? env.VITE_SERVER_URL_PROD : env.VITE_SERVER_URL_DEV;
-
   const VITE_URL_DEV = env.VITE_URL_DEV;
 
   return {
