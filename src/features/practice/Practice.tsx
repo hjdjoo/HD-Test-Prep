@@ -87,6 +87,8 @@ export default function Practice() {
 
 
   if (questionStatus === "pending" || categoryStatus === "pending" || problemTypeStatus === "pending" || tagsStatus === "pending") {
+    console.log("questionStatus, categoryStatus, problemTypeStatus, tagsStatus: ")
+    console.log(questionStatus, categoryStatus, problemTypeStatus, tagsStatus)
     return (
       <Loading />
     )
