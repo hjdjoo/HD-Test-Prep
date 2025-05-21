@@ -2,7 +2,7 @@ import { NewProfileForm } from "@/src/_types/client-types";
 import { ClientInstructorData } from "@/src/_types/client-types";
 import { SERVER_URL } from "@/src/config";
 import { apiFetch } from "@/utils/apiFetch";
-// import createSupabase from "@/utils/supabase/client";
+// import {supabase} from "@/utils/supabase/client";
 
 const VITE_SERVER_URL = SERVER_URL
 

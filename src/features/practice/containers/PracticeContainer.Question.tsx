@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import styles from "./PracticeContainer.module.css";
 import animations from "@/src/animations.module.css";
 
-import createSupabase from "@/utils/supabase/client";
+import { supabase } from "@/utils/supabase/client";
 
 import { Question } from "@/src/stores/questionStore";
 import { userStore } from "@/src/stores/userStore";
@@ -64,7 +64,7 @@ export default function QuestionContainer(props: QuestionContainerProps) {
     queryKey: ["imageUrl", question],
     queryFn: async () => {
 
-      const supabase = createSupabase();
+
 
       const { data, error } = await supabase
         .storage
@@ -164,6 +164,11 @@ export default function QuestionContainer(props: QuestionContainerProps) {
       setResponse("");
     } catch (e) {
       console.error(e);
+      setUserAlert({
+        severity: "error",
+        message: `${e}`,
+        timestamp: Date.now()
+      })
     }
 
   }

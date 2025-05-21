@@ -3,7 +3,7 @@ import styles from "./LoginForm.module.css";
 import animations from "@/src/animations.module.css";
 
 import GoogleIcon from "@/src/assets/icons/googleIcon.svg"
-import createSupabase from "@/utils/supabase/client"
+import { supabase } from "@/utils/supabase/client"
 import { equals, isEmail } from "validator";
 
 import Alert, { UserAlert } from "components/alert/Alert";
@@ -24,7 +24,7 @@ export default function LoginForm() {
 
   async function signinWithGoogle(e: MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
-    const supabase = createSupabase();
+
     const { data, error } = await supabase.auth
       .signInWithOAuth({
         provider: "google",
@@ -42,7 +42,7 @@ export default function LoginForm() {
 
   async function signinWithEmail(email: string, password: string) {
 
-    const supabase = createSupabase();
+
 
     const { data, error } = await supabase.auth
       .signInWithPassword({ email: email, password: password });
@@ -63,7 +63,7 @@ export default function LoginForm() {
 
     try {
 
-      const supabase = createSupabase();
+
       const { email, password, confirm } = credentials;
 
       if (!validateEmail(email)) {
@@ -98,7 +98,7 @@ export default function LoginForm() {
     const currentTarget = e.currentTarget
     // e.currentTarget.reset();
     try {
-      // const supabase = createSupabase();
+      // 
       const formData = new FormData(e.currentTarget);
       const form = Object.fromEntries(formData.entries());
       // console.table(form);

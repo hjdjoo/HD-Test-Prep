@@ -7,7 +7,7 @@ import animations from "@/src/animations.module.css";
 import { PDFViewer } from "@react-pdf/renderer";
 
 
-import createSupabase from "@/utils/supabase/client";
+import { supabase } from "@/utils/supabase/client";
 import getResponsesBySession from "@/src/queries/GET/getResponsesBySession";
 import getFeedbackById from "@/src/queries/GET/getFeedbackById";
 import getTagsById from "@/src/queries/GET/getTagsById";
@@ -49,7 +49,7 @@ export type TagsData = {
 
 export default function PdfContainer(props: PdfContainerProps) {
 
-  const supabase = createSupabase();
+  // 
 
   const navigate = useNavigate();
 
