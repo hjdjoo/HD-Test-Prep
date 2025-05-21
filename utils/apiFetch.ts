@@ -1,19 +1,4 @@
-import createSupabase from "./supabase/client";
-
-const supabase = createSupabase();
-
-async function refreshSession() {
-
-  // const supabase = createSupabase();
-  const { error } = await supabase.auth.refreshSession();
-
-  if (error) {
-    return false;
-  }
-
-  else return true;
-
-}
+import { supabase } from "./supabase/client";
 
 export async function apiFetch(url: string, options: RequestInit = {}, retry = true) {
 
@@ -33,11 +18,9 @@ export async function apiFetch(url: string, options: RequestInit = {}, retry = t
   });
 
   if (res.status === 401 && retry) {
-    const refreshed = await refreshSession();
-    if (refreshed) {
-      console.log("retrying fetch...");
-      return apiFetch(url, { ...options, ...headers }, false);
-    }
+    // const refreshed = await refreshSession();
+    console.log("retrying fetch...");
+    return apiFetch(url, { ...options, ...headers }, false);
   }
 
   return res;

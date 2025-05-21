@@ -33,8 +33,6 @@ export default function ReportContainer(props: ReportContainerProps) {
     timestamp: Date.now()
   });
 
-  // // console.log(userAlert);
-
   // get practice session responses based on ID;
   const { data: sessionResponseData, error: sessionResponseError } = useQuery({
     queryKey: ["studentResponses", sessionId],
@@ -48,7 +46,6 @@ export default function ReportContainer(props: ReportContainerProps) {
       const data = await getResponsesBySession(Number(sessionId));
 
       // console.log("ReportContainer/useQuery/data: ", data);
-
       return data;
     }
   })

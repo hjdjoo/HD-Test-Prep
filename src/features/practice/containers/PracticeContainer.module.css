@@ -13,7 +13,6 @@
   width: 100%;
 }
 
-
 .sticky {
   position: sticky;
   top: 0;
@@ -53,7 +52,7 @@
   composes: buttonReset from "@/src/App.module.css";
   height: 2rem;
   background-color: var(--primary-extralight);
-  border-radius: 5px;
+  border-radius: 5px;font: 1em sans-serif;
 }
 
 .buttonStyleSecondary {
@@ -86,6 +85,14 @@
 } */
 
 /* Question */
+
+.questionModuleStyle {
+  border: 1px solid gray;
+  border-radius: 15px;
+  box-shadow: 2px 2px 5px var(--primary-light);
+  padding: 1rem;
+  margin-top: 1rem;
+}
 
 .questionModuleAlign {
   display: flex;

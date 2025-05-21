@@ -3,7 +3,7 @@ import styles from "./DetailContainer.module.css"
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
-import createSupabase from "@/utils/supabase/client";
+import { supabase } from "@/utils/supabase/client";
 
 import { Question } from "@/src/stores/questionStore";
 import { ClientStudentResponse } from "@/src/_types/client-types"
@@ -32,7 +32,7 @@ export default function DetailItemContainer(props: DetailItemContainerProps) {
   const { data: imageUrlData, error: imageUrlError } = useQuery({
     queryKey: [`summaryQuestion${question.id}`, question],
     queryFn: async () => {
-      const supabase = createSupabase();
+
 
       const { data, error } = await supabase
         .storage

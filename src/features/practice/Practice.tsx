@@ -21,7 +21,6 @@ import LinkInstructorModal from "./components/Practice.LinkInstructorModal";
 
 import fetchTags from "@/src/queries/GET/getTags";
 
-
 export default function Practice() {
 
   const { setCategories, setProblemTypes } = useCategoryStore();

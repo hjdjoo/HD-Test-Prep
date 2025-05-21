@@ -12,7 +12,7 @@ import { usePracticeSessionStore } from "@/src/stores/practiceSessionStore";
 import { QuestionImageData, FeedbackData, TagsData } from "@/src/features/pdf/containers/PdfContainer"
 import { ClientFeedbackFormData } from "@/src/_types/client-types";
 
-import createSupabase from "@/utils/supabase/client";
+import { supabase } from "@/utils/supabase/client";
 
 import getResponsesBySession from "@/src/queries/GET/getResponsesBySession";
 import getFeedbackById from "@/src/queries/GET/getFeedbackById";
@@ -40,7 +40,7 @@ export default function SendPdfModal(props: SendPdfModalProps) {
 
   const user = userStore.getState().user;
 
-  const supabase = createSupabase();
+
   // get practice session responses based on ID;
   const { data: sessionResponseData, error: sessionResponseError } = useQuery({
     queryKey: ["studentResponses", sessionId],
@@ -166,12 +166,6 @@ export default function SendPdfModal(props: SendPdfModalProps) {
 
     if (!sessionResponseData || !questionImageData || !feedbackData || !tagsData || !questionsAnswered.length || (questionsCorrect !== 0 && !questionsCorrect)) {
       // console.log("missing data, not sending yet");
-      // // console.log(!sessionResponseData)
-      // // console.log(!questionImageData)
-      // // console.log(!feedbackData)
-      // // console.log(!tagsData)
-      // // console.log(!questionsAnswered.length)
-      // // console.log(!!!questionsCorrect)
       return;
     } else {
       sentRef.current = true;

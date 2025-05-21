@@ -115,6 +115,11 @@
 }
 
 .radioButtonsDecoration {
+  
+  border: 0.5px solid var(--primary-extralight);
+  border-radius: 15px;
+  background-color: var(--primary-extralight);
+
   &:hover {
     cursor: pointer;
     transition: background-color 0.2s ease-in-out 10ms;
@@ -127,8 +132,6 @@
 
 .radioButtonsWidth {
   width: 100%;
-  border: 1px solid gray;
-  border-radius: 15px;
 }
 
 .radioButtonsAlign {

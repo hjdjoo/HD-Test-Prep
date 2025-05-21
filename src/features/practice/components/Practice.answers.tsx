@@ -39,7 +39,6 @@ export default function Answers(props: AnswersProps) {
         ].join(" ")}>
           <input id={`answer-radio-${choice}`}
             type="radio"
-            // hidden={true}
             value={choice}
             onClick={handleClick} />
         </div>
@@ -52,8 +51,6 @@ export default function Answers(props: AnswersProps) {
   return (
     <div className={[
       styles.radioButtonsVertical, styles.answersWidth].join(" ")}>
-      {/* {answersAE.includes(answer) && radiosAE}
-      {answersFK.includes(answer) && radiosFK} */}
       {radios}
     </div>
   )
