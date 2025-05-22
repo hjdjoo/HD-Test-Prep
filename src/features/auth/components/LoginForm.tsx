@@ -13,6 +13,7 @@ import Alert, { UserAlert } from "components/alert/Alert";
 //   password: string,
 //   confirm: string,
 // }
+const VITE_URL = import.meta.env.VITE_URL;
 
 export default function LoginForm() {
   // no auth logic yet.
@@ -31,7 +32,8 @@ export default function LoginForm() {
         options: {
           queryParams: {
             prompt: "select_account"
-          }
+          },
+          redirectTo: VITE_URL
         }
       });
     if (error) {
