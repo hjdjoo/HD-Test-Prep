@@ -14,7 +14,6 @@ import Alert, { UserAlert } from "components/alert/Alert";
 //   confirm: string,
 // }
 const VITE_URL = import.meta.env.VITE_URL;
-console.log(VITE_URL);
 
 export default function LoginForm() {
   // no auth logic yet.
