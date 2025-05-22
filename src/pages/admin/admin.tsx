@@ -70,7 +70,7 @@ export default function AdminPage() {
 
   return (
     <AdminContainer user={user}>
-      <h2><u>Admin Page:</u></h2>
+      <p><u>Admin Page:</u></p>
       <SettingsContainer
         instructors={instructorData}
         students={studentData} />
