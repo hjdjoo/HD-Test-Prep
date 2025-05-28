@@ -16,6 +16,12 @@ export default function AdminContainer(props: AdminContainerProps) {
         styles.containerWidth,
       ].join(" ")}
     >
+      <p className={[
+        styles.heading,
+      ].join(" ")}
+      >
+        <u>Admin Page:</u>
+      </p>
       {children && children}
     </div>
   )

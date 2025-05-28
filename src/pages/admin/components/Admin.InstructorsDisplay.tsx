@@ -24,7 +24,6 @@ export default function InstructorsDisplay(props: InstructorsDisplayProps) {
       setInstructors(updatedInstructors);
 
       await deleteInstructor(id);
-
       // console.log(data);
 
     } catch (e) {
@@ -45,6 +44,7 @@ export default function InstructorsDisplay(props: InstructorsDisplayProps) {
             styles.flexRow,
             styles.justifyBetween,
             styles.widthFull,
+            styles.displayItem,
           ].join(" ")}>
           <p>{`${rendered}. ${instructor.name}`}</p>
           <button
@@ -67,8 +67,13 @@ export default function InstructorsDisplay(props: InstructorsDisplayProps) {
   const instructorsDisplay = renderInstructors();
 
   return (
-    <div id="instructors-display">
-      <h3>Instructor Roster</h3>
+    <div id="instructors-display"
+      className={[
+        styles.sectionSpacing,
+      ].join(" ")}>
+      <p className={[
+        styles.displayHeading,
+      ].join(" ")}>Instructor Roster</p>
       {instructorsDisplay}
     </div>
   )

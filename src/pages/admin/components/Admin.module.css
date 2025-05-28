@@ -18,6 +18,14 @@
   display: flex;
 }
 
+.alignCenter {
+  align-items: center;
+}
+
+.justifyCenter {
+  justify-content: center;
+}
+
 .justifyBetween {
   justify-content: space-between;
 }
@@ -45,8 +53,28 @@
   padding: 0.5rem;
   margin: 0.5rem 0.5rem;
   background-color: var(--primary-extralight);
+  border-radius: 5px;
 
   &:hover {
-    transition-property: background-color;
+    transition: background-color ease-in-out 100ms;
+    background-color: var(--primary-light);
   }
+}
+
+.displayHeading {
+  font-size: 1.5rem;
+  text-decoration: underline;
+}
+
+.displayItem {
+  border: 1px solid gray;
+  padding: 0.5rem 1rem;
+}
+
+.displayItemEven {
+
+}
+
+.displayItemOdd {
+
 }
