@@ -14,13 +14,20 @@ import { userStore } from "./stores/userStore";
 import NavContainer from "containers/nav/NavContainer";
 // import { Session } from "@supabase/supabase-js";
 import Auth from "./features/auth/Auth";
+import Loading from "components/loading/Loading";
 
 const queryClient = new QueryClient();
 
 function App() {
 
   const user = useStore(userStore, (state) => state.user);
-  console.log("App.tsx/user: ", user);
+  const bootstrapped = useStore(userStore, (state) => state.bootstrapped);
+  // console.log("App.tsx/user: ", user);
+  if (!bootstrapped) {
+    return (
+      <Loading />
+    )
+  }
 
   return (
     <div id="app" className={[

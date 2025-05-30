@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useQuery } from "@tanstack/react-query";
 import { useStore } from "zustand";
+import { useNavigate } from "react-router-dom";
 import animations from "@/src/animations.module.css"
 import styles from "./Practice.module.css";
 
@@ -15,13 +16,15 @@ import fetchQuestions from "@/src/queries/GET/getQuestions";
 import fetchCategories from "@/src/queries/GET/getCategories";
 import fetchProblemTypes from "@/src/queries/GET/getProblemTypes";
 
-import RandomPractice from "./containers/PracticeContainer.Random";
-import StructuredPractice from "./containers/PracticeContainer.Structured";
+// import RandomPractice from "./containers/PracticeContainer.Random";
+// import StructuredPractice from "./containers/PracticeContainer.Structured";
 import LinkInstructorModal from "./components/Practice.LinkInstructorModal";
 
 import fetchTags from "@/src/queries/GET/getTags";
 
 export default function Practice() {
+
+  const navigate = useNavigate();
 
   const { setCategories, setProblemTypes } = useCategoryStore();
 
@@ -32,7 +35,7 @@ export default function Practice() {
 
   const { setTags } = useTagStore();
 
-  const [practiceType, setPracticeType] = useState<"random" | "structured" | null>(null)
+  // const [practiceType, setPracticeType] = useState<"random" | "structured" | null>(null)
 
   const openModal = (user && !user.instructor_id) ? true : false;
 
@@ -84,10 +87,9 @@ export default function Practice() {
 
   }, [questionData, problemTypeData, categoryData, tagsData])
 
-
+  console.log("questionStatus, categoryStatus, problemTypeStatus, tagsStatus: ")
+  console.log(questionStatus, categoryStatus, problemTypeStatus, tagsStatus)
   if (questionStatus === "pending" || categoryStatus === "pending" || problemTypeStatus === "pending" || tagsStatus === "pending") {
-    console.log("questionStatus, categoryStatus, problemTypeStatus, tagsStatus: ")
-    console.log(questionStatus, categoryStatus, problemTypeStatus, tagsStatus)
     return (
       <Loading />
     )
@@ -119,7 +121,11 @@ export default function Practice() {
           styles.buttonSize,
           animations.highlightPrimary,
         ].join(" ")}
-        onClick={() => { setPracticeType("random") }}>
+        onClick={() => {
+          // setPracticeType("random")
+          navigate("/practice/random")
+        }}
+      >
         {`Start Practice`}
       </button>
       {
@@ -132,8 +138,8 @@ export default function Practice() {
       </button> */}
       <br />
       {/* Settings Component */}
-      {practiceType === "random" && <RandomPractice />}
-      {practiceType === "structured" && <StructuredPractice />}
+      {/* {practiceType === "random" && <RandomPractice />}
+      {practiceType === "structured" && <StructuredPractice />} */}
     </div>
   )
 }

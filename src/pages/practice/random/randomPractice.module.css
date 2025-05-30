@@ -1,0 +1,7 @@
+.container {
+  padding-bottom: 15%;
+  composes: flexColCenter from "@/src/App.module.css";
+  /* justify-content: center; */
+  height: 100%;
+  width: 100%;
+}
