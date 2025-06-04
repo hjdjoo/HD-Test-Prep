@@ -37,4 +37,19 @@
   border-radius: 0.5rem;
   width: 90%;
   height: 2rem;
+
+}
+
+.buttonStyleSecondary {
+  composes: buttonReset from "@/src/App.module.css";
+  background-color: #e8e8e8;
+  color: black;
+  border-radius: 0.5rem;
+  width: 90%;
+  height: 2rem;
+  transition: background-color 200ms;
+
+  &:hover {
+    background-color: var(--primary-light);
+  }
 }

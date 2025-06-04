@@ -154,7 +154,6 @@ export default function RandomPractice() {
         styles.container,
         styles.sectionMargin,
       ].join(" ")}>
-      <h3>Randomized Practice:</h3>
       <button id="show-settings-button"
         className={[
           styles.buttonMarginY,
@@ -223,7 +222,7 @@ export default function RandomPractice() {
             styles.buttonSize,
             animations.highlightPrimary,
           ].join(" ")}>
-          Go!
+          Start
         </button>
       }
       {

@@ -263,7 +263,7 @@ export default function PdfContainer(props: PdfContainerProps) {
       <div className={[
         styles.fullWidth,
         styles.centerReport,
-        styles.sectionSpacingLg,
+        styles.sectionSpacing,
       ].join(" ")}>
         <button id="send-pdf-button"
           className={[
@@ -276,6 +276,22 @@ export default function PdfContainer(props: PdfContainerProps) {
           Send Report
         </button>
       </div>
+      <div className={[
+        styles.fullWidth,
+        styles.centerReport,
+        styles.sectionSpacing,
+      ].join(" ")}>
+        <button id="send-pdf-button"
+          className={[
+            styles.buttonStyleSecondary,
+          ].join(" ")}
+          onClick={() => {
+            navigate("/practice");
+          }}>
+          Back to Practice
+        </button>
+      </div>
+
       {sendStatus === "sending" &&
         <ModalContainer>
           <SendPdfModal

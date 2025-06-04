@@ -15,7 +15,6 @@ import AccountPage from './pages/account/account.tsx';
 import AdminPage from './pages/admin/admin.tsx';
 import SessionReport from './features/sessionReport/SessionReport.tsx';
 import PdfReport from './features/pdf/PdfReport.tsx';
-import RandomPracticePage from './pages/practice/random/randomPractice.tsx';
 
 // const PdfReport = lazy(() => import("@/src/features/pdf/PdfReport.tsx"));
 
@@ -25,7 +24,6 @@ const router = createBrowserRouter(
       <Route path="/" element={<App />} >
         <Route path="/" element={<HomePage />} />
         <Route path="/practice" element={<PracticePage />} />
-        <Route path="/practice/random" element={<RandomPracticePage />} />
         <Route path="/account" element={<AccountPage />} />
         <Route path="/admin" element={<AdminPage />} />
         <Route path="/report/:id" element={<SessionReport />} />
