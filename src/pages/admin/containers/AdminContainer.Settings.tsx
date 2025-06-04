@@ -24,6 +24,7 @@ export default function SettingsContainer(props: AdminSettingsProps) {
       ].join(" ")}>
       <div id="roster"
         className={[
+          styles.sectionSpacingLg,
         ].join(" ")}>
         <StudentsDisplay students={students} />
         <InstructorsDisplay instructors={instructors} />

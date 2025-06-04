@@ -25,6 +25,7 @@ export default function StudentsDisplay(props: StudentsDisplayProps) {
             className={[
               styles.flexRow,
               styles.widthFull,
+              styles.displayItem,
             ].join(" ")}>
             <p>{`${idx + 1}. `}</p>
             <StudentItem
@@ -43,9 +44,13 @@ export default function StudentsDisplay(props: StudentsDisplayProps) {
     <div id="students-display"
       className={[
         styles.displayWidth,
-
+        styles.sectionSpacing,
       ].join(" ")}>
-      <h3>Student Roster</h3>
+      <p className={[
+        styles.displayHeading,
+      ].join(" ")}>
+        Student Roster
+      </p>
       {studentsList}
     </div>
   )
