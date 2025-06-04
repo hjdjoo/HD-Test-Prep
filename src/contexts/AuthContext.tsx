@@ -33,7 +33,6 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
           setTimeout(async () => {
             const user = await getUserProfile(session);
             setUser(user);
-            navigate("/")
           }, 0)
           break;
         case "SIGNED_OUT":

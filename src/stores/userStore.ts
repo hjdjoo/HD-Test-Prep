@@ -13,6 +13,7 @@ export interface User {
 
 interface UserState {
   user: User | null,
+  bootstrapped: boolean,
   setUser: (user: User | null) => void
 }
 
@@ -20,7 +21,8 @@ export const userStore = createStore<UserState>()(
   persist(
     (set) => ({
       user: null,
-      setUser: (user) => set(() => ({ user: user }))
+      bootstrapped: false,
+      setUser: (user) => set(() => ({ user: user, bootstrapped: true }))
     }),
     {
       name: "user-storage"
