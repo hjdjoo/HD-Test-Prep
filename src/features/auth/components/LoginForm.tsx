@@ -26,7 +26,7 @@ export default function LoginForm() {
   async function signinWithGoogle(e: MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
 
-    const { data, error } = await supabase.auth
+    const { error } = await supabase.auth
       .signInWithOAuth({
         provider: "google",
         options: {
@@ -38,13 +38,12 @@ export default function LoginForm() {
       });
     if (error) {
       console.error(error);
+      setUserAlert({ timestamp: Date.now(), severity: "error", message: `${error.message}` })
     }
-    console.table(data);
+    // console.table(data);
   }
 
   async function signinWithEmail(email: string, password: string) {
-
-
 
     const { data, error } = await supabase.auth
       .signInWithPassword({ email: email, password: password });
@@ -52,8 +51,6 @@ export default function LoginForm() {
     if (!data) {
       return { data: null, error: error }
     };
-
-    // console.log(data);
 
   };
 
