@@ -9,7 +9,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "gen-types": "supabase gen types --lang=typescript --project-id \"ulkvsrwaqlwowvjsnjwu\" --schema public > database.types.ts"
+    "gen-types": "supabase gen types --lang=typescript --project-id \"ulkvsrwaqlwowvjsnjwu\" --schema public > database.types.ts",
+    "test": "vitest"
   },
   "dependencies": {
     "@react-pdf/renderer": "^4.1.5",
