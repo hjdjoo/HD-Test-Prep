@@ -23,6 +23,8 @@ function App() {
   const user = useStore(userStore, (state) => state.user);
   const bootstrapped = useStore(userStore, (state) => state.bootstrapped);
 
+  console.log(user, bootstrapped);
+
   if (!bootstrapped) {
     return (
       <Loading />
