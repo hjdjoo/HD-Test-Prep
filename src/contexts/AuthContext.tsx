@@ -25,7 +25,6 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
   useEffect(() => {
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      console.log("AuthContext/useEffect/onAuthStateChange/event: ", event);
 
       switch (event) {
         case "INITIAL_SESSION":

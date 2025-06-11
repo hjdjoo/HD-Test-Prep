@@ -28,11 +28,13 @@ export default function Signout() {
         throw error;
       };
 
-      const { data: { session } } = await supabase.auth.getSession();
-      console.log('session after signOut:', session);
+      const { error: sessionError } = await supabase.auth.getSession();
+      // console.log('session after signOut:', session);
+      if (sessionError) throw sessionError;
 
     } catch (e) {
       console.error(e);
+      throw e;
     }
   }
 

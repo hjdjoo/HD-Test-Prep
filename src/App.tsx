@@ -22,7 +22,7 @@ function App() {
 
   const user = useStore(userStore, (state) => state.user);
   const bootstrapped = useStore(userStore, (state) => state.bootstrapped);
-  // console.log("App.tsx/user: ", user);
+
   if (!bootstrapped) {
     return (
       <Loading />
