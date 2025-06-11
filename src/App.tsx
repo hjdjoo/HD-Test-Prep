@@ -23,12 +23,6 @@ function App() {
   const user = useStore(userStore, (state) => state.user);
   const bootstrapped = useStore(userStore, (state) => state.bootstrapped);
 
-  if (!bootstrapped) {
-    return (
-      <Loading />
-    )
-  }
-
   return (
     <div id="app" className={[
       styles.fullHeight,
@@ -36,26 +30,31 @@ function App() {
     ].join(" ")}>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <NavContainer />
-          <main className={[
-            styles.flexColCenter,
-            styles.widthFull,
-            styles.flexGrow,
-          ].join(" ")}>
-            <div id="outlet"
-              className={[
-                styles.outletDisplay,
+          {!bootstrapped ?
+            <Loading /> :
+            <>
+              <NavContainer />
+              <main className={[
+                styles.flexColCenter,
                 styles.widthFull,
-                styles.outletPadding,
+                styles.flexGrow,
               ].join(" ")}>
-              {
-                user ?
-                  <Outlet />
-                  :
-                  <Auth />
-              }
-            </div>
-          </main>
+                <div id="outlet"
+                  className={[
+                    styles.outletDisplay,
+                    styles.widthFull,
+                    styles.outletPadding,
+                  ].join(" ")}>
+                  {
+                    user ?
+                      <Outlet />
+                      :
+                      <Auth />
+                  }
+                </div>
+              </main>
+            </>
+          }
         </AuthProvider>
       </QueryClientProvider>
     </div>
