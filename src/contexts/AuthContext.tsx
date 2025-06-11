@@ -32,7 +32,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
         case "SIGNED_IN":
           setTimeout(async () => {
             const user = await getUserProfile(session);
-            console.log(user);
+            // console.log(user);
             setUser(user);
           }, 0)
           break;
