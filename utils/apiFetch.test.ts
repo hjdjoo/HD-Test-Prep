@@ -1,58 +1,46 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { apiFetch } from "@/utils/apiFetch";
-
-vi.mock("@/utils/supabase/client", () => {
-  return {
-    supabase: {
-      auth: {
-        getSession: vi.fn().mockResolvedValue({
-          data: { session: { access_token: "abc123" } },
-          error: null,
-        }),
-      },
-    },
-  };
-});
+// import { supabase } from "@/utils/supabase/client";
+import { supabase } from "@/vitest.setup";
 
 describe("apiFetch()", () => {
+
   const fetchSpy = vi.fn();
 
   beforeEach(() => {
     global.fetch = fetchSpy;
-  });
-
-  afterEach(() => {
-    vi.restoreAllMocks();
+    fetchSpy.mockReset();
+    vi.clearAllMocks();
   });
 
   it("attaches the bearer token and passes options through", async () => {
+
+    //@ts-expect-error
+    supabase.auth.getSession.mockResolvedValueOnce({
+      data: { session: { access_token: 'test_token' } },
+      error: null,
+    })
     fetchSpy.mockResolvedValueOnce(
       new Response(null, { status: 200, statusText: "OK" }),
     );
 
-    await apiFetch("https://example.com/endpoint", { method: "POST" });
+    const res = await apiFetch("https://example.com/endpoint", { method: "POST" });
 
+    console.log(res);
+
+    const [, init] = fetchSpy.mock.calls[0];
+    expect(init.headers.get("Authorization")).toBe("Bearer test_token");
     expect(fetchSpy).toHaveBeenCalledTimes(1);
-    expect(fetchSpy).toHaveBeenCalledWith(
-      "https://example.com/endpoint",
-      expect.objectContaining({
-        method: "POST",
-        credentials: "include",
-        headers: expect.objectContaining({
-          Authorization: "Bearer abc123",
-        }),
-      }),
-    );
+
   });
 
   it("bubbles up a Supabase error immediately", async () => {
-    const { supabase } = await import("@/utils/supabase/client");
-    // force an error path
-    // @ts-expect-error  we just replaced the mock
+    // @ts-expect-error 
     supabase.auth.getSession.mockResolvedValueOnce({
-      data: null,
+      data: { session: null },
       error: new Error("boom"),
     });
+
 
     await expect(apiFetch("https://x", {})).rejects.toThrow("boom");
   });

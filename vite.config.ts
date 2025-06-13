@@ -54,6 +54,14 @@ export default defineConfig(({ mode }) => {
         "components": path.resolve(__dirname, "src", "components"),
         "@": __dirname,
       }
+    },
+    test: {
+      globals: true,
+      environment: "jsdom",
+      coverage: {
+        provider: "v8",
+      },
+      setupFiles: ["./vitest.setup.ts"]
     }
   }
 })
