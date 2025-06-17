@@ -9,7 +9,7 @@ const sampleQuestions: Question[] = [
   {
     id: 1,
     question: 5,          // easy bucket
-    testForm: "A",
+    testForm: "TEST1",
     category: 1,
     problemType: 1,
     answer: "A",
@@ -18,7 +18,7 @@ const sampleQuestions: Question[] = [
   {
     id: 2,
     question: 25,         // medium bucket
-    testForm: "A",
+    testForm: "TEST1",
     category: 2,
     problemType: 2,
     answer: "E",
@@ -27,7 +27,7 @@ const sampleQuestions: Question[] = [
   {
     id: 3,
     question: 50,         // hard bucket
-    testForm: "B",
+    testForm: "TEST2",
     category: 3,
     problemType: 1,
     answer: "J",
@@ -63,7 +63,7 @@ describe("questionStore", () => {
   });
 
   it("includes only matching testForm (inclusive filter)", () => {
-    state().setFilter({ ...defaultFilter, testForm: "A" });
+    state().setFilter({ ...defaultFilter, testForm: "TEST1" });
     state().filterQuestions();
     expect(state().filteredQuestions.map((q) => q.id)).toEqual([1, 2]);
   });
@@ -101,7 +101,7 @@ describe("questionStore", () => {
     state().setFilter({
       categories: [3],          // exclude hard-coded category 3
       problemTypes: [],         // none
-      testForm: "A",            // include only form A
+      testForm: "TEST1",        // include only form A
       tags: [101],              // must include tag 101
       difficulty: { easy: true, medium: true, hard: true },
     });

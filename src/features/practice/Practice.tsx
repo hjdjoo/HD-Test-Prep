@@ -114,31 +114,10 @@ export default function Practice() {
         </h1>
       </div>
       <RandomPractice />
-      {/* <button id="start-practice-button"
-        className={[
-          styles.buttonStyle,
-          styles.buttonSize,
-          animations.highlightPrimary,
-        ].join(" ")}
-        onClick={() => {
-          // setPracticeType("random")
-          navigate("/practice/random")
-        }}
-      >
-        {`Start Practice`}
-      </button> */}
       {
         modalOpen &&
         <LinkInstructorModal setOpen={setModalOpen} />
       }
-      {/* <p>Or</p>
-      <button
-        onClick={() => { setPracticeType("structured") }}>{`Structured Practice`}
-      </button> */}
-      <br />
-      {/* Settings Component */}
-      {/* {practiceType === "random" && <RandomPractice />}
-      {practiceType === "structured" && <StructuredPractice />} */}
     </div>
   )
 }

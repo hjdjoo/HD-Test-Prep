@@ -10,38 +10,61 @@ import {
   screen,
   fireEvent,
   waitFor,
+  act,
 } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { useEffect } from "react";
 
 import QuestionContainer from "@/src/features/practice/containers/PracticeContainer.Question";
 import { usePracticeSessionStore } from "@/src/stores/practiceSessionStore";
 import { userStore } from "@/src/stores/userStore";
 import { supabase } from "@/vitest.setup";
 
-import { sampleQuestion, sampleUser } from "@/src/_const/testConst";
+import {
+  sampleQuestion,
+  sampleUser,
+} from "@/src/_const/testConst";
 import { resetStores } from "@/utils/testing/resetStores";
-import { client, renderWithQueryClient } from "@/utils/testing/renderWithContext";
+import {
+  client,
+  renderWithQueryClient,
+} from "@/utils/testing/renderWithContext";
 
-/**
- * Mocking child UI components
- */
+/* ──────────────────────────────────────────────────────────
+   Child-component stubs
+─────────────────────────────────────────────────────────── */
+
+vi.mock("components/loading/Loading.Spinner", () => ({
+  default: () => <div data-testid="loading-spinner" />
+}))
+
 vi.mock(
   "@/src/features/practice/components/Practice.timer",
   () => ({ default: () => <div /> }),
 );
+
 vi.mock(
   "@/src/features/practice/components/Practice.questionImage.js",
   () => ({
-    default: ({ imageLoaded, setImageLoaded }: any) => (
-      <button
-        data-testid="img"
-        onClick={() => setImageLoaded(true)}
-      >
-        {imageLoaded && `IMG`}
-      </button>
-    ),
+    /**
+     * Mimics real component: on mount -> fetch → setImageLoaded(true)
+     */
+    default: ({
+      imageQuestionUrl,
+      imageLoaded,
+      setImageLoaded,
+    }: any) => {
+      useEffect(() => {
+        setImageLoaded(true);
+      }, [setImageLoaded]);
+      return (
+        <div data-testid="img">
+          {imageLoaded && imageQuestionUrl}
+        </div>
+      );
+    },
   }),
 );
+
 vi.mock(
   "@/src/features/practice/components/Practice.answers.js",
   () => ({
@@ -66,6 +89,7 @@ vi.mock(
     ),
   }),
 );
+
 vi.mock(
   "@/src/features/practice/components/Practice.feedback",
   () => ({
@@ -74,80 +98,104 @@ vi.mock(
     }: {
       setSubmitStatus: (s: string) => void;
     }) => (
-      <button
-        data-testid="submit-feedback"
-        onClick={() => setSubmitStatus("submitted")}
-      >
-        SUBMIT
-      </button>
-    ),
+      <div>
+        <button data-testid="submit-feedback"
+          onClick={() => setSubmitStatus("submitted")}
+        >
+          SUBMIT
+        </button>
+      </div>
+    )
   }),
 );
+
 vi.mock("components/alert/Alert", () => ({
   default: ({ alert }: any) => (
     <div role="alert">{alert?.message}</div>
   ),
 }));
+
 vi.mock("@/src/ErrorPage", () => ({
   default: () => <div data-testid="error-page">ERR</div>,
 }));
 
+/* ──────────────────────────────────────────────────────────
+   Network helpers
+─────────────────────────────────────────────────────────── */
 import { apiFetch } from "@/utils/apiFetch";
 vi.mock("@/utils/apiFetch", () => ({
   apiFetch: vi.fn(),
 }));
 
+/* ──────────────────────────────────────────────────────────
+   Supabase storage stub — good path by default
+─────────────────────────────────────────────────────────── */
+const createSignedUrl = vi
+  .fn()
+  .mockResolvedValue({
+    data: { signedUrl: "https://img.local/q.png" },
+    error: null,
+  });
+// @ts-expect-error
+supabase.storage.from.mockImplementation(() => ({ createSignedUrl }));
+
+/* shorthand for render helper */
 const renderWithClient = renderWithQueryClient;
 
-/* ==================================================================== */
 describe("<PracticeContainer.Question>", () => {
+
   const getNextQuestion = vi.fn();
 
   beforeEach(() => {
     resetStores();
-    // put user directly into userStore without importing the store (isolate)
     userStore.setState({ user: sampleUser });
     vi.clearAllMocks();
+
+    act(() => {
+      usePracticeSessionStore.setState({
+        sessionId: 987,
+        sessionQuestions: [],
+        sessionResponses: [],
+      })
+    })
+
   });
 
   afterEach(() => client.clear());
 
-  /* ----------------------------------------------------------- */
-  it("flows happy-path: select answer → feedback → save & next", async () => {
+  it("happy path: select answer → feedback → save & next", async () => {
     (apiFetch as any).mockResolvedValueOnce({
       ok: true,
       json: () => Promise.resolve({ id: 999 }),
     });
 
-    const { findByTestId, getByTestId, getByRole } = renderWithClient(
+    const { getByTestId, getByRole } = renderWithClient(
       <QuestionContainer
         question={sampleQuestion}
         getNextQuestion={getNextQuestion}
       />,
     );
 
-    /* 1 ⸺ click the QuestionImage stub to mark loaded → answers appear */
-    userEvent.click(await findByTestId("img"));
+    await waitFor(() => {
+      expect(client.isFetching()).toBe(0);
+    })
 
-    /* 2 ⸺ choose answer */
-    fireEvent.click(getByTestId("choice-A"));
+    await waitFor(() => {
+      fireEvent.click(getByTestId("choice-A"));
+      fireEvent.click(getByRole("button", { name: /submit/i }));
+    })
 
-    /* 3 ⸺ first Submit opens feedback modal */
-    fireEvent.click(
-      getByRole("button", { name: /submit/i }),
-    );
-    expect(getByTestId("submit-feedback")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(getByTestId("submit-feedback")).toBeInTheDocument();
+    })
 
-    /* 4 ⸺ feedback modal triggers final submission */
-    fireEvent.click(getByTestId("submit-feedback"));
-
-    /* 5 ⸺ apiFetch called & store updated */
-    await waitFor(() =>
+    await waitFor(() => {
+      fireEvent.click(getByTestId("submit-feedback"));
       expect(apiFetch).toHaveBeenCalledWith(
         expect.stringMatching(/student_responses\/new$/),
         expect.objectContaining({ method: "POST" }),
-      ),
-    );
+      )
+    });
     expect(
       usePracticeSessionStore.getState().sessionResponses,
     ).toContain(999);
@@ -156,20 +204,20 @@ describe("<PracticeContainer.Question>", () => {
 
   /* ----------------------------------------------------------- */
   it("shows warning when Submit pressed without answer", async () => {
-    renderWithClient(
+    const { getByRole, findByRole } = renderWithClient(
       <QuestionContainer
         question={sampleQuestion}
         getNextQuestion={getNextQuestion}
       />,
     );
 
-    userEvent.click(await screen.findByTestId("img")); // load
+    await waitFor(() => {
+      expect(client.isFetching()).toBe(0);
+    })
 
-    fireEvent.click(
-      screen.getByRole("button", { name: /submit/i }),
-    );
+    fireEvent.click(getByRole("button", { name: /submit/i }));
 
-    expect(await screen.findByRole("alert")).toHaveTextContent(
+    expect(await findByRole("alert")).toHaveTextContent(
       /please select an answer/i,
     );
     expect(apiFetch).not.toHaveBeenCalled();
@@ -177,40 +225,21 @@ describe("<PracticeContainer.Question>", () => {
 
   /* ----------------------------------------------------------- */
   it("renders <ErrorPage> when image URL fetch fails", async () => {
-    // re-mock createSignedUrl to throw
+    createSignedUrl.mockResolvedValueOnce({
+      data: null,
+      error: new Error("boom"),
+    });
 
-    // @ts-expect-error
-    supabase.storage.from.mockImplementation(() => {
-      (_id: string) => {
-
-        const createSignedUrl = vi
-          .fn()
-          .mockResolvedValue(
-            { data: { signedUrl: "https://img.local/q.png" } })
-          .mockRejectedValue(
-            new Error("boom"),);
-
-        return {
-          createSignedUrl
-        };
-
-      }
-    })
-
-    // // @ts-expect-error
-    // supabase.storage.from("1").createSignedUrl.mockRejectedValue(
-    //   new Error("boom"),
-    // );
-
-    renderWithClient(
+    const { findByTestId } = renderWithClient(
       <QuestionContainer
         question={sampleQuestion}
         getNextQuestion={getNextQuestion}
       />,
     );
+    await waitFor(() => {
+      expect(client.isFetching()).toBe(0);
+    })
 
-    expect(
-      await screen.findByTestId("error-page"),
-    ).toBeInTheDocument();
+    expect(await findByTestId("error-page")).toBeInTheDocument();
   });
 });

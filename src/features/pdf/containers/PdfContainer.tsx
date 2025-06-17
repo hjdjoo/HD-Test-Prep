@@ -25,9 +25,6 @@ import PdfReport from "@/src/features/pdf/components/Pdf.Report";
 import SendPdfModal from "../../sessionReport/components/SessionReport.SendPdfModal";
 
 
-// const SendPdfModal = lazy(() => import("@/src/features/sessionReport/components/SessionReport.SendPdfModal"))
-// const PdfReport = lazy(() => import("@/src/features/pdf/components/Pdf.Report"))
-
 interface PdfContainerProps {
   sessionId: string
 }

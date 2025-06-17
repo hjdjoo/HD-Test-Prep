@@ -7,13 +7,13 @@ export const sampleQuestion = {
   testForm: "A",
   category: 3,
   problemType: 2,
-  answer: "4",
+  answer: "C",
   tags: { "101": 1 },
 } as Question;
 
 export const sampleUser = {
   id: 7,
-  uid: "uid-7",
+  uid: "8",
   role: "student",
   name: "Alice",
   email: "a@example.com",

@@ -79,40 +79,6 @@ vi.mock("@/src/queries/PATCH/endPracticeSession", () => ({
 const queryClient = new QueryClient();
 const renderWithClient = renderWithQueryClient;
 
-// const resetStores = () => {
-//   questionStore.setState({
-//     questions: [],
-//     filteredQuestions: [],
-//     filter: questionStore.getState().filter,
-//   });
-//   usePracticeSessionStore.setState({
-//     sessionId: null,
-//     sessionResponses: [],
-//     sessionQuestions: [],
-//   });
-//   userStore.setState({ user: null, bootstrapped: true });
-// };
-
-/* sample data matching your interfaces */
-// const sampleQuestion = {
-//   id: 1,
-//   question: 42,          // difficulty bucket
-//   testForm: "A",
-//   category: 3,
-//   problemType: 2,
-//   answer: "4",
-//   tags: { "101": 1 },
-// } as Question;
-
-// const sampleUser = {
-//   id: 7,
-//   uid: "uid-7",
-//   role: "student",
-//   name: "Alice",
-//   email: "a@example.com",
-//   instructor_id: 2,
-// } as User;
-
 describe("<PracticeContainer.Random>", () => {
   beforeEach(() => {
     resetStores();
