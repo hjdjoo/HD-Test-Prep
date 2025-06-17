@@ -1,17 +1,11 @@
 import { vi } from 'vitest';
+import '@testing-library/jest-dom/vitest'
 
 /**
- * A mocked Supabase client.
- * You can override any method per-test with
- *   supabase.auth.getSession.mockResolvedValueOnce(...)
+ * mocked supabase client;
  */
 const mockSupabase = {
-
   auth: {
-    /**
-     * Default: returns { data: { session }, error: null }
-     * The test can .mockResolvedValueOnce(...) for other paths.
-     */
     getSession: vi.fn().mockResolvedValue({
       data: { session: { access_token: 'test_token' } },
       error: null,
@@ -27,6 +21,13 @@ const mockSupabase = {
   select: vi.fn().mockReturnThis(),
   eq: vi.fn().mockReturnThis(),
   single: vi.fn().mockResolvedValue({ data: {}, error: null }),
+
+  storage: {
+    from: vi.fn().mockReturnThis(),
+    select: vi.fn().mockReturnThis(),
+    eq: vi.fn().mockReturnThis(),
+    single: vi.fn().mockResolvedValue({ data: {}, error: null }),
+  }
 } as unknown as ReturnType<typeof import('@supabase/supabase-js').createClient>;
 
 vi.mock('@supabase/supabase-js', () => {

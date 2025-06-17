@@ -65,7 +65,6 @@ export default function QuestionContainer(props: QuestionContainerProps) {
     queryFn: async () => {
 
 
-
       const { data, error } = await supabase
         .storage
         .from("questions")
@@ -95,6 +94,7 @@ export default function QuestionContainer(props: QuestionContainerProps) {
 
   }, [imageUrlData]);
 
+  // start question timer when question loads;
   useEffect(() => {
 
     if (imageLoaded) {
@@ -107,7 +107,6 @@ export default function QuestionContainer(props: QuestionContainerProps) {
   useEffect(() => {
 
     // console.log("QuestionContainer/useEffect/question: ", question);
-
     setFeedbackForm(initFeedbackForm(sessionId));
     setStudentRes(initStudentResponse(sessionId));
 
@@ -264,12 +263,12 @@ export default function QuestionContainer(props: QuestionContainerProps) {
       return;
     }
 
-    if (submitStatus === "submitting") {
-      // send call to DB to save student response;
-      // console.log("QuestionContainer/handleSubmit/submitStatus: ", submitStatus)
-      setSubmitStatus("submitted");
-      return;
-    }
+    // if (submitStatus === "submitting") {
+    //   // send call to DB to save student response;
+    //   // console.log("QuestionContainer/handleSubmit/submitStatus: ", submitStatus)
+    //   setSubmitStatus("submitted");
+    //   return;
+    // }
   }
 
 

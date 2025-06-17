@@ -59,9 +59,12 @@ export default defineConfig(({ mode }) => {
       globals: true,
       environment: "jsdom",
       coverage: {
+        enabled: true,
         provider: "v8",
+        reportOnFailure: true,
       },
-      setupFiles: ["./vitest.setup.ts"]
+      reporters: ["html"],
+      setupFiles: ["./vitest.setup.ts"],
     }
   }
 })

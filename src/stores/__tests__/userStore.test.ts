@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { userStore } from "@/src/stores/userStore";
-import { User } from "@/src/stores/userStore";
+import { sampleUser } from "@/src/_const/testConst";
 
 describe("userStore", () => {
   it("initialises with null user / not bootstrapped", () => {
@@ -10,19 +10,11 @@ describe("userStore", () => {
   });
 
   it("setUser() writes user and flips bootstrapped", () => {
-    const fakeUser = {
-      id: 99,
-      uid: "uid-99",
-      role: "admin",
-      name: "Tester",
-      email: "test@example.com",
-      instructor_id: 0,
-    } as User;
 
-    userStore.getState().setUser(fakeUser);
+    userStore.getState().setUser(sampleUser);
 
     const { user, bootstrapped } = userStore.getState();
-    expect(user).toEqual(fakeUser);
+    expect(user).toEqual(sampleUser);
     expect(bootstrapped).toBe(true);
   });
 });

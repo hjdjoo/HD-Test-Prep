@@ -34,6 +34,11 @@ dist-ssr
 
 resources/private
 
+# Vitest
+/html/
+/coverage/
+
+
 # Playwright
 /test-results/
 /playwright-report/

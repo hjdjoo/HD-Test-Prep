@@ -67,6 +67,7 @@ export default function Alert(props: UserAlertProps) {
 
   return (
     <div id="alert-wrapper"
+      role="alert"
       className={[
         styles.position,
         styles.fullWidth,
