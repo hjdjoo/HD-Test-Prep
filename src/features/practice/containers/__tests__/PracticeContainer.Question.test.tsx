@@ -186,7 +186,9 @@ describe("<PracticeContainer.Question>", () => {
         const createSignedUrl = vi
           .fn()
           .mockResolvedValue(
-            { data: { signedUrl: "https://img.local/q.png" } });
+            { data: { signedUrl: "https://img.local/q.png" } })
+          .mockRejectedValue(
+            new Error("boom"),);
 
         return {
           createSignedUrl
@@ -195,10 +197,10 @@ describe("<PracticeContainer.Question>", () => {
       }
     })
 
-    // @ts-expect-error
-    supabase.storage.from("1").createSignedUrl.mockRejectedValue(
-      new Error("boom"),
-    );
+    // // @ts-expect-error
+    // supabase.storage.from("1").createSignedUrl.mockRejectedValue(
+    //   new Error("boom"),
+    // );
 
     renderWithClient(
       <QuestionContainer

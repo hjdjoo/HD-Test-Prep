@@ -34,9 +34,12 @@ dist-ssr
 
 resources/private
 
+
 # Vitest
 /html/
-/coverage/
+coverage
+/coverage
+*/coverage
 
 
 # Playwright

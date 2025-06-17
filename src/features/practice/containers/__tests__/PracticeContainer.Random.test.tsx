@@ -7,11 +7,10 @@ import {
   afterEach,
 } from "vitest";
 import {
-  render,
   fireEvent,
   waitFor,
 } from "@testing-library/react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient } from "@tanstack/react-query";
 import RandomPractice from "@/src/features/practice/containers/PracticeContainer.Random";
 
 import { questionStore } from "@/src/stores/questionStore";
