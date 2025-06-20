@@ -15,12 +15,12 @@ import Loading from "components/loading/Loading";
 import fetchQuestions from "@/src/queries/GET/getQuestions";
 import fetchCategories from "@/src/queries/GET/getCategories";
 import fetchProblemTypes from "@/src/queries/GET/getProblemTypes";
+import fetchTags from "@/src/queries/GET/getTags";
 
 import RandomPractice from "./containers/PracticeContainer.Random";
 // import StructuredPractice from "./containers/PracticeContainer.Structured";
 import LinkInstructorModal from "./components/Practice.LinkInstructorModal";
 
-import fetchTags from "@/src/queries/GET/getTags";
 
 export default function Practice() {
 

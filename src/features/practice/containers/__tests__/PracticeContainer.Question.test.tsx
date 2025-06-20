@@ -7,7 +7,6 @@ import {
   afterEach,
 } from "vitest";
 import {
-  screen,
   fireEvent,
   waitFor,
   act,

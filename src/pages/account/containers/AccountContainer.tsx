@@ -5,19 +5,15 @@ import animations from "@/src/animations.module.css"
 import { userStore } from "@/src/stores/userStore";
 import ErrorPage from "@/src/ErrorPage";
 
-// import AccountSummary from "@/src/pages/account/components/Account.summary";
-// import AccountSettings from "@/src/pages/account/components/Account.settings";
 
 export default function AccountContainer() {
 
   const user = userStore.getState().user;
 
   if (!user || !user.id) {
-
     return (
       <ErrorPage />
     )
-
   }
 
   return (

@@ -6,7 +6,6 @@ import styles from "./PdfContainer.module.css"
 import animations from "@/src/animations.module.css";
 import { PDFViewer } from "@react-pdf/renderer";
 
-
 import { supabase } from "@/utils/supabase/client";
 import getResponsesBySession from "@/src/queries/GET/getResponsesBySession";
 import getFeedbackById from "@/src/queries/GET/getFeedbackById";
@@ -46,8 +45,6 @@ export type TagsData = {
 
 export default function PdfContainer(props: PdfContainerProps) {
 
-  // 
-
   const navigate = useNavigate();
 
   const [sendStatus, setSendStatus] = useState<"waiting" | "sending" | "sent">("waiting");
@@ -67,6 +64,8 @@ export default function PdfContainer(props: PdfContainerProps) {
   const { data: sessionResponseData, error: sessionResponseError } = useQuery({
     queryKey: ["studentResponses", sessionId],
     queryFn: async () => {
+
+
       if (!sessionId) {
         throw new Error("No session ID detected, no report generated");
       }
@@ -221,13 +220,6 @@ export default function PdfContainer(props: PdfContainerProps) {
   }
 
   if (!sessionResponseData || !questionImageData || !feedbackData || !tagsData) {
-
-    // console.log("PdfContainer: ")
-    // console.log("sessionResponseData", sessionResponseData)
-    // console.log("questionImageData", questionImageData)
-    // console.log("feedbackData", feedbackData)
-    // console.log("tagsData", tagsData)
-
 
     return (
       <Loading />
