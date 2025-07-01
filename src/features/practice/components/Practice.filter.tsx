@@ -19,7 +19,7 @@ function CategoryToggles(props: CategoryToggleProps) {
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
 
     const { value } = e.target as HTMLInputElement;
-
+    const filter = questionStore.getState().filter;
     const newFilter = structuredClone(filter);
     const id = Number(value);
 
@@ -91,7 +91,7 @@ function ProblemTypeToggles(props: ProblemTypeToggleProps) {
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
 
     const { value } = e.target as HTMLInputElement;
-
+    const filter = questionStore.getState().filter;
     const newFilter = structuredClone(filter);
     const id = Number(value);
 
@@ -156,7 +156,7 @@ function DifficultyToggles() {
   // const { id, problemType: name } = problemType;
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
-
+    const filter = questionStore.getState().filter;
     const { value } = e.target as HTMLInputElement;
 
     const newFilter = structuredClone(filter);

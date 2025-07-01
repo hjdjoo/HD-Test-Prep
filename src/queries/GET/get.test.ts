@@ -75,8 +75,6 @@ describe("simple list queries", () => {
   });
 });
 
-
-
 describe("getPracticeSession", () => {
 
   it("throws when !res.ok", async () => {

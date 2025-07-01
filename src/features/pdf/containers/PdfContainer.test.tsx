@@ -15,7 +15,7 @@ import {
 import * as routerModule from "react-router-dom";
 import { renderWithQueryClient, client } from "@/utils/testing/renderWithContext";
 
-import { sampleUser, mockClientFeedback, mockSessionResponses, mockQuestionImages } from "@/src/_const/testConst";
+import { sampleUser, mockClientFeedback, mockSessionResponseData, mockQuestionImages } from "@/src/_const/testConst";
 import { resetStores } from "@/utils/testing/resetStores";
 
 /* component under test */
@@ -73,7 +73,7 @@ vi.mock("@/src/ErrorPage", () => ({
 ───────────────────────────────────────────────── */
 vi.mock("@/src/queries/GET/getResponsesBySession", () => {
   return ({
-    default: vi.fn().mockResolvedValue(mockSessionResponses),
+    default: vi.fn().mockResolvedValue(mockSessionResponseData),
   })
 });
 vi.mock("@/src/queries/GET/getFeedbackById", () => ({

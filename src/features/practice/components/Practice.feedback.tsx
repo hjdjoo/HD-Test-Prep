@@ -28,9 +28,9 @@ interface UploadPreviewProps {
 interface FeedbackFormProps {
   question: Question
   studentResponse: StudentResponse
-  setStudentResponse: Dispatch<SetStateAction<StudentResponse | undefined>>
+  setStudentResponse: Dispatch<SetStateAction<StudentResponse>>
   feedbackForm: FeedbackForm
-  setFeedbackForm: Dispatch<SetStateAction<FeedbackForm | undefined>>
+  setFeedbackForm: Dispatch<SetStateAction<FeedbackForm>>
   setSubmitStatus: Dispatch<SetStateAction<"waiting" | "submitting" | "submitted">>
 }
 
@@ -136,6 +136,8 @@ export default function FeedbackForm(props: FeedbackFormProps) {
 
     const fileReader = new FileReader();
 
+    // console.log(fileReader.readAsDataURL);
+
     fileReader.onload = (e) => {
 
       // console.log("fileReader/onload/e.target: ", e.target);
@@ -144,7 +146,8 @@ export default function FeedbackForm(props: FeedbackFormProps) {
 
       img.onload = () => {
         if (size > 3500000) {
-          // console.log("large file!");
+
+          console.log("large file!");
 
           const maxSize = 3500000;
           const ratio = maxSize / size;
@@ -159,18 +162,17 @@ export default function FeedbackForm(props: FeedbackFormProps) {
           canvas.width = width;
           canvas.height = height;
 
+          // console.log(canvas, canvas.width);
+
           if (ctx) {
             // console.log("drawing image on context...")
             ctx.drawImage(img, 0, 0, width, height);
-            // console.log("converting canvas to blob...")
             canvas.toBlob((blob) => {
-
               if (!blob) return;
 
               const fileReader2 = new FileReader();
 
               fileReader2.onloadend = () => {
-
                 const data = fileReader2.result as string;
                 // console.log("setting upload file");
                 setUploadFileData({ fileType, fileData: data });
@@ -181,6 +183,7 @@ export default function FeedbackForm(props: FeedbackFormProps) {
               fileReader2.readAsDataURL(blob);
 
             }, fileType, 0.7);
+
           }
 
         } else {
@@ -189,10 +192,12 @@ export default function FeedbackForm(props: FeedbackFormProps) {
       }
 
       // console.log("setting image src...")
+      // console.log("onload result: ", result);
       img.src = result as string;
+      // console.log(img.src);
     }
 
-    // console.log("reading file...");
+    // console.log("reading file...", file);
     fileReader.readAsDataURL(file);
 
   }
@@ -278,10 +283,6 @@ export default function FeedbackForm(props: FeedbackFormProps) {
       console.error(e);
     }
   }
-
-  // function handleSkip () {
-
-  // }
 
 
   const difficultySelect = () => {
@@ -462,7 +463,6 @@ export default function FeedbackForm(props: FeedbackFormProps) {
                     capture="environment"
                     onChange={handleFileUpload} />
                 </div>
-
               </div>
               {uploadFileData.fileData && <UploadPreview uploadFileData={uploadFileData} setUploadFileData={setUploadFileData} />}
             </label>

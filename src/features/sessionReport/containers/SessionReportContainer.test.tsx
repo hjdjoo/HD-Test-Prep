@@ -17,7 +17,7 @@ import { MemoryRouter } from "react-router-dom";
 
 import SessionReportContainer from "@/src/features/sessionReport/containers/SessionReportContainer";
 import { resetStores } from "@/utils/testing/resetStores";
-import { mockSessionResponses } from "@/src/_const/testConst";
+import { mockSessionResponseData } from "@/src/_const/testConst";
 
 vi.mock("@/src/features/sessionReport/components/SessionReport.Report", () => ({
   default: () => <div data-testid="report-doc">REPORT-DOC</div>,
@@ -98,7 +98,7 @@ describe("<SessionReportContainer>", () => {
 
   it("renders Report and action buttons on success", async () => {
     (getResponsesBySession as any).mockResolvedValueOnce(
-      mockSessionResponses,
+      mockSessionResponseData,
     );
 
     const { findByTestId, getByRole } = renderUI("123");
@@ -126,7 +126,7 @@ describe("<SessionReportContainer>", () => {
   /* ---- Send button: data exists -> opens modal ------------------ */
   it("opens SendPdfModal when data present", async () => {
     (getResponsesBySession as any).mockResolvedValueOnce(
-      mockSessionResponses,
+      mockSessionResponseData,
     );
 
     const { getByRole, findByTestId } = renderUI("333");

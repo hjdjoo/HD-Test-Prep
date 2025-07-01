@@ -23,7 +23,7 @@ import {
 } from "@/utils/testing/renderWithContext";
 import {
   sampleUser,
-  mockSessionResponses,
+  mockSessionResponseData,
   mockQuestions
 } from "@/src/_const/testConst";
 import { resetStores } from "@/utils/testing/resetStores";
@@ -75,7 +75,7 @@ vi.mock("@/src/hooks/useQuestionsAnswered", () => ({ default: vi.fn() }));
 vi.mock("@/src/hooks/useQuestionsCorrect", () => ({ default: vi.fn() }));
 
 /* shorthand helpers */
-const renderUI = (responses = mockSessionResponses) =>
+const renderUI = (responses = mockSessionResponseData) =>
   renderWithQueryClient(
     <MemoryRouter>
       <ReportContainer studentResponses={responses} />

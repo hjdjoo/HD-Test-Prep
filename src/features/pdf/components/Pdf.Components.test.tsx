@@ -12,7 +12,7 @@ import PdfItem from "@/src/features/pdf/components/Pdf.Item";
 import PdfReport from "@/src/features/pdf/components/Pdf.Report";
 
 import {
-  mockSessionResponses,
+  mockSessionResponseData,
   mockQuestionImages,
   mockFeedbackData,
   mockTagsData,
@@ -59,7 +59,7 @@ vi.mock("@react-pdf/renderer", async () => {
    3 ▸  Local helpers
 ────────────────────────────────────────────── */
 const question = mockQuestions[0];
-const response = mockSessionResponses[0];
+const response = mockSessionResponseData[0];
 const feedback = mockFeedbackData[0].data;
 const tagsMap = mockTagsData[0].data;
 
@@ -114,7 +114,7 @@ describe("PDF components", () => {
   it("<Pdf.Report> happy path renders student name, summary, details", () => {
     const { getByText, getAllByText, getByTestId } = render(
       <PdfReport
-        studentResponses={mockSessionResponses}
+        studentResponses={mockSessionResponseData}
         questionImageData={mockQuestionImages}
         feedbackData={mockFeedbackData}
         tagsData={mockTagsData}

@@ -1,6 +1,6 @@
 import { Question } from "@/src/stores/questionStore";
 import { User } from "@/src/stores/userStore";
-import { FeedbackData, ClientFeedbackFormData, ClientStudentResponse, QuestionImageData, } from "../_types/client-types";
+import { FeedbackData, ClientFeedbackFormData, ClientStudentResponse, QuestionImageData, FeedbackForm, StudentResponse, } from "../_types/client-types";
 import { Category, ProblemType } from "../stores/categoryStore";
 import { TagsData } from "../_types/client-types";
 
@@ -82,9 +82,8 @@ export const mockQuestionImages: QuestionImageData[] = [
 
 /* ───────────── sessionResponseData ───────────── */
 
-export const mockSessionResponses: ClientStudentResponse[] = [
+export const mockStudentResponses: StudentResponse[] = [
   {
-    createdAt: "2025-06-18T14:00:05Z",
     feedbackId: 101,
     id: 1,
     questionId: 42,
@@ -94,7 +93,6 @@ export const mockSessionResponses: ClientStudentResponse[] = [
     timeTaken: 18,
   },
   {
-    createdAt: "2025-06-18T14:01:12Z",
     feedbackId: 102,
     id: 2,
     questionId: 43,
@@ -104,7 +102,6 @@ export const mockSessionResponses: ClientStudentResponse[] = [
     timeTaken: 23,
   },
   {
-    createdAt: "2025-06-18T14:02:30Z",
     feedbackId: 103,
     id: 3,
     questionId: 44,
@@ -113,9 +110,49 @@ export const mockSessionResponses: ClientStudentResponse[] = [
     studentId: 7,
     timeTaken: 15,
   },
-];
+]
+
+export const mockSessionResponseData: ClientStudentResponse[] = mockStudentResponses.map((res) => {
+  return Object.assign(res, { createdAt: "yyyy-mm-dd" }) as ClientStudentResponse
+})
 
 /* ───────────── ClientFeedbackFormData ───────────── */
+
+export const mockFeedbackForms: FeedbackForm[] = [
+  {
+    sessionId: 9001,
+    comment: "Tricky wording on part (b).",
+    difficultyRating: 4,
+    guessed: false,
+    imageUrl: "https://cdn.local/img/q42.png",
+    instructorId: 3,
+    questionId: 42,
+    studentId: 7,
+    tags: [301, 502],
+  },
+  {
+    sessionId: 9001,
+    comment: "",
+    difficultyRating: 2,
+    guessed: true,
+    imageUrl: "",
+    instructorId: 3,
+    questionId: 43,
+    studentId: 7,
+    tags: [401],
+  },
+  {
+    sessionId: 9001,
+    comment: "Need review of completing-the-square.",
+    difficultyRating: 5,
+    guessed: false,
+    imageUrl: "https://cdn.local/img/q44.png",
+    instructorId: 3,
+    questionId: 44,
+    studentId: 7,
+    tags: [305, 612],
+  },
+]
 
 export const mockClientFeedback: ClientFeedbackFormData[] = [
   {

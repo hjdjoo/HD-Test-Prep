@@ -27,7 +27,6 @@ export default defineConfig(({ mode }) => {
     VITE_URL.replace(/^https?:\/\//, "") :
     VITE_URL.replace(/^https?:\/\//, "")
 
-
   return {
     plugins: [
       react(),
