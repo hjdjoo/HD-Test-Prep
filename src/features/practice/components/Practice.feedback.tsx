@@ -28,9 +28,9 @@ interface UploadPreviewProps {
 interface FeedbackFormProps {
   question: Question
   studentResponse: StudentResponse
-  setStudentResponse: Dispatch<SetStateAction<StudentResponse>>
+  setStudentResponse: Dispatch<SetStateAction<StudentResponse | undefined>>
   feedbackForm: FeedbackForm
-  setFeedbackForm: Dispatch<SetStateAction<FeedbackForm>>
+  setFeedbackForm: Dispatch<SetStateAction<FeedbackForm | undefined>>
   setSubmitStatus: Dispatch<SetStateAction<"waiting" | "submitting" | "submitted">>
 }
 

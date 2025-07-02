@@ -141,7 +141,7 @@ function TagChip(props: TagChipProps) {
 
 interface AutocompleteProps {
   feedbackForm: FeedbackForm
-  setFeedbackForm: Dispatch<SetStateAction<FeedbackForm>>
+  setFeedbackForm: Dispatch<SetStateAction<FeedbackForm | undefined>>
   activeTags: string[]
   setActiveTags: Dispatch<SetStateAction<string[]>>
 }

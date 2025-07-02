@@ -11,6 +11,7 @@ import React, { useState } from "react";
 // import { Canvas } from "canvas";
 
 import FeedbackForm from "@/src/features/practice/components/Practice.feedback";
+import type { FeedbackForm as FeedbackType } from "@/src/_types/client-types";
 import { questionStore } from "@/src/stores/questionStore";
 import { useTagStore } from "@/src/stores/tagStore";
 import { apiFetch } from "@/utils/apiFetch";
@@ -87,11 +88,12 @@ useTagStore.getState().setTags({ "Linear Equations": 101 });
 
 /* test wrapper with local state mirrors parent */
 function Wrapper() {
-  const [response, setResponse] = useState<StudentResponse>(studentResponse);
-  const [feedbackForm, setFeedbackForm] = useState(mockFeedbackForm);
+  const [response, setResponse] = useState<StudentResponse | undefined>(studentResponse);
+  const [feedbackForm, setFeedbackForm] = useState<FeedbackType | undefined>(mockFeedbackForm);
   const [_submitStatus, setSubmitStatus] = useState<"waiting" | "submitting" | "submitted">("waiting");
 
   return (
+    response && feedbackForm &&
     <FeedbackForm
       question={question}
       studentResponse={response}
@@ -172,7 +174,7 @@ describe("Image upload preview subcomponent", () => {
     height = 0;
     width = 0;
     onload(): void {
-      console.log(this.src);
+      // console.log(this.src);
     }
     set src(_val: string) {
       this.onload();

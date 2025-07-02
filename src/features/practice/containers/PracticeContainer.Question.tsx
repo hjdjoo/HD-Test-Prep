@@ -45,8 +45,8 @@ export default function QuestionContainer(props: QuestionContainerProps) {
   const [time, setTime] = useState(0);
 
   const [response, setResponse] = useState<string>("")
-  const [feedbackForm, setFeedbackForm] = useState<FeedbackForm | undefined>()
-  const [studentRes, setStudentRes] = useState<StudentResponse | undefined>()
+  const [feedbackForm, setFeedbackForm] = useState<FeedbackForm>()
+  const [studentRes, setStudentRes] = useState<StudentResponse>()
 
   const [userAlert, setUserAlert] = useState<UserAlert>({
     timestamp: Date.now(),
@@ -197,7 +197,7 @@ export default function QuestionContainer(props: QuestionContainerProps) {
       // console.log(`No sessionId detected. No feedback form initiated.`)
       return;
     };
-    if (!user) {
+    if (!user || !user.instructor_id) {
       // console.log(`No user detected. No feedback form initiated.`)
       return;
     };
@@ -329,7 +329,7 @@ export default function QuestionContainer(props: QuestionContainerProps) {
         <Alert alert={userAlert} />
       }
       {
-        (showFeedback && feedbackForm && studentRes) &&
+        showFeedback && (feedbackForm && studentRes) &&
         <Feedback
           question={question}
           studentResponse={studentRes} setStudentResponse={setStudentRes} feedbackForm={feedbackForm} setFeedbackForm={setFeedbackForm} setSubmitStatus={setSubmitStatus}

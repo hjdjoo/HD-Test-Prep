@@ -62,6 +62,11 @@ export default defineConfig(({ mode }) => {
         provider: "v8",
         reportOnFailure: true,
       },
+      // css: {
+      //   modules: {
+      //     classNameStrategy: "non-scoped",
+      //   }
+      // },
       reporters: ["html"],
       setupFiles: ["./vitest.setup.ts"],
     }

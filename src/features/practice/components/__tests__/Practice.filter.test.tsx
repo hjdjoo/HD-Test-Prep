@@ -15,9 +15,7 @@ import { useCategoryStore } from "@/src/stores/categoryStore";
 import { mockCategories, mockProblemTypes } from "@/src/_const/testConst";
 
 
-/* ──────────────────────────────────────────────
-   2 ▸  Mock categoryStore with Zustand
-────────────────────────────────────────────── */
+/* render category store hook */
 
 const {
   result: { current },
@@ -29,15 +27,12 @@ const { setCategories, setProblemTypes } = current;
 setCategories(mockCategories);
 setProblemTypes(mockProblemTypes);
 
-/* ──────────────────────────────────────────────
-   3 ▸  Helpers
-────────────────────────────────────────────── */
+/* Helpers */
 const filter = () => questionStore.getState().filter;
 const renderUI = () => render(<FilterSettings />);
 
 /* =================================================================== */
 describe("<Practice.filter>", () => {
-
 
   beforeEach(() => {
     // reset questionStore to defaults before each test
