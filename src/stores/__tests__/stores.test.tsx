@@ -1,5 +1,5 @@
 import {
-  describe, it, expect, vi, beforeEach, afterEach,
+  describe, it, expect, beforeEach, afterEach,
 } from "vitest";
 import {
   act, render, renderHook, waitFor,

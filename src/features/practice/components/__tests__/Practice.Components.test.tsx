@@ -1,5 +1,3 @@
-/*  Practice.components.test.tsx
-    -------------------------------------------------------------- */
 import {
   describe, it, expect, vi, beforeEach, afterEach
 } from "vitest";
@@ -12,7 +10,7 @@ import QuestionImage from "@/src/features/practice/components/Practice.questionI
 import ContinuePracticeModal from "@/src/features/practice/components/Practice.continue";
 import LinkInstructorModal from "@/src/features/practice/components/Practice.LinkInstructorModal";
 
-import { Question, questionStore } from "@/src/stores/questionStore";
+import { questionStore } from "@/src/stores/questionStore";
 import { usePracticeSessionStore } from "@/src/stores/practiceSessionStore";
 import { useCategoryStore } from "@/src/stores/categoryStore";
 import { userStore } from "@/src/stores/userStore";
@@ -20,10 +18,8 @@ import { userStore } from "@/src/stores/userStore";
 import { renderWithQueryClient } from "@/utils/testing/renderWithContext";
 import { mockQuestions, mockCategories, mockProblemTypes, sampleUser }
   from "@/src/_const/testConst";
-import userEvent from "@testing-library/user-event";
 
-/* ─────────────────────────  global stubs & helpers  ───────────────────── */
-// vi.mock("@/src/features/practice/components/Practice.Components.module.css", () => ({ default: {} }));
+/*   global stubs & helpers  */
 vi.mock("containers/modal/ModalContainer", () => ({
   default: ({ children }: any) => <div>{children}</div>,
 }));
