@@ -28,6 +28,7 @@ const router = createBrowserRouter(
         <Route path="/admin" element={<AdminPage />} />
         <Route path="/report/:id" element={<SessionReport />} />
         <Route path="/report/pdf/:id" element={<PdfReport />} />
+        <Route path="/error" element={<ErrorPage />} />
       </Route>
     </Route >
   )

@@ -19,8 +19,8 @@ import { apiFetch } from "@/utils/apiFetch";
 import { StudentResponse } from "@/src/_types/client-types";
 import { mockQuestions, mockFeedbackForms, mockStudentResponses } from "@/src/_const/testConst";
 
-/* Global mocks & stubs */
-// icons
+
+/* Component stubs */
 vi.mock("@/src/assets/icons/deleteIcon.svg", () => ({
   default: () => <span
     data-testid="delete-icon"
@@ -36,7 +36,6 @@ vi.mock("@/src/assets/icons/trashIcon.svg", () => ({
     data-testid="trash-icon"
   />
 }));
-// components
 vi.mock("containers/modal/ModalContainer", () => ({
   default: ({ children }: any) => <div>{children}</div>
 }));
@@ -47,7 +46,8 @@ vi.mock("components/autocomplete/Autocomplete", () => ({
     return <div data-testid="autocomplete" />;
   },
 }));
-// utilities
+
+/* mocking utilities */
 vi.mock("@/src/config", () => ({ SERVER_URL: "https://api.test" }));
 vi.mock("@/utils/apiFetch", () => ({ apiFetch: vi.fn() }));
 
@@ -83,7 +83,7 @@ const question = mockQuestions[0];
 const studentResponse = mockStudentResponses[0];
 const mockFeedbackForm = mockFeedbackForms[0];
 
-/* seed tagStore so tag → id mapping exists */
+/* seed tagStore */
 useTagStore.getState().setTags({ "Linear Equations": 101 });
 
 /* test wrapper with local state mirrors parent */
@@ -235,10 +235,6 @@ describe("Image upload preview subcomponent", () => {
   });
 
   it("compresses large images", async () => {
-    // (global as any).Image.height = 4000;
-    // (global as any).Image.width = 4000;
-    // ImageMockClass.height = 4000;
-    // spies for methods called;
     const drawSpy = vi.fn();
     const toBlobSpy = vi.fn((cb: BlobCallback) => {
       cb(new Blob(["X"], { type: "image/png" }))
@@ -248,18 +244,6 @@ describe("Image upload preview subcomponent", () => {
       drawImage: drawSpy
     } as any)
     vi.spyOn(HTMLCanvasElement.prototype, "toBlob").mockImplementation(toBlobSpy);
-
-
-    // bind createElement to document -- ensure that createElement is called normally for all other tags. When the test is run, "document" is undefined, so we give the function the proper "this" context.
-    // const createElementOrig = document.createElement.bind(document);
-
-    // vi.spyOn(document, "createElement").mockImplementation((tag) => {
-    //   if (tag === "canvas") {
-    //     return new CanvasMock() as unknown as HTMLCanvasElement;
-    //   }
-    //   return createElementOrig(tag);
-    // });
-
 
     const { findByAltText, getByLabelText } = render(<Wrapper />);
 
@@ -272,8 +256,7 @@ describe("Image upload preview subcomponent", () => {
     })
 
     expect(drawSpy).toHaveBeenCalled();
-    // expect(toBlobSpy).toHaveBeenCalled();
-    // expect(toDataUrlSpy).toHaveBeenCalled();
+    expect(toBlobSpy).toHaveBeenCalled();
 
     const preview = await findByAltText(/upload preview/i);
     expect(preview).toHaveAttribute("src", "data:image/png;base64,COMPRESSED");

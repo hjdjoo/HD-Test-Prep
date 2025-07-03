@@ -1,19 +1,15 @@
 import { MouseEvent } from "react";
-// import { useNavigate } from "react-router-dom";
-// import { useStore } from "zustand";
-// import { userStore } from "@/src/stores/userStore";
+import { useNavigate } from "react-router-dom";
 import styles from "./Nav.module.css"
 import animations from "@/src/animations.module.css"
 
-// import createClient from "@/utils/supabase/client"
 import { supabase } from "@/utils/supabase/client";
 import SignoutIcon from "@/src/assets/icons/signoutIcon.svg"
 
 
 export default function Signout() {
 
-  // const setUser = useStore(userStore, (state) => state.setUser)
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   async function signout(e: MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
@@ -24,13 +20,12 @@ export default function Signout() {
 
       if (error) {
         console.log("couldn't sign out!")
-        console.error(error);
         throw error;
       };
 
     } catch (e) {
       console.error(e);
-      throw e;
+      navigate("/error");
     }
   }
 

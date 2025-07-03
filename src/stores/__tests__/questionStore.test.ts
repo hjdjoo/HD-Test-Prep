@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { questionStore, defaultFilter } from "@/src/stores/questionStore";
 import type { Question } from "@/src/stores/questionStore";
+import { act } from "react";
 
 // helper so we don’t repeat getState()
 const state = () => questionStore.getState();
@@ -47,7 +48,11 @@ describe("questionStore", () => {
   });
 
   it("starts with all questions when no filter applied", () => {
-    state().filterQuestions();
+
+    act(() => {
+      state().filterQuestions();
+    })
+
     expect(state().filteredQuestions.map((q) => q.id)).toEqual([1, 2, 3]);
   });
 

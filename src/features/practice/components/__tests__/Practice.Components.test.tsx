@@ -37,11 +37,8 @@ beforeEach(() => {
   vi.useFakeTimers();
   questionStore.setState({ questions: mockQuestions });
   userStore.setState({ user: sampleUser, bootstrapped: true });
-  act(() => {
-    setCategories(mockCategories);
-    setProblemTypes(mockProblemTypes);
-  })
-
+  setCategories(mockCategories);
+  setProblemTypes(mockProblemTypes);
 });
 
 afterEach(() => {
@@ -49,9 +46,6 @@ afterEach(() => {
   vi.useRealTimers();
 });
 
-/* =======================================================================
-   Answers – selecting C toggles the selected class and updates callback
-   ======================================================================= */
 describe("<Practice.answers>", () => {
 
   it("calls setResponse with clicked value and toggles selected class", () => {
