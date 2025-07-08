@@ -22,23 +22,20 @@ import { mockQuestions, mockFeedbackForms, mockStudentResponses } from "@/src/_c
 
 /* Component stubs */
 vi.mock("@/src/assets/icons/deleteIcon.svg", () => ({
-  default: () => <span
-    data-testid="delete-icon"
-  />
+  default: () => <span data-testid="delete-icon" />
 }));
 vi.mock("@/src/assets/icons/uploadIcon.svg", () => ({
-  default: () => <span
-    data-testid="upload-icon"
-  />
+  default: () => <span data-testid="upload-icon" />
 }));
 vi.mock("@/src/assets/icons/trashIcon.svg", () => ({
-  default: () => <span
-    data-testid="trash-icon"
-  />
+  default: () => <span data-testid="trash-icon" />
 }));
 vi.mock("containers/modal/ModalContainer", () => ({
   default: ({ children }: any) => <div>{children}</div>
 }));
+vi.mock("components/alert/Alert", () => ({
+  default: () => <span data-testid="user-alert" />
+}))
 vi.mock("components/autocomplete/Autocomplete", () => ({
   default: ({ setActiveTags }:
     { setActiveTags: (t: string[]) => void }) => {

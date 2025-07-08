@@ -20,6 +20,7 @@ export default function Signout() {
 
       if (error) {
         console.log("couldn't sign out!")
+        console.error(error);
         throw error;
       };
 

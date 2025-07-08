@@ -91,6 +91,54 @@ describe("<LoginForm>", () => {
     expect(supabase.auth.signUp).not.toHaveBeenCalled();
 
   });
+  it("validates malformed emails and surfaces Alert", async () => {
+    const { getByLabelText, getByRole, findByRole } = render(
+      <LoginForm />,
+    );
+
+    // enter sign-up mode
+    fireEvent.click(getByRole("button", { name: /sign up with email/i }));
+
+    await typeInto(getByLabelText(/email/i), "a@example");
+    await typeInto(getByLabelText(/^password:/i), "one");
+    await typeInto(getByLabelText(/verify password/i), "one");
+
+    fireEvent.click(getByRole("button", { name: /create new account/i }));
+
+    expect(await findByRole("alert")).toBeInTheDocument();
+    // Supabase signUp not called due to validation failure
+    expect(supabase.auth.signUp).not.toHaveBeenCalled();
+
+  });
+
+  it("responds to email sign up errors", async () => {
+
+    const { getByLabelText, getByRole, findByRole } = render(
+      <LoginForm />,
+    );
+
+    (supabase as any).auth.signUp
+      .mockResolvedValueOnce({
+        data: null,
+        error: {
+          message: "whoomp",
+          details: "there it is"
+        }
+      });
+
+    // enter sign-up mode
+    fireEvent.click(getByRole("button", { name: /sign up with email/i }));
+
+    await typeInto(getByLabelText(/email/i), "a@example.com");
+    await typeInto(getByLabelText(/^password:/i), "one");
+    await typeInto(getByLabelText(/verify password/i), "one");
+
+    fireEvent.click(getByRole("button", { name: /create new account/i }));
+
+    await waitFor(async () =>
+      expect(await findByRole("alert")).toBeInTheDocument()
+    );
+  });
 
   it("invokes Google OAuth on click", async () => {
     const { getByRole } = render(<LoginForm />);
@@ -104,4 +152,25 @@ describe("<LoginForm>", () => {
       }),
     );
   });
+
+  it("responds to supabase errors", async () => {
+
+    const { findByRole, getByRole } = render(<LoginForm />);
+
+    (supabase as any).auth.signInWithOAuth
+      .mockResolvedValueOnce({
+        data: null,
+        error: {
+          message: "whoomp",
+          details: "there it is"
+        }
+      });
+
+    fireEvent.click(getByRole("button", { name: /sign in with google/i }));
+
+    await waitFor(async () =>
+      expect(await findByRole("alert")).toBeInTheDocument()
+    );
+
+  })
 });

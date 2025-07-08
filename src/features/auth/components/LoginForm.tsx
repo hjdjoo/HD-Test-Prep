@@ -4,7 +4,7 @@ import animations from "@/src/animations.module.css";
 
 import GoogleIcon from "@/src/assets/icons/googleIcon.svg"
 import { supabase } from "@/utils/supabase/client"
-import { equals, isEmail } from "validator";
+import { equals, isEmail, escape } from "validator";
 
 import Alert, { UserAlert } from "components/alert/Alert";
 
@@ -44,10 +44,6 @@ export default function LoginForm() {
     const { data, error } = await supabase.auth
       .signInWithPassword({ email: email, password: password });
 
-    if (!data) {
-      return { data: null, error: error }
-    };
-
     return { data, error }
 
   };
@@ -59,7 +55,10 @@ export default function LoginForm() {
   }) {
 
     try {
-      const { email, password, confirm } = credentials;
+      const { email: unsanitizedEmail, password: unsanitizedPassword, confirm } = credentials;
+
+      const email = escape(unsanitizedEmail);
+      const password = escape(unsanitizedPassword);
 
       if (!validateEmail(email)) {
         throw new Error("Please enter a valid email");
@@ -98,56 +97,31 @@ export default function LoginForm() {
     e.preventDefault();
     const currentTarget = e.currentTarget
     // e.currentTarget.reset();
-    try {
-      // 
-      const formData = new FormData(e.currentTarget);
-      const form = Object.fromEntries(formData.entries());
-      // console.table(form);
-      const { email, password, confirm } = form;
 
-      if (isSignup) {
-        await signupWithEmail({
-          email: String(email),
-          password: String(password),
-          confirm: String(confirm)
-        })
-        currentTarget.reset();
-      }
-      if (!isSignup) {
-        const res = await signinWithEmail(String(email), String(password));
+    const formData = new FormData(e.currentTarget);
+    const form = Object.fromEntries(formData.entries());
+    // console.table(form);
+    const { email, password, confirm } = form;
 
-        if (!res) {
-          throw new Error("No response from sign-in attempt.")
-        }
-
-        if (res.error) {
-          throw new Error(res.error.message);
-        }
-
-      }
-    } catch (e) {
-      // console.log("Error while authorizing user email");
-      setUserAlert({ severity: "error", message: `${e}`, timestamp: Date.now() })
-      console.error(e);
+    if (isSignup) {
+      await signupWithEmail({
+        email: String(email),
+        password: String(password),
+        confirm: String(confirm)
+      })
+      currentTarget.reset();
+    }
+    if (!isSignup) {
+      await signinWithEmail(String(email), String(password));
     }
   }
 
   function validateEmail(email: string) {
-    if (typeof email !== "string") {
-      throw new Error(`expected string, got ${typeof email}`)
-    }
     return isEmail(email);
   }
 
   function validatePass(pass: string, check: string) {
-
-    if (typeof pass !== "string") {
-      throw new Error(`expected string, got ${typeof pass}`)
-    }
-    if (typeof check !== "string") {
-      throw new Error(`expected string, got ${typeof check}`)
-    }
-    return equals(pass, check)
+    return equals(pass, check);
   }
 
 

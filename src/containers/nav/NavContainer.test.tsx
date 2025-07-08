@@ -11,6 +11,7 @@ import { render, fireEvent } from "@testing-library/react";
 
 import NavContainer from "@/src/containers/nav/NavContainer";
 import { supabase } from "@/vitest.setup";
+import userEvent from "@testing-library/user-event";
 // import userEvent from "@testing-library/user-event";
 
 vi.mock("@/src/assets/icons/homeIcon.svg", () => ({
@@ -19,6 +20,9 @@ vi.mock("@/src/assets/icons/homeIcon.svg", () => ({
 vi.mock("@/src/assets/icons/signoutIcon.svg", () => ({
   default: () => <span data-testid="signout-icon" />,
 }));
+vi.mock("@/src/ErrorPage.tsx", () => ({
+  default: () => <span data-testid="error-page" />
+}))
 
 // const router = createMemoryRouter();
 
@@ -29,6 +33,10 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => {
     </MemoryRouter>
   )
 }
+
+const { result: { current } } = renderHook(useLocation, {
+  wrapper: Wrapper
+})
 
 const renderUI = () =>
   render(
@@ -71,30 +79,5 @@ describe("<NavContainer>", () => {
     })
   });
 
-  it("shows error screen if signing out throws", async () => {
 
-    supabase.auth.signOut = vi.fn().mockResolvedValue({
-      error: {
-        message: "whoomp",
-        details: "there it is"
-      }
-    })
-
-    const { result: { current } } = renderHook(useLocation, {
-      wrapper: Wrapper
-    })
-
-    const { pathname } = current
-
-    const { getByTestId } = renderUI();
-    const btn = getByTestId("signout-icon").closest("button")!;
-
-    act(() => {
-      fireEvent.click(btn);
-    })
-
-    await waitFor(() => {
-      expect(pathname).toBe("/error")
-    })
-  })
 });

@@ -15,7 +15,7 @@ import { StudentResponse, FileData, type FeedbackForm } from "@/src/_types/clien
 
 import { apiFetch } from "@/utils/apiFetch";
 
-// import Alert, { UserAlert } from "components/alert/Alert";
+import Alert, { UserAlert } from "components/alert/Alert";
 
 import ModalContainer from "containers/modal/ModalContainer";
 import { SERVER_URL } from "@/src/config";
@@ -77,6 +77,12 @@ export default function FeedbackForm(props: FeedbackFormProps) {
     fileType: "",
     fileData: ""
   });
+
+  const [userAlert, setUserAlert] = useState<UserAlert>({
+    severity: undefined,
+    message: "",
+    timestamp: Date.now(),
+  })
 
   // const [feedbackStatus, setFeedbackStatus] = useState<"waiting" | "submitting" | "submitted">("waiting")
 
@@ -191,22 +197,14 @@ export default function FeedbackForm(props: FeedbackFormProps) {
         }
       }
 
-      // console.log("setting image src...")
-      // console.log("onload result: ", result);
       img.src = result as string;
-      // console.log(img.src);
     }
 
-    // console.log("reading file...", file);
     fileReader.readAsDataURL(file);
-
   }
 
   async function handleSubmit() {
-
-    // console.log(feedbackForm);
     submitForm();
-
   }
 
   async function submitForm() {
@@ -262,8 +260,6 @@ export default function FeedbackForm(props: FeedbackFormProps) {
 
       updatedStudentRes.feedbackId = data.id;
 
-      // console.log("FeedbackForm/submitForm/data", data);
-
       const updatedQuestion = data.updatedQuestion as Question;
       const updatedQuestions = [...questions];
 
@@ -281,6 +277,11 @@ export default function FeedbackForm(props: FeedbackFormProps) {
       setSubmitStatus("submitted")
     } catch (e) {
       console.error(e);
+      setUserAlert({
+        severity: "error",
+        message: `${e}`,
+        timestamp: Date.now()
+      })
     }
   }
 
@@ -500,6 +501,8 @@ export default function FeedbackForm(props: FeedbackFormProps) {
             ].join(" ")}
             onClick={handleSubmit}>Submit</button>
         </section>
+        {(userAlert.severity && userAlert.message.length) &&
+          <Alert alert={userAlert}></Alert>}
       </div>
     </ModalContainer>
   )

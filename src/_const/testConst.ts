@@ -118,6 +118,18 @@ export const mockSessionResponseData: ClientStudentResponse[] = mockStudentRespo
 
 /* ───────────── ClientFeedbackFormData ───────────── */
 
+export const blankFeedbackForm: FeedbackForm = {
+  sessionId: 9001,
+  comment: "",
+  difficultyRating: null,
+  guessed: null,
+  imageUrl: "",
+  instructorId: 3,
+  questionId: 42,
+  studentId: 7,
+  tags: [],
+}
+
 export const mockFeedbackForms: FeedbackForm[] = [
   {
     sessionId: 9001,
