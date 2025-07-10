@@ -25,12 +25,14 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
   useEffect(() => {
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      // console.log("AuthContext/event, session: ", event, session);
 
       switch (event) {
         case "INITIAL_SESSION":
         case "SIGNED_IN":
           setTimeout(async () => {
             const user = await getUserProfile(session);
+            // console.log(user);
             setUser(user);
           }, 0)
           break;

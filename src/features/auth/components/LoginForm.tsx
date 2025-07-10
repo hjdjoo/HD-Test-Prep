@@ -31,6 +31,7 @@ export default function LoginForm() {
       });
     if (error) {
       console.error(error);
+
       setUserAlert({
         timestamp: Date.now(),
         severity: "error",
