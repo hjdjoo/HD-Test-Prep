@@ -1,6 +1,4 @@
 import { create } from "zustand";
-// import 
-
 
 interface PracticeSessionState {
   sessionId: number | null
@@ -37,4 +35,3 @@ export const usePracticeSessionStore = create<PracticeSessionState>()((set) => (
     }))
   }
 }))
-

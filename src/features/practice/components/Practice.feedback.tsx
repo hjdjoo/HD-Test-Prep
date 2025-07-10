@@ -15,7 +15,7 @@ import { StudentResponse, FileData, type FeedbackForm } from "@/src/_types/clien
 
 import { apiFetch } from "@/utils/apiFetch";
 
-// import Alert, { UserAlert } from "components/alert/Alert";
+import Alert, { UserAlert } from "components/alert/Alert";
 
 import ModalContainer from "containers/modal/ModalContainer";
 import { SERVER_URL } from "@/src/config";
@@ -78,6 +78,12 @@ export default function FeedbackForm(props: FeedbackFormProps) {
     fileData: ""
   });
 
+  const [userAlert, setUserAlert] = useState<UserAlert>({
+    severity: undefined,
+    message: "",
+    timestamp: Date.now(),
+  })
+
   // const [feedbackStatus, setFeedbackStatus] = useState<"waiting" | "submitting" | "submitted">("waiting")
 
   const difficulties: { [level: string]: string } = {
@@ -136,6 +142,8 @@ export default function FeedbackForm(props: FeedbackFormProps) {
 
     const fileReader = new FileReader();
 
+    // console.log(fileReader.readAsDataURL);
+
     fileReader.onload = (e) => {
 
       // console.log("fileReader/onload/e.target: ", e.target);
@@ -144,7 +152,8 @@ export default function FeedbackForm(props: FeedbackFormProps) {
 
       img.onload = () => {
         if (size > 3500000) {
-          // console.log("large file!");
+
+          console.log("large file!");
 
           const maxSize = 3500000;
           const ratio = maxSize / size;
@@ -159,18 +168,17 @@ export default function FeedbackForm(props: FeedbackFormProps) {
           canvas.width = width;
           canvas.height = height;
 
+          // console.log(canvas, canvas.width);
+
           if (ctx) {
             // console.log("drawing image on context...")
             ctx.drawImage(img, 0, 0, width, height);
-            // console.log("converting canvas to blob...")
             canvas.toBlob((blob) => {
-
               if (!blob) return;
 
               const fileReader2 = new FileReader();
 
               fileReader2.onloadend = () => {
-
                 const data = fileReader2.result as string;
                 // console.log("setting upload file");
                 setUploadFileData({ fileType, fileData: data });
@@ -181,6 +189,7 @@ export default function FeedbackForm(props: FeedbackFormProps) {
               fileReader2.readAsDataURL(blob);
 
             }, fileType, 0.7);
+
           }
 
         } else {
@@ -188,20 +197,14 @@ export default function FeedbackForm(props: FeedbackFormProps) {
         }
       }
 
-      // console.log("setting image src...")
       img.src = result as string;
     }
 
-    // console.log("reading file...");
     fileReader.readAsDataURL(file);
-
   }
 
   async function handleSubmit() {
-
-    // console.log(feedbackForm);
     submitForm();
-
   }
 
   async function submitForm() {
@@ -257,8 +260,6 @@ export default function FeedbackForm(props: FeedbackFormProps) {
 
       updatedStudentRes.feedbackId = data.id;
 
-      // console.log("FeedbackForm/submitForm/data", data);
-
       const updatedQuestion = data.updatedQuestion as Question;
       const updatedQuestions = [...questions];
 
@@ -276,12 +277,13 @@ export default function FeedbackForm(props: FeedbackFormProps) {
       setSubmitStatus("submitted")
     } catch (e) {
       console.error(e);
+      setUserAlert({
+        severity: "error",
+        message: `${e}`,
+        timestamp: Date.now()
+      })
     }
   }
-
-  // function handleSkip () {
-
-  // }
 
 
   const difficultySelect = () => {
@@ -462,7 +464,6 @@ export default function FeedbackForm(props: FeedbackFormProps) {
                     capture="environment"
                     onChange={handleFileUpload} />
                 </div>
-
               </div>
               {uploadFileData.fileData && <UploadPreview uploadFileData={uploadFileData} setUploadFileData={setUploadFileData} />}
             </label>
@@ -500,6 +501,8 @@ export default function FeedbackForm(props: FeedbackFormProps) {
             ].join(" ")}
             onClick={handleSubmit}>Submit</button>
         </section>
+        {(userAlert.severity && userAlert.message.length) &&
+          <Alert alert={userAlert}></Alert>}
       </div>
     </ModalContainer>
   )

@@ -10,7 +10,7 @@ export default function Spinner(props: SpinnerProps) {
   const spinnerStyles = props.styles || [];
 
   return (
-    <span className={[
+    <span id="loading-spinner" className={[
       styles.loader,
       animations.rotate,
       ...spinnerStyles,

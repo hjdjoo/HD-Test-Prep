@@ -1,19 +1,4 @@
 
-
-
-// export default function debounce(func: Function, timeout: number) {
-
-//   let timer: NodeJS.Timeout;
-
-//   return (...args) => {
-//     clearTimeout(timer);
-
-//     timer = setTimeout(() => { func.apply(this, args) }, timeout);
-//   }
-
-// }
-
-
 function debounce<T extends Function>(
   func: T,
   delay: number

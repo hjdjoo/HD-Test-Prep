@@ -49,7 +49,6 @@ function SuggestionsList(props: SuggestionsListProps) {
 
   }
 
-
   const suggestionsList = filteredSuggestions.map((suggestion, idx) => {
 
     const activeItem = activeIdx === idx ? styles.activeSuggestion : ""

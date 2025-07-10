@@ -14,13 +14,18 @@ export default defineConfig(({ mode }) => {
 
   const isProd = mode === "production";
 
-  const VITE_SERVER_URL = env.VITE_SERVER_URL
-  const VITE_URL = env.VITE_URL;
+  const VITE_SERVER_URL = env.VITE_SERVER_URL ?? ""
+  const VITE_URL = env.VITE_URL ?? "";
+
+  if (!VITE_SERVER_URL || !VITE_URL) {
+    console.warn(
+      `[vite] missing env vars for mode=${mode}; using defaults`,
+    );
+  }
 
   const allowedHost = isProd ?
-    VITE_URL.replace("https://", "") :
-    VITE_URL.replace("http://", "")
-
+    VITE_URL.replace(/^https?:\/\//, "") :
+    VITE_URL.replace(/^https?:\/\//, "")
 
   return {
     plugins: [
@@ -48,6 +53,22 @@ export default defineConfig(({ mode }) => {
         "components": path.resolve(__dirname, "src", "components"),
         "@": __dirname,
       }
+    },
+    test: {
+      globals: true,
+      environment: "jsdom",
+      coverage: {
+        enabled: true,
+        provider: "v8",
+        reportOnFailure: true,
+      },
+      // css: {
+      //   modules: {
+      //     classNameStrategy: "non-scoped",
+      //   }
+      // },
+      reporters: ["html"],
+      setupFiles: ["./vitest.setup.ts"],
     }
   }
 })
