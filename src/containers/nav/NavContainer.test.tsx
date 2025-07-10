@@ -5,13 +5,12 @@ import {
   vi,
   beforeEach,
 } from "vitest";
-import { act, renderHook, waitFor } from "@testing-library/react";
-import { MemoryRouter, useLocation, } from "react-router-dom";
+import { waitFor } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 import { render, fireEvent } from "@testing-library/react";
 
 import NavContainer from "@/src/containers/nav/NavContainer";
 import { supabase } from "@/vitest.setup";
-import userEvent from "@testing-library/user-event";
 // import userEvent from "@testing-library/user-event";
 
 vi.mock("@/src/assets/icons/homeIcon.svg", () => ({
@@ -33,10 +32,6 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => {
     </MemoryRouter>
   )
 }
-
-const { result: { current } } = renderHook(useLocation, {
-  wrapper: Wrapper
-})
 
 const renderUI = () =>
   render(
