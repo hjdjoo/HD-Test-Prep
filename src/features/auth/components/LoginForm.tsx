@@ -29,9 +29,9 @@ export default function LoginForm() {
           redirectTo: VITE_URL
         }
       });
+
     if (error) {
       console.error(error);
-
       setUserAlert({
         timestamp: Date.now(),
         severity: "error",
