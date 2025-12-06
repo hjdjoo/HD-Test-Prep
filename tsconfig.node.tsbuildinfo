@@ -1,1 +1,0 @@
-{"root":["./database.types.ts","./ngrok-start.ts","./vite.config.ts","./utils/debounce.ts","./utils/supabase/client.ts","./utils/supabase/service.ts","./utils/supabase/actions/getstorageurl.ts"],"version":"5.6.3"}

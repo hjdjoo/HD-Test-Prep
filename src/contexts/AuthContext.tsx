@@ -46,11 +46,8 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
     supabase.auth.refreshSession();
 
     return () => {
-
       subscription.unsubscribe();
-
     }
-
 
   }, [])
 

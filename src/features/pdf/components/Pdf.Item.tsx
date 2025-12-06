@@ -71,6 +71,8 @@ export default function PdfSessionItem(props: PdfSessionItemProps) {
 
       switch (key) {
         case "comment":
+          // { console.log(key) }
+          // { console.log(feedbackForm[key]) }
           item = (
             <>
               <View key={`session-${studentResponse.sessionId}-${question.id}-feedback-item-${idx + 1}`} style={{ display: "flex", flexDirection: "column" }}>
@@ -78,7 +80,7 @@ export default function PdfSessionItem(props: PdfSessionItemProps) {
                   {`${itemName}: `}
                 </Text>
                 <Text style={styles.questionInfoDetails}>
-                  {feedbackForm[key].length ? feedbackForm[key] : "N/A"}
+                  {(feedbackForm[key] && feedbackForm[key].length) ? feedbackForm[key] : "N/A"}
                 </Text>
               </View>
             </>

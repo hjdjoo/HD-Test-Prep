@@ -13,6 +13,3 @@ export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLIC_KEY
 });
 
 ; (globalThis as any).__SUPABASE__ = supabase;
-
-
-

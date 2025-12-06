@@ -17,7 +17,7 @@ import Feedback from "@/src/features/practice/components/Practice.feedback";
 
 import { FeedbackForm } from "@/src/_types/client-types";
 import ErrorPage from "@/src/ErrorPage";
-// import Spinner from "components/loading/Loading.Spinner";
+import Spinner from "components/loading/Loading.Spinner";
 import { apiFetch } from "@/utils/apiFetch";
 import Alert, { UserAlert } from "components/alert/Alert";
 
@@ -45,8 +45,8 @@ export default function QuestionContainer(props: QuestionContainerProps) {
   const [time, setTime] = useState(0);
 
   const [response, setResponse] = useState<string>("")
-  const [feedbackForm, setFeedbackForm] = useState<FeedbackForm | undefined>()
-  const [studentRes, setStudentRes] = useState<StudentResponse | undefined>()
+  const [feedbackForm, setFeedbackForm] = useState<FeedbackForm>()
+  const [studentRes, setStudentRes] = useState<StudentResponse>()
 
   const [userAlert, setUserAlert] = useState<UserAlert>({
     timestamp: Date.now(),
@@ -64,8 +64,6 @@ export default function QuestionContainer(props: QuestionContainerProps) {
     queryKey: ["imageUrl", question],
     queryFn: async () => {
 
-
-
       const { data, error } = await supabase
         .storage
         .from("questions")
@@ -82,11 +80,11 @@ export default function QuestionContainer(props: QuestionContainerProps) {
         throw new Error(`Error while getting signed Url: ${error.message}`)
       }
 
-      return data.signedUrl
+      return data.signedUrl;
     }
   })
 
-  // fetch and set question image url
+  // set question image url
   useEffect(() => {
 
     if (imageUrlData) {
@@ -95,6 +93,7 @@ export default function QuestionContainer(props: QuestionContainerProps) {
 
   }, [imageUrlData]);
 
+  // start question timer when question loads.
   useEffect(() => {
 
     if (imageLoaded) {
@@ -104,22 +103,20 @@ export default function QuestionContainer(props: QuestionContainerProps) {
     }
   }, [imageLoaded])
 
+  // init feedback form and response form when question changes.
   useEffect(() => {
 
     // console.log("QuestionContainer/useEffect/question: ", question);
-
     setFeedbackForm(initFeedbackForm(sessionId));
     setStudentRes(initStudentResponse(sessionId));
 
   }, [question]);
 
-  // submit student response once feedback is submitted.
+  // submit student response once feedback is received.
   useEffect(() => {
 
     // console.log("QuestionContainer/useEffect/submitStatus: ", submitStatus)
-
     if (submitStatus !== "submitted") return;
-
     // console.log("submitting student response...")
     submitResponse();
 
@@ -184,7 +181,6 @@ export default function QuestionContainer(props: QuestionContainerProps) {
       // console.log(`No user detected. No response initiated.`)
       return;
     };
-
     return {
       sessionId: sessionId,
       studentId: user.id,
@@ -197,12 +193,11 @@ export default function QuestionContainer(props: QuestionContainerProps) {
   }
   // return blank feedback form
   function initFeedbackForm(sessionId: number | null) {
-
     if (!sessionId) {
       // console.log(`No sessionId detected. No feedback form initiated.`)
       return;
     };
-    if (!user) {
+    if (!user || !user.instructor_id) {
       // console.log(`No user detected. No feedback form initiated.`)
       return;
     };
@@ -229,12 +224,10 @@ export default function QuestionContainer(props: QuestionContainerProps) {
   // feedback form -> submitting feedback should also submit response
   // exiting feedback form should submit the response without feedback.
   async function handleSubmit() {
-
     if (!feedbackForm || !studentRes) {
       // console.log("no feedback form or student response form detected; check user")
       return;
     }
-
     if (!response) {
       // setErrorMessage("Please select an answer");
       setUserAlert({
@@ -244,46 +237,32 @@ export default function QuestionContainer(props: QuestionContainerProps) {
       })
       return;
     };
-
     setUserAlert({
       timestamp: Date.now(),
       severity: undefined,
       message: ""
     })
-
     if (submitStatus === "waiting") {
 
       const updatedStudentRes = structuredClone(studentRes);
-
       updatedStudentRes.response = response;
-
       setStudentRes(updatedStudentRes);
       // show feedback form.
       setSubmitStatus("submitting");
       // setShowFeedback(true);
       return;
     }
-
-    if (submitStatus === "submitting") {
-      // send call to DB to save student response;
-      // console.log("QuestionContainer/handleSubmit/submitStatus: ", submitStatus)
-      setSubmitStatus("submitted");
-      return;
-    }
   }
-
 
   if (imageUrlStatus === "pending") {
     return (
-      <div>
-        Loading...
-      </div>
+      <Spinner />
     )
   }
 
   if (imageUrlStatus === "error") {
 
-    console.error("QuesetionContainer/imageUrlError: ", imageUrlError.message)
+    console.error("QuestionContainer/imageUrlError: ", imageUrlError.message)
 
     return (
       <ErrorPage />
@@ -350,7 +329,7 @@ export default function QuestionContainer(props: QuestionContainerProps) {
         <Alert alert={userAlert} />
       }
       {
-        (showFeedback && feedbackForm && studentRes) &&
+        showFeedback && (feedbackForm && studentRes) &&
         <Feedback
           question={question}
           studentResponse={studentRes} setStudentResponse={setStudentRes} feedbackForm={feedbackForm} setFeedbackForm={setFeedbackForm} setSubmitStatus={setSubmitStatus}

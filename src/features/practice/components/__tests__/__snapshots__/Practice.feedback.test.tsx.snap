@@ -1,0 +1,1966 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`<Practice.feedback> > Image upload preview subcomponent > does nothing if no file is present 1`] = `
+{
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div>
+        <div
+          class="_formDisplay_a5e93a _formAlign_a5e93a"
+          id="feedback-modal"
+        >
+          <div
+            id="close-modal-button"
+          >
+            <button
+              class="_closeFormButtonStyle_a5e93a _closeFormButtonPosition_a5e93a"
+            >
+              <span
+                data-testid="delete-icon"
+              />
+            </button>
+          </div>
+          <h2>
+            Reflection Form
+          </h2>
+          <div
+            class="_formSectionDetailText_a5e93a"
+          >
+            <p>
+              Responses help your instructor AND other students
+            </p>
+          </div>
+          <section
+            class="_formSectionHeading_a5e93a _resultTextSize_a5e93a"
+            id="response-confirm"
+          >
+            <p>
+              You got it!
+            </p>
+          </section>
+          <section
+            class="_formSectionAlign_a5e93a"
+            id="difficulty-feedback-section"
+          >
+            <div
+              class="_formSectionHeading_a5e93a"
+            >
+              <p>
+                How hard did this feel?
+              </p>
+            </div>
+            <div
+              class="_difficultyRadioAlign_a5e93a"
+              id="difficulty-radio-buttons"
+            >
+              <div
+                class=""
+              >
+                <label
+                  class="_radioLabelAlign_a5e93a"
+                  for="difficulty-select-input-1"
+                >
+                  <input
+                    id="difficulty-select-input-1"
+                    name="difficultyRating"
+                    type="radio"
+                    value="1"
+                  />
+                  <span
+                    class="_radioLabelText_a5e93a"
+                  >
+                    Very Easy
+                  </span>
+                </label>
+              </div>
+              <div
+                class=""
+              >
+                <label
+                  class="_radioLabelAlign_a5e93a"
+                  for="difficulty-select-input-2"
+                >
+                  <input
+                    id="difficulty-select-input-2"
+                    name="difficultyRating"
+                    type="radio"
+                    value="2"
+                  />
+                  <span
+                    class="_radioLabelText_a5e93a"
+                  >
+                    Easy
+                  </span>
+                </label>
+              </div>
+              <div
+                class=""
+              >
+                <label
+                  class="_radioLabelAlign_a5e93a"
+                  for="difficulty-select-input-3"
+                >
+                  <input
+                    id="difficulty-select-input-3"
+                    name="difficultyRating"
+                    type="radio"
+                    value="3"
+                  />
+                  <span
+                    class="_radioLabelText_a5e93a"
+                  >
+                    Medium
+                  </span>
+                </label>
+              </div>
+              <div
+                class=""
+              >
+                <label
+                  class="_radioLabelAlign_a5e93a"
+                  for="difficulty-select-input-4"
+                >
+                  <input
+                    checked=""
+                    id="difficulty-select-input-4"
+                    name="difficultyRating"
+                    type="radio"
+                    value="4"
+                  />
+                  <span
+                    class="_radioLabelText_a5e93a"
+                  >
+                    Hard
+                  </span>
+                </label>
+              </div>
+              <div
+                class=""
+              >
+                <label
+                  class="_radioLabelAlign_a5e93a"
+                  for="difficulty-select-input-5"
+                >
+                  <input
+                    id="difficulty-select-input-5"
+                    name="difficultyRating"
+                    type="radio"
+                    value="5"
+                  />
+                  <span
+                    class="_radioLabelText_a5e93a"
+                  >
+                    Very Hard
+                  </span>
+                </label>
+              </div>
+            </div>
+          </section>
+          <section
+            class="_formSectionAlign_a5e93a"
+            id="guess-feedback-section"
+          >
+            <div
+              class="_formSectionHeading_a5e93a"
+            >
+              <div
+                class=""
+                id="guess-input"
+              >
+                <p>
+                  Was this a guess?
+                </p>
+                <div
+                  class="_guessInputAlign_a5e93a"
+                  id="guess-input-section"
+                >
+                  <div
+                    class="_radioButtonsVertical_a5e93a _radioLabelAlign_a5e93a _radioLabelText_a5e93a"
+                    id="guess-select-true"
+                  >
+                    <input
+                      id="guess-true"
+                      name="guessed"
+                      type="radio"
+                    />
+                    <label
+                      for="guess-true"
+                    >
+                      Yes
+                    </label>
+                  </div>
+                  <div
+                    class="_radioButtonsVertical_a5e93a _radioLabelAlign_a5e93a _radioLabelText_a5e93a"
+                    id="guess-select-false"
+                  >
+                    <input
+                      id="guess-false"
+                      name="guessed"
+                      type="radio"
+                    />
+                    <label
+                      for="guess-false"
+                    >
+                      No
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section
+            class="_formSectionAlign_a5e93a"
+            id="instructor-feedback-section"
+          >
+            <div
+              class="_formSectionHeading_a5e93a"
+            >
+              <p>
+                Add a note or question for your instructor:
+              </p>
+            </div>
+            <textarea
+              autocomplete="off"
+              class="_marginTopDefault_a5e93a"
+              cols="30"
+              id="instructor-feedback"
+              name="comment"
+            >
+              Tricky wording on part (b).
+            </textarea>
+          </section>
+          <section
+            class="_formSectionAlign_a5e93a _formSectionWidth_a5e93a"
+            id="image-upload-section"
+          >
+            <div
+              class="_formSectionHeading_a5e93a _formSectionAlign_a5e93a"
+            >
+              <p>
+                Upload a picture of your work for more context (optional):
+              </p>
+              <label
+                class="_uploadIconDecoration_a5e93a _formSectionAlign_a5e93a"
+                for="student-file-upload"
+              >
+                <div
+                  class="_wrapperSize_a5e93a _marginTopDefault_a5e93a _uploadIconColor_a5e93a _uploadButtonAlign_a5e93a _uploadIconDecoration_a5e93a _highlightPrimary_7796ef"
+                  id="upload-icon-wrapper"
+                >
+                  <div
+                    class="_uploadIconSize_a5e93a _sectionMargin_a5e93a"
+                    id="upload-icon"
+                  >
+                    <span
+                      data-testid="upload-icon"
+                    />
+                  </div>
+                  <div>
+                    Upload
+                  </div>
+                  <div
+                    class="_hideInput_a5e93a"
+                  >
+                    <input
+                      accept="image/*"
+                      capture="environment"
+                      id="student-file-upload"
+                      name="imageUrl"
+                      type="file"
+                    />
+                  </div>
+                </div>
+              </label>
+            </div>
+          </section>
+          <section
+            class="_formSectionWidth_a5e93a"
+            id="add-tags-section"
+          >
+            <div
+              class="_formSectionHeading_a5e93a _sectionMargin_a5e93a"
+            >
+              <p>
+                Add any tags that fit this problem (e.g., quadratic equations, linear equations, sohcahtoa, etc)
+              </p>
+            </div>
+            <div
+              data-testid="autocomplete"
+            />
+          </section>
+          <section
+            class="_formSectionHeading_a5e93a _sectionWidthFull_a5e93a _formAlign_a5e93a"
+            id="submit-button-box"
+          >
+            <button
+              class="_buttonStyleSecondary_a5e93a _submitButtonSize_a5e93a _highlightPrimaryDark_7796ef"
+            >
+              Submit
+            </button>
+          </section>
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div>
+      <div
+        class="_formDisplay_a5e93a _formAlign_a5e93a"
+        id="feedback-modal"
+      >
+        <div
+          id="close-modal-button"
+        >
+          <button
+            class="_closeFormButtonStyle_a5e93a _closeFormButtonPosition_a5e93a"
+          >
+            <span
+              data-testid="delete-icon"
+            />
+          </button>
+        </div>
+        <h2>
+          Reflection Form
+        </h2>
+        <div
+          class="_formSectionDetailText_a5e93a"
+        >
+          <p>
+            Responses help your instructor AND other students
+          </p>
+        </div>
+        <section
+          class="_formSectionHeading_a5e93a _resultTextSize_a5e93a"
+          id="response-confirm"
+        >
+          <p>
+            You got it!
+          </p>
+        </section>
+        <section
+          class="_formSectionAlign_a5e93a"
+          id="difficulty-feedback-section"
+        >
+          <div
+            class="_formSectionHeading_a5e93a"
+          >
+            <p>
+              How hard did this feel?
+            </p>
+          </div>
+          <div
+            class="_difficultyRadioAlign_a5e93a"
+            id="difficulty-radio-buttons"
+          >
+            <div
+              class=""
+            >
+              <label
+                class="_radioLabelAlign_a5e93a"
+                for="difficulty-select-input-1"
+              >
+                <input
+                  id="difficulty-select-input-1"
+                  name="difficultyRating"
+                  type="radio"
+                  value="1"
+                />
+                <span
+                  class="_radioLabelText_a5e93a"
+                >
+                  Very Easy
+                </span>
+              </label>
+            </div>
+            <div
+              class=""
+            >
+              <label
+                class="_radioLabelAlign_a5e93a"
+                for="difficulty-select-input-2"
+              >
+                <input
+                  id="difficulty-select-input-2"
+                  name="difficultyRating"
+                  type="radio"
+                  value="2"
+                />
+                <span
+                  class="_radioLabelText_a5e93a"
+                >
+                  Easy
+                </span>
+              </label>
+            </div>
+            <div
+              class=""
+            >
+              <label
+                class="_radioLabelAlign_a5e93a"
+                for="difficulty-select-input-3"
+              >
+                <input
+                  id="difficulty-select-input-3"
+                  name="difficultyRating"
+                  type="radio"
+                  value="3"
+                />
+                <span
+                  class="_radioLabelText_a5e93a"
+                >
+                  Medium
+                </span>
+              </label>
+            </div>
+            <div
+              class=""
+            >
+              <label
+                class="_radioLabelAlign_a5e93a"
+                for="difficulty-select-input-4"
+              >
+                <input
+                  checked=""
+                  id="difficulty-select-input-4"
+                  name="difficultyRating"
+                  type="radio"
+                  value="4"
+                />
+                <span
+                  class="_radioLabelText_a5e93a"
+                >
+                  Hard
+                </span>
+              </label>
+            </div>
+            <div
+              class=""
+            >
+              <label
+                class="_radioLabelAlign_a5e93a"
+                for="difficulty-select-input-5"
+              >
+                <input
+                  id="difficulty-select-input-5"
+                  name="difficultyRating"
+                  type="radio"
+                  value="5"
+                />
+                <span
+                  class="_radioLabelText_a5e93a"
+                >
+                  Very Hard
+                </span>
+              </label>
+            </div>
+          </div>
+        </section>
+        <section
+          class="_formSectionAlign_a5e93a"
+          id="guess-feedback-section"
+        >
+          <div
+            class="_formSectionHeading_a5e93a"
+          >
+            <div
+              class=""
+              id="guess-input"
+            >
+              <p>
+                Was this a guess?
+              </p>
+              <div
+                class="_guessInputAlign_a5e93a"
+                id="guess-input-section"
+              >
+                <div
+                  class="_radioButtonsVertical_a5e93a _radioLabelAlign_a5e93a _radioLabelText_a5e93a"
+                  id="guess-select-true"
+                >
+                  <input
+                    id="guess-true"
+                    name="guessed"
+                    type="radio"
+                  />
+                  <label
+                    for="guess-true"
+                  >
+                    Yes
+                  </label>
+                </div>
+                <div
+                  class="_radioButtonsVertical_a5e93a _radioLabelAlign_a5e93a _radioLabelText_a5e93a"
+                  id="guess-select-false"
+                >
+                  <input
+                    id="guess-false"
+                    name="guessed"
+                    type="radio"
+                  />
+                  <label
+                    for="guess-false"
+                  >
+                    No
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section
+          class="_formSectionAlign_a5e93a"
+          id="instructor-feedback-section"
+        >
+          <div
+            class="_formSectionHeading_a5e93a"
+          >
+            <p>
+              Add a note or question for your instructor:
+            </p>
+          </div>
+          <textarea
+            autocomplete="off"
+            class="_marginTopDefault_a5e93a"
+            cols="30"
+            id="instructor-feedback"
+            name="comment"
+          >
+            Tricky wording on part (b).
+          </textarea>
+        </section>
+        <section
+          class="_formSectionAlign_a5e93a _formSectionWidth_a5e93a"
+          id="image-upload-section"
+        >
+          <div
+            class="_formSectionHeading_a5e93a _formSectionAlign_a5e93a"
+          >
+            <p>
+              Upload a picture of your work for more context (optional):
+            </p>
+            <label
+              class="_uploadIconDecoration_a5e93a _formSectionAlign_a5e93a"
+              for="student-file-upload"
+            >
+              <div
+                class="_wrapperSize_a5e93a _marginTopDefault_a5e93a _uploadIconColor_a5e93a _uploadButtonAlign_a5e93a _uploadIconDecoration_a5e93a _highlightPrimary_7796ef"
+                id="upload-icon-wrapper"
+              >
+                <div
+                  class="_uploadIconSize_a5e93a _sectionMargin_a5e93a"
+                  id="upload-icon"
+                >
+                  <span
+                    data-testid="upload-icon"
+                  />
+                </div>
+                <div>
+                  Upload
+                </div>
+                <div
+                  class="_hideInput_a5e93a"
+                >
+                  <input
+                    accept="image/*"
+                    capture="environment"
+                    id="student-file-upload"
+                    name="imageUrl"
+                    type="file"
+                  />
+                </div>
+              </div>
+            </label>
+          </div>
+        </section>
+        <section
+          class="_formSectionWidth_a5e93a"
+          id="add-tags-section"
+        >
+          <div
+            class="_formSectionHeading_a5e93a _sectionMargin_a5e93a"
+          >
+            <p>
+              Add any tags that fit this problem (e.g., quadratic equations, linear equations, sohcahtoa, etc)
+            </p>
+          </div>
+          <div
+            data-testid="autocomplete"
+          />
+        </section>
+        <section
+          class="_formSectionHeading_a5e93a _sectionWidthFull_a5e93a _formAlign_a5e93a"
+          id="submit-button-box"
+        >
+          <button
+            class="_buttonStyleSecondary_a5e93a _submitButtonSize_a5e93a _highlightPrimaryDark_7796ef"
+          >
+            Submit
+          </button>
+        </section>
+      </div>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
+
+exports[`<Practice.feedback> > Image upload preview subcomponent > does nothing if no file is uploaded 1`] = `
+{
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div>
+        <div
+          class="_formDisplay_a5e93a _formAlign_a5e93a"
+          id="feedback-modal"
+        >
+          <div
+            id="close-modal-button"
+          >
+            <button
+              class="_closeFormButtonStyle_a5e93a _closeFormButtonPosition_a5e93a"
+            >
+              <span
+                data-testid="delete-icon"
+              />
+            </button>
+          </div>
+          <h2>
+            Reflection Form
+          </h2>
+          <div
+            class="_formSectionDetailText_a5e93a"
+          >
+            <p>
+              Responses help your instructor AND other students
+            </p>
+          </div>
+          <section
+            class="_formSectionHeading_a5e93a _resultTextSize_a5e93a"
+            id="response-confirm"
+          >
+            <p>
+              You got it!
+            </p>
+          </section>
+          <section
+            class="_formSectionAlign_a5e93a"
+            id="difficulty-feedback-section"
+          >
+            <div
+              class="_formSectionHeading_a5e93a"
+            >
+              <p>
+                How hard did this feel?
+              </p>
+            </div>
+            <div
+              class="_difficultyRadioAlign_a5e93a"
+              id="difficulty-radio-buttons"
+            >
+              <div
+                class=""
+              >
+                <label
+                  class="_radioLabelAlign_a5e93a"
+                  for="difficulty-select-input-1"
+                >
+                  <input
+                    id="difficulty-select-input-1"
+                    name="difficultyRating"
+                    type="radio"
+                    value="1"
+                  />
+                  <span
+                    class="_radioLabelText_a5e93a"
+                  >
+                    Very Easy
+                  </span>
+                </label>
+              </div>
+              <div
+                class=""
+              >
+                <label
+                  class="_radioLabelAlign_a5e93a"
+                  for="difficulty-select-input-2"
+                >
+                  <input
+                    id="difficulty-select-input-2"
+                    name="difficultyRating"
+                    type="radio"
+                    value="2"
+                  />
+                  <span
+                    class="_radioLabelText_a5e93a"
+                  >
+                    Easy
+                  </span>
+                </label>
+              </div>
+              <div
+                class=""
+              >
+                <label
+                  class="_radioLabelAlign_a5e93a"
+                  for="difficulty-select-input-3"
+                >
+                  <input
+                    id="difficulty-select-input-3"
+                    name="difficultyRating"
+                    type="radio"
+                    value="3"
+                  />
+                  <span
+                    class="_radioLabelText_a5e93a"
+                  >
+                    Medium
+                  </span>
+                </label>
+              </div>
+              <div
+                class=""
+              >
+                <label
+                  class="_radioLabelAlign_a5e93a"
+                  for="difficulty-select-input-4"
+                >
+                  <input
+                    checked=""
+                    id="difficulty-select-input-4"
+                    name="difficultyRating"
+                    type="radio"
+                    value="4"
+                  />
+                  <span
+                    class="_radioLabelText_a5e93a"
+                  >
+                    Hard
+                  </span>
+                </label>
+              </div>
+              <div
+                class=""
+              >
+                <label
+                  class="_radioLabelAlign_a5e93a"
+                  for="difficulty-select-input-5"
+                >
+                  <input
+                    id="difficulty-select-input-5"
+                    name="difficultyRating"
+                    type="radio"
+                    value="5"
+                  />
+                  <span
+                    class="_radioLabelText_a5e93a"
+                  >
+                    Very Hard
+                  </span>
+                </label>
+              </div>
+            </div>
+          </section>
+          <section
+            class="_formSectionAlign_a5e93a"
+            id="guess-feedback-section"
+          >
+            <div
+              class="_formSectionHeading_a5e93a"
+            >
+              <div
+                class=""
+                id="guess-input"
+              >
+                <p>
+                  Was this a guess?
+                </p>
+                <div
+                  class="_guessInputAlign_a5e93a"
+                  id="guess-input-section"
+                >
+                  <div
+                    class="_radioButtonsVertical_a5e93a _radioLabelAlign_a5e93a _radioLabelText_a5e93a"
+                    id="guess-select-true"
+                  >
+                    <input
+                      id="guess-true"
+                      name="guessed"
+                      type="radio"
+                    />
+                    <label
+                      for="guess-true"
+                    >
+                      Yes
+                    </label>
+                  </div>
+                  <div
+                    class="_radioButtonsVertical_a5e93a _radioLabelAlign_a5e93a _radioLabelText_a5e93a"
+                    id="guess-select-false"
+                  >
+                    <input
+                      id="guess-false"
+                      name="guessed"
+                      type="radio"
+                    />
+                    <label
+                      for="guess-false"
+                    >
+                      No
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section
+            class="_formSectionAlign_a5e93a"
+            id="instructor-feedback-section"
+          >
+            <div
+              class="_formSectionHeading_a5e93a"
+            >
+              <p>
+                Add a note or question for your instructor:
+              </p>
+            </div>
+            <textarea
+              autocomplete="off"
+              class="_marginTopDefault_a5e93a"
+              cols="30"
+              id="instructor-feedback"
+              name="comment"
+            >
+              Tricky wording on part (b).
+            </textarea>
+          </section>
+          <section
+            class="_formSectionAlign_a5e93a _formSectionWidth_a5e93a"
+            id="image-upload-section"
+          >
+            <div
+              class="_formSectionHeading_a5e93a _formSectionAlign_a5e93a"
+            >
+              <p>
+                Upload a picture of your work for more context (optional):
+              </p>
+              <label
+                class="_uploadIconDecoration_a5e93a _formSectionAlign_a5e93a"
+                for="student-file-upload"
+              >
+                <div
+                  class="_wrapperSize_a5e93a _marginTopDefault_a5e93a _uploadIconColor_a5e93a _uploadButtonAlign_a5e93a _uploadIconDecoration_a5e93a _highlightPrimary_7796ef"
+                  id="upload-icon-wrapper"
+                >
+                  <div
+                    class="_uploadIconSize_a5e93a _sectionMargin_a5e93a"
+                    id="upload-icon"
+                  >
+                    <span
+                      data-testid="upload-icon"
+                    />
+                  </div>
+                  <div>
+                    Upload
+                  </div>
+                  <div
+                    class="_hideInput_a5e93a"
+                  >
+                    <input
+                      accept="image/*"
+                      capture="environment"
+                      id="student-file-upload"
+                      name="imageUrl"
+                      type="file"
+                    />
+                  </div>
+                </div>
+              </label>
+            </div>
+          </section>
+          <section
+            class="_formSectionWidth_a5e93a"
+            id="add-tags-section"
+          >
+            <div
+              class="_formSectionHeading_a5e93a _sectionMargin_a5e93a"
+            >
+              <p>
+                Add any tags that fit this problem (e.g., quadratic equations, linear equations, sohcahtoa, etc)
+              </p>
+            </div>
+            <div
+              data-testid="autocomplete"
+            />
+          </section>
+          <section
+            class="_formSectionHeading_a5e93a _sectionWidthFull_a5e93a _formAlign_a5e93a"
+            id="submit-button-box"
+          >
+            <button
+              class="_buttonStyleSecondary_a5e93a _submitButtonSize_a5e93a _highlightPrimaryDark_7796ef"
+            >
+              Submit
+            </button>
+          </section>
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div>
+      <div
+        class="_formDisplay_a5e93a _formAlign_a5e93a"
+        id="feedback-modal"
+      >
+        <div
+          id="close-modal-button"
+        >
+          <button
+            class="_closeFormButtonStyle_a5e93a _closeFormButtonPosition_a5e93a"
+          >
+            <span
+              data-testid="delete-icon"
+            />
+          </button>
+        </div>
+        <h2>
+          Reflection Form
+        </h2>
+        <div
+          class="_formSectionDetailText_a5e93a"
+        >
+          <p>
+            Responses help your instructor AND other students
+          </p>
+        </div>
+        <section
+          class="_formSectionHeading_a5e93a _resultTextSize_a5e93a"
+          id="response-confirm"
+        >
+          <p>
+            You got it!
+          </p>
+        </section>
+        <section
+          class="_formSectionAlign_a5e93a"
+          id="difficulty-feedback-section"
+        >
+          <div
+            class="_formSectionHeading_a5e93a"
+          >
+            <p>
+              How hard did this feel?
+            </p>
+          </div>
+          <div
+            class="_difficultyRadioAlign_a5e93a"
+            id="difficulty-radio-buttons"
+          >
+            <div
+              class=""
+            >
+              <label
+                class="_radioLabelAlign_a5e93a"
+                for="difficulty-select-input-1"
+              >
+                <input
+                  id="difficulty-select-input-1"
+                  name="difficultyRating"
+                  type="radio"
+                  value="1"
+                />
+                <span
+                  class="_radioLabelText_a5e93a"
+                >
+                  Very Easy
+                </span>
+              </label>
+            </div>
+            <div
+              class=""
+            >
+              <label
+                class="_radioLabelAlign_a5e93a"
+                for="difficulty-select-input-2"
+              >
+                <input
+                  id="difficulty-select-input-2"
+                  name="difficultyRating"
+                  type="radio"
+                  value="2"
+                />
+                <span
+                  class="_radioLabelText_a5e93a"
+                >
+                  Easy
+                </span>
+              </label>
+            </div>
+            <div
+              class=""
+            >
+              <label
+                class="_radioLabelAlign_a5e93a"
+                for="difficulty-select-input-3"
+              >
+                <input
+                  id="difficulty-select-input-3"
+                  name="difficultyRating"
+                  type="radio"
+                  value="3"
+                />
+                <span
+                  class="_radioLabelText_a5e93a"
+                >
+                  Medium
+                </span>
+              </label>
+            </div>
+            <div
+              class=""
+            >
+              <label
+                class="_radioLabelAlign_a5e93a"
+                for="difficulty-select-input-4"
+              >
+                <input
+                  checked=""
+                  id="difficulty-select-input-4"
+                  name="difficultyRating"
+                  type="radio"
+                  value="4"
+                />
+                <span
+                  class="_radioLabelText_a5e93a"
+                >
+                  Hard
+                </span>
+              </label>
+            </div>
+            <div
+              class=""
+            >
+              <label
+                class="_radioLabelAlign_a5e93a"
+                for="difficulty-select-input-5"
+              >
+                <input
+                  id="difficulty-select-input-5"
+                  name="difficultyRating"
+                  type="radio"
+                  value="5"
+                />
+                <span
+                  class="_radioLabelText_a5e93a"
+                >
+                  Very Hard
+                </span>
+              </label>
+            </div>
+          </div>
+        </section>
+        <section
+          class="_formSectionAlign_a5e93a"
+          id="guess-feedback-section"
+        >
+          <div
+            class="_formSectionHeading_a5e93a"
+          >
+            <div
+              class=""
+              id="guess-input"
+            >
+              <p>
+                Was this a guess?
+              </p>
+              <div
+                class="_guessInputAlign_a5e93a"
+                id="guess-input-section"
+              >
+                <div
+                  class="_radioButtonsVertical_a5e93a _radioLabelAlign_a5e93a _radioLabelText_a5e93a"
+                  id="guess-select-true"
+                >
+                  <input
+                    id="guess-true"
+                    name="guessed"
+                    type="radio"
+                  />
+                  <label
+                    for="guess-true"
+                  >
+                    Yes
+                  </label>
+                </div>
+                <div
+                  class="_radioButtonsVertical_a5e93a _radioLabelAlign_a5e93a _radioLabelText_a5e93a"
+                  id="guess-select-false"
+                >
+                  <input
+                    id="guess-false"
+                    name="guessed"
+                    type="radio"
+                  />
+                  <label
+                    for="guess-false"
+                  >
+                    No
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section
+          class="_formSectionAlign_a5e93a"
+          id="instructor-feedback-section"
+        >
+          <div
+            class="_formSectionHeading_a5e93a"
+          >
+            <p>
+              Add a note or question for your instructor:
+            </p>
+          </div>
+          <textarea
+            autocomplete="off"
+            class="_marginTopDefault_a5e93a"
+            cols="30"
+            id="instructor-feedback"
+            name="comment"
+          >
+            Tricky wording on part (b).
+          </textarea>
+        </section>
+        <section
+          class="_formSectionAlign_a5e93a _formSectionWidth_a5e93a"
+          id="image-upload-section"
+        >
+          <div
+            class="_formSectionHeading_a5e93a _formSectionAlign_a5e93a"
+          >
+            <p>
+              Upload a picture of your work for more context (optional):
+            </p>
+            <label
+              class="_uploadIconDecoration_a5e93a _formSectionAlign_a5e93a"
+              for="student-file-upload"
+            >
+              <div
+                class="_wrapperSize_a5e93a _marginTopDefault_a5e93a _uploadIconColor_a5e93a _uploadButtonAlign_a5e93a _uploadIconDecoration_a5e93a _highlightPrimary_7796ef"
+                id="upload-icon-wrapper"
+              >
+                <div
+                  class="_uploadIconSize_a5e93a _sectionMargin_a5e93a"
+                  id="upload-icon"
+                >
+                  <span
+                    data-testid="upload-icon"
+                  />
+                </div>
+                <div>
+                  Upload
+                </div>
+                <div
+                  class="_hideInput_a5e93a"
+                >
+                  <input
+                    accept="image/*"
+                    capture="environment"
+                    id="student-file-upload"
+                    name="imageUrl"
+                    type="file"
+                  />
+                </div>
+              </div>
+            </label>
+          </div>
+        </section>
+        <section
+          class="_formSectionWidth_a5e93a"
+          id="add-tags-section"
+        >
+          <div
+            class="_formSectionHeading_a5e93a _sectionMargin_a5e93a"
+          >
+            <p>
+              Add any tags that fit this problem (e.g., quadratic equations, linear equations, sohcahtoa, etc)
+            </p>
+          </div>
+          <div
+            data-testid="autocomplete"
+          />
+        </section>
+        <section
+          class="_formSectionHeading_a5e93a _sectionWidthFull_a5e93a _formAlign_a5e93a"
+          id="submit-button-box"
+        >
+          <button
+            class="_buttonStyleSecondary_a5e93a _submitButtonSize_a5e93a _highlightPrimaryDark_7796ef"
+          >
+            Submit
+          </button>
+        </section>
+      </div>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
+
+exports[`Image upload preview subcomponent > does nothing if no file is uploaded 1`] = `
+{
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div>
+        <div
+          class="_formDisplay_a5e93a _formAlign_a5e93a"
+          id="feedback-modal"
+        >
+          <div
+            id="close-modal-button"
+          >
+            <button
+              class="_closeFormButtonStyle_a5e93a _closeFormButtonPosition_a5e93a"
+            >
+              <span
+                data-testid="delete-icon"
+              />
+            </button>
+          </div>
+          <h2>
+            Reflection Form
+          </h2>
+          <div
+            class="_formSectionDetailText_a5e93a"
+          >
+            <p>
+              Responses help your instructor AND other students
+            </p>
+          </div>
+          <section
+            class="_formSectionHeading_a5e93a _resultTextSize_a5e93a"
+            id="response-confirm"
+          >
+            <p>
+              You got it!
+            </p>
+          </section>
+          <section
+            class="_formSectionAlign_a5e93a"
+            id="difficulty-feedback-section"
+          >
+            <div
+              class="_formSectionHeading_a5e93a"
+            >
+              <p>
+                How hard did this feel?
+              </p>
+            </div>
+            <div
+              class="_difficultyRadioAlign_a5e93a"
+              id="difficulty-radio-buttons"
+            >
+              <div
+                class=""
+              >
+                <label
+                  class="_radioLabelAlign_a5e93a"
+                  for="difficulty-select-input-1"
+                >
+                  <input
+                    id="difficulty-select-input-1"
+                    name="difficultyRating"
+                    type="radio"
+                    value="1"
+                  />
+                  <span
+                    class="_radioLabelText_a5e93a"
+                  >
+                    Very Easy
+                  </span>
+                </label>
+              </div>
+              <div
+                class=""
+              >
+                <label
+                  class="_radioLabelAlign_a5e93a"
+                  for="difficulty-select-input-2"
+                >
+                  <input
+                    id="difficulty-select-input-2"
+                    name="difficultyRating"
+                    type="radio"
+                    value="2"
+                  />
+                  <span
+                    class="_radioLabelText_a5e93a"
+                  >
+                    Easy
+                  </span>
+                </label>
+              </div>
+              <div
+                class=""
+              >
+                <label
+                  class="_radioLabelAlign_a5e93a"
+                  for="difficulty-select-input-3"
+                >
+                  <input
+                    id="difficulty-select-input-3"
+                    name="difficultyRating"
+                    type="radio"
+                    value="3"
+                  />
+                  <span
+                    class="_radioLabelText_a5e93a"
+                  >
+                    Medium
+                  </span>
+                </label>
+              </div>
+              <div
+                class=""
+              >
+                <label
+                  class="_radioLabelAlign_a5e93a"
+                  for="difficulty-select-input-4"
+                >
+                  <input
+                    checked=""
+                    id="difficulty-select-input-4"
+                    name="difficultyRating"
+                    type="radio"
+                    value="4"
+                  />
+                  <span
+                    class="_radioLabelText_a5e93a"
+                  >
+                    Hard
+                  </span>
+                </label>
+              </div>
+              <div
+                class=""
+              >
+                <label
+                  class="_radioLabelAlign_a5e93a"
+                  for="difficulty-select-input-5"
+                >
+                  <input
+                    id="difficulty-select-input-5"
+                    name="difficultyRating"
+                    type="radio"
+                    value="5"
+                  />
+                  <span
+                    class="_radioLabelText_a5e93a"
+                  >
+                    Very Hard
+                  </span>
+                </label>
+              </div>
+            </div>
+          </section>
+          <section
+            class="_formSectionAlign_a5e93a"
+            id="guess-feedback-section"
+          >
+            <div
+              class="_formSectionHeading_a5e93a"
+            >
+              <div
+                class=""
+                id="guess-input"
+              >
+                <p>
+                  Was this a guess?
+                </p>
+                <div
+                  class="_guessInputAlign_a5e93a"
+                  id="guess-input-section"
+                >
+                  <div
+                    class="_radioButtonsVertical_a5e93a _radioLabelAlign_a5e93a _radioLabelText_a5e93a"
+                    id="guess-select-true"
+                  >
+                    <input
+                      id="guess-true"
+                      name="guessed"
+                      type="radio"
+                    />
+                    <label
+                      for="guess-true"
+                    >
+                      Yes
+                    </label>
+                  </div>
+                  <div
+                    class="_radioButtonsVertical_a5e93a _radioLabelAlign_a5e93a _radioLabelText_a5e93a"
+                    id="guess-select-false"
+                  >
+                    <input
+                      id="guess-false"
+                      name="guessed"
+                      type="radio"
+                    />
+                    <label
+                      for="guess-false"
+                    >
+                      No
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section
+            class="_formSectionAlign_a5e93a"
+            id="instructor-feedback-section"
+          >
+            <div
+              class="_formSectionHeading_a5e93a"
+            >
+              <p>
+                Add a note or question for your instructor:
+              </p>
+            </div>
+            <textarea
+              autocomplete="off"
+              class="_marginTopDefault_a5e93a"
+              cols="30"
+              id="instructor-feedback"
+              name="comment"
+            >
+              Tricky wording on part (b).
+            </textarea>
+          </section>
+          <section
+            class="_formSectionAlign_a5e93a _formSectionWidth_a5e93a"
+            id="image-upload-section"
+          >
+            <div
+              class="_formSectionHeading_a5e93a _formSectionAlign_a5e93a"
+            >
+              <p>
+                Upload a picture of your work for more context (optional):
+              </p>
+              <label
+                class="_uploadIconDecoration_a5e93a _formSectionAlign_a5e93a"
+                for="student-file-upload"
+              >
+                <div
+                  class="_wrapperSize_a5e93a _marginTopDefault_a5e93a _uploadIconColor_a5e93a _uploadButtonAlign_a5e93a _uploadIconDecoration_a5e93a _highlightPrimary_7796ef"
+                  id="upload-icon-wrapper"
+                >
+                  <div
+                    class="_uploadIconSize_a5e93a _sectionMargin_a5e93a"
+                    id="upload-icon"
+                  >
+                    <span
+                      data-testid="upload-icon"
+                    />
+                  </div>
+                  <div>
+                    Upload
+                  </div>
+                  <div
+                    class="_hideInput_a5e93a"
+                  >
+                    <input
+                      accept="image/*"
+                      capture="environment"
+                      id="student-file-upload"
+                      name="imageUrl"
+                      type="file"
+                    />
+                  </div>
+                </div>
+              </label>
+            </div>
+          </section>
+          <section
+            class="_formSectionWidth_a5e93a"
+            id="add-tags-section"
+          >
+            <div
+              class="_formSectionHeading_a5e93a _sectionMargin_a5e93a"
+            >
+              <p>
+                Add any tags that fit this problem (e.g., quadratic equations, linear equations, sohcahtoa, etc)
+              </p>
+            </div>
+            <div
+              data-testid="autocomplete"
+            />
+          </section>
+          <section
+            class="_formSectionHeading_a5e93a _sectionWidthFull_a5e93a _formAlign_a5e93a"
+            id="submit-button-box"
+          >
+            <button
+              class="_buttonStyleSecondary_a5e93a _submitButtonSize_a5e93a _highlightPrimaryDark_7796ef"
+            >
+              Submit
+            </button>
+          </section>
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div>
+      <div
+        class="_formDisplay_a5e93a _formAlign_a5e93a"
+        id="feedback-modal"
+      >
+        <div
+          id="close-modal-button"
+        >
+          <button
+            class="_closeFormButtonStyle_a5e93a _closeFormButtonPosition_a5e93a"
+          >
+            <span
+              data-testid="delete-icon"
+            />
+          </button>
+        </div>
+        <h2>
+          Reflection Form
+        </h2>
+        <div
+          class="_formSectionDetailText_a5e93a"
+        >
+          <p>
+            Responses help your instructor AND other students
+          </p>
+        </div>
+        <section
+          class="_formSectionHeading_a5e93a _resultTextSize_a5e93a"
+          id="response-confirm"
+        >
+          <p>
+            You got it!
+          </p>
+        </section>
+        <section
+          class="_formSectionAlign_a5e93a"
+          id="difficulty-feedback-section"
+        >
+          <div
+            class="_formSectionHeading_a5e93a"
+          >
+            <p>
+              How hard did this feel?
+            </p>
+          </div>
+          <div
+            class="_difficultyRadioAlign_a5e93a"
+            id="difficulty-radio-buttons"
+          >
+            <div
+              class=""
+            >
+              <label
+                class="_radioLabelAlign_a5e93a"
+                for="difficulty-select-input-1"
+              >
+                <input
+                  id="difficulty-select-input-1"
+                  name="difficultyRating"
+                  type="radio"
+                  value="1"
+                />
+                <span
+                  class="_radioLabelText_a5e93a"
+                >
+                  Very Easy
+                </span>
+              </label>
+            </div>
+            <div
+              class=""
+            >
+              <label
+                class="_radioLabelAlign_a5e93a"
+                for="difficulty-select-input-2"
+              >
+                <input
+                  id="difficulty-select-input-2"
+                  name="difficultyRating"
+                  type="radio"
+                  value="2"
+                />
+                <span
+                  class="_radioLabelText_a5e93a"
+                >
+                  Easy
+                </span>
+              </label>
+            </div>
+            <div
+              class=""
+            >
+              <label
+                class="_radioLabelAlign_a5e93a"
+                for="difficulty-select-input-3"
+              >
+                <input
+                  id="difficulty-select-input-3"
+                  name="difficultyRating"
+                  type="radio"
+                  value="3"
+                />
+                <span
+                  class="_radioLabelText_a5e93a"
+                >
+                  Medium
+                </span>
+              </label>
+            </div>
+            <div
+              class=""
+            >
+              <label
+                class="_radioLabelAlign_a5e93a"
+                for="difficulty-select-input-4"
+              >
+                <input
+                  checked=""
+                  id="difficulty-select-input-4"
+                  name="difficultyRating"
+                  type="radio"
+                  value="4"
+                />
+                <span
+                  class="_radioLabelText_a5e93a"
+                >
+                  Hard
+                </span>
+              </label>
+            </div>
+            <div
+              class=""
+            >
+              <label
+                class="_radioLabelAlign_a5e93a"
+                for="difficulty-select-input-5"
+              >
+                <input
+                  id="difficulty-select-input-5"
+                  name="difficultyRating"
+                  type="radio"
+                  value="5"
+                />
+                <span
+                  class="_radioLabelText_a5e93a"
+                >
+                  Very Hard
+                </span>
+              </label>
+            </div>
+          </div>
+        </section>
+        <section
+          class="_formSectionAlign_a5e93a"
+          id="guess-feedback-section"
+        >
+          <div
+            class="_formSectionHeading_a5e93a"
+          >
+            <div
+              class=""
+              id="guess-input"
+            >
+              <p>
+                Was this a guess?
+              </p>
+              <div
+                class="_guessInputAlign_a5e93a"
+                id="guess-input-section"
+              >
+                <div
+                  class="_radioButtonsVertical_a5e93a _radioLabelAlign_a5e93a _radioLabelText_a5e93a"
+                  id="guess-select-true"
+                >
+                  <input
+                    id="guess-true"
+                    name="guessed"
+                    type="radio"
+                  />
+                  <label
+                    for="guess-true"
+                  >
+                    Yes
+                  </label>
+                </div>
+                <div
+                  class="_radioButtonsVertical_a5e93a _radioLabelAlign_a5e93a _radioLabelText_a5e93a"
+                  id="guess-select-false"
+                >
+                  <input
+                    id="guess-false"
+                    name="guessed"
+                    type="radio"
+                  />
+                  <label
+                    for="guess-false"
+                  >
+                    No
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section
+          class="_formSectionAlign_a5e93a"
+          id="instructor-feedback-section"
+        >
+          <div
+            class="_formSectionHeading_a5e93a"
+          >
+            <p>
+              Add a note or question for your instructor:
+            </p>
+          </div>
+          <textarea
+            autocomplete="off"
+            class="_marginTopDefault_a5e93a"
+            cols="30"
+            id="instructor-feedback"
+            name="comment"
+          >
+            Tricky wording on part (b).
+          </textarea>
+        </section>
+        <section
+          class="_formSectionAlign_a5e93a _formSectionWidth_a5e93a"
+          id="image-upload-section"
+        >
+          <div
+            class="_formSectionHeading_a5e93a _formSectionAlign_a5e93a"
+          >
+            <p>
+              Upload a picture of your work for more context (optional):
+            </p>
+            <label
+              class="_uploadIconDecoration_a5e93a _formSectionAlign_a5e93a"
+              for="student-file-upload"
+            >
+              <div
+                class="_wrapperSize_a5e93a _marginTopDefault_a5e93a _uploadIconColor_a5e93a _uploadButtonAlign_a5e93a _uploadIconDecoration_a5e93a _highlightPrimary_7796ef"
+                id="upload-icon-wrapper"
+              >
+                <div
+                  class="_uploadIconSize_a5e93a _sectionMargin_a5e93a"
+                  id="upload-icon"
+                >
+                  <span
+                    data-testid="upload-icon"
+                  />
+                </div>
+                <div>
+                  Upload
+                </div>
+                <div
+                  class="_hideInput_a5e93a"
+                >
+                  <input
+                    accept="image/*"
+                    capture="environment"
+                    id="student-file-upload"
+                    name="imageUrl"
+                    type="file"
+                  />
+                </div>
+              </div>
+            </label>
+          </div>
+        </section>
+        <section
+          class="_formSectionWidth_a5e93a"
+          id="add-tags-section"
+        >
+          <div
+            class="_formSectionHeading_a5e93a _sectionMargin_a5e93a"
+          >
+            <p>
+              Add any tags that fit this problem (e.g., quadratic equations, linear equations, sohcahtoa, etc)
+            </p>
+          </div>
+          <div
+            data-testid="autocomplete"
+          />
+        </section>
+        <section
+          class="_formSectionHeading_a5e93a _sectionWidthFull_a5e93a _formAlign_a5e93a"
+          id="submit-button-box"
+        >
+          <button
+            class="_buttonStyleSecondary_a5e93a _submitButtonSize_a5e93a _highlightPrimaryDark_7796ef"
+          >
+            Submit
+          </button>
+        </section>
+      </div>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

@@ -4,20 +4,13 @@ import animations from "@/src/animations.module.css";
 
 import GoogleIcon from "@/src/assets/icons/googleIcon.svg"
 import { supabase } from "@/utils/supabase/client"
-import { equals, isEmail } from "validator";
+import { equals, isEmail, escape } from "validator";
 
 import Alert, { UserAlert } from "components/alert/Alert";
 
-// interface SignupForm {
-//   email: string,
-//   password: string,
-//   confirm: string,
-// }
 const VITE_URL = import.meta.env.VITE_URL;
 
 export default function LoginForm() {
-  // no auth logic yet.
-  // const blankForm = new FormData();
 
   const [isSignup, setIsSignup] = useState<boolean>(false);
 
@@ -36,11 +29,15 @@ export default function LoginForm() {
           redirectTo: VITE_URL
         }
       });
+
     if (error) {
       console.error(error);
-      setUserAlert({ timestamp: Date.now(), severity: "error", message: `${error.message}` })
+      setUserAlert({
+        timestamp: Date.now(),
+        severity: "error",
+        message: `${error.message}`
+      })
     }
-    // console.table(data);
   }
 
   async function signinWithEmail(email: string, password: string) {
@@ -48,9 +45,7 @@ export default function LoginForm() {
     const { data, error } = await supabase.auth
       .signInWithPassword({ email: email, password: password });
 
-    if (!data) {
-      return { data: null, error: error }
-    };
+    return { data, error }
 
   };
 
@@ -61,9 +56,10 @@ export default function LoginForm() {
   }) {
 
     try {
+      const { email: unsanitizedEmail, password: unsanitizedPassword, confirm } = credentials;
 
-
-      const { email, password, confirm } = credentials;
+      const email = escape(unsanitizedEmail);
+      const password = escape(unsanitizedPassword);
 
       if (!validateEmail(email)) {
         throw new Error("Please enter a valid email");
@@ -73,20 +69,26 @@ export default function LoginForm() {
         throw new Error("Passwords do not match");
       }
 
-      const { data, error } = await supabase.auth.signUp({ email: email, password: password });
+      const { error } = await supabase.auth.signUp({ email: email, password: password });
 
-      if (!data) {
-        // console.log("No data returned from server. User may already exist.")
+      if (error) {
         console.error(error);
-        return;
+        throw error;
       } else {
-        // console.log("Account created!");
-        // console.log(data);
-        return;
+        setUserAlert({
+          timestamp: Date.now(),
+          severity: "success",
+          message: "Confirmation Link Emailed."
+        })
       }
     } catch (e) {
       // console.log("Error while signing up user with email")
       console.error(e);
+      setUserAlert({
+        timestamp: Date.now(),
+        severity: "error",
+        message: `${e}`
+      })
     };
 
   };
@@ -96,56 +98,31 @@ export default function LoginForm() {
     e.preventDefault();
     const currentTarget = e.currentTarget
     // e.currentTarget.reset();
-    try {
-      // 
-      const formData = new FormData(e.currentTarget);
-      const form = Object.fromEntries(formData.entries());
-      // console.table(form);
-      const { email, password, confirm } = form;
 
-      if (isSignup) {
-        await signupWithEmail({
-          email: String(email),
-          password: String(password),
-          confirm: String(confirm)
-        })
-        currentTarget.reset();
-      }
-      if (!isSignup) {
-        const res = await signinWithEmail(String(email), String(password));
+    const formData = new FormData(e.currentTarget);
+    const form = Object.fromEntries(formData.entries());
+    // console.table(form);
+    const { email, password, confirm } = form;
 
-        if (!res) {
-          throw new Error("No response from sign-in attempt.")
-        }
-
-        if (res.error) {
-          throw new Error(res.error.message);
-        }
-
-      }
-    } catch (e) {
-      // console.log("Error while authorizing user email");
-      setUserAlert({ severity: "error", message: `${e}`, timestamp: Date.now() })
-      console.error(e);
+    if (isSignup) {
+      await signupWithEmail({
+        email: String(email),
+        password: String(password),
+        confirm: String(confirm)
+      })
+      currentTarget.reset();
+    }
+    if (!isSignup) {
+      await signinWithEmail(String(email), String(password));
     }
   }
 
   function validateEmail(email: string) {
-    if (typeof email !== "string") {
-      throw new Error(`expected string, got ${typeof email}`)
-    }
     return isEmail(email);
   }
 
   function validatePass(pass: string, check: string) {
-
-    if (typeof pass !== "string") {
-      throw new Error(`expected string, got ${typeof pass}`)
-    }
-    if (typeof check !== "string") {
-      throw new Error(`expected string, got ${typeof check}`)
-    }
-    return equals(pass, check)
+    return equals(pass, check);
   }
 
 
@@ -199,15 +176,17 @@ export default function LoginForm() {
                 styles.rounded
               ].join(" ")} />
           </div>
-          <div id="password-input-div" className={[
-            styles.justifyInputs
-          ].join(" ")}>
-            <label id="password-input" htmlFor="password"
+          <div id="password-input-div"
+            className={[
+              styles.justifyInputs
+            ].join(" ")}>
+            <label id="password-input"
+              htmlFor="password"
               className={[
                 styles.labelStyle,
               ].join(" ")}
             >{`Password: `}</label>
-            <input type="password" name="password" autoComplete="off"
+            <input id="password" type="password" name="password" autoComplete="off"
               className={[
                 styles.inputStyle,
                 styles.inputSize,
@@ -225,7 +204,7 @@ export default function LoginForm() {
                 styles.labelStyle,
               ].join(" ")}
             >{`Verify Password: `}</label>
-            <input type="password" name="confirm" autoComplete="off"
+            <input id="confirm" type="password" name="confirm" autoComplete="off"
               className={[
                 styles.inputStyle,
                 styles.inputSize,
@@ -237,13 +216,14 @@ export default function LoginForm() {
           styles.alignButtons
         ].join(" ")}>
           <button id="signin-with-email-button"
+            name="sign-up-sign-in"
             className={[
               styles.rounded,
               styles.buttonStyle,
               animations["highlight"]
             ].join(" ")}
           >
-            {isSignup ? "Sign Up" : "Login"}
+            {isSignup ? "Create New Account" : "Login"}
           </button>
           <p className={styles.spaceButtons}>or</p>
           <button id="signin-with-google"
@@ -267,7 +247,7 @@ export default function LoginForm() {
       </form >
       <div id="toggle-signup" className={styles.signupToggle}>
         No Account?
-        <button onClick={() => {
+        <button id="sign-up-email" onClick={() => {
           setIsSignup(!isSignup)
         }}>
           Sign up with Email

@@ -57,7 +57,7 @@ export const questionStore = createStore<Questions>()(
     setFilter:
       (filter) => {
         // console.log("questionStore/setFilter/filter: ", filter);
-        return set(() => ({ filter: filter }))
+        return set((state) => ({ ...state, filter: filter }))
       },
     setQuestions:
       (questions) => set(() => ({ questions: questions })),
@@ -96,17 +96,11 @@ export const questionStore = createStore<Questions>()(
 
           // filter by tags:
           if (tags.length > 0) {
-
             const questionTags = question.tags as { [key: string]: number };
-
             const tagMatches = tags.some(tag => questionTags[String(tag)]);
-
             if (!tagMatches) return false;
-
           }
-
           return true;
-
         })
 
         return { filteredQuestions: filteredQuestions }

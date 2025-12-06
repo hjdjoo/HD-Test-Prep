@@ -15,12 +15,12 @@ import Loading from "components/loading/Loading";
 import fetchQuestions from "@/src/queries/GET/getQuestions";
 import fetchCategories from "@/src/queries/GET/getCategories";
 import fetchProblemTypes from "@/src/queries/GET/getProblemTypes";
+import fetchTags from "@/src/queries/GET/getTags";
 
 import RandomPractice from "./containers/PracticeContainer.Random";
 // import StructuredPractice from "./containers/PracticeContainer.Structured";
 import LinkInstructorModal from "./components/Practice.LinkInstructorModal";
 
-import fetchTags from "@/src/queries/GET/getTags";
 
 export default function Practice() {
 
@@ -114,31 +114,10 @@ export default function Practice() {
         </h1>
       </div>
       <RandomPractice />
-      {/* <button id="start-practice-button"
-        className={[
-          styles.buttonStyle,
-          styles.buttonSize,
-          animations.highlightPrimary,
-        ].join(" ")}
-        onClick={() => {
-          // setPracticeType("random")
-          navigate("/practice/random")
-        }}
-      >
-        {`Start Practice`}
-      </button> */}
       {
         modalOpen &&
         <LinkInstructorModal setOpen={setModalOpen} />
       }
-      {/* <p>Or</p>
-      <button
-        onClick={() => { setPracticeType("structured") }}>{`Structured Practice`}
-      </button> */}
-      <br />
-      {/* Settings Component */}
-      {/* {practiceType === "random" && <RandomPractice />}
-      {practiceType === "structured" && <StructuredPractice />} */}
     </div>
   )
 }

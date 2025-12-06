@@ -30,4 +30,20 @@ dist-ssr
 *.env.*
 .env.*.local
 
+*.zip
+
 resources/private
+
+
+# Vitest
+/html/
+coverage
+/coverage
+*/coverage
+
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
