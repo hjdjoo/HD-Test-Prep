@@ -69,7 +69,7 @@ describe("<Practice.answers>", () => {
     });
 
     // expect(setResponse).toHaveBeenCalledWith("C");
-    console.log(choiceC.className);
+    // console.log(choiceC.className);
     // repeat click → same handler, but check we now have the selected class
     waitFor(() => {
       expect(choiceC.className).toMatch(/radioButtonSelected/);
