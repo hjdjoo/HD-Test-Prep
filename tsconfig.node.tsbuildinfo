@@ -1,1 +1,0 @@
-{"root":["./database.types.ts","./playwright.config.ts","./vite.config.ts","./vitest.setup.ts","./utils/apifetch.test.ts","./utils/apifetch.ts","./utils/debounce.ts","./utils/supabase/client.test.ts","./utils/supabase/client.ts","./utils/supabase/actions/getstorageurl.ts","./utils/testing/renderwithcontext.tsx","./utils/testing/resetstores.ts"],"version":"5.6.3"}
